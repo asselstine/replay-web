@@ -18,7 +18,7 @@ class Api::DropboxWebhooksController < ApplicationController
 
   def check_challenge
     if params[:challenge]
-      render params[:challenge]
+      render text: "#{params[:challenge]}"
     end
   end
 

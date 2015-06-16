@@ -1,0 +1,1 @@
+Figaro.require_keys('dropbox_app_key', 'dropbox_app_secret')

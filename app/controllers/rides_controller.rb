@@ -1,5 +1,7 @@
 class RidesController < ApplicationController
 
+  load_and_authorize_resource
+
   before_action :set_ride, :only => [:show]
 
   def index

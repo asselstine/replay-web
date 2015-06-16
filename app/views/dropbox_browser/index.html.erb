@@ -1,0 +1,13 @@
+<h4><%= @metadata.path %></h4>
+<% if @metadata.contents %>
+    <% if @dropbox_event %>
+        <%= link_to 'Goto Event', @dropbox_event %>
+    <% else %>
+        <%= link_to "New Event from this folder", dropbox_events_path(:'dropbox_event[path]' => @metadata.path), :method => :post %>
+    <% end %>
+    <ul>
+    <% @metadata.contents.each do |content| %>
+        <li><%= link_to content['path'], dropbox_browser_path(:path => content['path']) %></li>
+    <% end %>
+    </ul>
+<% end %>

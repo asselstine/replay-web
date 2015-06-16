@@ -3,7 +3,10 @@ Rails.application.routes.draw do
 
   devise_for :users, :controllers => { :omniauth_callbacks => 'omniauth' }
 
-  root 'rides#index'
+  authenticated :user do
+    root :to => 'rides#index', :as => :authenticated_root
+  end
+  root :to => redirect('/users/sign_in'), :as => :unauthenticated_root
 
   resources :rides, :only => [:index, :show]
   resources :location_samples, :only => [:index]
@@ -13,6 +16,9 @@ Rails.application.routes.draw do
     post '/dropbox_webhook' => 'dropbox_webhooks#webhook'
     get '/dropbox_webhook' => 'dropbox_webhooks#webhook'
   end
+
+  get '/dropbox' => 'dropbox_browser#index', :as => :dropbox_browser
+  resources :dropbox_events, :only => [:index, :create, :show]
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

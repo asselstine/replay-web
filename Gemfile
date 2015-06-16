@@ -26,7 +26,7 @@ gem 'devise'
 gem 'omniauth-dropbox-oauth2'
 
 gem 'dropbox-sdk'
-
+gem 'cancancan'
 gem 'geocoder'
 
 gem 'figaro'

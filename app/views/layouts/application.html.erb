@@ -8,11 +8,19 @@
 </head>
 <body>
 
+<% unless flash.empty? %>
+    <p class="<%=flash.first[0]%>">
+      <%= flash.first[1] %>
+    </p>
+<% end %>
+
 <% if user_signed_in? %>
-    <%= link_to 'Attach Dropbox' %>
+    <%= link_to 'Dropbox', dropbox_browser_path %>
+    <%= link_to 'Sign Out', destroy_user_session_path, :method => :delete %>
 <% else %>
     <%= link_to 'Sign In', new_user_session_path %>
 <% end %>
+
 
 <%= yield %>
 

@@ -11,7 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150615225233) do
+ActiveRecord::Schema.define(version: 20150616170859) do
+
+  create_table "dropbox_events", force: :cascade do |t|
+    t.string   "cursor"
+    t.string   "path"
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "dropbox_events", ["user_id"], name: "index_dropbox_events_on_user_id"
 
   create_table "location_samples", force: :cascade do |t|
     t.float    "latitude"
@@ -45,6 +55,8 @@ ActiveRecord::Schema.define(version: 20150615225233) do
     t.datetime "updated_at",                          null: false
     t.string   "provider"
     t.string   "uid"
+    t.string   "access_token"
+    t.string   "refresh_token"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true

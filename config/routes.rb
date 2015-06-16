@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   namespace :api, :defaults => { :format => 'json' } do
     resources :location_samples, :only => [:create]
     post '/dropbox_webhook' => 'dropbox_webhooks#webhook'
+    get '/dropbox_webhook' => 'dropbox_webhooks#webhook'
   end
 
   # The priority is based upon order of creation: first created -> highest priority.

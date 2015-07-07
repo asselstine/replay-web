@@ -1,19 +1,19 @@
-class Api::LocationSamplesController < ApplicationController
+class Api::LocationSamplesController < Api::BaseController
 
   skip_before_filter :verify_authenticity_token
 
   def create
-    @ride = Ride.find_by_username(params[:username])
+    @ride = current_user.rides.first
     if @ride.nil?
-      @ride = Ride.create(:username => params[:username])
+      @ride = current_user.rides.create
     end
-    @location = LocationSample.create(location_params.merge('ride' => @ride))
+    @location = LocationSample.create(create_params.merge('ride' => @ride))
     render :create, :status => :created
   end
 
-  private
+  protected
 
-  def location_params
+  def create_params
     params.require(:location_sample).permit(:latitude, :longitude, :timestamp)
   end
 

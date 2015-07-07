@@ -21,13 +21,7 @@ describe User do
       describe '#photos' do
         it 'should have no photos' do
           photos
-          puts "loc: #{location_samples.first.latitude}, drop: #{DropboxPhoto.all.pluck(:latitude)}"
-          if user.photos.empty?
-            expect(user.photos).to be_empty
-          else
-            puts "Error!"
-          end
-
+          expect(user.photos).to be_empty
         end
       end
 

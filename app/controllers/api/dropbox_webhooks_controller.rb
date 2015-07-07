@@ -1,6 +1,6 @@
 require 'openssl'
 
-class Api::DropboxWebhooksController < ApplicationController
+class Api::DropboxWebhooksController < Api::BaseController
 
   before_action :check_challenge
   before_action :validate_header

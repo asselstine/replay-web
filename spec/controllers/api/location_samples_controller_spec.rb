@@ -4,10 +4,13 @@ describe Api::LocationSamplesController do
 
   describe '#create' do
 
+    let(:user) {
+      create(:user)
+    }
+
     subject {
       post :create, {
           :format => :json,
-          :username => 'Foo',
           :location_sample => {
               :latitude => 32.2,
               :longitude => 127.3,
@@ -15,6 +18,10 @@ describe Api::LocationSamplesController do
           }
       }
     }
+
+    before(:each) do
+      sign_in(user)
+    end
 
     it 'should create a new location' do
       expect {

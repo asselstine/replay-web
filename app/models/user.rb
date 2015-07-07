@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
 
   def feed_photos
     location_samples.map do |ls|
-      photos = Photo.near([ls.latitude, ls.longitude], 1, :units => :km)
+      photos = Photo.near([ls.latitude, ls.longitude], 8.0/1000.0, :units => :km)
       photos
     end.flatten.uniq
   end

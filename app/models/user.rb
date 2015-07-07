@@ -9,7 +9,8 @@ class User < ActiveRecord::Base
 
   def photos
     location_samples.map do |ls|
-        DropboxPhoto.near([ls.latitude, ls.longitude], 8.0 / 1000.0)
+      photos = DropboxPhoto.near([ls.latitude, ls.longitude], 1, :units => :km)
+      photos
     end.flatten.uniq
   end
 

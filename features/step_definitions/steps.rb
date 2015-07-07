@@ -15,10 +15,18 @@ Given /There was a photo taken near my location$/ do
   @photo = create(:dropbox_photo, :latitude => @location_sample.latitude, :longitude => @location_sample.longitude)
 end
 
+Given /There was a photo taken on the other side of the world/ do
+  @photo = create(:dropbox_photo, :latitude => -@location_sample.latitude, :longitude => -@location_sample.longitude)
+end
+
 When /I go to my photos/ do
   visit photos_path
 end
 
 Then /^I should see a photo$/ do
-  expect(page).to have_content(@photo.path)
+  expect(page).to have_content(@photo.photo.url)
+end
+
+Then /^I should not see any photos$/ do
+  expect(page).not_to have_content(@photo.photo.url)
 end

@@ -18,6 +18,10 @@ class DropboxEventsController < ApplicationController
     end
   end
 
+  def show
+    @dropbox_event = DropboxEvent.find(params[:id])
+  end
+
   protected
 
   def create_params

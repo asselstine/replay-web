@@ -27,7 +27,9 @@ gem 'omniauth-dropbox-oauth2'
 
 gem 'dropbox-sdk'
 gem 'cancancan'
+gem 'carrierwave'
 gem 'geocoder'
+gem 'mini_magick'
 
 gem 'figaro'
 

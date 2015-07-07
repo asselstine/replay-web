@@ -1,0 +1,7 @@
+<ul>
+<% @dropbox_event.dropbox_photos.each do |dp| %>
+  <li>
+    <%= link_to dp.path %>
+  </li>
+<% end %>
+</ul>

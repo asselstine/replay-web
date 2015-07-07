@@ -4,5 +4,13 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable
 
+  has_many :rides
+  has_many :location_samples, :through => :rides
+
+  def photos
+    location_samples.map do |ls|
+        DropboxPhoto.near([ls.latitude, ls.longitude], 8.0 / 1000.0)
+    end.flatten.uniq
+  end
 
 end

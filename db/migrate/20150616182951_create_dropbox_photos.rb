@@ -6,6 +6,8 @@ class CreateDropboxPhotos < ActiveRecord::Migration
       t.string :rev
       t.references :dropbox_event, index: true, foreign_key: true
       t.datetime :timestamp
+      t.float :latitude
+      t.float :longitude
 
       t.timestamps null: false
     end

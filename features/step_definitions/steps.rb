@@ -29,14 +29,14 @@ end
 
 When /^I upload a photo without geo info where I've been$/ do
   visit new_photo_path
-  attach_file :photo_image, Rails.root.join('spec','fixtures','1x1_empty.jpg')
+  attach_file :'photo[image]', Rails.root.join('spec','fixtures','1x1_empty.jpg')
   click_link_or_button 'Create Photo'
   expect(page).to have_content('1x1_empty.jpg')
 end
 
 When /^I upload a photo with geo info$/ do
   visit new_photo_path
-  attach_file :photo_image, Rails.root.join('spec','fixtures','1x1_gps.jpg')
+  attach_file :'photo[image]', Rails.root.join('spec','fixtures','1x1_gps.jpg')
   click_link_or_button 'Create Photo'
   expect(page).to have_content('1x1_gps.jpg')
 end

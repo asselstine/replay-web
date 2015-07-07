@@ -22,6 +22,7 @@ gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
 
+gem 'dropzonejs-rails'
 gem 'devise'
 gem 'omniauth-dropbox-oauth2'
 
@@ -62,6 +63,7 @@ group :development, :test do
   gem 'cucumber-rails', :require => false
   gem 'database_cleaner'
   gem 'factory_girl_rails'
+  gem 'better_errors'
 end
 
 group :development, :production do

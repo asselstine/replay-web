@@ -20,11 +20,23 @@ class PhotosController < ApplicationController
 
   def create
     @photo = Photo.create(create_params.merge('user' => current_user))
-    if @photo.persisted?
-      redirect_to @photo
-    else
-      render 'new'
+    respond_to do |format|
+      format.html {
+        if @photo.persisted?
+          redirect_to @photo
+        else
+          render 'new'
+        end
+      }
+      format.json {
+        if @photo.persisted?
+          render :json => { :message => 'success' }, :status => :created
+        else
+          render :json => { :message => @photo.errors.full_messages }, :status => :unprocessable_entity
+        end
+      }
     end
+
   end
 
   protected

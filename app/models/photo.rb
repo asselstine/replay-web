@@ -3,11 +3,15 @@ class Photo < ActiveRecord::Base
   mount_uploader :image, PhotoUploader
   reverse_geocoded_by :latitude, :longitude
 
-  before_save do
+  validate do
     if latitude.nil? or longitude.nil?
       ls = user.location_samples.closest_to(timestamp)
-      self.latitude = ls.latitude
-      self.longitude = ls.longitude
+      if ls
+        self.latitude = ls.latitude
+        self.longitude = ls.longitude
+      else
+        errors.add(:image, 'Could not extract coordinates or find coordinates from history.')
+      end
     end
   end
 

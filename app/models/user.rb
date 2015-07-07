@@ -8,6 +8,8 @@ class User < ActiveRecord::Base
   has_many :rides
   has_many :location_samples, :through => :rides
 
+  accepts_nested_attributes_for :photos
+
   def feed_photos
     location_samples.map do |ls|
       photos = Photo.near([ls.latitude, ls.longitude], 8.0/1000.0, :units => :km)

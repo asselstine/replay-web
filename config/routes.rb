@@ -11,7 +11,11 @@ Rails.application.routes.draw do
   resources :rides, :only => [:index, :show]
   resources :location_samples, :only => [:index]
 
-  resources :photos, :only => [:index]
+  resources :photos do
+    collection do
+      get '/uploaded' => 'photos#uploaded', :as => :uploaded
+    end
+  end
 
   namespace :api, :defaults => { :format => 'json' } do
     resources :location_samples, :only => [:create]

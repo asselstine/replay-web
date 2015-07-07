@@ -1,0 +1,10 @@
+<h5>Photo</h5>
+<%= photo.image.url %>
+<%= image_tag photo.image.url %>
+Uploaded by <%= photo.user.id %> on <%= photo.timestamp.to_s %>
+<% if photo.latitude && photo.longitude %>
+<p class="coords">
+  Lat/lng: <%= photo.latitude %> / <%= photo.longitude %>
+</p>
+<% end %>
+

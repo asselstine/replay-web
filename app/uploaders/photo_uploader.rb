@@ -1,7 +1,18 @@
 # encoding: utf-8
 
 class PhotoUploader < CarrierWave::Uploader::Base
+  process :store_exif_data
+
   include CarrierWave::MiniMagick
+
+  def store_exif_data
+    exif = EXIFR::JPEG.new(file.to_file)
+    if exif.gps
+      model.latitude = exif.gps.latitude
+      model.longitude = exif.gps.longitude
+    end
+    model.timestamp = exif.date_time || file.to_file.ctime
+  end
 
   # Include RMagick or MiniMagick support:
   # include CarrierWave::RMagick
@@ -40,7 +51,7 @@ class PhotoUploader < CarrierWave::Uploader::Base
   # Add a white list of extensions which are allowed to be uploaded.
   # For images you might use something like this:
   def extension_white_list
-    %w(jpg jpeg gif png)
+    %w(jpg jpeg)
   end
 
   # Override the filename of the uploaded files:

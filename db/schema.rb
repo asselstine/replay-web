@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150616182951) do
+ActiveRecord::Schema.define(version: 20150707193618) do
 
   create_table "dropbox_events", force: :cascade do |t|
     t.string   "cursor"
@@ -47,6 +47,16 @@ ActiveRecord::Schema.define(version: 20150616182951) do
   end
 
   add_index "location_samples", ["ride_id"], name: "index_location_samples_on_ride_id"
+
+  create_table "photos", force: :cascade do |t|
+    t.float    "latitude"
+    t.float    "longitude"
+    t.time     "timestamp"
+    t.string   "image"
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "rides", force: :cascade do |t|
     t.integer  "user_id"

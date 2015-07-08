@@ -32,6 +32,7 @@ gem 'carrierwave'
 gem 'geocoder'
 gem 'mini_magick'
 gem 'cancancan'
+gem 'gsl'
 
 gem 'figaro'
 

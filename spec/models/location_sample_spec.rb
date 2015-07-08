@@ -19,4 +19,25 @@ describe LocationSample do
     end
   end
 
+  let(:ride) {
+    create(:ride)
+  }
+
+  def create_loc(time, lat, lng)
+    create(:location_sample, :ride => ride.reload, :timestamp => time, :latitude => lat, :longitude => lng)
+  end
+
+  describe '#interpolate' do
+
+    it 'should cleanly interpolate after 3 values' do
+      @ls1 = create_loc(3.seconds.ago, 1, 1)
+      expect(ride.reload.location_samples.not_interpolated.length).to eq(1)
+      @ls2 = create_loc(2.seconds.ago, 2, 2)
+      expect(ride.reload.location_samples.length).to eq(2)
+      @ls3 = create_loc(1.seconds.ago, 3, 3)
+      expect(ride.reload.location_samples.length).to eq(3 + ((2 / LocationSample::INTERP_STEP) - 1) )
+    end
+
+  end
+
 end

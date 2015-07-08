@@ -41,8 +41,9 @@ ActiveRecord::Schema.define(version: 20150707193618) do
     t.float    "latitude"
     t.float    "longitude"
     t.datetime "timestamp"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.boolean  "interpolated", default: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
     t.integer  "ride_id"
   end
 

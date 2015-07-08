@@ -7,6 +7,8 @@ FactoryGirl.define do
     longitude {
       (rand - 0.5) * 360
     }
-    timestamp 10.days.ago
+    sequence(:timestamp) { |n|
+      n.seconds.ago
+    }
   end
 end

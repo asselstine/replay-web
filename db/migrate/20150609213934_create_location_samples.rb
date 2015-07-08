@@ -4,6 +4,7 @@ class CreateLocationSamples < ActiveRecord::Migration
       t.float :latitude
       t.float :longitude
       t.datetime :timestamp
+      t.boolean :interpolated, :default => false
 
       t.timestamps null: false
     end

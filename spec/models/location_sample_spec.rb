@@ -20,7 +20,7 @@ describe LocationSample do
     end
 
     it 'should return the closest sample that occurred after' do
-      expect(LocationSample.closest_to( @now+3.5 )).to eq(@ls3)
+      expect(LocationSample.closest_to( @now+3.6 )).to eq(@ls3)
     end
 
     it 'should return the closest sample that occurred before' do

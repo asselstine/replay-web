@@ -52,12 +52,4 @@ describe LocationSample do
     end
   end
 
-  describe '#between' do
-
-    it 'should return the samples between timestamps' do
-      expect( LocationSample.between(@ls1.timestamp, @ls3.timestamp).to_a ).to eq([@ls2])
-    end
-
-  end
-
 end

@@ -21,11 +21,6 @@ class LocationSample < ActiveRecord::Base
               :converter => Proc.new { |t| t.is_a?(Time) ? t : Time.at(t/1000.0) }
 
   def reinterpolate
-#    ride.interpolate(self)
-  end
-
-  def self.between(start_time, end_time)
-    where('timestamp_in_seconds > ? AND timestamp_in_seconds < ?', start_time.to_f, end_time.to_f)
   end
 
   def self.preceding(timestamp, count=1)

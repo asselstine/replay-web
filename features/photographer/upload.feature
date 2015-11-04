@@ -13,3 +13,4 @@ Feature: Upload photos to site
     When I upload a photo with geo info
     And I go to my uploaded photos
     Then I should see a photo with geo info
+

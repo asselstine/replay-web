@@ -14,7 +14,7 @@ describe Api::LocationSamplesController do
           :location_sample => {
               :latitude => 32.2,
               :longitude => 127.3,
-              :timestamp => '2014'
+              :timestamp => 2014
           }
       }
     }

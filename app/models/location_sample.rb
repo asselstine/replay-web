@@ -1,9 +1,10 @@
 class LocationSample < ActiveRecord::Base
   INTERP_STEP=0.25
+  MIN_POINTS = 3
 
   belongs_to :ride
 
-  after_save :interpolate
+  after_save :reinterpolate
 
   scope :interpolated, -> {
     where(:interpolated => true)
@@ -13,53 +14,35 @@ class LocationSample < ActiveRecord::Base
     where(:interpolated => false)
   }
 
+  composed_of :timestamp,
+              :class_name => "Time",
+              :mapping => %w(timestamp_in_seconds to_r),
+              :constructor => Proc.new { |t| Time.at(t) },
+              :converter => Proc.new { |t| t.is_a?(Time) ? t : Time.at(t/1000.0) }
+
+  def reinterpolate
+#    ride.interpolate(self)
+  end
+
+  def self.between(start_time, end_time)
+    where('timestamp_in_seconds > ? AND timestamp_in_seconds < ?', start_time.to_f, end_time.to_f)
+  end
+
   def self.preceding(timestamp, count=1)
-    where('timestamp <= ?', timestamp).order('timestamp DESC').limit(count)
+    where('timestamp_in_seconds < ?', timestamp.to_f).order('timestamp_in_seconds DESC').limit(count)
   end
 
   def self.following(timestamp, count=1)
-    where('timestamp >= ?', timestamp).order('timestamp ASC').limit(count)
+    where('timestamp_in_seconds > ?', timestamp.to_f).order('timestamp_in_seconds ASC').limit(count)
   end
 
   def self.closest_to(timestamp)
-    before = preceding(timestamp).first
-    after = following(timestamp).first
+    before = preceding(timestamp.to_f).first
+    after = following(timestamp.to_f).first
     if before && after
       (before.timestamp - timestamp).abs < (after.timestamp - timestamp).abs ? before : after
     else
       before || after
-    end
-  end
-
-  def interpolate
-    samples = ride.location_samples.not_interpolated.preceding(timestamp, 10)
-
-    if samples.length > 2 && samples.last.timestamp != timestamp
-
-      oldest = samples.last
-      #destroy interpolated values
-      ride.location_samples.interpolated.where('timestamp >= ? AND timestamp <= ?', oldest.timestamp, timestamp).destroy_all
-      timestamps = GSL::Vector.alloc( samples.pluck(:timestamp).map { |time| time.to_i }.reverse )
-      lats = GSL::Vector.alloc( samples.pluck(:latitude).reverse )
-      longs = GSL::Vector.alloc( samples.pluck(:longitude).reverse )
-
-      lat_spline = GSL::Spline.alloc('cspline',samples.length)
-      lat_spline.init(timestamps, lats)
-      long_spline = GSL::Spline.alloc('cspline', samples.length)
-      long_spline.init(timestamps, longs)
-
-      curr_time = samples.last.timestamp.to_i + INTERP_STEP
-      final_time = timestamp.to_i
-
-      while curr_time < final_time
-        ls = ride.location_samples.create({:interpolated => true,
-                                           :latitude => lat_spline.eval(curr_time),
-                                           :longitude => long_spline.eval(curr_time),
-                                           :timestamp => Time.at(curr_time)})
-        raise "Could not interpolate: #{ls.errors.full_messages}" unless ls.persisted?
-        curr_time += INTERP_STEP
-      end
-
     end
   end
 

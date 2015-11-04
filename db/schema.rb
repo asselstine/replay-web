@@ -40,10 +40,10 @@ ActiveRecord::Schema.define(version: 20150707193618) do
   create_table "location_samples", force: :cascade do |t|
     t.float    "latitude"
     t.float    "longitude"
-    t.datetime "timestamp"
-    t.boolean  "interpolated", default: false
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
+    t.decimal  "timestamp_in_seconds", precision: 17, scale: 3
+    t.boolean  "interpolated",                                  default: false
+    t.datetime "created_at",                                                    null: false
+    t.datetime "updated_at",                                                    null: false
     t.integer  "ride_id"
   end
 

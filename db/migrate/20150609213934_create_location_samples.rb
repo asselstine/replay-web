@@ -3,7 +3,7 @@ class CreateLocationSamples < ActiveRecord::Migration
     create_table :location_samples do |t|
       t.float :latitude
       t.float :longitude
-      t.datetime :timestamp
+      t.decimal :timestamp_in_seconds, :precision => 17, :scale => 3
       t.boolean :interpolated, :default => false
 
       t.timestamps null: false

@@ -1,0 +1,12 @@
+.container
+  .row
+    .col-sm-8
+      h1 Replay
+    .col-sm-4
+      = simple_form_for User.new, url: new_user_session_path, html: { class: 'form-horizontal' } do |f|
+        = f.input :email
+        = f.input :password
+        = f.input :password_confirmation
+        .form-group
+          = f.button :submit, 'Sign in'
+          = link_to 'Forgot password?', new_user_password_path

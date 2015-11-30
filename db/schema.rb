@@ -11,7 +11,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150707193618) do
+ActiveRecord::Schema.define(version: 20151127065452) do
+
+  create_table "cameras", force: :cascade do |t|
+    t.decimal  "lat",        null: false
+    t.decimal  "long",       null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "dropbox_events", force: :cascade do |t|
     t.string   "cursor"

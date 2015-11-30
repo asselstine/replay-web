@@ -26,12 +26,20 @@ gem 'dropzonejs-rails'
 gem 'devise'
 gem 'omniauth-dropbox-oauth2'
 
+gem 'jquery-turbolinks'
+
+gem 'bootstrap-sass', '~> 3.3.5'
+
 gem 'exifr'
 gem 'dropbox-sdk'
 gem 'carrierwave'
 gem 'geocoder'
 gem 'mini_magick'
 gem 'cancancan'
+gem 'slim'
+gem 'simple_form'
+gem 'strava-api-v3'
+
 # gem 'gsl'
 
 gem 'figaro'
@@ -65,6 +73,10 @@ group :development, :test do
   gem 'database_cleaner'
   gem 'factory_girl_rails'
   gem 'better_errors'
+end
+
+group :development do
+  gem 'letter_opener'
 end
 
 group :development, :production do

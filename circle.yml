@@ -3,7 +3,7 @@ dependencies:
     - sudo add-apt-repository "deb http://archive.ubuntu.com/ubuntu trusty universe multiverse"
     - cat /etc/apt/sources.list
     - sudo apt-get update
-    - sudo apt-get install -t trusty/universe gsl-bin
+    - sudo apt-get install -t trusty gsl-bin
     - gsl-config --version
 deployment: 
   production:

@@ -1,5 +1,7 @@
-deployment:
-  production:
-    branch: master
-    heroku:
-      appname: replayapp
+dependencies:
+  pre:
+    - sudo apt-get update; sudo apt-get install gsl 
+production:
+  branch: master
+  heroku:
+    appname: replayapp

@@ -1,17 +1,24 @@
 class Location < ActiveRecord::Base
-  BALLPARK_MINIMUM_DISTANCE = Rails.env.test? ? 5000 : 100.0 / 1000.0
-  INTERPOLATION_WINDOW_SECONDS=5
+  BALLPARK_MINIMUM_DISTANCE = Rails.env.test? ? 5000 : 6000 
+  INTERPOLATION_WINDOW_SECONDS = 5
 
-  validates :latitude, :longitude, presence: true
   belongs_to :trackable, polymorphic: true
   reverse_geocoded_by :latitude, :longitude
+
+  validates :latitude, :longitude, presence: true
+  validates_presence_of :trackable
 
   def geo_array 
     [latitude, longitude]
   end
 
   def self.ballpark(location)
-    near([location.latitude, location.longitude], BALLPARK_MINIMUM_DISTANCE, units: :km)
+    if location.is_a?(Array)
+      coords = location
+    else
+      coords = location.geo_array
+    end
+    near(coords, BALLPARK_MINIMUM_DISTANCE, units: :km)
   end
 
   def self.during(start_at, end_at)

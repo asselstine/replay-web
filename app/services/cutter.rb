@@ -31,15 +31,17 @@ class Cutter
       upload_video
     rescue
     end
-    teardown
   end
 
   protected
 
   def setup
+    puts("Tmp dir is #{tmpdir}")
+    puts "Creating index..."
     File.open(index_filepath, 'w') do |file|
       edit.cuts.each do |cut|
-        file.write(%(file '#{cut_filepath(cut)}'))
+        puts "Checking cut #{cut.id}: #{cut_filepath(cut)}"
+        file.write(%(file '#{cut_filepath(cut)}'\n))
       end
     end
   end
@@ -49,6 +51,16 @@ class Cutter
   end
 
   def download_videos
+    edit.videos.each do |video|
+      puts "Downloading video #{video.id}"
+      run "cp #{video.source} #{video_filepath(video)}"
+    end
+  end
+
+  def run(command_string)
+    puts "Running command '#{command_string}':"
+    output = %x(#{command_string})
+    fail "Error: #{output}" if $? != 0
   end
 
   def self.cut_end_time_s(cut)
@@ -70,26 +82,29 @@ class Cutter
   def extract_cuts
     # ffmpeg -ss 00:00:01.0 -i small.mp4 -ss 00:00:01.0 -t 00:00:01 output.mp4 
     edit.cuts.each do |cut|
-      output = %x(ffmpeg -ss #{cut_start_time_s(cut)} -i #{video_filepath(cut.video)} -to #{cut_end_time_s(cut)} #{cut_filepath(cut)})    
-      fail "Error extracting cut #{cut.id}: #{output}" if $? != 0
+      run("ffmpeg -ss #{self.class.cut_start_time_s(cut)} -i #{video_filepath(cut.video)} -to #{self.class.cut_end_time_s(cut)} #{cut_filepath(cut)}")    
     end
   end
 
   def edit_filepath
-    "#{tmpdir}/edit-#{edit.id}"
+    "#{tmpdir}/edit-#{edit.id}.mp4"
   end
 
   def stitch_cuts
     # ffmpeg -f concat -i mylist.txt -c copy output
-    output = %x(ffmpeg -f concat -i #{index_filepath} -c copy #{edit_filepath})
-    fail "Error stitching edit #{edit.id}: #{output}" if $? != 0 
+    run("ffmpeg -f concat -i #{index_filepath} -c copy #{edit_filepath}")
   end
 
   def upload_video
+    puts "View your new edit:\n"
+    puts edit_filepath
+    puts "The temp directory is:\n"
+    puts tmpdir
+    puts "There were #{edit.cuts.count} cuts."
   end
 
   def cut_filename(cut)
-    "cut-#{cut.id}"
+    "cut-#{cut.id}.mp4"
   end
 
   def cut_filepath(cut)
@@ -97,7 +112,7 @@ class Cutter
   end
 
   def video_filename(video)
-    "video-#{video.id}"
+    "video-#{video.id}.mp4"
   end
 
   def video_filepath(video)

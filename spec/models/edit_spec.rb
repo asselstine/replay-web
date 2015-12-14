@@ -11,7 +11,7 @@ RSpec.describe Edit do
   describe '#build_cuts' do
     let(:camera) { double(Camera, videos: double(Array)) }
     let(:cameras) { [camera] }
-    let(:location) { double(Location) }
+    let(:location) { double(Location, geo_array: [0,0]) }
     let(:videos) { [video] }
 
     def expect_cut(start_at, end_at, video)
@@ -19,7 +19,7 @@ RSpec.describe Edit do
     end
 
     before(:each) do
-      expect(user).to receive(:location_at).and_return(location)
+      expect(user).to receive(:coords_at).and_return(location.geo_array)
       expect(Camera).to receive(:find_video_candidates)
       expect(Camera).to receive(:sort_by_strength).and_return cameras
       expect(camera.videos).to receive(:during).and_return videos

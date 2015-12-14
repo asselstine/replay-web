@@ -25,8 +25,8 @@ class User < ActiveRecord::Base
     _photos
   end
 
-  def location_at(datetime)
-    locations.during(datetime.ago(2), datetime.since(2)).first
+  def coords_at(datetime)
+    locations.interpolate_at(datetime)
   end
 
 end

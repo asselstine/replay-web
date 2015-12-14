@@ -1,5 +1,8 @@
 FactoryGirl.define do
   factory :location do
+    trackable {
+      create(:camera)
+    }
     latitude {
       (rand - 0.5) * 180
     }

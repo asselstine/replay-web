@@ -3,6 +3,8 @@ dependencies:
     - which gsl-config
     - gsl-config --libs
     - gsl-config --version
+    - sudo rm /usr/local/bin/gsl-config
+    - which gsl-config
     - sudo apt-get remove libgsl0ldbl libgsl0-dev 
     - gsl-config --version
     - sudo apt-get update -qq

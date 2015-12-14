@@ -3,7 +3,7 @@ class CreatePhotos < ActiveRecord::Migration
     create_table :photos do |t|
       t.float :latitude
       t.float :longitude
-      t.time :timestamp
+      t.datetime :timestamp
       t.string :image
       t.references :user
 

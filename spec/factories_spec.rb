@@ -18,12 +18,16 @@ describe 'Factories' do
     expect( create(:photo).valid? ).to be_truthy
   end
 
-  it 'location_sample factory' do
-    expect( create(:location_sample).valid? ).to be_truthy
+  it 'location factory' do
+    expect( create(:location).valid? ).to be_truthy
   end
 
   it 'ride factory' do
     expect( create(:ride).valid? ).to be_truthy
+  end
+
+  it 'camera factory' do
+    expect( create(:camera).valid? ).to be_truthy
   end
 
 

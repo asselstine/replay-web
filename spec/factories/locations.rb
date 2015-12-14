@@ -1,6 +1,5 @@
 FactoryGirl.define do
-  factory :location_sample do
-    association :ride
+  factory :location do
     latitude {
       (rand - 0.5) * 180
     }

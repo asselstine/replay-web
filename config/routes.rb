@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   root to: 'pages#landing', as: :unauthenticated_root
 
   resources :rides, :only => [:index, :show]
-  resources :location_samples, :only => [:index]
+  resources :locations, :only => [:index]
 
   resources :photos do
     collection do
@@ -18,7 +18,6 @@ Rails.application.routes.draw do
   end
 
   namespace :api, :defaults => { :format => 'json' } do
-    resources :location_samples, :only => [:create]
     post '/dropbox_webhook' => 'dropbox_webhooks#webhook'
     get '/dropbox_webhook' => 'dropbox_webhooks#webhook'
   end

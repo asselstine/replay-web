@@ -6,20 +6,28 @@ describe User do
 
   context 'whose been on a ride' do
 
-    let(:ride) { create(:ride, :user => user) }
-    let(:location_samples) { create_list(:location_sample, 10, :ride => ride) }
+    let(:ride) { create(:ride, user: user) }
+    let!(:location) { create(:location, trackable: ride) }
+
+    let(:camera) { create(:camera) } 
+    let!(:photo) do
+      create(:photo, camera: camera, timestamp: location.timestamp)
+    end
 
     context 'and didnt have photos taken' do
 
-      let(:photos) {
-        create_list(:photo, 10, :latitude => -location_samples.first.latitude,
-                    :longitude => -location_samples.first.longitude,)
-      }
+      let!(:camera_location) do
+        create(:location, 
+               trackable: camera, 
+               timestamp: location.timestamp,
+               latitude: location.latitude, 
+               longitude: -location.longitude)
+      end
 
       describe '#photos' do
+        subject { user.feed_photos } 
         it 'should have no photos' do
-          photos
-          expect(user.feed_photos).to be_empty
+          expect(user.feed_photos).not_to include(photo)
         end
       end
 
@@ -27,15 +35,17 @@ describe User do
 
     context 'and had photos taken' do
 
-      let(:photos) {
-        create_list(:photo, 10, :latitude => location_samples.first.latitude,
-                                :longitude => location_samples.first.longitude)
-      }
+      let!(:camera_location) do
+        create(:location, 
+               trackable: camera, 
+               timestamp: location.timestamp,
+               latitude: location.latitude, 
+               longitude: location.longitude)
+      end
 
       describe '#photos' do
         it 'should return all the photos' do
-          all = photos
-          expect(user.feed_photos).to eq(all)
+          expect(user.feed_photos).to include(photo)
         end
       end
     end

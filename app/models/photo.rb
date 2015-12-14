@@ -1,18 +1,12 @@
 class Photo < ActiveRecord::Base
+  TIME_MARGIN_OF_ERROR = 1
+
   belongs_to :user
+  belongs_to :camera
   mount_uploader :image, PhotoUploader
-  reverse_geocoded_by :latitude, :longitude
 
-  validate do
-    if latitude.nil? or longitude.nil?
-      ls = user.location_samples.closest_to(timestamp)
-      if ls
-        self.latitude = ls.latitude
-        self.longitude = ls.longitude
-      else
-        errors.add(:image, 'Could not extract coordinates or find coordinates from history.')
-      end
-    end
+  def self.at(datetime)
+    where('timestamp < ?', datetime.since(TIME_MARGIN_OF_ERROR))
+      .where('timestamp >= ?', datetime.ago(TIME_MARGIN_OF_ERROR))
   end
-
 end

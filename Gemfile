@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 
+gem 'virtus'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.1'
 
@@ -40,7 +41,11 @@ gem 'slim'
 gem 'simple_form'
 gem 'strava-api-v3'
 
-# gem 'gsl'
+group :development, :test do
+  gem 'pry'
+end
+
+gem 'gsl'
 
 gem 'figaro'
 
@@ -54,8 +59,6 @@ gem 'figaro'
 # gem 'capistrano-rails', group: :development
 
 group :test do
-  # Use sqlite3 as the database for Active Record
-  gem 'sqlite3'
   gem 'rspec-rails'
 end
 

@@ -1,5 +1,6 @@
 dependencies:
   pre:
+    - gsl-config --version
     - sudo apt-get update -qq
     - sudo apt-get install -y libgsl0-dev
     #- sudo add-apt-repository "deb http:/kppa.launchpad.net trusty universe multiverse"

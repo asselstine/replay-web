@@ -1,6 +1,6 @@
 dependencies:
   pre:
-    - sudo apt-get update; sudo apt-get install gsl 
+    - sudo apt-get update; sudo apt-get install gsl-bin libgsl0-dev
 deployment: 
   production:
     branch: master

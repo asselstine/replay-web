@@ -1,10 +1,12 @@
 dependencies:
   pre:
-    - sudo add-apt-repository "deb http://archive.ubuntu.com/ubuntu trusty universe multiverse"
-    - cat /etc/apt/sources.list
-    - sudo apt-get update
-    - sudo apt-get install -t trusty gsl-bin
-    - gsl-config --version
+    - sudo apt-get update -qq
+    - sudo apt-get install -y libgsl0-dev
+    #- sudo add-apt-repository "deb http:/kppa.launchpad.net trusty universe multiverse"
+    #- cat /etc/apt/sources.list
+    #- sudo apt-get update
+    #- sudo apt-get install -t trusty gsl-bin
+    #- gsl-config --version
 deployment: 
   production:
     branch: master

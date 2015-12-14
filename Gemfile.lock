@@ -213,6 +213,8 @@ GEM
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
     rake (10.4.2)
+    rb-gsl (1.16.0.6)
+      gsl
     rdoc (4.2.0)
       json (~> 1.4)
     responders (2.1.0)
@@ -306,7 +308,6 @@ DEPENDENCIES
   factory_girl_rails
   figaro
   geocoder
-  gsl
   jbuilder (~> 2.0)
   jquery-rails
   jquery-turbolinks
@@ -316,6 +317,7 @@ DEPENDENCIES
   pg
   pry
   rails (= 4.2.1)
+  rb-gsl
   rspec-rails
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)

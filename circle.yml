@@ -1,6 +1,6 @@
 dependencies:
   pre:
-    - sudo apt-get update; sudo apt-get install libgsl0ldbl libgsl0-dev; sudo ldconfig
+    - sudo apt-get update; sudo apt-get install gsl-bin libgsl0ldbl libgsl0-dev; sudo ldconfig
 deployment: 
   production:
     branch: master

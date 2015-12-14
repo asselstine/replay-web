@@ -1,3 +1,5 @@
+require 'gsl'
+
 class Location < ActiveRecord::Base
   BALLPARK_MINIMUM_DISTANCE = Rails.env.test? ? 5000 : 6000 
   INTERPOLATION_WINDOW_SECONDS = 5

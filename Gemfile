@@ -45,7 +45,7 @@ group :development, :test do
   gem 'pry'
 end
 
-gem 'gsl'
+gem 'rb-gsl', require: false
 
 gem 'figaro'
 

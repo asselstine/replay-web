@@ -1,6 +1,6 @@
 dependencies:
   pre:
-    - sudo apt-get install -t trusty/main gsl-bin libgsl0ldbl libgsl0-dev
+    - sudo apt-get install -t trusty gsl-bin libgsl0ldbl libgsl0-dev
     - sudo ldconfig
     - gsl-config --version
 deployment: 

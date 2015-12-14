@@ -1,5 +1,6 @@
 dependencies:
   pre:
+    - sudo add-apt-repository "deb http://archive.ubuntu.com/ubuntu $(lsb_release -sc) universe"
     - sudo apt-get install -t trusty/universe gsl-bin
     - sudo ldconfig
     - gsl-config --version

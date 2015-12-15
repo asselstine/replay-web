@@ -80,7 +80,7 @@ class Cutter
   def extract_cuts
     # ffmpeg -ss 00:00:01.0 -i small.mp4 -ss 00:00:01.0 -t 00:00:01 output.mp4 
     edit.cuts.each do |cut|
-      run("ffmpeg -ss #{self.class.cut_start_time_s(cut)} -i #{video_filepath(cut.video)} -to #{self.class.cut_end_time_s(cut)} #{cut_filepath(cut)}")    
+      run("ffmpeg -strict -2 -ss #{self.class.cut_start_time_s(cut)} -i #{video_filepath(cut.video)} -to #{self.class.cut_end_time_s(cut)} #{cut_filepath(cut)}")    
     end
   end
 
@@ -90,7 +90,7 @@ class Cutter
 
   def stitch_cuts
     # ffmpeg -f concat -i mylist.txt -c copy output
-    run("ffmpeg -f concat -i #{index_filepath} -c copy #{edit_filepath}")
+    run("ffmpeg -strict -2 -f concat -i #{index_filepath} -c copy #{edit_filepath}")
   end
 
   def upload_video

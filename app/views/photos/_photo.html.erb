@@ -2,9 +2,7 @@
 <%= photo.image.url %>
 <%= image_tag photo.image.url %>
 Uploaded by <%= photo.user.id %> on <%= photo.timestamp.to_s %>
-<% if photo.latitude && photo.longitude %>
-<p class="coords">
-  Lat/lng: <%= photo.latitude %> / <%= photo.longitude %>
-</p>
-<% end %>
-
+<% coords = photo.location_at(photo.timestamp) %>
+<div class='coords'>
+  lat: <%= coords[0] %>, long: <%= coords[1] %>
+</div>

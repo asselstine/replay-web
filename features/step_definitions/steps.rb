@@ -8,15 +8,19 @@ Given %(I'm logged in) do
 end
 
 Given %(I've been somewhere) do
-  @location = create(:location, :ride => create(:ride, :user => @user))
+  @location = create(:location, trackable: create(:ride, user: @user))
 end
 
 Given %(There was a photo taken near my location) do
-  @photo = create(:photo, :latitude => @location.latitude, :longitude => @location.longitude)
+  c = create(:camera)
+  @photo = create(:photo, camera: c)
+  create(:location, trackable: c, latitude: @location.latitude, longitude: @location.longitude)
 end
 
 Given %(There was a photo taken on the other side of the world) do
-  @photo = create(:photo, :latitude => -@location.latitude, :longitude => -@location.longitude)
+  c = create(:camera)
+  create(:location, trackable: c, latitude: -@location.latitude, longitude: -@location.longitude)
+  @photo = create(:photo, camera: c)
 end
 
 Given %(I've done the trail Digger) do

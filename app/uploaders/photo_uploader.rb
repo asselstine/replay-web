@@ -8,8 +8,9 @@ class PhotoUploader < CarrierWave::Uploader::Base
   def store_exif_data
     exif = EXIFR::JPEG.new(file.to_file)
     if exif.gps
-      model.latitude = exif.gps.latitude
-      model.longitude = exif.gps.longitude
+      c = Camera.create(user: model.user)
+      Location.create(trackable: c, latitude: exif.gps.latitude, longitude: exif.gps.longitude)
+      model.camera = c 
     end
     model.timestamp = exif.date_time || file.to_file.ctime
   end

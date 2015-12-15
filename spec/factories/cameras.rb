@@ -1,6 +1,7 @@
 FactoryGirl.define do 
   factory :camera do
     range_m 10
+    association :user
 
     transient do
       video_at nil

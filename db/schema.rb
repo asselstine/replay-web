@@ -17,6 +17,7 @@ ActiveRecord::Schema.define(version: 20151212090909) do
   enable_extension "plpgsql"
 
   create_table "cameras", force: :cascade do |t|
+    t.integer  "user_id"
     t.decimal  "range_m"
     t.datetime "created_at"
     t.datetime "updated_at"

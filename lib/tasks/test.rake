@@ -21,9 +21,9 @@ namespace :replay do
      fail 'no persist' unless l.persisted?
     end
 
-    v1 = 'movie1.mp4'
-    v2 = 'movie2.mp4'
-    v3 = 'movie3.mp4'
+    v1 = 'test2_movie1.mp4'
+    v2 = 'test2_movie2.mp4'
+    v3 = 'test2_movie3.mp4'
 
     c1 = Camera.create(range_m: 110*1000) 
     Location.create(trackable: c1, latitude: 0, longitude: 0)

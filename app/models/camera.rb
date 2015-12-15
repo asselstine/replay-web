@@ -4,6 +4,7 @@ class Camera < ActiveRecord::Base
   has_many :locations, as: :trackable
   has_many :videos, inverse_of: :camera
   has_many :photos
+  belongs_to :user
 
   validates :range_m, numericality: { greater_than: 0 }, allow_nil: true
   

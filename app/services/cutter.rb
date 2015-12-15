@@ -1,6 +1,4 @@
 class Cutter
-  VIDEO_ROOT_PATH='/Users/brendan/workspace/ffmpeg-test/'
-
   include Virtus.model
   attribute :edit, Edit
 
@@ -116,7 +114,7 @@ class Cutter
   end
 
   def video_filepath(video)
-    "#{VIDEO_ROOT_PATH}#{video_filename(video)}"
+    "#{tmpdir}/#{video_filename(video)}"
   end
 
   def tmpdir

@@ -1,1 +1,1 @@
-PATH=$PATH:$HOME/vendor/bin
+PATH=$PATH:$HOME/.heroku/vendor/bin

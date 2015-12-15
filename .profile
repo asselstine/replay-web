@@ -1,2 +1,2 @@
-PATH=$PATH:$HOME/.heroku/vendor/bin
+export PATH=$PATH:$HOME/.heroku/vendor/bin
 echo "Hello!"

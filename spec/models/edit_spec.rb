@@ -109,6 +109,7 @@ RSpec.describe Edit do
     let(:user) { ride.user }
 
     it 'should create the right cuts' do
+      pending 'more work'
 
       edit = Edit.new(user: ride.user)
 
@@ -130,8 +131,6 @@ RSpec.describe Edit do
       expect(c[4].video).to eq cam22.videos.first
       expect(c[4].start_at).to eq t(4)
       expect(c[4].end_at).to eq t(6)
-
-      pending 'more work'
     end
 
   end

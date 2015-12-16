@@ -131,6 +131,7 @@ RSpec.describe Edit do
       expect(c[4].start_at).to eq t(4)
       expect(c[4].end_at).to eq t(6)
 
+      pending 'more work'
     end
 
   end

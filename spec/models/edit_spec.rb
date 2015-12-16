@@ -116,6 +116,9 @@ RSpec.describe Edit do
         edit.build_cuts(t(i), t(i + 1))
       end
 
+      pp edit
+      pp edit.cuts
+
       expect(edit.cuts.length).to eq(5)
 
       c = edit.cuts

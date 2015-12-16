@@ -1,4 +1,7 @@
 <%= form_for(@photo, :html => { :id => 'photo-upload-form', :class => 'dropzone' }) do |f| %>
     <%= f.file_field :image, :style => 'display: inline; opacity: 0; width: 0; height: 0;' %>
+    <% if Rails.env.test? %>
+      <%= f.text_field :timestamp %>
+    <% end %>
     <%= f.submit %>
 <% end %>

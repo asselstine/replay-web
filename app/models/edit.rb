@@ -4,12 +4,9 @@ class Edit < ActiveRecord::Base
   has_many :videos, through: :cuts
 
   def build_cuts(start_at, end_at)
-    location = user.coords_at(start_at)
-    return if location.nil?
-    cameras = Camera.find_video_candidates(location, start_at, end_at)
+    cameras = Camera.with_video_during(start_at, end_at)
     camera = Camera.sort_by_strength(cameras, start_at, user).first
     cuts = []
-    # binding.pry
     return cuts unless camera
     next_start_at = start_at
     camera.videos.during(start_at, end_at).each do |video|

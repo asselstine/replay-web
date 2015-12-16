@@ -19,8 +19,7 @@ RSpec.describe Edit do
     end
 
     before(:each) do
-      expect(user).to receive(:coords_at).and_return(location.geo_array)
-      expect(Camera).to receive(:find_video_candidates)
+      expect(Camera).to receive(:with_video_during)
       expect(Camera).to receive(:sort_by_strength).and_return cameras
       expect(camera.videos).to receive(:during).and_return videos
     end

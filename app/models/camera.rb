@@ -1,5 +1,13 @@
 class Camera < ActiveRecord::Base
-  MIN_STRENGTH = 0.3
+  include Trackable
+
+  # Transfer Function:
+  # Bell curve with a tweak to support range
+  def self.bell(x)
+    Math::E**-[x, 100.0].min**2
+  end
+
+  MIN_STRENGTH = Camera.bell(1) 
 
   has_many :locations, as: :trackable
   has_many :videos, inverse_of: :camera
@@ -15,41 +23,15 @@ class Camera < ActiveRecord::Base
   end
 
   def self.with_video_during(start_at, end_at)
-    query = <<-SQL
-      (videos.start_at, videos.end_at) OVERLAPS (:start_at, :end_at)
-    SQL
-    joins(:videos)
-      .where(query, start_at: start_at, end_at: end_at)
+    joins(:videos).merge(Video.during(start_at, end_at))
   end
   
-  def self.find_candidate_ids(location, start_at, end_at)
-    Location.ballpark_during(location, start_at, end_at).where(trackable_type: Camera).map(&:trackable_id)
-  end
-
-  def self.find_candidates(location, start_at, end_at)
-    Camera.where(id: find_candidate_ids(location, start_at, end_at))
-  end
-
   def strength(start_at, user)
-    #the proximity method
-    user_location = user.locations.interpolate_at(start_at)
-    camera_location = locations.interpolate_at(start_at)
-    return 0 unless user_location && camera_location
-    kms = Geocoder::Calculations.distance_between(user_location, 
-                                                camera_location, units: :km)
-    # Transfer Function:
-    # Bell curve with a tweak to support range
-    bell(kms)
-  end
-
-  def self.find_video_candidates(location, start_at, end_at)
-    camera_ids = find_candidate_ids(location, start_at, end_at)
-    Camera.where(id: camera_ids).with_video_during(start_at, end_at)
-  end
-
-  protected
-
-  def bell(distance_km)
-    Math::E**-[distance_km/(range_m/1000.0), 100.0].min**2
+    # The proximity method
+    u_coords = user.coords_at(start_at)
+    c_coords = coords_at(start_at) 
+    return 0 unless u_coords && c_coords 
+    kms = Geocoder::Calculations.distance_between(u_coords, c_coords, units: :km)
+    Camera.bell(kms/(range_m/1000.0))
   end
 end

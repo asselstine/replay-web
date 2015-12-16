@@ -8,19 +8,23 @@ Given %(I'm logged in) do
 end
 
 Given %(I've been somewhere) do
-  @location = create(:location, trackable: create(:ride, user: @user))
+  @ride = create(:ride, user: @user)
+  @locations = []
+  10.times do |i|
+    @location = create(:location, 
+                       latitude: i/100.0, 
+                       longitude: i/100.0, 
+                       trackable: @ride) 
+    @locations << @location
+  end
 end
 
 Given %(There was a photo taken near my location) do
-  c = create(:camera)
-  @photo = create(:photo, camera: c)
-  create(:location, trackable: c, latitude: @location.latitude, longitude: @location.longitude)
+  @photo = create(:photo, timestamp: @location.timestamp, exif_latitude: @location.latitude, exif_longitude: @location.longitude)
 end
 
 Given %(There was a photo taken on the other side of the world) do
-  c = create(:camera)
-  create(:location, trackable: c, latitude: -@location.latitude, longitude: -@location.longitude)
-  @photo = create(:photo, camera: c)
+  @photo = create(:photo, timestamp: @location.timestamp, exif_latitude: -@location.latitude, exif_longitude: -@location.longitude)
 end
 
 Given %(I've done the trail Digger) do
@@ -38,6 +42,7 @@ end
 When %(I upload a photo without geo info where I've been) do
   visit new_photo_path
   attach_file :'photo[image]', Rails.root.join('spec','fixtures','1x1_empty.jpg')
+  fill_in :photo_timestamp, with: @locations[2].timestamp.to_s
   click_link_or_button 'Create Photo'
   expect(page).to have_content('1x1_empty.jpg')
 end
@@ -45,6 +50,7 @@ end
 When %(I upload a photo with geo info) do
   visit new_photo_path
   attach_file :'photo[image]', Rails.root.join('spec','fixtures','1x1_gps.jpg')
+  fill_in :photo_timestamp, with: @locations[2].timestamp.to_s
   click_link_or_button 'Create Photo'
   expect(page).to have_content('1x1_gps.jpg')
 end

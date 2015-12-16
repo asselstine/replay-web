@@ -42,7 +42,7 @@ class PhotosController < ApplicationController
   protected
 
   def create_params
-    params.require(:photo).permit(:image)
+    params.require(:photo).permit(:image, :timestamp)
   end
 
 end

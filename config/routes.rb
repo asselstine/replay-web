@@ -10,6 +10,7 @@ Rails.application.routes.draw do
 
   resources :rides, :only => [:index, :show]
   resources :locations, :only => [:index]
+  resource :feed
 
   resources :photos do
     collection do

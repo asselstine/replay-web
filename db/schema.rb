@@ -74,11 +74,13 @@ ActiveRecord::Schema.define(version: 20151212090909) do
   end
 
   create_table "photos", force: :cascade do |t|
+    t.float    "exif_latitude"
+    t.float    "exif_longitude"
     t.datetime "timestamp"
     t.string   "image"
     t.integer  "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
     t.integer  "camera_id"
   end
 

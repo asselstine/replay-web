@@ -1,23 +1,30 @@
 require 'rails_helper'
 
 describe Location do
-
   describe 'class' do
     subject { Location }
-    describe '#ballpark' do
-      let(:location) { create(:location, timestamp: t(2)) }
-      it do
-        expect(subject.ballpark_during(location, t(1), t(3)).map(&:id)).to include(location.id)
-      end
-      it do 
-        expect(subject.ballpark_during(location, t(0), t(1)).map(&:id)).to_not include(location.id)
+
+    describe '#during' do
+      let!(:l_lt)        { create(:location, timestamp: t(0)) }
+      let!(:l_eq_start)  { create(:location, timestamp: t(1)) }
+      let!(:l_between)   { create(:location, timestamp: t(2)) }
+      let!(:l_eq_end)    { create(:location, timestamp: t(3)) }
+      let!(:l_gt)        { create(:location, timestamp: t(4)) }
+
+      it 'should return the locations during the passed time' do
+        locs = subject.during(t(1),t(3))
+        expect(locs).not_to include(l_lt)
+        expect(locs).to include(l_eq_start)
+        expect(locs).to include(l_between)
+        expect(locs).to include(l_eq_end)
+        expect(locs).not_to include(l_gt)
       end
     end
 
     describe '#interpolate_at' do
 
-      let!(:loc1) { create(:location, timestamp: t(0), latitude: 0, longitude: 0) }
       let!(:loc2) { create(:location, timestamp: t(2), latitude: 2, longitude: 2) }
+      let!(:loc1) { create(:location, timestamp: t(0), latitude: 0, longitude: 0) }
 
       context 'when there are enough locations to interpolate' do
         let!(:loc3) { create(:location, timestamp: t(4), latitude: 4, longitude: 4) }
@@ -27,7 +34,8 @@ describe Location do
 
         context 'when you query for a time before the data' do
           it 'should return the first coords' do
-            expect(subject.interpolate_at(t(-1))).to eq([0,0])
+            expect(subject.interpolate_at(t(-10))).to eq(nil)
+            expect(subject.interpolate_at(t(-1))).to eq(nil)
           end
         end
 
@@ -38,8 +46,9 @@ describe Location do
         end
 
         context 'when you query for a time after the dataset' do
-          it 'should return the last datapoint' do
-            expect(subject.interpolate_at(t(9))).to eq([4,4])
+          it 'should return nil' do
+            expect(subject.interpolate_at(t(5))).to eq(nil)
+            expect(subject.interpolate_at(t(10))).to eq(nil)
           end
         end
       end

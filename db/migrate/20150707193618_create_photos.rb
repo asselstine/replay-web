@@ -1,8 +1,8 @@
 class CreatePhotos < ActiveRecord::Migration
   def change
     create_table :photos do |t|
-      t.float :latitude
-      t.float :longitude
+      t.float :exif_latitude
+      t.float :exif_longitude
       t.datetime :timestamp
       t.string :image
       t.references :user

@@ -1,18 +1,18 @@
 # encoding: utf-8
 
 class PhotoUploader < CarrierWave::Uploader::Base
-  process :store_exif_data
+  process :set_exif_data
 
   include CarrierWave::MiniMagick
 
-  def store_exif_data
+  def set_exif_data
     exif = EXIFR::JPEG.new(file.to_file)
-    if exif.gps
-      c = Camera.create(user: model.user)
-      Location.create(trackable: c, latitude: exif.gps.latitude, longitude: exif.gps.longitude)
-      model.camera = c 
+    photo = model
+    photo.timestamp ||= exif.date_time || file.to_file.ctime
+    if exif.try(:gps)
+      photo.exif_latitude = exif.gps.latitude
+      photo.exif_longitude = exif.gps.longitude
     end
-    model.timestamp = exif.date_time || file.to_file.ctime
   end
 
   # Include RMagick or MiniMagick support:
@@ -60,5 +60,5 @@ class PhotoUploader < CarrierWave::Uploader::Base
   # def filename
   #   "something.jpg" if original_filename
   # end
-
+  #
 end

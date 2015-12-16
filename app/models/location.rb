@@ -1,8 +1,7 @@
 require 'gsl'
 
 class Location < ActiveRecord::Base
-  BALLPARK_MINIMUM_DISTANCE = Rails.env.test? ? 5000 : 6000 
-  INTERPOLATION_WINDOW_SECONDS = 5
+  INTERPOLATION_WINDOW_SECONDS = 8 
 
   belongs_to :trackable, polymorphic: true
   reverse_geocoded_by :latitude, :longitude
@@ -10,40 +9,27 @@ class Location < ActiveRecord::Base
   validates :latitude, :longitude, presence: true
   validates_presence_of :trackable
 
+  scope :with_timestamp, -> { where.not(timestamp: nil) }
+  scope :without_timestamp, -> { where(timestamp: nil) }
+
   def geo_array 
     [latitude, longitude]
-  end
-
-  def self.ballpark(location)
-    if location.is_a?(Array)
-      coords = location
-    else
-      coords = location.geo_array
-    end
-    near(coords, BALLPARK_MINIMUM_DISTANCE, units: :km)
   end
 
   def self.during(start_at, end_at)
     where( during_arel(start_at, end_at) )
   end
 
-  def self.ballpark_during(location, start_at, end_at)
-    ballpark(location).where(during_arel(start_at, end_at))
-  end
-
   def self.interpolate_at(time)
     locations = during(time.ago(INTERPOLATION_WINDOW_SECONDS), 
                        time.since(INTERPOLATION_WINDOW_SECONDS))
-    first_static = locations
-      .select { |loc| loc.timestamp.nil? }
-      .sort { |a,b| a.created_at <=> b.created_at }
-      .first
-    timed_locations = locations
-      .select { |loc| loc.timestamp.present? }
-      .sort { |a,b| a.timestamp <=> b.timestamp }
+    first_static = locations.without_timestamp.order(timestamp: :asc).first
+    timed_locations = locations.with_timestamp.order(timestamp: :asc)
     return first_static.geo_array if first_static
+    return nil if timed_locations.empty? ||
+                  time < timed_locations.first.timestamp || 
+                  time > timed_locations.last.timestamp
     return timed_locations.first.try(:geo_array) if timed_locations.length < 3
-    return timed_locations.first.try(:geo_array) if time < timed_locations.first.timestamp
     cubic_interpolation(timed_locations, time)
   end
 

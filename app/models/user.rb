@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+  include Trackable
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -12,21 +14,30 @@ class User < ActiveRecord::Base
 
   def feed_photos
     _photos = []
-    locations.each do |location|
-      Camera.find_candidates(location, 
-                         location.timestamp.ago(Photo::TIME_MARGIN_OF_ERROR), 
-                         location.timestamp.since(Photo::TIME_MARGIN_OF_ERROR)
-                        ).each do |camera|
-        if camera.strength(location.timestamp, self) > Camera::MIN_STRENGTH
-          _photos += camera.photos.at(location.timestamp)
-        end
+    start_at = feed_start_at
+    end_at = feed_end_at
+    while start_at <= end_at
+      _photos += feed_photos_during(start_at, start_at + 1.second)
+      start_at += 1.second 
+    end
+    _photos
+  end
+
+  def feed_photos_during(start_at, end_at)
+    _photos = []
+    Camera.all.each do |camera|
+      if camera.strength(start_at, self) >= Camera::MIN_STRENGTH
+        _photos += camera.photos.during(start_at, end_at) 
       end
     end
     _photos
   end
 
-  def coords_at(datetime)
-    locations.interpolate_at(datetime)
+  def feed_start_at
+    locations.with_timestamp.order(timestamp: :asc).first.timestamp
   end
 
+  def feed_end_at
+    locations.with_timestamp.order(timestamp: :desc).first.timestamp
+  end
 end

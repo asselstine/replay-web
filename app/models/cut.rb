@@ -7,10 +7,14 @@ class Cut < ActiveRecord::Base
     where(end_at: end_at)
   end
 
-  def self.during(start_at, end_at)
-    query = <<-SQL
-      (videos.start_at, videos.end_at) OVERLAPS (:start_at, :end_at)
-    SQL
-    where(query, start_at: start_at, end_at: end_at)
+  def self.during(start_at, end_at=nil)
+    if end_at
+      query = <<-SQL
+        (videos.start_at, videos.end_at) OVERLAPS (:start_at, :end_at)
+      SQL
+      where(query, start_at: start_at, end_at: end_at)
+    else
+      where('start_at <= ? AND end_at >= ?', start_at)
+    end
   end
 end

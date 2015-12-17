@@ -25,6 +25,10 @@ class Camera < ActiveRecord::Base
   def self.with_video_during(start_at, end_at)
     joins(:videos).merge(Video.during(start_at, end_at))
   end
+
+  def self.with_video_containing(start_at, end_at) 
+    joins(:videos).merge(Video.containing(start_at, end_at))
+  end
   
   def strength(start_at, user)
     # The proximity method

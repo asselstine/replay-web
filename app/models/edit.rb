@@ -1,46 +1,31 @@
 class Edit < ActiveRecord::Base
   belongs_to :user
-  has_many :cuts, -> { order(start_at: :asc) }
+  has_many :cuts
   has_many :videos, through: :cuts
 
   def build_cuts(start_at, end_at)
-    cameras = Camera.with_video_during(start_at, end_at)
-    camera = Camera.sort_by_strength(cameras, start_at, user).first
-    cuts = []
-    return cuts unless camera
-    next_start_at = start_at
-    camera.videos.during(start_at, end_at).each do |video|
-      cut_start_at = [start_at,video.start_at].max
-      cut_end_at = [video.end_at, end_at].min 
-      cut = build_cut(cut_start_at, cut_end_at, video)
-      next_start_at = cut_end_at 
-      cuts << cut
+    while(start_at < end_at)
+      build_cut(start_at, start_at + 1.second)
+      start_at += 1.second
     end
-    cuts
   end 
 
   protected 
 
-  def previous_cut(time)
-    cuts.sort { |a,b| a.end_at <=> b.end_at }
-        .select do |a|
-          a.end_at <= time &&
-            time.to_i - a.end_at.to_i < 1000
-        end
-        .last
+  def find_best_video(start_at, end_at)
+    cameras = Camera.with_video_containing(start_at, end_at)
+    camera = Camera.sort_by_strength(cameras, start_at, user).first
+    camera.videos.containing(start_at, end_at).first
   end
-  
-  def build_cut(start_at, end_at, video)
-    previous = previous_cut(start_at) 
-    if  previous && 
-        previous.video_id == video.id
-      previous.end_at = end_at
-      cut = previous 
+
+  def build_cut(start_at, end_at)
+    video = find_best_video(start_at, end_at)
+    return unless video
+    previous = cuts.where(end_at: start_at, video_id: video.id).first
+    if previous
+      previous.update(end_at: end_at)
     else
-      cut = cuts.build(start_at: start_at, 
-                      end_at: end_at, 
-                      video: video) 
+      cuts.create(start_at: start_at, end_at: end_at, video: video)
     end
-    cut
   end
 end

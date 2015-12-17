@@ -47,10 +47,7 @@ namespace :replay do
                  end_at: t(11))
 
     edit = Edit.create(user: u)
-
-    8.times do |i|
-      edit.build_cuts(t(i), t(i + 1))
-    end
+    edit.build_cuts(t(0), t(8))
     edit.save!
 
     # binding.pry

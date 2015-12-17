@@ -89,6 +89,9 @@ RSpec.describe Edit do
     let(:user) { ride.user }
 
     it 'should create the right cuts' do
+      ride.user.locations.each do |loc|
+        puts "U location: #{loc.timestamp.to_f}, #{loc.latitude}, #{loc.longitude}"
+      end
       edit = Edit.create(user: ride.user)
       edit.build_cuts(t(0), t(6))
       expect(edit.cuts.length).to eq(5)

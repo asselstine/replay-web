@@ -33,7 +33,7 @@ describe Location do
         end
 
         context 'when you query for a time before the data' do
-          it 'should return the first coords' do
+          it 'should return nil' do
             expect(subject.interpolate_at(t(-10))).to eq(nil)
             expect(subject.interpolate_at(t(-1))).to eq(nil)
           end

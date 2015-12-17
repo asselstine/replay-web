@@ -63,6 +63,9 @@ RSpec.describe Edit do
     end
   end
 
+  describe '#find_best_video' do
+  end
+
   describe 'Integration!' do
     let!(:ride) do
       time = 0

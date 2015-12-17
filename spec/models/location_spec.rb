@@ -45,9 +45,6 @@ describe Location do
           end
         end
 
-        context 'when you query for a time on the edge of the datapoint' do
-        end
-
         context 'when you query for a time after the dataset' do
           it 'should return nil' do
             expect(subject.interpolate_at(t(5))).to eq(nil)

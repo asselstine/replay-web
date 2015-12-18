@@ -8,13 +8,11 @@ describe User do
     it 'should scan the timeline of the user' do
       a = double
       b = double
-      c = double
       expect(subject).to receive(:feed_start_at).and_return(t(0))
       expect(subject).to receive(:feed_end_at).and_return(t(2))
       expect(subject).to receive(:feed_photos_during).with(t(0),t(1)).and_return([a])
       expect(subject).to receive(:feed_photos_during).with(t(1),t(2)).and_return([b])
-      expect(subject).to receive(:feed_photos_during).with(t(2),t(3)).and_return([c])
-      expect(subject.feed_photos).to eq([a,b,c])
+      expect(subject.feed_photos).to eq([a,b])
     end
   end
 

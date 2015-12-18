@@ -67,3 +67,16 @@ end
 Then %(I should not see any photos) do
   expect(page).not_to have_content(@photo.image.url)
 end
+
+When %(I go to settings) do
+  click_link 'Settings'
+end
+
+When %(I connect to Strava) do
+  find('a.connect-strava').click
+end 
+
+Then %(my Strava account should be connected) do
+  expect(page).to have_content('Connected')
+  expect(@user.strava_account).to_not be_nil
+end

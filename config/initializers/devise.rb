@@ -241,6 +241,9 @@ Devise.setup do |config|
   config.omniauth :dropbox_oauth2,
                   Figaro.env.dropbox_app_key, Figaro.env.dropbox_app_secret
 
+  config.omniauth :strava,
+                  Figaro.env.strava_client_id, Figaro.env.strava_api_key
+
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
   # change the failure app, you can configure them inside the config.warden block.

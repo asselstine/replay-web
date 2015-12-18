@@ -16,6 +16,9 @@ module ReplayServer
       g.test_framework :rspec, :fixture => false
       g.view_specs false
       g.helper_specs false
+      g.stylesheets false
+      g.helper false
+      g.javascripts false
     end
 
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.

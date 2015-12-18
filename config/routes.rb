@@ -18,6 +18,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resource :settings, only: [ :show ]
+
   namespace :api, :defaults => { :format => 'json' } do
     post '/dropbox_webhook' => 'dropbox_webhooks#webhook'
     get '/dropbox_webhook' => 'dropbox_webhooks#webhook'

@@ -1,0 +1,12 @@
+.container
+  .row
+    .col-xs-12
+      = link_to user_omniauth_authorize_path(provider: :strava), class: 'connect-strava' do
+        = image_tag 'ConnectWithStrava.png'
+      - if current_user.strava_account.present?
+        span.success
+          span.icon-checkmark Connected
+      - else
+        span.dim
+          span.icon-cross Not connected
+

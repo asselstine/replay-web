@@ -1,0 +1,8 @@
+.container
+  .row
+    .col-xs-12
+      h1 Your Videos
+      - if @edits.empty?
+        span.dim You don't have any!
+      - else
+        = render @edits

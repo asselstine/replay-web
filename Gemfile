@@ -40,6 +40,7 @@ gem 'cancancan'
 gem 'slim'
 gem 'simple_form'
 gem 'strava-api-v3'
+gem 'omniauth-strava'
 
 group :development, :test do
   gem 'pry'

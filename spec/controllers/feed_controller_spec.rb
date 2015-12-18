@@ -1,5 +1,5 @@
 require 'rails_helper'
 
-RSpec.describe FeedController, type: :controller do
+RSpec.describe FeedsController, type: :controller do
 
 end

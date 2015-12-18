@@ -59,6 +59,9 @@ gem 'figaro'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+gem 'puma'
+gem 'rails_12factor'
+
 group :test do
   gem 'rspec-rails'
 end

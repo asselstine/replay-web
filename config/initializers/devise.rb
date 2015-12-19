@@ -242,7 +242,8 @@ Devise.setup do |config|
                   Figaro.env.dropbox_app_key, Figaro.env.dropbox_app_secret
 
   config.omniauth :strava,
-                  Figaro.env.strava_client_id, Figaro.env.strava_api_key
+                  Figaro.env.strava_client_id, Figaro.env.strava_api_key,
+                  scope: 'public, view_private'
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or

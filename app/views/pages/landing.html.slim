@@ -1,9 +1,16 @@
 .container
   .row
-    .col-sm-8
-      h1 Replay
-    .col-sm-4
-      = simple_form_for User.new, url: registration_path('user') do |f|
+    .col-xs-12.col-sm-4.col-sm-offset-4.text-center
+      h1 Join Replay
+      hr
+      p
+        = link_to user_omniauth_authorize_path(provider: :strava), class: 'connect-strava' do
+          = image_tag 'LogInWithStrava.png'
+      p.dim
+        | or
+      h4 Sign up
+      br
+      = simple_form_for User.new, url: registration_path('user'), html: { class: 'text-left' } do |f|
         = f.input :email
         = f.input :password
         = f.input :password_confirmation

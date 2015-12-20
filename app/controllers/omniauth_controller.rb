@@ -19,8 +19,11 @@ class OmniauthController < Devise::OmniauthCallbacksController
       redirect_to settings_path
     else
       generated_password = Devise.friendly_token.first(8)
-      user = User.create(email: info["email"], password: generated_password,
-                         password_confirmation: generated_password)
+      user = User.where(email: info["email"]).first_or_create({
+        email: info["email"], 
+        password: generated_password,
+        password_confirmation: generated_password
+      })
       strava.update(user: user)
       if user.persisted?
         set_flash_message :notice, :success, :kind => 'Strava' if is_navigational_format?

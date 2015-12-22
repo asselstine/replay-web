@@ -39,9 +39,6 @@ class Edit < ActiveRecord::Base
   def find_best_video(start_at, end_at)
     cameras = Camera.with_video_containing(start_at, end_at)
     camera = Camera.sort_by_strength(cameras, start_at, user).first
-    # puts "#find_best_video camera=#{coords[0]},#{coords[1]}"
-    video = camera.videos.containing(start_at, end_at).first
-    # puts "#find_best_video video=#{video.id}"
-    video
+    camera.videos.containing(start_at, end_at).first if camera
   end
 end

@@ -54,4 +54,8 @@ class Location < ActiveRecord::Base
             )
   end
 
+  def to_s
+    "Location(#{id}) { latitude: #{latitude}, longitude: #{longitude}, timestamp: #{timestamp} }"
+  end
+
 end

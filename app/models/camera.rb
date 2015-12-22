@@ -9,9 +9,9 @@ class Camera < ActiveRecord::Base
 
   MIN_STRENGTH = Camera.bell(1) 
 
-  has_many :locations, as: :trackable
-  has_many :videos, inverse_of: :camera
-  has_many :photos
+  has_many :locations, as: :trackable, dependent: :destroy
+  has_many :videos, inverse_of: :camera, dependent: :destroy
+  has_many :photos, dependent: :destroy
   belongs_to :user
 
   validates :range_m, numericality: { greater_than: 0 }, allow_nil: true

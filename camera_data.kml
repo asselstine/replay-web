@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://earth.google.com/kml/2.0">
+<Document>
+<Placemark>
+<name>Camera Spot 1</name>
+<Point><coordinates>-123.038409,49.357821,0</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Camera Spot 1</name>
+<Point><coordinates>-123.03837,49.357801,0</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Camera Spot 1</name>
+<Point><coordinates>-123.038341,49.357827,0</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Camera Spot 1</name>
+<Point><coordinates>-123.038316,49.357848,0</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Camera Spot 1</name>
+<Point><coordinates>-123.038301,49.357874,0</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Camera Spot 1</name>
+<Point><coordinates>-123.038268,49.357902,0</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Camera Spot 1</name>
+<Point><coordinates>-123.038262,49.357941,0</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Camera Spot 1</name>
+<Point><coordinates>-123.038242,49.357965,0</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Camera Spot 1</name>
+<Point><coordinates>-123.038261,49.358003,0</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Camera Spot 1</name>
+<Point><coordinates>-123.038273,49.358049,0</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Camera Spot 1</name>
+<Point><coordinates>-123.038282,49.35808,0</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Camera Spot 1</name>
+<Point><coordinates>-123.038392,49.358147,0</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Camera Spot 1</name>
+<Point><coordinates>-123.038423,49.358173,0</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Camera Spot 1</name>
+<Point><coordinates>-123.038465,49.358196,0</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Camera Spot 1</name>
+<Point><coordinates>-123.038507,49.35818,0</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Camera Spot 1</name>
+<Point><coordinates>-123.038527,49.358132,0</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Camera Spot 1</name>
+<Point><coordinates>-123.038576,49.358133,0</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Camera Spot 1</name>
+<Point><coordinates>-123.038615,49.358076,0</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Camera Spot 1</name>
+<Point><coordinates>-123.038638,49.358052,0</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Camera Spot 1</name>
+<Point><coordinates>-123.038684,49.358014,0</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Camera Spot 1</name>
+<Point><coordinates>-123.038726,49.35799,0</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Camera Spot 1</name>
+<Point><coordinates>-123.038747,49.357953,0</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Camera Spot 1</name>
+<Point><coordinates>-123.038748,49.357914,0</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Camera Spot 1</name>
+<Point><coordinates>-123.038792,49.357885,0</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Camera Spot 1</name>
+<Point><coordinates>-123.038838,49.357884,0</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Camera Spot 1</name>
+<Point><coordinates>-123.038862,49.357843,0</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Camera Spot 1</name>
+<Point><coordinates>-123.038898,49.357824,0</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Camera Spot 1</name>
+<Point><coordinates>-123.038945,49.357792,0</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Camera Spot 1</name>
+<Point><coordinates>-123.038982,49.357768,0</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Camera Spot 2</name>
+<Point><coordinates>-123.038087,49.357263,0</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Camera Spot 2</name>
+<Point><coordinates>-123.03808,49.357329,0</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Camera Spot 2</name>
+<Point><coordinates>-123.038094,49.35739,0</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Camera Spot 2</name>
+<Point><coordinates>-123.038093,49.357426,0</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Camera Spot 2</name>
+<Point><coordinates>-123.03808,49.357452,0</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Camera Spot 2</name>
+<Point><coordinates>-123.038027,49.357326,0</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Camera Spot 2</name>
+<Point><coordinates>-123.038029,49.357182,0</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Camera Spot 2</name>
+<Point><coordinates>-123.037975,49.357179,0</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Camera Spot 2</name>
+<Point><coordinates>-123.037942,49.357218,0</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Camera Spot 2</name>
+<Point><coordinates>-123.037942,49.357255,0</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Camera Spot 2</name>
+<Point><coordinates>-123.037908,49.357277,0</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Camera Spot 2</name>
+<Point><coordinates>-123.037858,49.357281,0</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Camera Spot 2</name>
+<Point><coordinates>-123.037848,49.357313,0</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Camera Spot 2</name>
+<Point><coordinates>-123.037943,49.357313,0</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Camera Spot 2</name>
+<Point><coordinates>-123.037971,49.357353,0</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Camera Spot 2</name>
+<Point><coordinates>-123.038007,49.357395,0</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Camera Spot 2</name>
+<Point><coordinates>-123.038028,49.357432,0</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Camera Spot 2</name>
+<Point><coordinates>-123.038042,49.357461,0</coordinates></Point>
+</Placemark>
+<Placemark>
+<name>Camera Spot 2</name>
+<Point><coordinates>-123.03808,49.357473,0</coordinates></Point>
+</Placemark>
+</Document>
+</kml>

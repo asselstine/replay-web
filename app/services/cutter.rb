@@ -31,6 +31,10 @@ class Cutter
     end
   end
 
+  def edit_filepath
+    "#{tmpdir}/edit-#{edit.id}.mp4"
+  end
+
   protected
 
   def setup
@@ -62,7 +66,7 @@ class Cutter
   end
 
   def self.cut_end_time_s(cut)
-    to_ffmpeg_time(cut.end_at.to_f - cut.video.start_at.to_f)
+    to_ffmpeg_time(cut.end_at.to_f - cut.start_at.to_f)
   end
 
   def self.cut_start_time_s(cut)
@@ -82,10 +86,6 @@ class Cutter
     edit.cuts.each do |cut|
       run("ffmpeg -strict -2 -ss #{self.class.cut_start_time_s(cut)} -i #{video_filepath(cut.video)} -to #{self.class.cut_end_time_s(cut)} #{cut_filepath(cut)}")    
     end
-  end
-
-  def edit_filepath
-    "#{tmpdir}/edit-#{edit.id}.mp4"
   end
 
   def stitch_cuts

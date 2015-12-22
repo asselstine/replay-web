@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151218035747) do
+ActiveRecord::Schema.define(version: 20151221023434) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -86,8 +86,11 @@ ActiveRecord::Schema.define(version: 20151218035747) do
 
   create_table "rides", force: :cascade do |t|
     t.integer  "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.string   "strava_activity_id"
+    t.string   "strava_name"
+    t.datetime "strava_start_at"
   end
 
   create_table "strava_accounts", force: :cascade do |t|

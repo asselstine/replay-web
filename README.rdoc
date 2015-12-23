@@ -1,3 +1,21 @@
+== Discussion of the algorithm
+
+For a given user:
+
+1. Identify periods of time we want to render.
+
+  - Chunks of time may be feature-based (location, or data feature like free fall)
+  - Chunks of time may be ride-based
+
+The Editor creates a Context for each period of time, and divides that time into 1 second cuts.
+
+2. For the period of time, gather all the data about the user
+
+2. Collect the user's data during that time
+3.  
+
+
+
 == README
 
 This README would normally document whatever steps are necessary to get the

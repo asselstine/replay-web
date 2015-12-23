@@ -16,9 +16,9 @@ class Camera < ActiveRecord::Base
 
   validates :range_m, numericality: { greater_than: 0 }, allow_nil: true
   
-  def self.sort_by_strength(cameras, start_at, user)
+  def self.sort_by_strength(cameras, context)
     cameras.to_a.sort { |a, b|
-      b.strength(start_at, user) <=> a.strength(start_at, user)
+      b.strength(context) <=> a.strength(context)
     }
   end
 
@@ -30,10 +30,10 @@ class Camera < ActiveRecord::Base
     joins(:videos).merge(Video.containing(start_at, end_at))
   end
   
-  def strength(start_at, user)
+  def strength(context)
     # The proximity method
-    u_coords = user.coords_at(start_at)
-    c_coords = coords_at(start_at) 
+    u_coords = context.user_coords_at_cut
+    c_coords = coords_at(context.cut_start_at) 
     # puts "Camera#strength: c id: #{id}: c_coords: #{c_coords}, u_coords: #{u_coords}, start_at: #{start_at.to_f}"
     return 0 unless u_coords && c_coords 
     kms = Geocoder::Calculations.distance_between(u_coords, c_coords, units: :km)

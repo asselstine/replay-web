@@ -2,6 +2,21 @@ desc 'Generate the Replay Closed Beta Videos'
 namespace :replay do
   task :beta1 => :environment do
 
+
+    # Jer's rides: 
+    #
+    # Ride 95:
+    # start:  2015-12-19 19:40:10
+    # end:    2015-12-19 21:02:12  
+    #
+    # Ride 94:
+    # started: Sat, 19 Dec 2015 21:13:48 UTC +00:00
+    # ended: Sat, 19 Dec 2015 21:31:49 UTC +00:00
+    #
+    # Dan's rides:
+    # 
+    # 
+
     Video.destroy_all
     Cut.destroy_all
     Camera.destroy_all
@@ -12,6 +27,8 @@ namespace :replay do
     end
 
     @start_time = DateTime.parse('2015-12-19 20:52:30 UTC')
+    # 20:59:40
+    second_run_offset = (7.minutes + 10.seconds)
     def t(s)
       @start_time.since(s)
     end
@@ -20,7 +37,7 @@ namespace :replay do
 
     phil1 = Camera.create(range_m: 10) 
     Location.create(trackable: phil1, latitude: 49.35788, longitude: -123.03879)
-    p1, p2, p3 = 3.seconds, 20.seconds, 5.minutes
+    p1, p2, p3 = 3.seconds, second_run_offset + 7.seconds, 5.minutes
     [
       {source: f('20151219-MVI_2266.mp4'), start_at: t(p1), end_at: t(p1+55)},
       {source: f('20151219-MVI_2267.mp4'), start_at: t(p2), end_at: t(p2+56)}, 
@@ -40,7 +57,7 @@ namespace :replay do
     end
 
     arthur1 = Camera.create(range_m: 10) 
-    a1, a2 = -47.seconds, 5.minutes 
+    a1, a2 = -47.seconds, second_run_offset - 19.seconds
     Location.create(trackable: arthur1, latitude: 49.35776, longitude: -123.03898)
     [
       {source: f('Arthur\ GoPro\ -\ Run\ 1.mp4'), start_at: t(a1), end_at: t(a1+104)}, 
@@ -59,7 +76,7 @@ namespace :replay do
     end
 
     lauren1 = Camera.create(range_m: 10)
-    l1, l2 = -10.seconds, 5.minutes 
+    l1, l2 = -10.seconds, second_run_offset 
     Location.create(trackable: lauren1, latitude: 49.35794, longitude: -123.03826)
     [
       {source: f('IMG_2892.mp4'), start_at: t(l1), end_at: t(l1+71)}, 
@@ -78,8 +95,8 @@ namespace :replay do
       lauren2.videos.create(vid)
     end
 
-    luc1 = Camera.create(range_m: 10)
-    lt1, lt2 = 0.seconds, 5.minutes 
+    luc1 = Camera.create(range_m: 6)
+    lt1, lt2 = 0.seconds, second_run_offset 
     # 49.35814, -123.03839 OR 49.35808, -123.03828
     # halfway: 49.35812, -123.03833
     Location.create(trackable: luc1, latitude: 49.35812, longitude: -123.03833)
@@ -101,7 +118,7 @@ namespace :replay do
     end
 
     jolene1 = Camera.create(range_m: 10)
-    j1, j2 = 0.seconds, 5.minutes
+    j1, j2 = 0.seconds, second_run_offset 
     Location.create(trackable: jolene1, latitude: 49.35813, longitude: -123.03857)
     [
       {source: f('VIDEO0048.mp4'), start_at: t(j1), end_at: t(j1+5.seconds)}, 
@@ -122,7 +139,8 @@ namespace :replay do
 
     users.each do |u|
       edit = Edit.create(user: u)
-      edit.build_cuts(t(0), t(15.seconds))
+      #edit.build_cuts(t(second_run_offset), t(second_run_offset + 2.seconds))
+      edit.build_cuts(t(0), t(15))
       edit.cuts.each do |cut|
         puts "Cut #{cut.video.source} from #{cut.start_at} to #{cut.end_at}"
       end

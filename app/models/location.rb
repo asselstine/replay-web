@@ -35,16 +35,29 @@ class Location < ActiveRecord::Base
 
   protected
 
+  def self.spline(values, timestamps)
+    timestamps_v = GSL::Vector.alloc(timestamps)
+    values_v = GSL::Vector.alloc(values)
+    spline = GSL::Spline.alloc('cspline', values.length)
+    spline.init(timestamps_v, values_v)
+    spline
+  end
+
+  def self.lat_spline(locations)
+    timestamps = locations.map { |loc| (loc.timestamp.to_f*1000).to_i }
+    lats = locations.map(&:latitude)
+    spline(lats, timestamps)
+  end
+
+  def self.long_spline(locations)
+    timestamps = locations.map { |loc| (loc.timestamp.to_f*1000).to_i }
+    longs = locations.map(&:longitude)
+    spline(longs, timestamps)
+  end
+
   def self.cubic_interpolation(locations, time)
-    timestamps = GSL::Vector.alloc(locations.map { |loc| (loc.timestamp.to_f*1000).to_i })
-    lats = GSL::Vector.alloc(locations.map(&:latitude))
-    longs = GSL::Vector.alloc(locations.map(&:longitude))
-    lat_spline = GSL::Spline.alloc('cspline', lats.length)
-    lat_spline.init(timestamps, lats)
-    long_spline = GSL::Spline.alloc('cspline', longs.length)
-    long_spline.init(timestamps, longs)
     time_ms = (time.to_f*1000).to_i
-    [lat_spline.eval(time_ms), long_spline.eval(time_ms)]
+    [lat_spline(locations).eval(time_ms), long_spline(locations).eval(time_ms)]
   end
 
   def self.during_arel(start_at, end_at)

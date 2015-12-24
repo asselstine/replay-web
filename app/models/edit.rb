@@ -29,7 +29,7 @@ class Edit < ActiveRecord::Base
     context = Context.new(start_at: start_at,
                           end_at: end_at)
     context.cut_start_at = start_at
-    context.user_locations = user.locations.during(start_at, end_at)
+    context.user_locations = user.locations.order(timestamp: :asc).during(start_at, end_at)
     while(context.cut_start_at < context.end_at)
       context.cut_end_at = context.cut_start_at + 1.second
       # puts "#build_cuts: start_at: #{start_at} current_end_at: #{current_end_at}"

@@ -21,49 +21,53 @@ describe Location do
       end
     end
 
-    describe '#interpolate_at' do
-
-      let!(:loc2) { create(:location, timestamp: t(2), latitude: 2, longitude: 2) }
-      let!(:loc1) { create(:location, timestamp: t(0), latitude: 0, longitude: 0) }
-
-      context 'when there are enough locations to interpolate' do
-        let!(:loc3) { create(:location, timestamp: t(4), latitude: 4, longitude: 4) }
-        it 'should interpolate the lat and long' do
-          expect(subject.interpolate_at(t(1))).to eq([1,1])
-        end
-
-        context 'when you query for a time before the data' do
-          it 'should return nil' do
-            expect(subject.interpolate_at(t(-10))).to eq(nil)
-            expect(subject.interpolate_at(t(-1))).to eq(nil)
-          end
-        end
-
-        context 'when you query for a time on a datapoint' do
-          it 'should return the datapoint' do
-            expect(subject.interpolate_at(t(0))).to eq([0,0])
-          end
-        end
-
-        context 'when you query for a time after the dataset' do
-          it 'should return nil' do
-            expect(subject.interpolate_at(t(5))).to eq(nil)
-            expect(subject.interpolate_at(t(10))).to eq(nil)
-          end
-        end
+    describe '#static_coords_at' do
+      let(:l1) { create(:location, timestamp: t(1)) }
+      let(:l2) { create(:location, timestamp: t(3)) }
+      let!(:locations) do
+        [ l1, l2 ]
+      end 
+      
+      it 'should return the most recent location' do
+        expect(subject.static_coords_at(t(2), locations)).to eq(l1.coords)
       end
 
-      context 'when too few locations to interpolate' do
-        it 'should just return the first location' do
-          expect(subject.interpolate_at(t(1))).to eq([0,0])
-        end
+      it 'should return nil when outside the bounds' do
+        expect(subject.static_coords_at(t(0), locations)).to eq(nil)
       end
 
-      context 'when there is a static location' do
-        let!(:loc3) { create(:location, timestamp: nil, latitude: 5, longitude: 8) }
-        it 'should just return the first static location' do
-          expect(subject.interpolate_at(t(1))).to eq([5, 8])
+      it 'should return the last coord when outside the bounds' do
+        expect(subject.static_coords_at(t(10), locations)).to eq(l2.coords)
+      end
+    end
+
+    describe '#can_interpolate?' do
+      let(:l1) { create(:location, timestamp: t(1)) }
+      let(:l2) { create(:location, timestamp: t(3)) }
+      let!(:locations) { [ l1, l2 ] }
+      
+      describe 'when there are not enough samples' do
+        it { expect(subject.can_interpolate?(t(0), locations)).to be_falsey }
+      end
+
+      context 'when there are enough samples' do
+        let(:l3) { create(:location, timestamp: t(5)) }
+        let!(:locations) { [ l1, l2, l3] }
+        it 'should allow interpolation' do
+          expect(subject.can_interpolate?(t(1), locations)).to be_truthy
         end
+        it 'should disallow if time is before samples' do
+          expect(subject.can_interpolate?(t(-1), locations)).to be_falsey
+        end
+        it 'should disallow if time is after samples' do
+          expect(subject.can_interpolate?(t(9), locations)).to be_falsey
+        end
+      end
+    end
+
+    describe '#to_time_ms' do
+      it 'should cast a datetime to milliseconds' do
+        expect(subject.to_time_ms(DateTime.parse('Sat, 26 Dec 2015 13:46:49 -0800'))).to eq(1451166409000)
       end
     end
   end

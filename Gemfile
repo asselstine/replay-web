@@ -1,6 +1,5 @@
 source 'http://rubygems.org'
 
-
 gem 'virtus'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.1'
@@ -60,10 +59,14 @@ gem 'figaro'
 # gem 'capistrano-rails', group: :development
 
 gem 'puma'
-gem 'rails_12factor'
+
+group :production do
+  gem 'rails_12factor'
+end
 
 group :test do
   gem 'rspec-rails'
+  gem 'simplecov'
 end
 
 group :development, :test do
@@ -75,6 +78,8 @@ group :development, :test do
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
+  gem 'spring-commands-rspec'
+  gem 'spring-commands-cucumber'
 
   gem 'cucumber-rails', :require => false
   gem 'database_cleaner'

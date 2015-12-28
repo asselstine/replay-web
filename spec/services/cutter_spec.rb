@@ -21,9 +21,9 @@ RSpec.describe Cutter do
       end
     end
     
-    describe '#cut_end_time_s' do
+    describe '#cut_duration_s' do
       it do
-        expect(subject.cut_end_time_s(cut)).to eq('00:00:02.000')
+        expect(subject.cut_duration_s(cut)).to eq('00:00:01.000')
       end
     end
   end

@@ -11,9 +11,11 @@ FactoryGirl.define do
       transient do
         lat 0
         lng 0
+        video_at DateTime.now
       end
+      static true
       after :create do |camera, evaluator|
-        create(:location, latitude: evaluator.lat, longitude: evaluator.lng, trackable: camera, timestamp: nil)
+        create(:location, latitude: evaluator.lat, longitude: evaluator.lng, trackable: camera, timestamp: evaluator.video_at)
       end
     end
 

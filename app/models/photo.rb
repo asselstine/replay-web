@@ -20,23 +20,27 @@ class Photo < ActiveRecord::Base
       .where('timestamp <= ?', end_at)
   end
 
+  def coords
+    camera.evaluator.coords_at(timestamp)
+  end
+
   protected
 
   def find_or_create_camera
     if self.camera.nil?
-      self.camera = Camera.create(user: user, range_m: DEFAULT_RANGE_M)
+      self.camera = Camera.create(range_m: DEFAULT_RANGE_M)
     end
     self.camera
   end
 
   def process_exif_coords
-    Location.create(trackable: find_or_create_camera, latitude: exif_latitude, longitude: exif_longitude)
+    Location.create(trackable: find_or_create_camera, latitude: exif_latitude, longitude: exif_longitude, timestamp: timestamp)
   end
 
   def infer_user_coords
-    coords = user.coords_at(self.timestamp)
+    coords = user.evaluator(Context.new(cut_start_at: self.timestamp)).coords
     if coords
-      Location.create(trackable: camera, latitude: coords[0], longitude: coords[1])
+      Location.create(trackable: camera, latitude: coords[0], longitude: coords[1], timestamp: self.timestamp)
     else
       errors.add(:location, "Cannot geotag this photo; no geographic info available.")
     end

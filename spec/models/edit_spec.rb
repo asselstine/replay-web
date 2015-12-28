@@ -12,54 +12,16 @@ RSpec.describe Edit do
     it 'should iterate through the time span one second at a time' do
 
       expect(subject).to receive(:find_best_video).and_return(vid1)
-      expect(subject).to receive(:next_cut).with(nil, t(0), t(1), vid1).and_return(3)
+      expect(subject.cuts).to receive(:build)
+        .with(start_at: t(0), end_at: t(1), video: vid1)
       expect(subject).to receive(:find_best_video).and_return(vid2)
-      expect(subject).to receive(:next_cut).with(3, t(1), t(2), vid2).and_return(7)
+      expect(subject.cuts).to receive(:build)
+        .with(start_at: t(1), end_at: t(2), video: vid2)
       expect(subject).to receive(:find_best_video).and_return(vid3)
-      expect(subject).to receive(:next_cut).with(7, t(2), t(3), vid3)
+      expect(subject.cuts).to receive(:build)
+        .with(start_at: t(2), end_at: t(3), video: vid3)
 
       subject.build_cuts(t(0),t(3))
-    end
-  end
-
-  describe '#next_cut' do
-    let(:video) { create(:video) }
-    context 'without a previous cut' do
-      it 'should create a new one' do
-        expect(subject.cuts).to receive(:build).with(start_at: t(0), 
-                                                     end_at: t(1), 
-                                                     video: video)
-        subject.send(:next_cut, nil, t(0), t(1), video)
-      end
-    end
-    context 'with a previous cut' do
-      context 'with the same video' do
-        context 'with a different time' do
-          let(:previous_cut) { build(:cut, edit: subject, video: video) }
-          it 'should build a new cut' do
-            expect(subject.cuts).to receive(:build).with(start_at: t(0),
-                                                         end_at: t(1),
-                                                         video: video)
-            subject.send(:next_cut, previous_cut, t(0), t(1), video)
-          end
-        end
-        context 'with end_at matching the start_at' do
-          let(:previous_cut) { build(:cut, start_at: t(-1), end_at: t(0), edit: subject, video: video) }
-          it 'should extend the previous cut' do
-            expect(previous_cut).to receive(:end_at=).with(t(1))
-            subject.send(:next_cut, previous_cut, t(0), t(1), video)
-          end
-        end
-      end
-      context 'with a different video' do
-        let(:previous_cut) { build(:cut, edit: subject, start_at: t(-1), end_at: t(0), video: create(:video)) }
-        it 'should build a new cut' do
-          expect(subject.cuts).to receive(:build).with(start_at: t(0),
-                                                       end_at: t(1),
-                                                       video: video)
-          subject.send(:next_cut, previous_cut, t(0), t(1), video) 
-        end
-      end
     end
   end
 
@@ -91,15 +53,14 @@ RSpec.describe Edit do
     it 'should create the right cuts' do
       edit = Edit.create(user: ride.user)
       edit.build_cuts(t(0), t(6))
-      expect(edit.cuts.length).to eq(5)
+      expect(edit.cuts.length).to eq(6)
       c = edit.cuts
       expect(c[0].video).to eq cam00.videos.first
       expect(c[1].video).to eq cam01.videos.first
       expect(c[2].video).to eq cam02.videos.first
       expect(c[3].video).to eq cam12.videos.first
       expect(c[4].video).to eq cam22.videos.first
-      expect(c[4].start_at).to eq t(4)
-      expect(c[4].end_at).to eq t(6)
+      expect(c[5].video).to eq cam22.videos.first
     end
   end
 end

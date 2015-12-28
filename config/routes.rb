@@ -12,6 +12,8 @@ Rails.application.routes.draw do
   resources :locations, :only => [:index]
   resource :feed
 
+  resources :recording_sessions
+
   resources :photos do
     collection do
       get '/uploaded' => 'photos#uploaded', :as => :uploaded

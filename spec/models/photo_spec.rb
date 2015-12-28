@@ -8,8 +8,11 @@ describe Photo do
 
   describe '#process_exif_coords' do
     it 'should create a location if there are new exif coordinates' do
-      expect(Location).to receive(:create).with(trackable: camera, latitude: 17, longitude: 23)
-      subject.update(exif_latitude: 17, exif_longitude: 23)
+      expect(Location).to receive(:create).with(trackable: camera, 
+                                                latitude: 17, 
+                                                longitude: 23,
+                                                timestamp: t(10))
+      subject.update(exif_latitude: 17, exif_longitude: 23, timestamp: t(10))
     end
   end
 

@@ -12,7 +12,7 @@ class Location < ActiveRecord::Base
   scope :with_timestamp, -> { where.not(timestamp: nil) }
   scope :without_timestamp, -> { where(timestamp: nil) }
 
-  def geo_array 
+  def coords 
     [latitude, longitude]
   end
 
@@ -20,17 +20,26 @@ class Location < ActiveRecord::Base
     where( during_arel(start_at, end_at) )
   end
 
-  def self.interpolate_at(time)
-    locations = during(time.ago(INTERPOLATION_WINDOW_SECONDS), 
-                       time.since(INTERPOLATION_WINDOW_SECONDS))
-    first_static = locations.without_timestamp.order(timestamp: :asc).first
-    timed_locations = locations.with_timestamp.order(timestamp: :asc)
-    return first_static.geo_array if first_static
-    return nil if timed_locations.empty? ||
-                  time < timed_locations.first.timestamp || 
-                  time > timed_locations.last.timestamp
-    return timed_locations.first.try(:geo_array) if timed_locations.length < 3
-    cubic_interpolation(timed_locations, time)
+  # Assume locations is a sorted array of Location objects in reverse chrono
+  #
+  # Here simply return the last location before the time.
+  def self.static_coords_at(time, locations)
+    location = nil
+    locations.each do |loc|
+      break if loc.try(:timestamp) && loc.timestamp > time
+      location = loc
+    end
+    location.coords if location
+  end
+
+  def self.can_interpolate?(time, locations)
+    locations.count >= 3 && 
+      time >= locations.first.timestamp &&
+      time <= locations.last.timestamp
+  end
+
+  def self.to_time_ms(datetime)
+    (datetime.to_f*1000).to_i
   end
 
   protected
@@ -53,11 +62,6 @@ class Location < ActiveRecord::Base
     timestamps = locations.map { |loc| (loc.timestamp.to_f*1000).to_i }
     longs = locations.map(&:longitude)
     spline(longs, timestamps)
-  end
-
-  def self.cubic_interpolation(locations, time)
-    time_ms = (time.to_f*1000).to_i
-    [lat_spline(locations).eval(time_ms), long_spline(locations).eval(time_ms)]
   end
 
   def self.during_arel(start_at, end_at)

@@ -11,17 +11,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151221023434) do
+ActiveRecord::Schema.define(version: 20151226220202) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "cameras", force: :cascade do |t|
-    t.integer  "user_id"
-    t.decimal  "range_m"
+    t.decimal  "range_m",              default: 10.0
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "recording_session_id"
+    t.boolean  "static",               default: true
+    t.boolean  "one_time",             default: true
   end
+
+  add_index "cameras", ["recording_session_id"], name: "index_cameras_on_recording_session_id", using: :btree
 
   create_table "cuts", force: :cascade do |t|
     t.integer  "edit_id"
@@ -63,14 +67,13 @@ ActiveRecord::Schema.define(version: 20151221023434) do
   end
 
   create_table "locations", force: :cascade do |t|
-    t.float    "latitude"
-    t.float    "longitude"
-    t.boolean  "interpolated",   default: false
     t.datetime "timestamp"
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
     t.integer  "trackable_id"
     t.string   "trackable_type"
+    t.decimal  "latitude",       precision: 12, scale: 8
+    t.decimal  "longitude",      precision: 12, scale: 8
   end
 
   create_table "photos", force: :cascade do |t|
@@ -83,6 +86,15 @@ ActiveRecord::Schema.define(version: 20151221023434) do
     t.datetime "updated_at",     null: false
     t.integer  "camera_id"
   end
+
+  create_table "recording_sessions", force: :cascade do |t|
+    t.integer  "user_id"
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "recording_sessions", ["user_id"], name: "index_recording_sessions_on_user_id", using: :btree
 
   create_table "rides", force: :cascade do |t|
     t.integer  "user_id"
@@ -133,6 +145,8 @@ ActiveRecord::Schema.define(version: 20151221023434) do
     t.datetime "updated_at"
   end
 
+  add_foreign_key "cameras", "recording_sessions"
   add_foreign_key "dropbox_events", "users"
   add_foreign_key "dropbox_photos", "dropbox_events"
+  add_foreign_key "recording_sessions", "users"
 end

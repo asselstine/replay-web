@@ -65,7 +65,7 @@ class Cutter
     fail "Error: #{output}" if $? != 0
   end
 
-  def self.cut_end_time_s(cut)
+  def self.cut_duration_s(cut)
     to_ffmpeg_time(cut.end_at.to_f - cut.start_at.to_f)
   end
 
@@ -84,7 +84,7 @@ class Cutter
   def extract_cuts
     # ffmpeg -ss 00:00:01.0 -i small.mp4 -ss 00:00:01.0 -t 00:00:01 output.mp4 
     edit.cuts.each do |cut|
-      run("ffmpeg -strict -2 -ss #{self.class.cut_start_time_s(cut)} -i #{video_filepath(cut.video)} -to #{self.class.cut_end_time_s(cut)} #{cut_filepath(cut)}")    
+      run("ffmpeg -strict -2 -ss #{self.class.cut_start_time_s(cut)} -i #{video_filepath(cut.video)} -to #{self.class.cut_duration_s(cut)} #{cut_filepath(cut)}")    
     end
   end
 

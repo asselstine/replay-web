@@ -12,7 +12,11 @@ Rails.application.routes.draw do
   resources :locations, :only => [:index]
   resource :feed
 
-  resources :recording_sessions
+  resources :recording_sessions do
+    resources :cameras do
+      resources :videos
+    end
+  end
 
   resources :photos do
     collection do

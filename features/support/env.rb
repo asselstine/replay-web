@@ -7,6 +7,13 @@ require_relative '../../lib/simplecov/config.rb'
 # files.
 
 require 'cucumber/rails'
+require 'capybara/rails'
+
+Capybara.register_driver :chrome do |app|
+  Capybara::Selenium::Driver.new(app, :browser => :chrome)
+end
+
+Capybara.javascript_driver = :chrome
 
 # Capybara defaults to CSS3 selectors rather than XPath.
 # If you'd prefer to use XPath, just uncomment this line and adjust any

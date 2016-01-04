@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151226220202) do
+ActiveRecord::Schema.define(version: 20151228065120) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(version: 20151226220202) do
     t.integer  "recording_session_id"
     t.boolean  "static",               default: true
     t.boolean  "one_time",             default: true
+    t.string   "name"
   end
 
   add_index "cameras", ["recording_session_id"], name: "index_cameras_on_recording_session_id", using: :btree

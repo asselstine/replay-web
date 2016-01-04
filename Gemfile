@@ -67,6 +67,10 @@ end
 group :test do
   gem 'rspec-rails'
   gem 'simplecov'
+  gem 'cucumber-rails', :require => false
+  gem 'database_cleaner'
+  gem 'capybara'
+  gem 'selenium-webdriver'
 end
 
 group :development, :test do
@@ -81,8 +85,6 @@ group :development, :test do
   gem 'spring-commands-rspec'
   gem 'spring-commands-cucumber'
 
-  gem 'cucumber-rails', :require => false
-  gem 'database_cleaner'
   gem 'factory_girl_rails'
   gem 'better_errors'
 end

@@ -17,3 +17,5 @@
 //= require dropzone
 //= require_tree .
 //= require_tree ./initializers
+//= require ServerDate
+//= require components

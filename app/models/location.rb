@@ -9,6 +9,7 @@ class Location < ActiveRecord::Base
   validates :latitude, :longitude, presence: true
   validates_presence_of :trackable
 
+  scope :in_order, -> { order(timestamp: :asc) }
   scope :with_timestamp, -> { where.not(timestamp: nil) }
   scope :without_timestamp, -> { where(timestamp: nil) }
 

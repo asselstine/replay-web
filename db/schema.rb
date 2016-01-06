@@ -17,7 +17,7 @@ ActiveRecord::Schema.define(version: 20151228065120) do
   enable_extension "plpgsql"
 
   create_table "cameras", force: :cascade do |t|
-    t.decimal  "range_m",              default: 10.0
+    t.decimal  "range_m"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "recording_session_id"

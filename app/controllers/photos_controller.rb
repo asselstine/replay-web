@@ -23,7 +23,7 @@ class PhotosController < ApplicationController
     respond_to do |format|
       format.html {
         if @photo.persisted?
-          redirect_to @photo
+          redirect_to @photo, notice: I18n.t('flash.activerecord.create.success')
         else
           render 'new'
         end

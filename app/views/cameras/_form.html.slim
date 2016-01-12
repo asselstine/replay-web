@@ -1,0 +1,13 @@
+= simple_form_for [@recording_session, @camera] do |f|
+  = f.input :name
+  = f.input :range_m, input_html: { min: 1, max: 30, step: 1 }
+  = f.fields_for :locations do |ff|
+    div data-map-input=''
+      a href='#' data-user-center-btn=''
+        | Center on my location
+      div data-user-center-status=''
+        | Working
+      div data-map=''
+      = ff.input :latitude, as: :hidden, input_html: { data: { latitude: '' } }
+      = ff.input :longitude, as: :hidden, input_html: { data: { longitude: '' } }
+  = f.submit

@@ -28,7 +28,7 @@ class Photo < ActiveRecord::Base
 
   def find_or_create_camera
     if self.camera.nil?
-      self.camera = Camera.create(range_m: DEFAULT_RANGE_M)
+      self.camera = Camera.create(name: "Virtual Camera for photo ##{self.id}", range_m: DEFAULT_RANGE_M)
     end
     self.camera
   end

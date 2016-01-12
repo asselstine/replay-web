@@ -1,5 +1,8 @@
 FactoryGirl.define do 
   factory :camera do
+    sequence(:name) do |n|
+      "Camera#{n}"
+    end
     range_m 10
     association :user
 

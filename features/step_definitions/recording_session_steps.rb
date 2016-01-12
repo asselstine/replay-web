@@ -27,7 +27,8 @@ end
 
 When %(I create a new camera for the recording session) do
   expect do 
-    visit new_recording_session_camera_path(@recording_session) 
+    visit recording_session_path(@recording_session)
+    click_link 'New Camera'
     fill_in :camera_name, with: 'Camera 1'
     click_button 'Create Camera'
   end.to change { Camera.count }.by(1)
@@ -40,4 +41,38 @@ end
 
 Given %(there is an existing camera for the session) do
   @camera = @recording_session.cameras.create(name: 'Existing Camera')
+end
+
+When %(I go to edit the camera) do
+  visit edit_recording_session_camera_path(@recording_session, @camera) 
+end
+
+When %(I update the camera location with my current location) do
+  step %(I go to edit the camera)
+  latitude = -49
+  longitude = 120
+  page.execute_script("navigator.geolocation.getCurrentPosition = function (fxn) { fxn({ coords: { latitude: #{latitude}, longitude: #{longitude} } }); }")
+  click_link 'Center on my location'
+  click_button 'Update Camera'
+  step %(expect creation success)
+end
+
+Then %(expect creation success) do
+  expect(page).to have_content('Created the new record')
+end
+
+Then %(the camera location should be updated) do
+  expect(@camera.locations.first.latitude).to eq(-49)
+  expect(@camera.locations.first.longitude).to eq(120)
+end
+
+When %(I update the camera range to $range) do |range|
+  step %(I go to edit the camera)
+  fill_in :camera_range_m, with: range
+  click_button 'Update Camera'
+  step %(expect creation success)
+end
+
+Then %(the camera range should be $range) do |range|
+  expect(@camera.reload.range_m).to eq(range.to_f)
 end

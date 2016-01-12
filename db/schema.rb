@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151228065120) do
+ActiveRecord::Schema.define(version: 20160112203124) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -69,12 +69,12 @@ ActiveRecord::Schema.define(version: 20151228065120) do
 
   create_table "locations", force: :cascade do |t|
     t.datetime "timestamp"
-    t.datetime "created_at",                              null: false
-    t.datetime "updated_at",                              null: false
+    t.datetime "created_at",                                                     null: false
+    t.datetime "updated_at",                                                     null: false
     t.integer  "trackable_id"
     t.string   "trackable_type"
-    t.decimal  "latitude",       precision: 12, scale: 8
-    t.decimal  "longitude",      precision: 12, scale: 8
+    t.decimal  "latitude",       precision: 12, scale: 8, default: 49.2578263
+    t.decimal  "longitude",      precision: 12, scale: 8, default: -123.1939534
   end
 
   create_table "photos", force: :cascade do |t|

@@ -13,9 +13,13 @@
 //= require jquery
 //= require bootstrap-sprockets
 //= require jquery_ujs
-//= require turbolinks
 //= require dropzone
-//= require_tree .
-//= require_tree ./initializers
 //= require ServerDate
-//= require components
+
+//= require_tree ./initializers
+//= require_tree ./components
+//= require_tree .
+
+$(document).ready(function() {
+  new ComponentBase( $('body')[0] ).initializeComponents();
+});

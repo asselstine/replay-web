@@ -21,3 +21,7 @@
 
 en:
   hello: "Hello world"
+  flash:
+    activerecord:
+      create:
+        success: 'Created the new record'  

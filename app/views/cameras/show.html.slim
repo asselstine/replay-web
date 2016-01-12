@@ -1,4 +1,2 @@
 h3 = @camera.name
-= simple_form_for [@recording_session, @camera, Video.new] do |f|
-  = f.input :start_at, as: :hidden, input_html: { data_server_date: true }
-  = f.button :submit, 'Record'
+= link_to 'Edit', edit_recording_session_camera_path(@recording_session, @camera)

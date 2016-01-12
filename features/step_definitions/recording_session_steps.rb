@@ -41,17 +41,3 @@ end
 Given %(there is an existing camera for the session) do
   @camera = @recording_session.cameras.create(name: 'Existing Camera')
 end
-
-When %(I start recording a new video on the camera) do
-  visit recording_session_camera_path(@recording_session, @camera)
-  now = DateTime.now
-  click_button 'Record'
-  expect(page).not_to have_css('a', text: 'Record')
-  expect(@camera.videos.empty?).to be_falsey
-  expect(@camera.videos.last.start_at.to_i).to be_within(1000).of(now.to_i)
-end
-
-Then %(the camera should be shown as recording in the session) do
-  visit recording_session_path(@recording_session)
-  expect(page).to have_content('Recording')
-end

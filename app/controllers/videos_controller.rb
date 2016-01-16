@@ -1,16 +1,24 @@
 class VideosController < CamerasNestedController
+  def new
+    @video = Video.new
+  end
+
   def create
     @video = Video.create(create_params)
     if @video.persisted?
-      redirect_to @video
+      redirect_to recording_session_camera_path(id: @camera.id)
     else
-      redirect_to @camera
+      render 'new'
     end  
   end
 
   protected
 
   def create_params
-    params.require(:video).permit(:start_at).merge(camera: @camera)
+    params.require(:video).permit(:start_at, :source).merge(camera: @camera)
+  end
+
+  def find_video
+    @video = Video.find(params[:id])
   end
 end 

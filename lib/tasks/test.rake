@@ -50,8 +50,6 @@ namespace :replay do
     edit.build_cuts(t(0), t(8))
     edit.save!
 
-    # binding.pry
-
     fail 'No videos' if edit.videos.empty? 
     fail 'No cuts were made' if edit.cuts.empty?
 

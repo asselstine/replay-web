@@ -25,3 +25,7 @@ en:
     activerecord:
       create:
         success: 'Created the new record'  
+      destroy:
+        success: 'Destroyed the record'
+        failure: 'Could not destroy the record'
+

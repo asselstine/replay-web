@@ -18,4 +18,3 @@ Feature: Manage cameras for recording session
     Given there is an existing camera for the session
     When I update the camera range to 20
     Then the camera range should be 20
-    

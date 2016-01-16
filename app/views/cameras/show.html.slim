@@ -1,2 +1,9 @@
 h3 = @camera.name
 = link_to 'Edit', edit_recording_session_camera_path(@recording_session, @camera)
+= link_to 'New Video', new_recording_session_camera_video_path(@recording_session, @camera)
+= link_to 'Delete', recording_session_camera_path(@recording_session, @camera), method: :delete 
+
+hr
+
+h4 Videos
+= render @camera.videos

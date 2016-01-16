@@ -30,6 +30,8 @@ gem 'bootstrap-sass', '~> 3.3.5'
 
 gem 'exifr'
 gem 'dropbox-sdk'
+gem 'fog'
+gem 'fog-aws'
 gem 'carrierwave'
 gem 'geocoder'
 gem 'mini_magick'
@@ -38,6 +40,7 @@ gem 'slim'
 gem 'simple_form'
 gem 'strava-api-v3'
 gem 'omniauth-strava'
+gem 's3_direct_upload'
 
 group :development, :test do
   gem 'pry'

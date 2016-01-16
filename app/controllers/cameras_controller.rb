@@ -10,7 +10,6 @@ class CamerasController < RecordingSessionsNestedController
     if @camera.persisted?
       redirect_to [@recording_session, @camera]
     else
-      binding.pry
       render 'new'
     end
   end
@@ -30,11 +29,24 @@ class CamerasController < RecordingSessionsNestedController
     end
   end
 
+  def destroy
+    if @camera.destroy
+      redirect_to @recording_session, notice: I18n.t('flash.activerecord.destroy.success')
+    else
+      redirect_to @recording_session, notice: I18n.t('flash.activerecord.destroy.failure')
+    end
+  end
+
   protected
 
   def camera_params
     params.require(:camera)
-      .permit(:name, :range_m, locations_attributes: [:timestamp, :latitude, :longitude] )
+      .permit(:name, :range_m, locations_attributes: [
+        :id,
+        :_destroy,
+        :timestamp, 
+        :latitude, 
+        :longitude] )
       .merge(recording_session: @recording_session)
   end
 

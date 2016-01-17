@@ -3,9 +3,10 @@ h1 Add Video
   = f.input :filename, as: :hidden
   = f.input :source_key, as: :hidden
   = f.submit
-hr
-= s3_uploader_form data: { s3_uploader: 'video' } do
-  = file_field_tag :file, multiple: false 
-  .progress-bars
-    .progress
-      .bar
+- unless Rails.env.test?
+  hr
+  = s3_uploader_form data: { s3_uploader: 'video' } do
+    = file_field_tag :file, multiple: false 
+    .progress-bars
+      .progress
+        .bar

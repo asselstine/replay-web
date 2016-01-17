@@ -1,6 +1,6 @@
 = simple_form_for [@recording_session, @camera, @video], data: { s3_uploader_target: 'video' } do |f|
-  - if Rails.env.test?
-    = f.input :source, as: :hidden
+  = f.input :filename, as: :hidden
+  = f.input :source_key, as: :hidden
   = f.submit
 hr
 = s3_uploader_form data: { s3_uploader: 'video' } do

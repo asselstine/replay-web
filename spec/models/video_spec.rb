@@ -6,7 +6,31 @@ RSpec.describe Video do
     now.since(seconds)
   end
 
-  subject { create(:video) }
+  subject { create(:video, job_id: 12, source_key: 'foo') }
+
+  describe '#update_et' do
+    let(:et_client) { double(AWS::ElasticTranscoder::Client) }
+    
+    it 'should update the attributes to match the JSON' do
+      expect(subject).to receive(:et_client).and_return(et_client)
+      expect(et_client).to receive(:read_job).with({ id: '12' }).and_return(
+        double(AWS::Core::Response, data: {
+          job: {
+            id: 1234,
+            output: {
+              duration: 2,
+              status: Video::STATUS_SUBMITTED,
+              status_detail: 'This video is submitted'
+            }
+          }
+        })
+      )
+      subject.update_et
+      expect(subject.status).to eq(Video::STATUS_SUBMITTED)
+      expect(subject.message).to eq('This video is submitted')
+      expect(subject.duration_ms).to eq(2000)
+    end 
+  end
 
   context 'class' do
     subject { Video }

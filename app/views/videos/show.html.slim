@@ -1,0 +1,10 @@
+h3 = @video.filename
+- if @video.complete?
+  video controls=''
+    source src="#{@video.webm_url}" type='video/webm'
+    source src="#{@video.mp4_url}" type='video/mp4'
+- else
+  p
+    = @video.status
+  p
+    = @video.message

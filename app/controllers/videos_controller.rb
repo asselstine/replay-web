@@ -1,4 +1,6 @@
 class VideosController < CamerasNestedController
+  before_action :find_video, only: [:show]
+  
   def new
     @video = Video.new
   end
@@ -12,10 +14,13 @@ class VideosController < CamerasNestedController
     end  
   end
 
+  def show
+  end
+
   protected
 
   def create_params
-    params.require(:video).permit(:start_at, :source).merge(camera: @camera)
+    params.require(:video).permit(:start_at, :source_key, :filename).merge(camera: @camera)
   end
 
   def find_video

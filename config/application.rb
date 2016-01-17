@@ -31,5 +31,11 @@ module ReplayServer
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
+
+    if Rails.env.development? || Rails.env.production?
+      Rails.application.routes.default_url_options = {
+        host: Figaro.env.host
+      }
+    end
   end
 end

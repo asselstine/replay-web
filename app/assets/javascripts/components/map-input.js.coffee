@@ -31,7 +31,9 @@ class MapInput extends ComponentBase
     @$lngInput = @$el.find('input[data-longitude]')
     @map = new google.maps.Map(@$map[0],
       center: @coords(),
-      zoom: 8
+      zoom: 16,
+      scrollwheel: false,
+      streetViewControl: false
     )
     @marker = new google.maps.Marker(
       position: @coords(),

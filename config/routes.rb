@@ -12,6 +12,8 @@ Rails.application.routes.draw do
   resources :locations, :only => [:index]
   resource :feed
 
+  post 'sns' => 'sns#message', as: :sns
+
   resources :recording_sessions do
     resources :cameras do
       resources :videos

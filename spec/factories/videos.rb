@@ -4,6 +4,7 @@ FactoryGirl.define do
     end_at {
       start_at.since(1)
     }
+    source_key 'uploads/to_here.mp3'
   end
 end
 

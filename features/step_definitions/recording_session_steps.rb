@@ -76,3 +76,7 @@ end
 Then %(the camera range should be $range) do |range|
   expect(@camera.reload.range_m).to eq(range.to_f)
 end
+
+Then %(the camera should have a video) do
+  expect(@camera.videos).to_not be_empty
+end

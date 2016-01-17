@@ -14,7 +14,7 @@
 //= require bootstrap-sprockets
 //= require jquery_ujs
 //= require dropzone
-//= require ServerDate
+//= require s3_direct_upload
 
 //= require_tree ./initializers
 //= require_tree ./components

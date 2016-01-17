@@ -9,4 +9,4 @@ deployment:
     commands:
       - git push git@heroku.com:replayapp.git $CIRCLE_SHA1:master
       - heroku run rake db:migrate --app replayapp 
-      - rake aws:et:subscribe
+      - heroku run rake aws:et:subscribe

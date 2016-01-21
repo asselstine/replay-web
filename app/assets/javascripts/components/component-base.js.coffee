@@ -17,5 +17,6 @@ class ComponentBase
   initializeComponents: () ->
     @initializeComponent(MapInput)
     @initializeComponent(S3Uploader)
+    @initializeComponent(Slate)
 
 window.ComponentBase = ComponentBase

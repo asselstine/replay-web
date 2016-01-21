@@ -1,0 +1,9 @@
+.slate {
+  &.not-synced {
+    color: red;
+  }
+  .time,
+  .seconds {
+    font-size: 9rem;
+  }
+}

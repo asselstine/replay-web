@@ -12,6 +12,10 @@ Rails.application.routes.draw do
   resources :locations, :only => [:index]
   resource :feed
 
+  resource :slate, only: [:show] do
+    get 'now', to: 'slates#now', as: :now
+  end
+
   post 'sns' => 'sns#message', as: :sns
 
   resources :recording_sessions do

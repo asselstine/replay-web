@@ -15,6 +15,8 @@
 //= require jquery_ujs
 //= require dropzone
 //= require s3_direct_upload
+//= require GoTime.min
+//= require moment-with-locales.min
 
 //= require_tree ./initializers
 //= require_tree ./components

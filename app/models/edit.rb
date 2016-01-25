@@ -1,5 +1,6 @@
 class Edit < ActiveRecord::Base
   belongs_to :user
+  belongs_to :ride
   has_many :cuts
   has_many :videos, through: :cuts
 

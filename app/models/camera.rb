@@ -24,7 +24,7 @@ class Camera < ActiveRecord::Base
     joins(:videos).merge(Video.during(start_at, end_at))
   end
 
-  def self.with_video_containing(start_at, end_at) 
+  def self.with_video_containing(start_at, end_at = start_at) 
     joins(:videos).merge(Video.containing(start_at, end_at))
   end
 

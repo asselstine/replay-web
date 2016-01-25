@@ -13,7 +13,6 @@ class Video < ActiveRecord::Base
   validates_presence_of :source_key
   validate :normalize_source_key
 
-  has_one :video, :inverse_of => :video_upload
   belongs_to :camera, inverse_of: :videos
 
   before_create :queue_et_job, unless: 'Rails.env.test?' 
@@ -29,7 +28,7 @@ class Video < ActiveRecord::Base
     where(query, start_at: start_at, end_at: end_at).order('start_at ASC')
   end
 
-  def self.containing(start_at, end_at)
+  def self.containing(start_at, end_at = start_at)
     where('start_at <= ? AND end_at >= ?', start_at, end_at)
   end
 

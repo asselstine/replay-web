@@ -26,6 +26,7 @@ class GenerateEdits
       ride.edits.destroy(new_edit)
     else
       new_edit.save!
+      EditScheduler.call(edit: new_edit)
     end
   end
 

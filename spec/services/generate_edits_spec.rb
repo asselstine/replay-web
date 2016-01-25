@@ -23,6 +23,7 @@ RSpec.describe GenerateEdits do
         expect(ride.edits).to receive(:build).with(user: user).and_return(edit)
         expect(edit).to receive(:build_cuts).with(start_at, end_at)
         expect(edit).to receive(:save!)
+        expect(EditScheduler).to receive(:call).with(edit: edit)
         subject.call
       end
     end 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160116234540) do
+ActiveRecord::Schema.define(version: 20160124184026) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -65,7 +65,10 @@ ActiveRecord::Schema.define(version: 20160116234540) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "ride_id"
   end
+
+  add_index "edits", ["ride_id"], name: "index_edits_on_ride_id", using: :btree
 
   create_table "locations", force: :cascade do |t|
     t.datetime "timestamp"
@@ -156,5 +159,6 @@ ActiveRecord::Schema.define(version: 20160116234540) do
   add_foreign_key "cameras", "recording_sessions"
   add_foreign_key "dropbox_events", "users"
   add_foreign_key "dropbox_photos", "dropbox_events"
+  add_foreign_key "edits", "rides"
   add_foreign_key "recording_sessions", "users"
 end

@@ -5,6 +5,7 @@ class EditScheduler
   attribute :edit
 
   def call
-    #do what? search for incomplete edits 
+    # create a new recording session job.  ignore server overload for the time being.
+    RecordingSessionJob.perform_later(edit: edit) 
   end
 end

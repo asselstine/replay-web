@@ -14,6 +14,10 @@ class Edit < ActiveRecord::Base
     end
   end 
 
+  def output_key
+    "edits/#{id}/output.mp4"
+  end
+
   protected 
 
   def find_best_video(context)

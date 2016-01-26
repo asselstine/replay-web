@@ -42,6 +42,9 @@ class Video < ActiveRecord::Base
     source_key.sub!(/^\//, '')
   end
 
+  def copy_to(file)
+  end
+
   def update_et
     transcoder_client = et_client 
     response = transcoder_client.read_job( { id: job_id } )
@@ -58,8 +61,16 @@ class Video < ActiveRecord::Base
     "https://s3.amazonaws.com/#{Figaro.env.aws_s3_bucket}/#{output_key_prefix}#{key}"
   end
 
+  def webm
+    "#{output_key_prefix}#{webm_key}"
+  end
+
   def webm_key
     'webm/' + output_key + ".webm"
+  end
+
+  def mp4
+    "#{output_key_prefix}#{mp4_key}"
   end
 
   def mp4_key

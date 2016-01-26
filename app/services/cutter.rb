@@ -38,11 +38,11 @@ class Cutter
   protected
 
   def setup
-    puts("Tmp dir is #{tmpdir}")
-    puts "Creating index..."
+    debug("Tmp dir is #{tmpdir}")
+    debug "Creating index..."
     File.open(index_filepath, 'w') do |file|
       edit.cuts.each do |cut|
-        puts "Checking cut #{cut.id}: #{cut_filepath(cut)}"
+        debug "Checking cut #{cut.id}: #{cut_filepath(cut)}"
         file.write(%(file '#{cut_filepath(cut)}'\n))
       end
     end
@@ -54,13 +54,13 @@ class Cutter
 
   def download_videos
     edit.videos.each do |video|
-      puts "Downloading video #{video.id}"
+      debug "Downloading video #{video.id}"
       run "cp #{video.source} #{video_filepath(video)}"
     end
   end
 
   def run(command_string)
-    puts "Running command '#{command_string}':"
+    debug "Running command '#{command_string}':"
     output = %x(#{command_string})
     fail "Error: #{output}" if $? != 0
   end
@@ -94,11 +94,11 @@ class Cutter
   end
 
   def upload_video
-    puts "View your new edit:\n"
-    puts edit_filepath
-    puts "The temp directory is:\n"
-    puts tmpdir
-    puts "There were #{edit.cuts.count} cuts."
+    debug "View your new edit:\n"
+    debug edit_filepath
+    debug "The temp directory is:\n"
+    debug tmpdir
+    debug "There were #{edit.cuts.count} cuts."
   end
 
   def cut_filename(cut)
@@ -121,4 +121,7 @@ class Cutter
     @tmp_dir_path ||= Dir.mktmpdir
   end
 
+  def debug(str)
+    Rails.logger.debug(str)
+  end
 end

@@ -3,21 +3,21 @@ class SnsController < ApplicationController
   skip_before_filter :verify_authenticity_token
 
   def message 
-    msg = ::AWS::SNS::Message.new(request.body.read)
-    if msg.authentic?
-      logger.debug("SNS: Received message: #{msg.message}")
-      if msg.subscribe_url && msg.token
-        topic = ::AWS::SNS::Topic.new(Figaro.env.aws_et_sns_topic_arn)
-        response = topic.confirm_subscription(msg.token)
+    body = request.body.read
+    if Aws::SNS::MessageVerifier.new.authentic?(body)
+      msg = JSON.parse(body)
+      logger.debug("SNS: Received message: #{msg}")
+      if msg['Token']
+        topic = ::Aws::SNS::Topic.new(Figaro.env.aws_et_sns_topic_arn)
+        response = topic.confirm_subscription(token: msg['Token'])
         logger.debug("SNS: Confirmed subscription for topic: #{Figaro.env.aws_et_sns_topic_arn}: #{response}")
       else
-        json = JSON.parse(msg.message)
-        logger.debug("SNS: Message is for job: #{json['jobId']} with state #{json['state']}")
-        video = Video.where(job_id: json['jobId']).first
+        logger.debug("SNS: Message is for job: #{msg['jobId']} with state #{msg['state']}")
+        video = Video.where(job_id: msg['jobId']).first
         if video
           video.update_et
         else
-          logger.debug("No Video for job id #{json['jobId']}")
+          logger.debug("No Video for job id #{msg['jobId']}")
         end
       end
     end 

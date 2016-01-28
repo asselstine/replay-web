@@ -13,6 +13,12 @@ class Location < ActiveRecord::Base
   scope :with_timestamp, -> { where.not(timestamp: nil) }
   scope :without_timestamp, -> { where(timestamp: nil) }
 
+  before_save :check_timestamp
+
+  def check_timestamp
+    self.timestamp = DateTime.now if self.timestamp.nil?
+  end
+
   def coords 
     [latitude, longitude]
   end

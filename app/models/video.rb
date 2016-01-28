@@ -110,6 +110,6 @@ class Video < ActiveRecord::Base
   protected
 
   def et_client
-    @_et_client ||= AWS::ElasticTranscoder::Client.new(region: Figaro.env.aws_region)
+    @_et_client ||= Aws::ElasticTranscoder::Client.new(region: Figaro.env.aws_region)
   end
 end

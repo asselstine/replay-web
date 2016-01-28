@@ -19,7 +19,7 @@ class Camera < ActiveRecord::Base
   validates_presence_of :name
 
   accepts_nested_attributes_for :locations
-  
+
   def self.with_video_during(start_at, end_at)
     joins(:videos).merge(Video.during(start_at, end_at))
   end

@@ -7,6 +7,7 @@ gem 'rails', '4.2.1'
 gem 'ruby_kml'
 
 gem 'aws-sdk', '~> 2'
+gem 'delayed_job_active_record'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'

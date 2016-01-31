@@ -1,5 +1,5 @@
 class VideosController < CamerasNestedController
-  before_action :find_video, only: [:show]
+  before_action :find_video, except: [:new, :create]
   
   def new
     @video = Video.new
@@ -14,13 +14,21 @@ class VideosController < CamerasNestedController
     end  
   end
 
+  def update
+    if @video.update(create_params)
+      render json: @video, notice: 'Success!'
+    else
+      render json: @video, status: :unprocessible_entity
+    end
+  end
+
   def show
   end
 
   protected
 
   def create_params
-    params.require(:video).permit(:start_at, :source_key, :filename).merge(camera: @camera)
+    params.require(:video).permit(:start_at, :end_at, :duration_ms, :source_key, :filename).merge(camera: @camera)
   end
 
   def find_video

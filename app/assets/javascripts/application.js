@@ -11,12 +11,13 @@
 // about supported directives.
 //
 //= require jquery
-//= require bootstrap-sprockets
 //= require jquery_ujs
+//= require bootstrap-sprockets
+//= require bootstrap-datepicker
 //= require dropzone
 //= require s3_direct_upload
 //= require GoTime.min
-//= require moment-with-locales.min
+//= require moment.min
 
 //= require_tree ./initializers
 //= require_tree ./components

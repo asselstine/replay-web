@@ -19,9 +19,11 @@
 //= require GoTime.min
 //= require moment.min
 
+//= require react
+//= require react_ujs
+//= require components
 //= require_tree ./initializers
-//= require_tree ./components
-//= require_tree .
+//= require_tree ./js-components
 
 $(document).ready(function() {
   new ComponentBase( $('body')[0] ).initializeComponents();

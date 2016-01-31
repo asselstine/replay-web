@@ -6,6 +6,7 @@ gem 'rails', '4.2.1'
 
 gem 'ruby_kml'
 
+gem 'react-rails', '~> 1.5.0'
 gem 'bootstrap-datepicker-rails'
 gem 'aws-sdk', '~> 2'
 gem 'delayed_job_active_record'

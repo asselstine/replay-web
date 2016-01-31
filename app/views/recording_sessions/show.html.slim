@@ -1,6 +1,6 @@
 h1 = @recording_session.name
 h2 Cameras
-p 
-  = link_to 'New Camera', new_recording_session_camera_path(@recording_session)
+p
+  = link_to 'New Camera', new_camera_path(camera: { recording_session_id: @recording_session.id })
 ul
   = render @recording_session.cameras

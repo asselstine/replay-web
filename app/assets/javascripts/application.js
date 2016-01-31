@@ -18,13 +18,10 @@
 //= require s3_direct_upload
 //= require GoTime.min
 //= require moment.min
-
 //= require react
 //= require react_ujs
 //= require components
-//= require_tree ./initializers
-//= require_tree ./js-components
+//= require js-components
+//= require js-routes
 
-$(document).ready(function() {
-  new ComponentBase( $('body')[0] ).initializeComponents();
-});
+//= require_tree ./initializers

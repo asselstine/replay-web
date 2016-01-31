@@ -4,9 +4,11 @@ gem 'virtus'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.1'
 
+gem 'js-routes'
 gem 'ruby_kml'
-
+gem 'active_model_serializers'
 gem 'react-rails', '~> 1.5.0'
+gem 'sprockets-coffee-react'
 gem 'bootstrap-datepicker-rails'
 gem 'aws-sdk', '~> 2'
 gem 'delayed_job_active_record'

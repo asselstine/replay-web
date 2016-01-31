@@ -18,7 +18,7 @@ When %(I create a new recording session) do
 end
 
 Then %(a new recording session should exist) do
-  expect( RecordingSession.where(name: 'New Session').first ).to_not be_nil
+  expect(RecordingSession.where(name: 'New Session').first).to_not be_nil
 end
 
 When %(I have an existing recording session) do
@@ -26,7 +26,7 @@ When %(I have an existing recording session) do
 end
 
 When %(I create a new camera for the recording session) do
-  expect do 
+  expect do
     visit recording_session_path(@recording_session)
     click_link 'New Camera'
     fill_in :camera_name, with: 'Camera 1'
@@ -44,14 +44,18 @@ Given %(there is an existing camera for the session) do
 end
 
 When %(I go to edit the camera) do
-  visit edit_recording_session_camera_path(@recording_session, @camera) 
+  visit edit_camera_path(@camera)
 end
 
 When %(I update the camera location with my current location) do
   step %(I go to edit the camera)
   latitude = -49
   longitude = 120
-  page.execute_script("navigator.geolocation.getCurrentPosition = function (fxn) { fxn({ coords: { latitude: #{latitude}, longitude: #{longitude} } }); }")
+  page.execute_script <<-JAVASCRIPT
+      navigator.geolocation.getCurrentPosition = function (fxn) {
+        fxn({ coords: { latitude: #{latitude}, longitude: #{longitude} } });
+      }
+  JAVASCRIPT
   click_link 'Center on my location'
   click_button 'Update Camera'
   step %(expect creation success)

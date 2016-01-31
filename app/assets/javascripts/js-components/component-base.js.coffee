@@ -18,6 +18,5 @@ class ComponentBase
     @initializeComponent(MapInput)
     @initializeComponent(S3Uploader)
     @initializeComponent(Slate)
-    @initializeComponent(Video)
 
 window.ComponentBase = ComponentBase

@@ -1,6 +1,6 @@
-class VideosController < CamerasNestedController
+class VideosController < LoggedInController
   before_action :find_video, except: [:new, :create]
-  
+
   def new
     @video = Video.new
   end
@@ -11,7 +11,7 @@ class VideosController < CamerasNestedController
       redirect_to recording_session_camera_path(id: @camera.id)
     else
       render 'new'
-    end  
+    end
   end
 
   def update
@@ -28,10 +28,14 @@ class VideosController < CamerasNestedController
   protected
 
   def create_params
-    params.require(:video).permit(:start_at, :end_at, :duration_ms, :source_key, :filename).merge(camera: @camera)
+    params.require(:video).permit(:start_at,
+                                  :end_at,
+                                  :duration_ms,
+                                  :source_key,
+                                  :filename)
   end
 
   def find_video
     @video = Video.find(params[:id])
   end
-end 
+end

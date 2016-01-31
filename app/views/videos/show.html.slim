@@ -1,22 +1,2 @@
 .container
-  div data-video='true'
-    h3 = @video.filename
-    - if @video.complete?
-      video controls=''
-        source src="#{@video.webm_url}" type='video/webm'
-        source src="#{@video.mp4_url}" type='video/mp4'
-      .controls
-        span 
-          | Current Time MS:
-          span.currentTimeMs<
-        h4 Enter the timecode
-        form action="#{recording_session_camera_video_path(@recording_session, @camera, @video)}"
-          input type='text' name='date' data-provide='datepicker' data-date-format="mm-dd-yyyy" placeholder='mm/dd/year'
-          input type='text' name='timezone' placeholder='-8:00'
-          input type='text' name='timestamp' placeholder='12:43:05.232'
-          input type='submit' value='Set'
-    - else
-      p
-        = @video.status
-      p
-        = @video.message
+  = react_component('VideoEditor', video: VideoSerializer.new(@video))

@@ -18,11 +18,9 @@ Rails.application.routes.draw do
 
   post 'sns' => 'sns#message', as: :sns
 
-  resources :recording_sessions do
-    resources :cameras do
-      resources :videos
-    end
-  end
+  resources :recording_sessions
+  resources :cameras
+  resources :videos
 
   resources :photos do
     collection do

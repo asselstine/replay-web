@@ -1,41 +1,17 @@
-Given %(I'm logged in) do
-  @user = create(:user)
-  visit new_user_session_path
-  fill_in :user_email, with: @user.email
-  fill_in :user_password, with: 'password'
-  click_link_or_button 'Log in'
-  expect(page).to have_content 'Sign Out'
-end
-
-Given %(I've been somewhere) do
-  @ride = create(:ride, user: @user)
-  @locations = []
-  10.times do |i|
-    @location = create(:location,
-                       latitude: i / 100.0,
-                       longitude: i / 100.0,
-                       trackable: @ride)
-    @locations << @location
-  end
-end
-
 Given %(There was a photo taken near my location) do
   @photo = create(:photo, timestamp: @location.timestamp,
                           exif_latitude: @location.latitude,
                           exif_longitude: @location.longitude)
 end
 
+When %(I go to my photos) do
+  visit photos_path
+end
+
 Given %(There was a photo taken on the other side of the world) do
   @photo = create(:photo, timestamp: @location.timestamp,
                           exif_latitude: -@location.latitude,
                           exif_longitude: -@location.longitude)
-end
-
-Given %(I've done the trail Digger) do
-end
-
-When %(I go to my photos) do
-  visit photos_path
 end
 
 When %(I go to my uploaded photos) do
@@ -69,17 +45,4 @@ end
 
 Then %(I should not see any photos) do
   expect(page).not_to have_content(@photo.image.url)
-end
-
-When %(I go to settings) do
-  click_link 'Settings'
-end
-
-When %(I connect to Strava) do
-  find('a.connect-strava').click
-end
-
-Then %(my Strava account should be connected) do
-  expect(page).to have_content('Connected')
-  expect(@user.strava_account).to_not be_nil
 end

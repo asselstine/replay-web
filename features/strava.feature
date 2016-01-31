@@ -7,7 +7,3 @@ Feature: Connect to Strava
     When I go to settings
     And I connect to Strava
     Then my Strava account should be connected
-    
-
-
-    

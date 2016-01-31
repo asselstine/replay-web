@@ -2,13 +2,13 @@ class VideosController < LoggedInController
   before_action :find_video, except: [:new, :create]
 
   def new
-    @video = Video.new
+    @video = Video.new(create_params)
   end
 
   def create
     @video = Video.create(create_params)
     if @video.persisted?
-      redirect_to recording_session_camera_path(id: @camera.id)
+      redirect_to @video
     else
       render 'new'
     end
@@ -32,6 +32,7 @@ class VideosController < LoggedInController
                                   :end_at,
                                   :duration_ms,
                                   :source_key,
+                                  :camera_id,
                                   :filename)
   end
 

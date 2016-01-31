@@ -1,5 +1,5 @@
 When %(I upload a video to the camera) do
-  visit recording_session_camera_path(@recording_session, @camera)
+  visit camera_path(@camera)
   click_link 'New Video'
   expect(page).to have_content('Add Video')
   find('#video_source_key', visible: false).set 'http://fakeness.com'
@@ -11,6 +11,6 @@ When %(I create the video) do
 end
 
 Then %(there should be a new video for the camera) do
-  visit recording_session_camera_path(@recording_session, @camera)
-  expect(page).to have_css('a', text: 'fakee.mp4') 
+  visit camera_path(@camera)
+  expect(page).to have_css('a', text: 'fakee.mp4')
 end

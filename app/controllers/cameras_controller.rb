@@ -46,12 +46,12 @@ class CamerasController < LoggedInController
     params.require(:camera)
           .permit(:name,
                   :range_m,
+                  :recording_session_id,
                   locations_attributes: [:id,
                                          :_destroy,
                                          :timestamp,
                                          :latitude,
                                          :longitude])
-          .merge(recording_session: @recording_session)
   end
 
   def find_camera

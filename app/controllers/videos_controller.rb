@@ -14,11 +14,26 @@ class VideosController < LoggedInController
     end
   end
 
+  # rubocop:disable Metrics/MethodLength
   def update
-    if @video.update(create_params)
-      render json: @video, notice: 'Success!'
-    else
-      render json: @video, status: :unprocessible_entity
+    respond_to do |format|
+      if @video.update(create_params)
+        format.json do
+          render json: @video,
+                 notice: I18n.t('flash.activerecord.update.success')
+        end
+        format.html do
+          redirect_to @video.camera,
+                      notice: I18n.t('flash.activerecord.update.success')
+        end
+      else
+        format.json do
+          render json: @video, status: :unprocessible_entity
+        end
+        format.html do
+          render 'new'
+        end
+      end
     end
   end
 

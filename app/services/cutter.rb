@@ -74,7 +74,7 @@ class Cutter
 
   def run(command_string)
     debug "Running command '#{command_string}':"
-    output = `#{command_string}`
+    output = `#{command_string} 2>&1`
     fail "Error: #{output}" if $CHILD_STATUS != 0
   end
 

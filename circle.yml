@@ -1,11 +1,12 @@
 dependencies:
   pre:
     - sudo rm /usr/local/bin/gsl-config
+    - ffmpeg -version
+    - sudo add-apt-repository ppa:kirillshkrogalev/ffmpeg-next
     - sudo apt-get update -qq
     - sudo apt-get install -y libgsl0-dev; gsl-config --version
-    - ffmpeg -version
-    - sudo cat /etc/apt/sources.list
     - sudo apt-get install ffmpeg
+    - ffmpeg -version
 deployment:
   production:
     branch: master

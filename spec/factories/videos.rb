@@ -6,6 +6,6 @@ FactoryGirl.define do
       start_at.since(1)
     end
     source_key 'uploads/to_here.mp3'
-    mp4_url Rails.root.join('spec/fixtures/dan_session1-frame.mp4')
+    mp4_url Rails.root.join('app/assets/test/dan_session1-frame.mp4')
   end
 end

@@ -29,6 +29,8 @@ class RecordingSessionsController < LoggedInController
   protected
 
   def create_params
-    params.require(:recording_session).permit(:name).merge(user: current_user)
+    params.require(:recording_session)
+          .permit(:name, :start_at)
+          .merge(user: current_user)
   end
 end

@@ -1,30 +1,23 @@
 require 'gsl'
 
 class Location < ActiveRecord::Base
-  INTERPOLATION_WINDOW_SECONDS = 8 
+  INTERPOLATION_WINDOW_SECONDS = 8
 
   belongs_to :trackable, polymorphic: true
   reverse_geocoded_by :latitude, :longitude
 
   validates :latitude, :longitude, presence: true
-  validates_presence_of :trackable
+  validates_presence_of :trackable, :timestamp
 
   scope :in_order, -> { order(timestamp: :asc) }
   scope :with_timestamp, -> { where.not(timestamp: nil) }
-  scope :without_timestamp, -> { where(timestamp: nil) }
 
-  before_save :check_timestamp
-
-  def check_timestamp
-    self.timestamp = DateTime.now if self.timestamp.nil?
-  end
-
-  def coords 
+  def coords
     [latitude, longitude]
   end
 
   def self.during(start_at, end_at)
-    where( during_arel(start_at, end_at) )
+    where(during_arel(start_at, end_at))
   end
 
   # Assume locations is a sorted array of Location objects in reverse chrono
@@ -40,16 +33,14 @@ class Location < ActiveRecord::Base
   end
 
   def self.can_interpolate?(time, locations)
-    locations.count >= 3 && 
+    locations.count >= 3 &&
       time >= locations.first.timestamp &&
       time <= locations.last.timestamp
   end
 
   def self.to_time_ms(datetime)
-    (datetime.to_f*1000).to_i
+    (datetime.to_f * 1000).to_i
   end
-
-  protected
 
   def self.spline(values, timestamps)
     timestamps_v = GSL::Vector.alloc(timestamps)
@@ -60,26 +51,25 @@ class Location < ActiveRecord::Base
   end
 
   def self.lat_spline(locations)
-    timestamps = locations.map { |loc| (loc.timestamp.to_f*1000).to_i }
+    timestamps = locations.map { |loc| (loc.timestamp.to_f * 1000).to_i }
     lats = locations.map(&:latitude)
     spline(lats, timestamps)
   end
 
   def self.long_spline(locations)
-    timestamps = locations.map { |loc| (loc.timestamp.to_f*1000).to_i }
+    timestamps = locations.map { |loc| (loc.timestamp.to_f * 1000).to_i }
     longs = locations.map(&:longitude)
     spline(longs, timestamps)
   end
 
   def self.during_arel(start_at, end_at)
     locs = arel_table
-    locs[:timestamp].eq(nil).or( 
-              locs[:timestamp].lteq(end_at).and(locs[:timestamp].gteq(start_at)) 
-            )
+    locs[:timestamp]
+      .eq(nil)
+      .or(locs[:timestamp].lteq(end_at).and(locs[:timestamp].gteq(start_at)))
   end
 
   def to_s
     "Location(#{id}) { latitude: #{latitude}, longitude: #{longitude}, timestamp: #{timestamp} }"
   end
-
 end

@@ -11,4 +11,5 @@
       div data-map=''
       = ff.input :latitude, as: :hidden, input_html: { data: { latitude: '' } }
       = ff.input :longitude, as: :hidden, input_html: { data: { longitude: '' } }
+      = ff.input :timestamp, as: :hidden, input_html: { value: @camera.recording_session.start_at.change(sec: 0) }
   = f.submit

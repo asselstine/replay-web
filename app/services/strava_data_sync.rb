@@ -1,7 +1,7 @@
 class StravaDataSync
 
   include Service
-  include Virtus.model 
+  include Virtus.model
 
   attribute :user, User
 
@@ -24,7 +24,7 @@ class StravaDataSync
       strava_activity_id: activity['id'],
       strava_name: activity['name'],
       strava_start_at: activity['start_date']
-    })       
+    })
     debug("Created new ride: #{ride.to_s}")
     add_locations(ride)
   end

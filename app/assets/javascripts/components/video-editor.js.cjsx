@@ -79,7 +79,7 @@
               <input type='hidden' name='video[start_at]' defaultValue={@props.video.start_at} value={@state.start_at} />
               <input type='hidden' name='video[end_at]' defaultValue={@props.video.end_at} value={@state.end_at} />
 
-              <input type='text' name='date' data-provide='datepicker' data-date-format="mm-dd-yyyy" placeholder='mm/dd/year' onBlur={@onChangeDate}/>
+              <input type='text' name='date' data-provide='datepicker' data-date-format="mm-dd-yyyy" placeholder='mm-dd-year' onBlur={@onChangeDate}/>
               <input type='text' name='timezone' placeholder='-8:00' onChange={@onChangeTimezone}/>
               <input type='text' name='timestamp' placeholder='12:43:05.232' onChange={@onChangeTimestamp}/>
 

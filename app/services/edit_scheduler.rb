@@ -6,6 +6,6 @@ class EditScheduler
 
   def call
     # create a new recording session job.  ignore server overload for the time being.
-    RecordingSessionJob.perform_later(edit: edit) 
+    RecordingSessionJob.perform_later(edit: edit)
   end
 end

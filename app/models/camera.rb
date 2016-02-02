@@ -7,9 +7,12 @@ class Camera < ActiveRecord::Base
     Math::E**-[x, 100.0].min**2
   end
 
-  MIN_STRENGTH = Camera.bell(1) 
+  MIN_STRENGTH = Camera.bell(1)
 
-  has_many :locations, -> { order(timestamp: :asc) },  as: :trackable, dependent: :destroy, inverse_of: :trackable
+  has_many :locations, -> { order(timestamp: :asc) },
+           as: :trackable,
+           dependent: :destroy,
+           inverse_of: :trackable
   has_many :videos, inverse_of: :camera, dependent: :destroy
   has_many :photos, dependent: :destroy
   has_one :user, through: :recording_session
@@ -24,7 +27,7 @@ class Camera < ActiveRecord::Base
     joins(:videos).merge(Video.during(start_at, end_at))
   end
 
-  def self.with_video_containing(start_at, end_at = start_at) 
+  def self.with_video_containing(start_at, end_at = start_at)
     joins(:videos).merge(Video.containing(start_at, end_at))
   end
 

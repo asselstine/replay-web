@@ -1,6 +1,6 @@
 class RemoteCutter < Cutter
   def download_videos
-    edits.videos.each do |video|
+    video_edit.videos.each do |video|
       download_video(video)
     end
   end
@@ -11,6 +11,6 @@ class RemoteCutter < Cutter
 
   def upload_video
     super
-    S3.upload(edit_filepath, edit.output_key)
+    S3.upload(edit_filepath, video_edit.output_key)
   end
 end

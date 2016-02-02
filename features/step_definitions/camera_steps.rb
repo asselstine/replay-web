@@ -40,3 +40,8 @@ end
 Then %(the camera should have a video) do
   expect(@camera.videos).to_not be_empty
 end
+
+Then %(the camera location timestamp should eq the session start) do
+  expect(Camera.last.locations.first.timestamp)
+    .to eq(@recording_session.start_at.change(sec: 0))
+end

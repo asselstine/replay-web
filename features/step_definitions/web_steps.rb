@@ -15,7 +15,7 @@ When %(I go to settings) do
 end
 
 Given %(I'm logged in) do
-  @user = create(:user)
+  @user ||= create(:user)
   visit new_user_session_path
   fill_in :user_email, with: @user.email
   fill_in :user_password, with: 'password'

@@ -1,4 +1,4 @@
-class GenerateEdits 
+class GenerateEdits
   include Service
   include Virtus.model
 
@@ -11,12 +11,12 @@ class GenerateEdits
           debug("generate_edit(#{ride.id})")
           generate_edit(ride)
         end
-      end 
+      end
     end
   end
 
   protected
-  
+
   def generate_edit(ride)
     # find recording sessions that began before the ride, and end after the ride
     new_edit = ride.edits.build(user: user)
@@ -33,4 +33,4 @@ class GenerateEdits
   def debug(msg)
     Rails.logger.debug("GenerateEdits(user: #{user.id}): #{msg}")
   end
-end 
+end

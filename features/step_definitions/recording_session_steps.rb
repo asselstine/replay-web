@@ -14,11 +14,14 @@ end
 When %(I create a new recording session) do
   visit new_recording_session_path
   fill_in :recording_session_name, with: 'New Session'
+  fill_in :recording_session_start_at, with: '1984-06-30'
   click_button 'Create Recording session'
 end
 
 Then %(a new recording session should exist) do
-  expect(RecordingSession.where(name: 'New Session').first).to_not be_nil
+  rs = RecordingSession.where(name: 'New Session').first
+  expect(rs).to_not be_nil
+  expect(rs.start_at).to eq(DateTime.parse('1984-06-30'))
 end
 
 When %(I have an existing recording session) do

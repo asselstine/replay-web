@@ -6,8 +6,7 @@ dependencies:
     - sudo apt-get update -qq
     - sudo cat /etc/apt/sources.list
     - sudo apt-get install -y libgsl0-dev; gsl-config --version
-    - sudo apt-get install ffmpeg
-    - sudo apt-get install chromium-codecs-ffmpeg-extra
+    - sudo apt-get install fdk-aac harfbuzz libass libsoxr libssh libwebp opus shine x265 zeromq3 ffmpeg
     - ffmpeg -version
 deployment:
   production:

@@ -3,6 +3,8 @@ dependencies:
     - sudo rm /usr/local/bin/gsl-config
     - sudo apt-get update -qq
     - sudo apt-get install -y libgsl0-dev; gsl-config --version
+    - ffmpeg -version
+    - sudo cat /etc/apt/sources.list
     - sudo apt-get install ffmpeg
 deployment:
   production:

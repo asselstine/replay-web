@@ -81,7 +81,7 @@ class Cutter
   def extract_cuts
     # ffmpeg -ss 00:00:01.0 -i small.mp4 -ss 00:00:01.0 -t 00:00:01 output.mp4
     video_edit.cuts.each do |cut|
-      run("ffmpeg -strict -2 -ss #{self.class.cut_start_time_s(cut)} -i #{video_filepath(cut.video)} -to #{self.class.cut_duration_s(cut)} #{cut_filepath(cut)}")
+      run("ffmpeg -strict -2 -ss #{self.class.cut_start_time_s(cut)} -i #{video_filepath(cut.video)} -t #{self.class.cut_duration_s(cut)} #{cut_filepath(cut)}")
     end
   end
 

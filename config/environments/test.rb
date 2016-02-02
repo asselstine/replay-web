@@ -43,4 +43,6 @@ Rails.application.configure do
   config.react.variant = :development
 
   config.assets.paths << Rails.root.join(%(app assets test))
+  
+  Rails.logger = Logger.new(STDOUT)
 end

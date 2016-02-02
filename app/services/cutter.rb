@@ -51,7 +51,8 @@ class Cutter
   protected
 
   def setup
-    debug("Tmp dir is #{tmpdir}")
+    debug "Tmp dir is #{tmpdir}"
+    debug `pwd`
     debug 'Creating index...'
     File.open(index_filepath, 'w') do |file|
       video_edit.cuts.each do |cut|

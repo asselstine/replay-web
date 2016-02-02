@@ -52,7 +52,7 @@ class Cutter
 
   def setup
     debug "Tmp dir is #{tmpdir}"
-    debug `pwd`
+    debug `ls spec/fixtures`
     debug 'Creating index...'
     File.open(index_filepath, 'w') do |file|
       video_edit.cuts.each do |cut|

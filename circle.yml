@@ -3,10 +3,11 @@ dependencies:
     - sudo rm /usr/local/bin/gsl-config
     - sudo apt-get update -qq
     - sudo apt-get install -y libgsl0-dev; gsl-config --version
-deployment: 
+    - sudo apt-get install ffmpeg
+deployment:
   production:
     branch: master
     commands:
       - git push git@heroku.com:replayapp.git $CIRCLE_SHA1:master
-      - heroku run rake db:migrate --app replayapp 
+      - heroku run rake db:migrate --app replayapp
       - heroku run rake aws:et:subscribe --app replayapp

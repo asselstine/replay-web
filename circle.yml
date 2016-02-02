@@ -4,6 +4,7 @@ dependencies:
     - ffmpeg -version
     - sudo add-apt-repository ppa:mc3man/trusty-media -y
     - sudo apt-get update -qq
+    - sudo cat /etc/apt/sources.list
     - sudo apt-get install -y libgsl0-dev; gsl-config --version
     - sudo apt-get install ffmpeg
     - ffmpeg -version

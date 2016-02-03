@@ -1,11 +1,12 @@
 class Cutter
   include Virtus.model
-  attribute :edit, Edit
+  include Service
+  attribute :video_edit, Edit
 
-  #FFMPEG commands:
+  # FFMPEG commands:
   #
-  # slice out piece: 
-  # ffmpeg -ss 00:00:01.0 -i small.mp4 -ss 00:00:01.0 -t 00:00:01 output.mp4 
+  # slice out piece:
+  # ffmpeg -ss 00:00:01.0 -i small.mp4 -ss 00:00:01.0 -t 00:00:01 output.mp4
   #
   # concat pieces:
   #
@@ -15,54 +16,20 @@ class Cutter
   # file '/path/to/file2'
   # file '/path/to/file3'
   #
-  # 2. concat files using 
+  # 2. concat files using
   #
   # ffmpeg -f concat -i mylist.txt -c copy output
-  # 
 
   def call
-    begin
-      setup
-      download_videos
-      extract_cuts
-      stitch_cuts
-      upload_video
-    rescue
-    end
+    setup
+    download_videos
+    extract_cuts
+    stitch_cuts
+    upload_video
   end
 
   def edit_filepath
-    "#{tmpdir}/edit-#{edit.id}.mp4"
-  end
-
-  protected
-
-  def setup
-    puts("Tmp dir is #{tmpdir}")
-    puts "Creating index..."
-    File.open(index_filepath, 'w') do |file|
-      edit.cuts.each do |cut|
-        puts "Checking cut #{cut.id}: #{cut_filepath(cut)}"
-        file.write(%(file '#{cut_filepath(cut)}'\n))
-      end
-    end
-  end
-
-  def index_filepath
-    "#{tmpdir}/list.txt"
-  end
-
-  def download_videos
-    edit.videos.each do |video|
-      puts "Downloading video #{video.id}"
-      run "cp #{video.source} #{video_filepath(video)}"
-    end
-  end
-
-  def run(command_string)
-    puts "Running command '#{command_string}':"
-    output = %x(#{command_string})
-    fail "Error: #{output}" if $? != 0
+    "#{tmpdir}/edit-#{video_edit.id}.mp4"
   end
 
   def self.cut_duration_s(cut)
@@ -78,13 +45,43 @@ class Cutter
     seconds = seconds_f % 60
     minutes = (seconds_f / 60) % 60
     hours = seconds_f / (60 * 60)
-    format("%02d:%02d:%02d.%03d", hours, minutes, seconds, fraction)
+    format('%02d:%02d:%02d.%03d', hours, minutes, seconds, fraction)
+  end
+
+  protected
+
+  def setup
+    debug "Tmp dir is #{tmpdir}"
+    debug 'Creating index...'
+    File.open(index_filepath, 'w') do |file|
+      video_edit.cuts.each do |cut|
+        debug "Checking cut #{cut.id}: #{cut_filepath(cut)}"
+        file.write(%(file '#{cut_filepath(cut)}'\n))
+      end
+    end
+  end
+
+  def index_filepath
+    "#{tmpdir}/list.txt"
+  end
+
+  def download_videos
+    video_edit.videos.each do |video|
+      debug "Downloading video #{video.id}"
+      run "cp #{video.mp4_url} #{video_filepath(video)}"
+    end
+  end
+
+  def run(command_string)
+    debug "Running command '#{command_string}':"
+    output = `#{command_string} 2>&1`
+    fail "Error: #{output}" if $CHILD_STATUS != 0
   end
 
   def extract_cuts
-    # ffmpeg -ss 00:00:01.0 -i small.mp4 -ss 00:00:01.0 -t 00:00:01 output.mp4 
-    edit.cuts.each do |cut|
-      run("ffmpeg -strict -2 -ss #{self.class.cut_start_time_s(cut)} -i #{video_filepath(cut.video)} -to #{self.class.cut_duration_s(cut)} #{cut_filepath(cut)}")    
+    # ffmpeg -ss 00:00:01.0 -i small.mp4 -ss 00:00:01.0 -t 00:00:01 output.mp4
+    video_edit.cuts.each do |cut|
+      run("ffmpeg -strict -2 -ss #{self.class.cut_start_time_s(cut)} -i #{video_filepath(cut.video)} -t #{self.class.cut_duration_s(cut)} #{cut_filepath(cut)}")
     end
   end
 
@@ -94,11 +91,11 @@ class Cutter
   end
 
   def upload_video
-    puts "View your new edit:\n"
-    puts edit_filepath
-    puts "The temp directory is:\n"
-    puts tmpdir
-    puts "There were #{edit.cuts.count} cuts."
+    debug "View your new edit:\n"
+    debug edit_filepath
+    debug "The temp directory is:\n"
+    debug tmpdir
+    debug "There were #{video_edit.cuts.count} cuts."
   end
 
   def cut_filename(cut)
@@ -121,4 +118,7 @@ class Cutter
     @tmp_dir_path ||= Dir.mktmpdir
   end
 
+  def debug(str)
+    Rails.logger.debug(str)
+  end
 end

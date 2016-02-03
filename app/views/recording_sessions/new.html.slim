@@ -1,3 +1,4 @@
 = simple_form_for @recording_session do |f|
   = f.input :name
+  = f.input :start_at, as: :string, input_html: { data: { provide: 'datepicker', date_format: "yyyy-mm-dd" }, placeholder: 'yyyy-mm-dd' }
   = f.button :submit

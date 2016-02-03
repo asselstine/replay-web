@@ -24,8 +24,9 @@ en:
   flash:
     activerecord:
       create:
-        success: 'Created the new record'  
+        success: 'Created the new record'
+      update:
+        success: 'Successfully updated the record'
       destroy:
         success: 'Destroyed the record'
         failure: 'Could not destroy the record'
-

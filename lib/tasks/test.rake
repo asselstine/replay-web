@@ -25,7 +25,7 @@ namespace :replay do
     v2 = 'test2_movie2.mp4'
     v3 = 'test2_movie3.mp4'
 
-    c1 = Camera.create(range_m: 110*1000) 
+    c1 = Camera.create(range_m: 110*1000)
     Location.create(trackable: c1, latitude: 0, longitude: 0)
     fail 'no video1' unless Video.create(source: Rails.root.join(v1),
                  camera: c1,
@@ -50,10 +50,10 @@ namespace :replay do
     edit.build_cuts(t(0), t(8))
     edit.save!
 
-    fail 'No videos' if edit.videos.empty? 
+    fail 'No videos' if edit.videos.empty?
     fail 'No cuts were made' if edit.cuts.empty?
 
-    cutter = Cutter.new(edit: edit)
+    cutter = Cutter.new(video_edit: edit)
     cutter.call
   end
 end

@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   devise_for :users, :controllers => { :omniauth_callbacks => 'omniauth' }
 
   authenticated :user do
-    root :to => 'rides#index', :as => :authenticated_root
+    root :to => 'feeds#show', :as => :authenticated_root
   end
 
   root to: 'pages#landing', as: :unauthenticated_root
@@ -18,11 +18,9 @@ Rails.application.routes.draw do
 
   post 'sns' => 'sns#message', as: :sns
 
-  resources :recording_sessions do
-    resources :cameras do
-      resources :videos
-    end
-  end
+  resources :recording_sessions
+  resources :cameras
+  resources :videos
 
   resources :photos do
     collection do

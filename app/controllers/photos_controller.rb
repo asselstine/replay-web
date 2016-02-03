@@ -32,7 +32,7 @@ class PhotosController < ApplicationController
         if @photo.persisted?
           render :json => { :message => 'success' }, :status => :created
         else
-          render :json => { :message => @photo.errors.full_messages }, :status => :unprocessable_entity
+          render :json => { :message => @photo.errors.full_messages }, status: :unprocessable_entity
         end
       }
     end

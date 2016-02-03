@@ -9,12 +9,12 @@ RSpec.describe Video do
   subject { create(:video, job_id: 12, source_key: 'foo') }
 
   describe '#update_et' do
-    let(:et_client) { double(AWS::ElasticTranscoder::Client) }
+    let(:et_client) { double(Aws::ElasticTranscoder::Client) }
     
     it 'should update the attributes to match the JSON' do
       expect(subject).to receive(:et_client).and_return(et_client)
       expect(et_client).to receive(:read_job).with({ id: '12' }).and_return(
-        double(AWS::Core::Response, data: {
+        double(data: {
           job: {
             id: 1234,
             output: {

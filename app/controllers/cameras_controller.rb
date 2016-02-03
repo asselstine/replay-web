@@ -1,14 +1,15 @@
-class CamerasController < RecordingSessionsNestedController 
+class CamerasController < LoggedInController
   before_action :find_camera, except: [:new, :create]
+
   def new
-    @camera = Camera.new(recording_session: @recording_session)
+    @camera = Camera.new(camera_params)
     @camera.locations.build
   end
 
   def create
     @camera = Camera.create(camera_params)
     if @camera.persisted?
-      redirect_to [@recording_session, @camera]
+      redirect_to @camera, notice: I18n.t('flash.activerecord.create.success')
     else
       render 'new'
     end
@@ -23,7 +24,7 @@ class CamerasController < RecordingSessionsNestedController
 
   def update
     if @camera.update(camera_params)
-      redirect_to [@recording_session, @camera], notice: I18n.t('flash.activerecord.create.success')
+      redirect_to @camera, notice: I18n.t('flash.activerecord.update.success')
     else
       render 'edit'
     end
@@ -31,9 +32,11 @@ class CamerasController < RecordingSessionsNestedController
 
   def destroy
     if @camera.destroy
-      redirect_to @recording_session, notice: I18n.t('flash.activerecord.destroy.success')
+      redirect_to @recording_session,
+                  notice: I18n.t('flash.activerecord.destroy.success')
     else
-      redirect_to @recording_session, notice: I18n.t('flash.activerecord.destroy.failure')
+      redirect_to @recording_session,
+                  notice: I18n.t('flash.activerecord.destroy.failure')
     end
   end
 
@@ -41,13 +44,14 @@ class CamerasController < RecordingSessionsNestedController
 
   def camera_params
     params.require(:camera)
-      .permit(:name, :range_m, locations_attributes: [
-        :id,
-        :_destroy,
-        :timestamp, 
-        :latitude, 
-        :longitude] )
-      .merge(recording_session: @recording_session)
+          .permit(:name,
+                  :range_m,
+                  :recording_session_id,
+                  locations_attributes: [:id,
+                                         :_destroy,
+                                         :timestamp,
+                                         :latitude,
+                                         :longitude])
   end
 
   def find_camera

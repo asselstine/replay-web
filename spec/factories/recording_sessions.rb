@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :recording_session do
-    user nil
-name "MyString"
+    association :user
+    name 'MyString'
+    start_at DateTime.now
   end
-
 end

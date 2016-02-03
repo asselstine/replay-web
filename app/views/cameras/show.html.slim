@@ -1,10 +1,14 @@
 h3 = @camera.name
-= link_to 'Edit', edit_recording_session_camera_path(@recording_session, @camera)
-= link_to 'New Video', new_recording_session_camera_video_path(@recording_session, @camera)
-= link_to 'Delete', recording_session_camera_path(@recording_session, @camera), method: :delete 
+p
+  = link_to 'Edit', edit_camera_path(@camera), class: 'btn btn-primary'
+
+
+  = link_to 'Delete', camera_path(@camera), method: :delete, class: 'btn btn-primary'
 
 hr
 
 h4 Videos
+p
+  = link_to 'New Video', new_video_path(video: { camera_id: @camera.id }), class: 'btn btn-primary'
 ul
   = render @camera.videos

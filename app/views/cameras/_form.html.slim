@@ -1,5 +1,6 @@
 = simple_form_for [@recording_session, @camera] do |f|
   = f.input :name
+  = f.input :recording_session_id, as: :hidden
   = f.input :range_m, input_html: { min: 1, max: 30, step: 1 }
   = f.fields_for :locations do |ff|
     div data-map-input=''
@@ -10,4 +11,5 @@
       div data-map=''
       = ff.input :latitude, as: :hidden, input_html: { data: { latitude: '' } }
       = ff.input :longitude, as: :hidden, input_html: { data: { longitude: '' } }
+      = ff.input :timestamp, as: :hidden, input_html: { value: @camera.recording_session.start_at.change(sec: 0) }
   = f.submit

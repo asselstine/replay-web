@@ -4,6 +4,9 @@ gem 'virtus'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.1'
 
+gem 'rollbar', '~> 2.7.1'
+gem 'oj', '~> 2.12.14'
+
 gem 'js-routes'
 gem 'ruby_kml'
 gem 'active_model_serializers'

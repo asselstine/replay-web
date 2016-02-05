@@ -20,18 +20,6 @@ class Location < ActiveRecord::Base
     where(during_arel(start_at, end_at))
   end
 
-  # Assume locations is a sorted array of Location objects in reverse chrono
-  #
-  # Here simply return the last location before the time.
-  def self.static_coords_at(time, locations)
-    location = nil
-    locations.each do |loc|
-      break if loc.try(:timestamp) && loc.timestamp > time
-      location = loc
-    end
-    location.coords if location
-  end
-
   def self.can_interpolate?(time, locations)
     locations.count >= 3 &&
       time >= locations.first.timestamp &&
@@ -60,6 +48,11 @@ class Location < ActiveRecord::Base
     timestamps = locations.map { |loc| (loc.timestamp.to_f * 1000).to_i }
     longs = locations.map(&:longitude)
     spline(longs, timestamps)
+  end
+
+  def self.before(end_at)
+    locs = arel_table
+    where(locs[:timestamp].lteq(end_at))
   end
 
   def self.during_arel(start_at, end_at)

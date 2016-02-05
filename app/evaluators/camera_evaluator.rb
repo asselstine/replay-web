@@ -2,7 +2,7 @@ class CameraEvaluator < Evaluator
   attribute :camera, Camera
 
   def coords_at(timestamp)
-    Location.static_coords_at(timestamp, camera_locations)
+    camera_locations.before(timestamp).first
   end
 
   def coords
@@ -24,6 +24,6 @@ class CameraEvaluator < Evaluator
   protected
 
   def camera_locations
-    @_camera_locations ||= camera.locations.during(context.start_at, context.end_at)
+    @_camera_locations ||= camera.locations.before(context.end_at)
   end
 end

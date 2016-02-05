@@ -44,5 +44,5 @@ Rails.application.configure do
 
   config.assets.paths << Rails.root.join(%(app assets test))
   
-  Rails.logger = Logger.new(STDOUT)
+  # Rails.logger = Logger.new(STDOUT)
 end

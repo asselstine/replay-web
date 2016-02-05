@@ -12,7 +12,7 @@ describe Location do
       let!(:l_gt)        { create(:location, timestamp: t(4)) }
 
       it 'should return the locations during the passed time' do
-        locs = subject.during(t(1),t(3))
+        locs = subject.during(t(1), t(3))
         expect(locs).not_to include(l_lt)
         expect(locs).to include(l_eq_start)
         expect(locs).to include(l_between)
@@ -21,31 +21,11 @@ describe Location do
       end
     end
 
-    describe '#static_coords_at' do
-      let(:l1) { create(:location, timestamp: t(1)) }
-      let(:l2) { create(:location, timestamp: t(3)) }
-      let!(:locations) do
-        [ l1, l2 ]
-      end 
-      
-      it 'should return the most recent location' do
-        expect(subject.static_coords_at(t(2), locations)).to eq(l1.coords)
-      end
-
-      it 'should return nil when outside the bounds' do
-        expect(subject.static_coords_at(t(0), locations)).to eq(nil)
-      end
-
-      it 'should return the last coord when outside the bounds' do
-        expect(subject.static_coords_at(t(10), locations)).to eq(l2.coords)
-      end
-    end
-
     describe '#can_interpolate?' do
       let(:l1) { create(:location, timestamp: t(1)) }
       let(:l2) { create(:location, timestamp: t(3)) }
       let!(:locations) { [ l1, l2 ] }
-      
+
       describe 'when there are not enough samples' do
         it { expect(subject.can_interpolate?(t(0), locations)).to be_falsey }
       end
@@ -68,6 +48,18 @@ describe Location do
     describe '#to_time_ms' do
       it 'should cast a datetime to milliseconds' do
         expect(subject.to_time_ms(DateTime.parse('Sat, 26 Dec 2015 13:46:49 -0800'))).to eq(1451166409000)
+      end
+    end
+
+    describe '#before' do
+      let(:l1) { create(:location, timestamp: t(0)) }
+      let(:l2) { create(:location, timestamp: t(1)) }
+      let(:l3) { create(:location, timestamp: t(2)) }
+      let!(:locations) { [l1, l2, l3] }
+      it 'should return all locations before the time' do
+        expect(subject.before(t(1))).to include(l1)
+        expect(subject.before(t(1))).to include(l2)
+        expect(subject.before(t(1))).not_to include(l3)
       end
     end
   end

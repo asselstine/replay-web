@@ -9,7 +9,7 @@ class Api::DropboxWebhooksController < Api::BaseController
     json = JSON.parse(request.body)
     if json['delta'].present?
       json['delta']['users'].each do |user_id|
-        logger.debug("Processing updates for user #{user_id}")
+        Rollbar.debug("Processing updates for user #{user_id}")
       end
     end
   end
@@ -27,7 +27,7 @@ class Api::DropboxWebhooksController < Api::BaseController
     digest = OpenSSL::Digest.new('sha256')
     hmac = OpenSSL::HMAC.digest(digest, Rails.application.secrets.dropbox_app_secret, request.body)
     if hmac != signature
-      logger.debug("Rejecting invalid Dropbox webhook call.")
+      Rollbar.debug("Rejecting invalid Dropbox webhook call.")
       render(:file => File.join(Rails.root, 'public/403.html'), :status => 403, :layout => false)
     end
   end

@@ -9,9 +9,9 @@ class OmniauthController < Devise::OmniauthCallbacksController
       username: oauth['extra']['raw_info']['username'],
     })
     unless strava.persisted?
-      logger.error(strava.errors)
+      Rollbar.error(strava.errors)
       flash[:error] = "Could not connect to Strava"
-      redirect_to :back 
+      redirect_to :back
     end
     if user_signed_in?
       strava.update(user: current_user)
@@ -20,7 +20,7 @@ class OmniauthController < Devise::OmniauthCallbacksController
     else
       generated_password = Devise.friendly_token.first(8)
       user = User.where(email: info["email"]).first_or_create({
-        email: info["email"], 
+        email: info["email"],
         password: generated_password,
         password_confirmation: generated_password
       })
@@ -29,7 +29,7 @@ class OmniauthController < Devise::OmniauthCallbacksController
         set_flash_message :notice, :success, :kind => 'Strava' if is_navigational_format?
         sign_in_and_redirect user, :event => :authentication
       else
-        logger.error(user.errors.full_messages)
+        Rollbar.error(user.errors.full_messages)
         flash[:error] = "Could not login with Strava"
         redirect_to '/'
       end

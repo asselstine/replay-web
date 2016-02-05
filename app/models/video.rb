@@ -42,7 +42,7 @@ class Video < ActiveRecord::Base
   def update_et
     transcoder_client = et_client
     response = transcoder_client.read_job(id: job_id)
-    Rails.logger.debug("update_et: Received Response: #{response.to_json}")
+    Rollbar.debug("update_et: Received Response: #{response.to_json}")
     attrs = extract_response_attributes(response.data)
     update_attributes(attrs)
   end

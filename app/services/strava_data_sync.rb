@@ -50,6 +50,6 @@ class StravaDataSync
   end
 
   def debug(str)
-    Rails.logger.debug("StravaDataSync(user: #{user.id}): #{str}")
+    Rollbar.debug("StravaDataSync(user: #{user.id}): #{str}")
   end
 end

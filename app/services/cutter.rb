@@ -119,6 +119,6 @@ class Cutter
   end
 
   def debug(str)
-    Rails.logger.debug(str)
+    Rollbar.debug(str)
   end
 end

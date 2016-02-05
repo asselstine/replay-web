@@ -12,13 +12,13 @@ namespace :aws do
           with protocol: #{protocol}
           with endpoint: #{sns_endpoint}")
       STRING
-      Rails.logger.debug msg
+      Rollbar.debug msg
       puts msg
       response = topic.subscribe(protocol: protocol, endpoint: sns_endpoint)
       msg = <<-STRING
         Response: #{response.inspect}
       STRING
-      Rails.logger.debug msg
+      Rollbar.debug msg
       puts msg
     end
     task update_all: :environment do

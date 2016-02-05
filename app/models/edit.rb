@@ -4,6 +4,8 @@ class Edit < ActiveRecord::Base
   has_many :cuts
   has_many :videos, through: :cuts
 
+  accepts_nested_attributes_for :cuts
+
   def build_cuts(start_at, end_at)
     context = Context.new(start_at: start_at,
                           end_at: end_at)

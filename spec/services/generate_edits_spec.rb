@@ -14,10 +14,10 @@ RSpec.describe GenerateEdits do
 
   context 'when the user has a ride with no edit' do
     let(:rides) { [ride] }
-    let(:edit) { double(Edit, cuts: cuts) }
+    let(:edit) { double(Edit, cuts: cuts, persisted?: true) }
 
     context 'and the new edit contains a cut' do
-      let(:cuts) { [1] } 
+      let(:cuts) { [1] }
 
       it 'should build an edit for the ride' do
         expect(ride.edits).to receive(:build).with(user: user).and_return(edit)
@@ -26,10 +26,11 @@ RSpec.describe GenerateEdits do
         expect(EditScheduler).to receive(:call).with(edit: edit)
         subject.call
       end
-    end 
-   
+    end
+
     context 'when the edit is empty' do
       let(:cuts) { [] }
+      let(:edit) { double(cuts: cuts, persisted?: false) }
 
       it 'should destroy the edit' do
         expect(ride.edits).to receive(:build).with(user: user).and_return(edit)

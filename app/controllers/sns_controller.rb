@@ -2,7 +2,7 @@ class SnsController < ApplicationController
 
   skip_before_filter :verify_authenticity_token
 
-  def message 
+  def message
     body = request.body.read
     if Aws::SNS::MessageVerifier.new.authentic?(body)
       json = JSON.parse(body)
@@ -21,7 +21,7 @@ class SnsController < ApplicationController
           logger.debug("No Video for job id #{msg['jobId']}")
         end
       end
-    end 
+    end
     render nothing: true, status: 200, content_type: 'text/html'
   end
 end

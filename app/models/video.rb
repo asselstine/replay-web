@@ -32,19 +32,17 @@ class Video < ActiveRecord::Base
   end
 
   def self.update_et_all
-    Video.incomplete_jobs.each(&:update_et)
+    Video.incomplete.each(&:update_et)
   end
 
   def normalize_source_key
     source_key.sub!(%r{^\/}, '')
   end
 
-  def copy_to(file)
-  end
-
   def update_et
     transcoder_client = et_client
     response = transcoder_client.read_job(id: job_id)
+    Rails.logger.debug("update_et: Received Response: #{response.to_json}")
     attrs = extract_response_attributes(response.data)
     update_attributes(attrs)
   end

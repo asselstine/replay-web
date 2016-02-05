@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   end
 
   post 'sns' => 'sns#message', as: :sns
+  get 'sns' => 'sns#message'
 
   resources :recording_sessions
   resources :cameras

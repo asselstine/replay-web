@@ -1,4 +1,4 @@
-class RecordingSessionJob < ActiveJob::Base
+class CutEditJob < ActiveJob::Base
   queue_as :default
 
   def perform(edit: video_edit)

@@ -12,7 +12,7 @@ class GenerateEdits
       end
     end
     edits.each do |edit|
-      EditScheduler.call(edit: edit) if edit.persisted?
+      CutEditJob.perform_later(edit: edit) if edit.persisted?
     end
   end
 end

@@ -1,18 +1,18 @@
-== Discussion of the algorithm
 
-For a given user:
+- Approach to Video Processing:
 
-1. Identify periods of time we want to render.
+Original videos are massive 2 GB files.
 
-  - Chunks of time may be feature-based (location, or data feature like free fall)
-  - Chunks of time may be ride-based
+In order to process this efficiently, we can break them into chunks of 10 seconds.
 
-The Editor creates a Context for each period of time, and divides that time into 1 second cuts.
+In this way to assemble a 1:30 long segment the job only needs to download around 13 videos.
 
-2. For the period of time, gather all the data about the user
 
-2. Collect the user's data during that time
-3.  
+
+
+
+
+
 
 
 

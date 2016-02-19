@@ -6,6 +6,8 @@
 
 .idea
 
+bin
+
 # Ignore bundler config.
 /.bundle
 coverage

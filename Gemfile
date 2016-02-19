@@ -14,7 +14,7 @@ gem 'react-rails', '~> 1.5.0'
 gem 'sprockets-coffee-react'
 gem 'bootstrap-datepicker-rails'
 gem 'aws-sdk', '~> 2'
-gem 'delayed_job_active_record'
+gem 'resque'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'

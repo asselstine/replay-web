@@ -16,6 +16,6 @@
         @props.onCanPlayThrough(e)
 
   render: ->
-    <video controls='true' ref={@videoRef} preload='true'>
+    <video controls='true' ref={@videoRef} preload='true' className='video-player'>
       <source src={@props.video.file_url}/>
     </video>

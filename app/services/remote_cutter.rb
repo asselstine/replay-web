@@ -6,13 +6,10 @@ class RemoteCutter < Cutter
   end
 
   def download_video(video)
-    Rollbar.debug("RemoteCutter: download_video: #{video.mp4} to #{video_filepath(video)}")
+    Rollbar.debug(<<-STRING
+      RemoteCutter: download_video: #{video.mp4} to #{video_filepath(video)}"
+    STRING
+                 )
     S3.get(video.mp4, video_filepath(video))
-  end
-
-  def upload_video
-    super
-    Rollbar.debug("RemoteCutter: upload_video: #{edit_filepath} to #{video_edit.output_key}")
-    S3.upload(edit_filepath, video_edit.output_key)
   end
 end

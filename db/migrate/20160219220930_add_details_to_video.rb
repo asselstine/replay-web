@@ -1,9 +1,9 @@
 class AddDetailsToVideo < ActiveRecord::Migration
   def change
     change_table :videos do |t|
-      t.string :duration
+      t.string :duration, default: 0
       t.string :bitrate
-      t.string :size
+      t.string :size, default: 0
       t.string :video_stream
       t.string :video_codec
       t.string :colorspace

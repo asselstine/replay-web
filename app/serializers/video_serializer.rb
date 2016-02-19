@@ -3,7 +3,7 @@ class VideoSerializer < BaseSerializer
              :source_url,
              :start_at,
              :end_at,
-             :duration_ms,
+             :duration,
              :filename,
              :file_url,
              :status,

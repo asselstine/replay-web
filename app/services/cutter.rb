@@ -96,6 +96,8 @@ class Cutter
     debug "The temp directory is:\n"
     debug tmpdir
     debug "There were #{video_edit.cuts.count} cuts."
+    video_edit.final_cuts.create(
+      video: Video.create(file: File.open(edit_filepath)))
   end
 
   def cut_filename(cut)

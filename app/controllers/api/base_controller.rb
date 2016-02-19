@@ -1,5 +1,5 @@
-class Api::BaseController < ApplicationController
-
-  load_and_authorize_resource
-
+module Api
+  class BaseController < ApplicationController
+    load_and_authorize_resource
+  end
 end

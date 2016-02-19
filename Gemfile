@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-ruby "2.2.0"
+ruby '2.2.0'
 
 gem 'virtus'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
@@ -9,6 +9,7 @@ gem 'rails', '4.2.1'
 gem 'rollbar', '~> 2.7.1'
 gem 'oj', '~> 2.12.14'
 
+gem 'streamio-ffmpeg'
 gem 'js-routes'
 gem 'ruby_kml'
 gem 'active_model_serializers'
@@ -76,14 +77,13 @@ end
 group :test do
   gem 'rspec-rails'
   gem 'simplecov'
-  gem 'cucumber-rails', :require => false
+  gem 'cucumber-rails', require: false
   gem 'database_cleaner'
   gem 'capybara'
   gem 'selenium-webdriver'
 end
 
 group :development, :test do
-  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
   gem 'pry'
   gem 'pry-byebug'
@@ -91,7 +91,6 @@ group :development, :test do
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.0'
 
-  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-commands-rspec'
   gem 'spring-commands-cucumber'

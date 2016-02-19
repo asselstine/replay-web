@@ -54,15 +54,10 @@
       {@state.loaded &&
         <h3>{@props.video.filename}</h3>
       }
-      {@props.video.complete &&
+      {@props.video.file_url &&
         <div>
           <video controls='true' ref={@videoRef} preload='true'>
-            {@props.video.webm_url &&
-              <source src={@props.video.webm_url} type='video/webm'/>
-            }
-            {@props.video.mp4_url &&
-              <source src={@props.video.mp4_url} type='video/mp4'/>
-            }
+            <source src={@props.video.file_url}/>
           </video>
           <div className='controls'>
             <span>
@@ -94,7 +89,7 @@
           </div>
         </div>
       }
-      {!@props.video.complete &&
-        <p>{@props.video.status} {@props.video.message}</p>
+      {!@props.video.file_url &&
+        <p>File has not yet been processed.</p>
       }
     </div>

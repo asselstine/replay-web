@@ -46,9 +46,9 @@ class VideosController < LoggedInController
     params.require(:video).permit(:start_at,
                                   :end_at,
                                   :duration_ms,
-                                  :source_key,
+                                  :source_url,
                                   :camera_id,
-                                  :filename)
+                                  :file)
   end
 
   def find_video

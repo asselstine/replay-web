@@ -2,8 +2,8 @@ When %(I upload a video to the camera) do
   visit camera_path(@camera)
   click_link 'New Video'
   expect(page).to have_content('Add Video')
-  find('#video_source_key', visible: false).set 'http://fakeness.com'
-  find('#video_filename', visible: false).set 'fakee.mp4'
+  attach_file :video_file,
+              Rails.root.join('spec/fixtures/dan_session1-frame.mp4')
 end
 
 When %(I create the video) do
@@ -12,14 +12,13 @@ end
 
 Given %(there is a video) do
   @video = create(:video,
-                  mp4_url: '/assets/dan_session1-frame.mp4',
-                  filename: 'dan_session1-frame.mp4',
-                  status: Video::STATUS_COMPLETE)
+                  file: File.open(
+                    Rails.root.join('spec/fixtures/dan_session1-frame.mp4')))
 end
 
 Then %(there should be a new video for the camera) do
   visit camera_path(@camera)
-  expect(page).to have_css('a', text: 'fakee.mp4')
+  expect(page).to have_css('a', text: 'dan_session1-frame.mp4')
 end
 
 When %(I scrub to the slate and set the timestamp) do

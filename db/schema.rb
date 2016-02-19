@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160202055213) do
+ActiveRecord::Schema.define(version: 20160219220930) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -159,7 +159,7 @@ ActiveRecord::Schema.define(version: 20160202055213) do
 
   create_table "videos", force: :cascade do |t|
     t.integer  "camera_id"
-    t.string   "source_key"
+    t.string   "source_url"
     t.datetime "start_at"
     t.datetime "end_at"
     t.datetime "created_at"
@@ -171,6 +171,21 @@ ActiveRecord::Schema.define(version: 20160202055213) do
     t.string   "message"
     t.string   "job_id"
     t.integer  "duration_ms"
+    t.string   "file"
+    t.string   "duration"
+    t.string   "bitrate"
+    t.string   "size"
+    t.string   "video_stream"
+    t.string   "video_codec"
+    t.string   "colorspace"
+    t.string   "resolution"
+    t.string   "width"
+    t.string   "height"
+    t.string   "frame_rate"
+    t.string   "audio_stream"
+    t.string   "audio_codec"
+    t.string   "audio_sample_rate"
+    t.string   "audio_channels"
   end
 
   add_foreign_key "cameras", "recording_sessions"

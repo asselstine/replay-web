@@ -5,7 +5,6 @@ FactoryGirl.define do
     end_at do
       start_at.since(1)
     end
-    source_key 'uploads/to_here.mp3'
-    mp4_url Rails.root.join('app/assets/test/dan_session1-frame.mp4')
+    file File.open(Rails.root.join('app/assets/test/dan_session1-frame.mp4'))
   end
 end

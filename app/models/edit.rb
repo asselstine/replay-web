@@ -3,6 +3,7 @@ class Edit < ActiveRecord::Base
   belongs_to :ride
   has_many :cuts
   has_many :videos, through: :cuts
+  has_many :final_cuts
 
   after_create :cut_edit
 

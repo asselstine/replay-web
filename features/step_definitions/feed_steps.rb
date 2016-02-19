@@ -1,3 +1,11 @@
+Given %(I have an edit) do
+  @user ||= create(:user)
+  @edit ||= @user.edits.create!
+  @final_cut ||= @edit.final_cuts.create!(video:
+    Video.create!(file:
+      File.open(Rails.root.join('spec', 'fixtures', 'dan_session1-frame.mp4'))))
+end
+
 Given %(I've been on a ride) do
   @user ||= create(:user)
   @ride = create(:ride, user: @user)
@@ -28,4 +36,5 @@ end
 
 Then %(I should see a new edit) do
   expect(page).to have_css('.edit')
+  expect(page).to have_content('dan_session1-frame.mp4')
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160219220930) do
+ActiveRecord::Schema.define(version: 20160219230520) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -85,6 +85,16 @@ ActiveRecord::Schema.define(version: 20160219220930) do
   end
 
   add_index "edits", ["ride_id"], name: "index_edits_on_ride_id", using: :btree
+
+  create_table "final_cuts", force: :cascade do |t|
+    t.integer  "edit_id"
+    t.integer  "video_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "final_cuts", ["edit_id"], name: "index_final_cuts_on_edit_id", using: :btree
+  add_index "final_cuts", ["video_id"], name: "index_final_cuts_on_video_id", using: :btree
 
   create_table "locations", force: :cascade do |t|
     t.datetime "timestamp"
@@ -172,9 +182,9 @@ ActiveRecord::Schema.define(version: 20160219220930) do
     t.string   "job_id"
     t.integer  "duration_ms"
     t.string   "file"
-    t.string   "duration"
+    t.string   "duration",          default: "0"
     t.string   "bitrate"
-    t.string   "size"
+    t.string   "size",              default: "0"
     t.string   "video_stream"
     t.string   "video_codec"
     t.string   "colorspace"
@@ -192,5 +202,7 @@ ActiveRecord::Schema.define(version: 20160219220930) do
   add_foreign_key "dropbox_events", "users"
   add_foreign_key "dropbox_photos", "dropbox_events"
   add_foreign_key "edits", "rides"
+  add_foreign_key "final_cuts", "edits"
+  add_foreign_key "final_cuts", "videos"
   add_foreign_key "recording_sessions", "users"
 end

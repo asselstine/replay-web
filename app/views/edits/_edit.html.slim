@@ -1,1 +1,5 @@
-.edit
+- last_cut = edit.final_cuts.last
+- if last_cut && last_cut.video
+  .edit    
+    h3 = last_cut.video.filename
+    = react_component 'VideoPlayer', video: VideoSerializer.new(last_cut.video)

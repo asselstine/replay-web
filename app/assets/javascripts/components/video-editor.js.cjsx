@@ -24,23 +24,20 @@
       @updateAdjustedTimes()
     )
 
-  videoRef: (ref) ->
-    vidElem = ReactDOM.findDOMNode(ref)
-    vidElem.addEventListener 'timeupdate', (e) =>
-      @setState(currentTime: e.target.currentTime, =>
-        @updateAdjustedTimes())
+  handleTimeUpdate: (e) ->
+    @setState currentTime: e.target.currentTime, =>
+      @updateAdjustedTimes()
 
-    vidElem.addEventListener 'canplaythrough', (e) =>
-      console.debug("canplaythrough")
-      @setState duration: e.target.duration, loaded: true, =>
-        @updateAdjustedTimes()
+  handleCanPlayThrough: (e) ->
+    @setState loaded: true, =>
+      @updateAdjustedTimes()
 
   updateAdjustedTimes: ->
     dateString = @state.date + " " + @state.timestamp + @state.timezone
     timestamp = moment(new Date(dateString))
     if timestamp.isValid()
       adjustedStartTime = timestamp.clone().subtract(@state.currentTime * 1000.0, 'ms')
-      adjustedEndTime = adjustedStartTime.clone().add(@state.duration * 1000.0, 'ms')
+      adjustedEndTime = adjustedStartTime.clone().add(@props.video.duration * 1000.0, 'ms')
       @setState(
         start_at: adjustedStartTime.utc().toISOString()
         end_at: adjustedEndTime.utc().toISOString()
@@ -49,16 +46,16 @@
   render: ->
     disabled = false # !@state.start_at || !@state.end_at
     currentTimeMs = @state.currentTime * 1000
-    duration_ms = @state.duration * 1000 if @state.duration
+    duration_ms = @props.video.duration * 1000 if @props.video.duration
     <div>
       {@state.loaded &&
         <h3>{@props.video.filename}</h3>
       }
       {@props.video.file_url &&
         <div>
-          <video controls='true' ref={@videoRef} preload='true'>
-            <source src={@props.video.file_url}/>
-          </video>
+          <VideoPlayer video={@props.video}
+                       onTimeUpdate={@handleTimeUpdate}
+                       onCanPlayThrough={@handleCanPlayThrough}/>
           <div className='controls'>
             <span>
               Current Time: {currentTimeMs}ms

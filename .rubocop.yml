@@ -9,3 +9,6 @@ AllCops:
     - 'config/**/*'
     - 'script/**/*'
     - !ruby/regexp /old_and_unused\.rb$/
+Metrics/MethodLength:
+  CountComments: false  # count full line comments?
+  Max: 15

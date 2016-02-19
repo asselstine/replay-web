@@ -1,12 +1,11 @@
 class StravaDataSync
-
   include Service
   include Virtus.model
 
   attribute :user, User
 
   def call
-    return if client.nil?
+    return if client.nil? || Rails.env.test?
     ActiveRecord::Base.transaction do
       activities = client.list_athlete_activities
       activities.each do |activity|
@@ -20,12 +19,12 @@ class StravaDataSync
   protected
 
   def create_ride(activity)
-    ride = @user.rides.create({
+    ride = @user.rides.create(
       strava_activity_id: activity['id'],
       strava_name: activity['name'],
       strava_start_at: activity['start_date']
-    })
-    debug("Created new ride: #{ride.to_s}")
+    )
+    debug("Created new ride: #{ride}")
     add_locations(ride)
   end
 

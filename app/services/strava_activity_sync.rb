@@ -1,11 +1,11 @@
-class StravaDataSync
+class StravaActivitySync
   include Service
   include Virtus.model
 
   attribute :user, User
 
   def call
-    return if client.nil? || Rails.env.test?
+    return if client.nil?
     ActiveRecord::Base.transaction do
       activities = client.list_athlete_activities
       activities.each do |activity|
@@ -45,10 +45,10 @@ class StravaDataSync
   end
 
   def client
-    @_client ||= Strava::Api::V3::Client.new(access_token: @user.strava_account.token) if @user.strava_account
+    user.strava_account.client
   end
 
   def debug(str)
-    Rollbar.debug("StravaDataSync(user: #{user.id}): #{str}")
+    Rollbar.debug("StravaActivitySync(user: #{user.id}): #{str}")
   end
 end

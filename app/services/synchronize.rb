@@ -5,7 +5,7 @@ class Synchronize
   attribute :user, User
 
   def call
-    StravaDataSync.call(user: user) if user && user.strava_account
+    StravaActivitySync.call(user: user) if user && user.strava_account
     GenerateEdits.call(user: user) if user
   end
 end

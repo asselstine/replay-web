@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe StravaDataSync do
+describe StravaActivitySync do
   LIST_ATHLETE_ACTIVITIES = JSON.parse(
     File.read(Rails.root.join('spec',
                               'fixtures',
@@ -13,7 +13,7 @@ describe StravaDataSync do
   let(:user) { create(:user) }
   let(:client) { double(Strava::Api::V3::Client) }
 
-  subject { StravaDataSync.new(user: user) }
+  subject { StravaActivitySync.new(user: user) }
 
   before(:each) do
     allow(subject).to receive(:client).and_return(client)

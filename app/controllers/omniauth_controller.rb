@@ -37,8 +37,7 @@ class OmniauthController < Devise::OmniauthCallbacksController
       username: oauth['extra']['raw_info']['username'],
       user: find_or_create_user(oauth)
     )
-    StravaDataSync.call(user: strava.user)
-    GenerateEdits.call(user: strava.user)
+    Synchronize.call(user: strava.user)
     strava
   end
 

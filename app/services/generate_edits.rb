@@ -5,14 +5,10 @@ class GenerateEdits
   attribute :user
 
   def call
-    edits = []
     ActiveRecord::Base.transaction do
       user.rides.each do |ride|
-        edits << GenerateRideEdit.call(user: user, ride: ride)
+        GenerateRideEdit.call(user: user, ride: ride) unless ride.edits.any?
       end
-    end
-    edits.each do |edit|
-      CutEditJob.perform_later(edit: edit) if edit.persisted?
     end
   end
 end

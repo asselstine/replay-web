@@ -1,13 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe GenerateEdits do
-
   let(:start_at) { t(0) }
   let(:end_at) { t(4) }
-
   let(:user_location) { create(:location, timestamp: start_at) }
   let(:user_location2) { create(:location, timestamp: end_at) }
-  let(:ride) { create(:ride, edits: [], locations: [user_location, user_location2]) }
+  let(:ride) do
+    create(:ride, edits: [], locations: [user_location, user_location2])
+  end
   let(:user) { create(:user, rides: [ride].compact) }
 
   subject { GenerateEdits.new(user: user) }
@@ -23,7 +23,6 @@ RSpec.describe GenerateEdits do
         expect(ride.edits).to receive(:build).with(user: user).and_return(edit)
         expect(edit).to receive(:build_cuts).with(start_at, end_at)
         expect(edit).to receive(:save!)
-        expect(CutEditJob).to receive(:perform_later).with(edit: edit)
         subject.call
       end
     end

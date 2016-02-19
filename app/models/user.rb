@@ -6,12 +6,12 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable
 
-  has_many :edits
-  has_many :photos
-  has_many :rides
+  has_many :edits, dependent: :destroy
+  has_many :photos, dependent: :destroy
+  has_many :rides, dependent: :destroy
   has_many :locations, through: :rides
-  has_many :recording_sessions
-  has_one :strava_account
+  has_many :recording_sessions, dependent: :destroy
+  has_one :strava_account, dependent: :destroy
 
   accepts_nested_attributes_for :photos
 

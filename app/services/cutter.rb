@@ -68,7 +68,7 @@ class Cutter
   def download_videos
     video_edit.videos.each do |video|
       debug "Downloading video #{video.id}"
-      run "cp #{video.mp4_url} #{video_filepath(video)}"
+      run "cp #{video.file_url} #{video_filepath(video)}"
     end
   end
 
@@ -108,12 +108,8 @@ class Cutter
     "#{tmpdir}/#{cut_filename(cut)}"
   end
 
-  def video_filename(video)
-    "video-#{video.id}.mp4"
-  end
-
   def video_filepath(video)
-    "#{tmpdir}/#{video_filename(video)}"
+    video.file.read.path
   end
 
   def tmpdir

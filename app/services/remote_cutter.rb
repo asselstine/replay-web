@@ -6,10 +6,7 @@ class RemoteCutter < Cutter
   end
 
   def download_video(video)
-    Rollbar.debug(<<-STRING
-      RemoteCutter: download_video: #{video.file_url} to #{video_filepath(video)}"
-    STRING
-                 )
-    video.file.cache_stored_file!
+    return if File.exist? video_filepath(video)
+    run("wget --quiet '#{video.file.file.authenticated_url}' -O #{video_filepath(video)}")
   end
 end

@@ -21,10 +21,6 @@ class Edit < ActiveRecord::Base
     end
   end
 
-  def output_key
-    "edits/#{id}/output.mp4"
-  end
-
   protected
 
   def find_best_video(context)
@@ -44,6 +40,6 @@ class Edit < ActiveRecord::Base
   end
 
   def cut_edit
-    CutEditJob.perform_later(edit: self) unless Rails.env.test?
+    CutEditJob.perform_now(video_edit: self) unless Rails.env.test?
   end
 end

@@ -109,7 +109,7 @@ class Cutter
   end
 
   def video_filepath(video)
-    video.file.read.path
+    "#{tmpdir}/video-#{video.id}#{File.extname(video.filename)}"
   end
 
   def tmpdir
@@ -117,6 +117,6 @@ class Cutter
   end
 
   def debug(str)
-    Rollbar.debug(str)
+    Rails.logger.debug(str)
   end
 end

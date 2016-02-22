@@ -5,5 +5,6 @@ namespace :resque do
     ENV['QUEUES'] ||= '*'
     ENV['TERM_CHILD'] ||= '1'
     ENV['RESQUE_TERM_TIMEOUT'] ||= '10'
+    Resque.logger.level = Logger::DEBUG
   end
 end

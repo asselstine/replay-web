@@ -7,9 +7,9 @@ CarrierWave.configure do |config|
         aws_access_key_id: Figaro.env.aws_access_key_id,
         aws_secret_access_key: Figaro.env.aws_secret_access_key
     }
-    config.fog_public = true
+    config.fog_public = false
     config.fog_directory = Figaro.env.aws_s3_bucket
-    config.fog_authenticated_url_expiration = 60 * 60 * 24 * 365
+    config.fog_authenticated_url_expiration = 600
   else
     config.storage = :file
   end

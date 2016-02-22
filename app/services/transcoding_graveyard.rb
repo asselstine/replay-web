@@ -28,6 +28,10 @@ class TranscodingGraveyard
   #   update_attributes(attrs)
   # end
   #
+  # def output_key
+  #   "edits/#{id}/output.mp4"
+  # end
+  # 
   # def extract_response_attributes(data)
   #   {
   #     status: data[:job][:output][:status],

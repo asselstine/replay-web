@@ -40,6 +40,6 @@ class Edit < ActiveRecord::Base
   end
 
   def cut_edit
-    CutEditJob.perform_now(video_edit: self) unless Rails.env.test?
+    CutEditJob.perform_later(video_edit: self) unless Rails.env.test?
   end
 end

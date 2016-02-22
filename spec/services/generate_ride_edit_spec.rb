@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe GenerateEdits do
+RSpec.describe GenerateRideEdit do
   let(:start_at) { t(0) }
   let(:end_at) { t(4) }
   let(:user_location) { create(:location, timestamp: start_at) }
@@ -10,10 +10,9 @@ RSpec.describe GenerateEdits do
   end
   let(:user) { create(:user, rides: [ride].compact) }
 
-  subject { GenerateEdits.new(user: user) }
+  subject { GenerateRideEdit.new(user: user, ride: ride) }
 
   context 'when the user has a ride with no edit' do
-    let(:rides) { [ride] }
     let(:edit) { double(Edit, cuts: cuts, persisted?: true) }
 
     context 'and the new edit contains a cut' do
@@ -39,5 +38,4 @@ RSpec.describe GenerateEdits do
       end
     end
   end
-
 end

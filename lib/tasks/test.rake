@@ -53,7 +53,7 @@ namespace :replay do
     fail 'No videos' if edit.videos.empty?
     fail 'No cuts were made' if edit.cuts.empty?
 
-    cutter = Cutter.new(video_edit: edit)
-    cutter.call
+    EditProcessor = EditProcessor.new(video_edit: edit)
+    EditProcessor.call
   end
 end

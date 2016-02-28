@@ -1,7 +1,8 @@
-class Cutter
+class EditProcessor
   include Virtus.model
   include Service
-  attribute :video_edit, Edit
+
+  attribute :edit, Edit
 
   # FFMPEG commands:
   #
@@ -29,7 +30,7 @@ class Cutter
   end
 
   def edit_filepath
-    "#{tmpdir}/edit-#{video_edit.id}.mp4"
+    "#{tmpdir}/edit-#{edit.id}.mp4"
   end
 
   def self.cut_duration_s(cut)
@@ -54,7 +55,7 @@ class Cutter
     debug "Tmp dir is #{tmpdir}"
     debug 'Creating index...'
     File.open(index_filepath, 'w') do |file|
-      video_edit.cuts.each do |cut|
+      edit.cuts.each do |cut|
         debug "Checking cut #{cut.id}: #{cut_filepath(cut)}"
         file.write(%(file '#{cut_filepath(cut)}'\n))
       end
@@ -66,7 +67,7 @@ class Cutter
   end
 
   def download_videos
-    video_edit.videos.each do |video|
+    edit.videos.each do |video|
       debug "Downloading video #{video.id}"
       run "cp #{video.file_url} #{video_filepath(video)}"
     end
@@ -80,7 +81,7 @@ class Cutter
 
   def extract_cuts
     # ffmpeg -ss 00:00:01.0 -i small.mp4 -ss 00:00:01.0 -t 00:00:01 output.mp4
-    video_edit.cuts.each do |cut|
+    edit.cuts.each do |cut|
       run("ffmpeg -strict -2 -ss #{self.class.cut_start_time_s(cut)} -i #{video_filepath(cut.video)} -t #{self.class.cut_duration_s(cut)} #{cut_filepath(cut)}")
     end
   end
@@ -95,8 +96,8 @@ class Cutter
     debug edit_filepath
     debug "The temp directory is:\n"
     debug tmpdir
-    debug "There were #{video_edit.cuts.count} cuts."
-    video_edit.final_cuts.create(
+    debug "There were #{edit.cuts.count} cuts."
+    edit.final_cuts.create(
       video: Video.create(file: File.open(edit_filepath)))
   end
 

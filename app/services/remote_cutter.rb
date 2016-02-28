@@ -1,4 +1,4 @@
-class RemoteCutter < Cutter
+class RemoteEditProcessor < EditProcessor
   def download_videos
     video_edit.videos.each do |video|
       download_video(video)

@@ -1,8 +1,8 @@
 require 'rails_helper'
 
-RSpec.describe Cutter do
+RSpec.describe EditProcessor do
 
-  subject { Cutter.new }
+  subject { EditProcessor.new }
 
   it 'should do something' do
     subject
@@ -10,7 +10,7 @@ RSpec.describe Cutter do
 
   describe 'class' do
 
-    subject { Cutter }
+    subject { EditProcessor }
 
     let(:video) { double(Video, start_at: t(0)) }
     let(:cut) { double(Cut, start_at: t(1), end_at: t(2), video: video) }

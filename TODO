@@ -1,0 +1,5 @@
+TODO:
+
+- Use Docker to press versions of the application.
+- Use a managed DB service for Postgres; one supporting backups etc
+- Deploy the application (redis + web + )

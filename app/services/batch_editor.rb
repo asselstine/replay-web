@@ -1,4 +1,4 @@
-class GenerateEdits
+class BatchEditor
   include Service
   include Virtus.model
 
@@ -19,17 +19,10 @@ class GenerateEdits
 
   def generate_edit(ride)
     # find recording sessions that began before the ride, and end after the ride
-    edit = ride.edits.build(user: user)
-    edit.build_cuts(ride.start_at, ride.end_at)
-    debug("generate_edit(#{ride.id}): number of cuts: #{edit.cuts.length}")
-    if edit.cuts.empty?
-      ride.edits.destroy(edit)
-    else
-      edit.save
-    end
+    edit = Editors::Proximity.call(user: user, ride: ride)
   end
 
   def debug(msg)
-    Rollbar.debug("GenerateEdits(user: #{user.id}): #{msg}")
+    Rollbar.debug("BatchEditor(user: #{user.id}): #{msg}")
   end
 end

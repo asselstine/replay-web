@@ -38,7 +38,7 @@ class Photo < ActiveRecord::Base
   end
 
   def infer_user_coords
-    coords = user.evaluator(Context.new(cut_start_at: self.timestamp)).coords
+    coords = user.evaluator(Frame.new(cut_start_at: self.timestamp)).coords
     if coords
       Location.create(trackable: camera, latitude: coords[0], longitude: coords[1], timestamp: self.timestamp)
     else

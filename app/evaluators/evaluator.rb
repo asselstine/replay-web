@@ -1,4 +1,4 @@
 class Evaluator
   include Virtus.model
-  attribute :context, Context
+  attribute :context, Frame
 end

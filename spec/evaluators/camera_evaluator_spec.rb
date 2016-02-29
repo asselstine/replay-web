@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe CameraEvaluator do
   let(:camera) { Camera.new }
-  let(:context) { Context.new }
+  let(:context) { Frame.new }
   subject { CameraEvaluator.new(context: context, camera: camera) }
 
   describe '#coords_at' do
@@ -27,15 +27,15 @@ RSpec.describe CameraEvaluator do
     context 'proximity' do
       context 'when coords match' do
         it 'should have a strength of 1' do
-          expect(subject).to receive(:coords).and_return([0,0])
-          expect(user_evaluator).to receive(:coords).and_return([0,0])
+          expect(subject).to receive(:coords).and_return([0, 0])
+          expect(user_evaluator).to receive(:coords).and_return([0, 0])
           expect(subject.strength(user_evaluator)).to eq(1)
         end
       end
       context 'when coords are distant' do
         it 'should have a strength of 0' do
-          expect(subject).to receive(:coords).and_return([0,0])
-          expect(user_evaluator).to receive(:coords).and_return([90,180])
+          expect(subject).to receive(:coords).and_return([0, 0])
+          expect(user_evaluator).to receive(:coords).and_return([90, 180])
           expect(subject.strength(user_evaluator)).to eq(0)
         end
       end
@@ -44,8 +44,9 @@ RSpec.describe CameraEvaluator do
           expect(subject).to receive(:coords).and_return(double(Array))
           expect(user_evaluator).to receive(:coords).and_return(double(Array))
           expect(Geocoder::Calculations).to receive(:distance_between)
-            .and_return(10.0/1000.0)
-          expect(subject.strength(user_evaluator)).to be_within(0.01).of(Camera.bell(1))
+            .and_return(10.0 / 1000.0)
+          expect(subject.strength(user_evaluator))
+            .to be_within(0.01).of(Camera.bell(1))
         end
       end
     end

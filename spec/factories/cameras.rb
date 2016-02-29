@@ -7,29 +7,27 @@ FactoryGirl.define do
     association :recording_session
 
     transient do
-      video_at nil
+      at nil
     end
 
-    trait :with_static do
+    trait :static do
       transient do
         lat 0
         lng 0
-        video_at DateTime.now
+        start_at DateTime.now
+        end_at DateTime.now.since(30)
       end
       static true
       after :create do |camera, evaluator|
         create(:location, latitude: evaluator.lat,
                           longitude: evaluator.lng,
                           trackable: camera,
-                          timestamp: evaluator.video_at)
+                          timestamp: evaluator.start_at)
+        create(:video,
+               camera: camera,
+               start_at: evaluator.start_at,
+               end_at: evaluator.end_at)
       end
-    end
-
-    after :create do |camera, evaluator|
-      create(:video,
-             camera: camera,
-             start_at: evaluator.video_at,
-             end_at: evaluator.video_at.since(30)) if evaluator.video_at
     end
   end
 end

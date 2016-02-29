@@ -31,7 +31,7 @@ class Camera < ActiveRecord::Base
     joins(:videos).merge(Video.containing(start_at, end_at))
   end
 
-  def evaluator(context = Context.new)
+  def evaluator(context = Frame.new)
     CameraEvaluator.new(context: context, camera: self)
   end
 end

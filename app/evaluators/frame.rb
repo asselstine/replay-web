@@ -1,4 +1,4 @@
-class Context
+class Frame
   include Virtus.model
 
   attribute :start_at, DateTime, default: Time.at(0).to_datetime
@@ -17,13 +17,11 @@ class Context
 
   def next!
     if cut_end_at < end_at
-      self.cut_start_at = cut_end_at 
+      self.cut_start_at = cut_end_at
       self.cut_end_at += period
       true
     else
       false
     end
   end
-
 end
-

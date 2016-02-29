@@ -1,11 +1,11 @@
 class EditProcessorJob < ActiveJob::Base
   queue_as :default
 
-  def perform(video_edit:)
+  def perform(edit:)
     if Rails.env.test?
-      EditProcessor.new(video_edit: video_edit).call
+      EditProcessor.new(edit: edit).call
     else
-      RemoteEditProcessor.new(video_edit: video_edit).call
+      RemoteEditProcessor.new(edit: edit).call
     end
   end
 end

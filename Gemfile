@@ -75,6 +75,7 @@ group :production do
 end
 
 group :test do
+  gem 'rspec-set'
   gem 'rspec-rails'
   gem 'simplecov'
   gem 'cucumber-rails', require: false

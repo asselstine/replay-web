@@ -18,8 +18,7 @@ class BatchEditor
   protected
 
   def generate_edit(ride)
-    # find recording sessions that began before the ride, and end after the ride
-    edit = Editors::Proximity.call(user: user, ride: ride)
+    Editor.call(user: user, ride: ride)
   end
 
   def debug(msg)

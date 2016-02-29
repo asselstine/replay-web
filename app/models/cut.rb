@@ -1,5 +1,5 @@
 class Cut < ActiveRecord::Base
-  belongs_to :edit
+  belongs_to :edit, inverse_of: :cuts
   belongs_to :video
   validates :start_at, :end_at, presence: true
 
@@ -7,7 +7,7 @@ class Cut < ActiveRecord::Base
     where(end_at: end_at)
   end
 
-  def self.during(start_at, end_at=nil)
+  def self.during(start_at, end_at = nil)
     if end_at
       query = <<-SQL
         (videos.start_at, videos.end_at) OVERLAPS (:start_at, :end_at)

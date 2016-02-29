@@ -22,6 +22,9 @@ class UserEvaluator < Evaluator
   end
 
   def user_locations
-    @locations ||= user.locations.order(timestamp: :asc).during(context.start_at - 10.minutes, context.end_at + 10.minutes)
+    @locations ||= user.locations
+                       .order(timestamp: :asc)
+                       .during(context.start_at - 10.minutes,
+                               context.end_at + 10.minutes)
   end
 end

@@ -18,7 +18,7 @@ class User < ActiveRecord::Base
   def feed_photos
     photos = []
     return photos if feed_start_at.nil? || feed_end_at.nil?
-    context = Context.new(start_at: feed_start_at,
+    context = Frame.new(start_at: feed_start_at,
                           end_at: feed_end_at,
                           user: self)
     loop do
@@ -47,7 +47,7 @@ class User < ActiveRecord::Base
     locations.with_timestamp.order(timestamp: :desc).first.try(:timestamp)
   end
 
-  def evaluator(context = Context.new)
+  def evaluator(context = Frame.new)
     UserEvaluator.new(user: self, context: context)
   end
 end

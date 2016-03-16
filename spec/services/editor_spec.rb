@@ -10,6 +10,7 @@ RSpec.describe Editor do
       [0, 2],
       [1, 2],
       [2, 2],
+      [3, 2],
       [3, 2]
     ]
     time = 0
@@ -43,11 +44,11 @@ RSpec.describe Editor do
       expect(edit.cuts.length).to eq(6)
       c = edit.cuts
       expect(c[0].video).to eq cameras[0].videos.first
-      expect(c[1].video).to eq cameras[2].videos.first
-      expect(c[2].video).to eq cameras[3].videos.first
-      expect(c[3].video).to eq cameras[4].videos.first
-      expect(c[4].video).to eq cameras[5].videos.first
-      expect(c[5].video).to eq cameras[5].videos.first
+      expect(c[1].video).to eq cameras[1].videos.first
+      expect(c[2].video).to eq cameras[2].videos.first
+      expect(c[3].video).to eq cameras[3].videos.first
+      expect(c[4].video).to eq cameras[4].videos.first
+      expect(c[5].video).to eq cameras[4].videos.first
     end
   end
 end

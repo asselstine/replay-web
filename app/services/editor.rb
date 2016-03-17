@@ -31,6 +31,6 @@ class Editor
   end
 
   def user_evaluator
-    @user_evaluator ||= edit.user.evaluator(@frame)
+    @user_evaluator ||= UserEvaluator.new(user: edit.user, frame: @frame)
   end
 end

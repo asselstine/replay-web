@@ -1,4 +1,8 @@
 class Evaluator
   include Virtus.model
-  attribute :context, Frame
+  attribute :frame, Frame
+
+  def now
+    frame.cut_start_at
+  end
 end

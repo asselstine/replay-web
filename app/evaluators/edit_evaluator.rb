@@ -1,8 +1,7 @@
-class EditEvaluator
+class EditEvaluator < Evaluator
   include Virtus.model
 
   attribute :user_evaluator
-  attribute :frame, Frame
 
   def find_best_video
     camera = find_best_camera
@@ -21,7 +20,7 @@ class EditEvaluator
   end
 
   def camera_evals
-    frame_cameras.map { |cam| cam.evaluator(frame) }
+    frame_cameras.map { |cam| CameraEvaluator.new(camera: cam, frame: frame) }
   end
 
   def cameras

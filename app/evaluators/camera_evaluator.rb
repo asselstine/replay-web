@@ -6,7 +6,7 @@ class CameraEvaluator < Evaluator
   end
 
   def coords
-    coords_at(context.cut_start_at)
+    coords_at(now)
   end
 
   # The proximity method
@@ -31,6 +31,6 @@ class CameraEvaluator < Evaluator
   protected
 
   def camera_locations
-    @_camera_locations ||= camera.locations.before(context.end_at)
+    @_camera_locations ||= camera.locations.before(frame.end_at)
   end
 end

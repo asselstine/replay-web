@@ -18,22 +18,23 @@ class User < ActiveRecord::Base
   def feed_photos
     photos = []
     return photos if feed_start_at.nil? || feed_end_at.nil?
-    context = Frame.new(start_at: feed_start_at,
-                          end_at: feed_end_at,
-                          user: self)
+    frame = Frame.new(start_at: feed_start_at,
+                      end_at: feed_end_at,
+                      user: self)
     loop do
-      photos += feed_photos_during(context)
-      break unless context.next!
+      photos += feed_photos_during(frame)
+      break unless frame.next!
     end
     photos
   end
 
-  def feed_photos_during(context)
+  def feed_photos_during(frame)
     photos = []
-    user_eval = evaluator(context)
+    user_eval = UserEvaluator.new(user: self, frame: frame)
     Camera.all.each do |camera|
-      if camera.evaluator(context).strength(user_eval) >= Camera::MIN_STRENGTH
-        photos += camera.photos.during(context.cut_start_at, context.cut_end_at)
+      if CameraEvaluator.new(camera: camera, frame: frame)
+                        .strength(user_eval) >= Camera::MIN_STRENGTH
+        photos += camera.photos.during(frame.cut_start_at, frame.cut_end_at)
       end
     end
     photos
@@ -45,9 +46,5 @@ class User < ActiveRecord::Base
 
   def feed_end_at
     locations.with_timestamp.order(timestamp: :desc).first.try(:timestamp)
-  end
-
-  def evaluator(context = Frame.new)
-    UserEvaluator.new(user: self, context: context)
   end
 end

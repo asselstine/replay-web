@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe CameraEvaluator do
   let(:camera) { Camera.new }
-  let(:context) { Frame.new }
-  subject { CameraEvaluator.new(context: context, camera: camera) }
+  let(:frame) { Frame.new }
+  subject { CameraEvaluator.new(frame: frame, camera: camera) }
 
   describe '#coords_at' do
     it 'should find the static coords for the user_locations' do
@@ -15,8 +15,8 @@ RSpec.describe CameraEvaluator do
   end
 
   describe '#coords' do
-    it 'should use the context time' do
-      expect(context).to receive(:cut_start_at).and_return(t(1))
+    it 'should use the frame time' do
+      expect(frame).to receive(:cut_start_at).and_return(t(1))
       expect(subject).to receive(:coords_at).with(t(1))
       subject.coords
     end

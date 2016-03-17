@@ -1,4 +1,4 @@
-class KMLOutput 
+class KMLOutput
   include Virtus.model
 
   attribute :user_evaluator, UserEvaluator
@@ -16,7 +16,7 @@ class KMLOutput
     kfile.render
   end
 
-  protected 
+  protected
 
   def coords
     result = []
@@ -25,6 +25,6 @@ class KMLOutput
       result << [ context.cut_start_at, user_evaluator.coords ]
       break unless context.next!
     end
-    result 
+    result
   end
 end

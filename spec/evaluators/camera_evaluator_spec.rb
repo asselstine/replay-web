@@ -49,6 +49,15 @@ RSpec.describe CameraEvaluator do
             .to be_within(0.01).of(Camera.bell(1))
         end
       end
+      context 'when just past the range of the camera' do
+        it 'should have a strength of zero' do
+          expect(subject).to receive(:coords).and_return(double(Array))
+          expect(user_evaluator).to receive(:coords).and_return(double(Array))
+          expect(Geocoder::Calculations).to receive(:distance_between)
+            .and_return(12.0 / 1000.0)
+          expect(subject.strength(user_evaluator)).to eq(0)
+        end
+      end
     end
   end
 end

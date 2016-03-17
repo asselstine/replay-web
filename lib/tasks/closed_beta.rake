@@ -150,7 +150,7 @@ namespace :replay do
       edit.save!
       fail 'No videos' if edit.videos.empty?
       fail 'No cuts were made' if edit.cuts.empty?
-      EditProcessor = EditProcessor.new(video_edit: edit)
+      EditProcessor = EditProcessor.new(edit: edit)
       EditProcessor.call
       `open #{EditProcessor.edit_filepath}`
     end

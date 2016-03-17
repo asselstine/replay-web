@@ -22,7 +22,7 @@ RSpec.describe Editor do
     r
   end
 
-  subject { Editor.new(user: user, ride: ride) }
+  subject { Editor.new(edit: Edit.new(user: user, ride: ride)) }
 
   describe '#call' do
     let!(:cameras) do
@@ -35,7 +35,7 @@ RSpec.describe Editor do
       ]
       locations.map do |lat, lng|
         create(:camera,
-               :static, start_at: t(0), range_m: 100_000, lat: lat, lng: lng)
+               :static, start_at: t(0), range_m: 200_000, lat: lat, lng: lng)
       end
     end
 

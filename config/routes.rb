@@ -18,6 +18,11 @@ Rails.application.routes.draw do
   resources :rides, :only => [:index, :show]
   resources :locations, :only => [:index]
   resource :feed
+  resources :edits, :only => [] do
+    member do
+      post '/reprocess' => 'edits#reprocess', as: :reprocess
+    end
+  end
 
   resource :slate, only: [:show] do
     get 'now', to: 'slates#now', as: :now

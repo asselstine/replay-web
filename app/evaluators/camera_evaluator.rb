@@ -9,16 +9,23 @@ class CameraEvaluator < Evaluator
     coords_at(context.cut_start_at)
   end
 
+  # The proximity method
   def strength(user_evaluator)
-    # The proximity method
+    kms = distance(user_evaluator)
+    # puts "Camera#strength: kms #{kms} bell: #{bell}"
+    bell = if kms > camera.range_m / 1000.0
+             0
+           else
+             Camera.bell(kms / (camera.range_m / 1000.0))
+           end
+    bell
+  end
+
+  def distance(user_evaluator)
     u_coords = user_evaluator.coords
     c_coords = coords
-    # puts "Camera#strength: c id: #{id}: c_coords: #{c_coords}, u_coords: #{u_coords}, start_at: #{start_at.to_f}"
     return 0 unless u_coords && c_coords
-    kms = Geocoder::Calculations.distance_between(u_coords, c_coords, units: :km)
-    bell = Camera.bell(kms / (camera.range_m / 1000.0))
-    # puts "Camera#strength: kms #{kms} bell: #{bell}"
-    bell
+    Geocoder::Calculations.distance_between(u_coords, c_coords, units: :km)
   end
 
   protected

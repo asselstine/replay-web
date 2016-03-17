@@ -1,6 +1,7 @@
 Given %(I have an edit) do
   @user ||= create(:user)
-  @edit ||= @user.edits.create!
+  @ride ||= create(:ride)
+  @edit ||= @user.edits.create! ride: @ride
   @final_cut ||= @edit.final_cuts.create!(video:
     Video.create!(file:
       File.open(Rails.root.join('spec', 'fixtures', 'dan_session1-frame.mp4'))))

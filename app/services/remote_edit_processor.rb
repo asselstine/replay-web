@@ -1,6 +1,6 @@
 class RemoteEditProcessor < EditProcessor
   def download_videos
-    video_edit.videos.each do |video|
+    edit.videos.each do |video|
       download_video(video)
     end
   end

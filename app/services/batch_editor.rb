@@ -18,7 +18,8 @@ class BatchEditor
   protected
 
   def generate_edit(ride)
-    Editor.call(user: user, ride: ride)
+    edit = Edit.new(user: user, ride: ride)
+    Editor.call(edit: edit)
   end
 
   def debug(msg)

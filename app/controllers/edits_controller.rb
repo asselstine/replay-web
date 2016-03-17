@@ -1,5 +1,5 @@
 class EditsController < ApplicationController
-  before_action :find_edit, only: [:reprocess]
+  before_action :find_edit, only: [:reprocess, :recut]
 
   def reprocess
     EditProcessorJob.perform_later(edit: @edit)
@@ -9,6 +9,7 @@ class EditsController < ApplicationController
   def recut
     @edit.cuts.destroy_all
     Editor.call(edit: @edit)
+    redirect_to feed_path
   end
 
   protected

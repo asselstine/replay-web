@@ -21,6 +21,7 @@ Rails.application.routes.draw do
   resources :edits, :only => [] do
     member do
       post '/reprocess' => 'edits#reprocess', as: :reprocess
+      post '/recut' => 'edits#recut', as: :recut
     end
   end
 

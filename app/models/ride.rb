@@ -31,5 +31,6 @@ class Ride < ActiveRecord::Base
       coords << re.coords
       break unless frame.next!
     end
+    coords
   end
 end

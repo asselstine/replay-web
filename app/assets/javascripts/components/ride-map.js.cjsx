@@ -3,7 +3,6 @@
     ride: React.PropTypes.object.isRequired
 
   getInitialState: ->
-    coords; ride.interpolated_coords.first ||
 
   initMap: (comp) ->
     @$map = $(React.findDOMNode(comp))

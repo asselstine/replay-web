@@ -23,6 +23,6 @@ class BatchEditor
   end
 
   def debug(msg)
-    Rollbar.debug("BatchEditor(user: #{user.id}): #{msg}")
+    Rails.logger.debug("BatchEditor(user: #{user.id}): #{msg}")
   end
 end

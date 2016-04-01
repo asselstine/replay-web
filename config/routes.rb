@@ -5,7 +5,6 @@ Rails.application.routes.draw do
   mount Resque::Server.new, :at => "/resque"
 
   devise_for :users, :controllers => {
-    :sessions => 'sessions',
     :omniauth_callbacks => 'omniauth'
   }
 

@@ -37,7 +37,9 @@ class OmniauthController < Devise::OmniauthCallbacksController
       username: oauth['extra']['raw_info']['username'],
       user: find_or_create_user(oauth)
     )
-    Synchronize.call(user: strava.user)
+    unless strava.waiting? || strava.working?
+      SynchronizeJob.perform_later strava.user_id
+    end
     strava
   end
 

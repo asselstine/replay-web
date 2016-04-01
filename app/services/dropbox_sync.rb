@@ -29,7 +29,7 @@ class DropboxSync
     metadata = entry[1]
     photo = dropbox_event.dropbox_photos.find_by_path(path)
     if !metadata
-      Rollbar.debug("Destroying photo with path #{path}")
+      Rails.logger.debug("Destroying photo with path #{path}")
       photo.destroy if photo.present?
     elsif /\.((jpg)|(jpeg)|(png))$/ =~ path #is a photo
       contents, contents_metadata = client.get_file_and_metadata(path, metadata['rev'])

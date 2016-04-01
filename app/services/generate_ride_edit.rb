@@ -20,6 +20,6 @@ class GenerateRideEdit
   protected
 
   def debug(msg)
-    Rollbar.debug("GenerateRideEdit(user: #{user.id}): #{msg}")
+    Rails.logger.debug("GenerateRideEdit(user: #{user.id}): #{msg}")
   end
 end

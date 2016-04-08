@@ -5,7 +5,8 @@ class StravaAccount < ActiveRecord::Base
     :waiting,
     :working,
     :done,
-    :failed
+    :failed,
+    :no_job
   ]
 
   def client

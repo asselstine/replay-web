@@ -68,14 +68,14 @@ Cucumber::Rails::Database.javascript_strategy = :truncation
 include FactoryGirl::Syntax::Methods
 
 OmniAuth.config.test_mode = true
-OmniAuth.config.add_mock(:strava, {
-  uid: 1234,
-  credentials: {
-    token: 'asdf'
-  },
-  extra: {
-    raw_info: {
-      username: 'digger'
-    }
-  }
-})
+OmniAuth.config.add_mock(:strava,
+                         uid: 1234,
+                         credentials: {
+                           token: 'asdf'
+                         },
+                         extra: {
+                           raw_info: {
+                             username: 'digger'
+                           }
+                         }
+                        )

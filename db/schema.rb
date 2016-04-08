@@ -146,9 +146,9 @@ ActiveRecord::Schema.define(version: 20160401234647) do
     t.string   "token"
     t.string   "username"
     t.integer  "user_id"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
-    t.integer  "sync_job_status"
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.integer  "sync_job_status", default: 4
   end
 
   create_table "users", force: :cascade do |t|

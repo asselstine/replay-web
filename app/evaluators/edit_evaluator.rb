@@ -4,26 +4,34 @@ class EditEvaluator < Evaluator
   attribute :user_evaluator
 
   def find_best_video
-    camera = find_best_camera
-    camera.videos.containing(frame.cut_start_at,
-                             frame.cut_end_at).first if camera
+    filtered = compute_strength_map.select do |strength|
+      strength[:strength] > 0
+    end
+    strongest = filtered.sort do |strength1, strength2|
+      strength2[:strength] <=> strength1[:strength]
+    end.first
+    strongest[:video_evaluator].video if strongest
   end
 
-  def find_best_camera
-    camera_evals.sort do |b, a|
-      a.strength(user_evaluator) <=> b.strength(user_evaluator)
-    end.first.try(:camera)
+  protected
+
+  def compute_strength_map
+    video_evaluators.map do |video_evaluator|
+      {
+        strength: video_evaluator.strength(user_evaluator),
+        video_evaluator: video_evaluator
+      }
+    end
   end
 
-  def frame_cameras
-    cameras.with_video_containing(frame.cut_start_at, frame.cut_end_at)
+  def video_evaluators
+    @video_evaluators ||= videos.map do |video|
+      VideoEvaluator.new(video: video, frame: frame)
+    end
   end
 
-  def camera_evals
-    frame_cameras.map { |cam| CameraEvaluator.new(camera: cam, frame: frame) }
-  end
-
-  def cameras
-    @cameras ||= Camera.with_video_during(frame.start_at, frame.end_at)
+  # assuming the frame start and end do not change.
+  def videos
+    @videos ||= Video.during(frame.start_at, frame.end_at)
   end
 end

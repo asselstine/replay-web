@@ -10,6 +10,10 @@ Given %(I've been somewhere) do
   end
 end
 
+When %(pry) do
+  binding.pry
+end
+
 When %(I go to settings) do
   click_link 'Settings'
 end

@@ -43,6 +43,8 @@ Rails.application.configure do
   config.react.variant = :development
 
   config.assets.paths << Rails.root.join(%(app assets test))
+
+  config.active_job.queue_adapter = :test
   
   # Rollbar = Logger.new(STDOUT)
 end

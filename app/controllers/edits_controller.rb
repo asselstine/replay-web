@@ -1,14 +1,8 @@
 class EditsController < ApplicationController
-  before_action :find_edit, only: [:reprocess, :recut]
-
-  def reprocess
-    EditProcessorJob.perform_later(edit: @edit)
-    redirect_to feed_path
-  end
+  before_action :find_edit, only: [:recut]
 
   def recut
-    @edit.cuts.destroy_all
-    MultiVideoEditor.call(edit: @edit)
+    RoughCutEditor.call(ride: @edit.ride)
     redirect_to feed_path
   end
 

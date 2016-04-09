@@ -18,8 +18,7 @@ class BatchEditor
   protected
 
   def generate_edit(ride)
-    edit = Edit.new(user: user, ride: ride)
-    MultiVideoEditor.call(edit: edit)
+    RoughCutEditor.call(ride: ride) if ride.edits.empty?
   end
 
   def debug(msg)

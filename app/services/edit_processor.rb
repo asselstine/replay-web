@@ -29,6 +29,10 @@ class EditProcessor
     upload_video
   end
 
+  def stitched_filepath
+    "#{tmpdir}/stitched-#{edit.id}.mp4"
+  end
+
   def edit_filepath
     "#{tmpdir}/edit-#{edit.id}.mp4"
   end
@@ -82,13 +86,24 @@ class EditProcessor
   def extract_cuts
     # ffmpeg -ss 00:00:01.0 -i small.mp4 -ss 00:00:01.0 -t 00:00:01 output.mp4
     edit.cuts.each do |cut|
-      run("ffmpeg -strict -2 -ss #{self.class.cut_start_time_s(cut)} -i #{video_filepath(cut.video)} -t #{self.class.cut_duration_s(cut)} #{cut_filepath(cut)}")
+      run(<<-SHELL
+        ffmpeg -strict -2 -ss #{self.class.cut_start_time_s(cut)}\
+         -i #{video_filepath(cut.video)} -t #{self.class.cut_duration_s(cut)} #{cut_filepath(cut)}
+      SHELL
+         )
     end
   end
 
   def stitch_cuts
     # ffmpeg -f concat -i mylist.txt -c copy output
-    run("ffmpeg -strict -2 -f concat -i #{index_filepath} -c copy #{edit_filepath}")
+    run(<<-SHELL
+      ffmpeg -strict -2 -f concat -i #{index_filepath} -c copy #{stitched_filepath}
+    SHELL
+       )
+    run(<<-SHELL
+      ffmpeg -i #{stitched_filepath} #{edit_filepath}
+    SHELL
+       )
   end
 
   def upload_video
@@ -97,8 +112,7 @@ class EditProcessor
     debug "The temp directory is:\n"
     debug tmpdir
     debug "There were #{edit.cuts.count} cuts."
-    edit.final_cuts.create(
-      video: Video.create(file: File.open(edit_filepath)))
+    edit.final_cuts.create(video: Video.create(file: File.open(edit_filepath)))
   end
 
   def cut_filename(cut)

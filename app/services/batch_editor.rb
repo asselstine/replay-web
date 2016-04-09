@@ -19,7 +19,7 @@ class BatchEditor
 
   def generate_edit(ride)
     edit = Edit.new(user: user, ride: ride)
-    Editor.call(edit: edit)
+    MultiVideoEditor.call(edit: edit)
   end
 
   def debug(msg)

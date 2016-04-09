@@ -8,7 +8,7 @@ class EditsController < ApplicationController
 
   def recut
     @edit.cuts.destroy_all
-    Editor.call(edit: @edit)
+    MultiVideoEditor.call(edit: @edit)
     redirect_to feed_path
   end
 

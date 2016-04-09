@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Editor do
+RSpec.describe MultiVideoEditor do
   set(:user) { create(:user) }
   set(:ride) do
     r = create(:ride, user: user)
@@ -22,7 +22,7 @@ RSpec.describe Editor do
     r
   end
 
-  subject { Editor.new(edit: Edit.new(user: user, ride: ride)) }
+  subject { MultiVideoEditor.new(edit: Edit.new(user: user, ride: ride)) }
 
   describe '#call' do
     let!(:cameras) do

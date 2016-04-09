@@ -1,7 +1,6 @@
 .edit
   h2 = edit.ride.try(:strava_name)
   = link_to 'Recut', recut_edit_path(edit), method: :post
-  = link_to 'Reprocess', reprocess_edit_path(edit), method: :post
   - last_cut = edit.final_cuts.last
   - if last_cut && last_cut.video
     h3 = last_cut.video.filename

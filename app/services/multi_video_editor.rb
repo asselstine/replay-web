@@ -1,4 +1,5 @@
-class Editor
+# Updates an edit with cuts from any valid video; stitching together the result.
+class MultiVideoEditor
   include Service
   include Virtus.model
 

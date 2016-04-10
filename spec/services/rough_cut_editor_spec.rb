@@ -24,6 +24,7 @@ describe RoughCutEditor do
     end
 
     it 'should create two edits' do
+      expect(EditProcessorJob).to receive(:perform_later).twice.with(edit: kind_of(Edit))
       subject.call
       expect(ride.edits.length).to eq(2)
     end

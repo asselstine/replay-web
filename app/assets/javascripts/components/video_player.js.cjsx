@@ -5,6 +5,10 @@
     video: React.PropTypes.object.isRequired
     onTimeUpdate: React.PropTypes.func
     onCanPlayThrough: React.PropTypes.func
+    canFlip: React.PropTypes.bool
+
+  getDefaultProps: ->
+    canFlip: false
 
   getInitialState: ->
     flip: false
@@ -24,8 +28,9 @@
 
   render: ->
     flipClass = if @state.flip then 'flip' else ''
+    flip = <a href='javascript:;' onClick={@flip}>Flip</a> if @props.canFlip
     <div>
-      <a href='javascript:;' onClick={@flip}>Flip</a>
+      {flip}
       <video controls='true' ref={@videoRef} preload='true' className={'video-player ' + flipClass}>
         <source src={@props.video.file_url}/>
       </video>

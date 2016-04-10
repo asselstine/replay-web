@@ -8,9 +8,16 @@ class RoughCutEditor
     ride.edits.destroy_all # destroy old edits
     @frame = Frame.new(start_at: ride.start_at, end_at: ride.end_at)
     build_edits
+    process
   end
 
   protected
+
+  def process
+    ride.edits.each do |edit|
+      EditProcessorJob.perform_later(edit: edit)
+    end
+  end
 
   def build_edits
     loop do

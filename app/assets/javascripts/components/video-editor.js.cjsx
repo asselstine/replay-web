@@ -55,7 +55,8 @@
         <div>
           <VideoPlayer video={@props.video}
                        onTimeUpdate={@handleTimeUpdate}
-                       onCanPlayThrough={@handleCanPlayThrough}/>
+                       onCanPlayThrough={@handleCanPlayThrough}
+                       canFlip={true}/>
           <div className='controls'>
             <span>
               Current Time: {currentTimeMs}ms

@@ -12,21 +12,29 @@ describe RoughCutEditor do
 
   subject { RoughCutEditor.new(ride: ride) }
 
-  context 'when the user returns to the same camera later' do
+  context 'there is only one camera' do
     let!(:cameras) do
       locations = [
         [0, 0]
       ]
       locations.map do |lat, lng|
         create(:camera, # [0, 1] to []
-               :static, start_at: t(0), range_m: 112_000, lat: lat, lng: lng)
+               :static, start_at: t(0), range_m: 340_000, lat: lat, lng: lng)
       end
     end
 
-    it 'should create two edits' do
-      expect(EditProcessorJob).to receive(:perform_later).twice.with(edit: kind_of(Edit))
-      subject.call
-      expect(ride.edits.length).to eq(2)
+    context 'when the user returns to the same camera later' do
+      it 'should create two edits' do
+        expect(EditProcessorJob).to receive(:perform_later).twice
+          .with(edit: kind_of(Edit))
+        subject.call
+        expect(ride.edits.length).to eq(2)
+        edits = ride.edits.order(created_at: :asc)
+        expect(edits.first.cuts.length).to eq(1)
+        cut1 = edits.first.cuts.first
+        # we expect a 2 second cut
+        expect(cut1.start_at + 5.seconds).to eq(cut1.end_at)
+      end
     end
   end
 end

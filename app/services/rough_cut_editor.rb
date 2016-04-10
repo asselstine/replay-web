@@ -8,6 +8,7 @@ class RoughCutEditor
     ride.edits.destroy_all # destroy old edits
     @frame = Frame.new(start_at: ride.start_at, end_at: ride.end_at)
     build_edits
+    @current_cut.save if @current_cut
     process
   end
 
@@ -28,11 +29,12 @@ class RoughCutEditor
   end
 
   def create_new_edit(video)
+    @current_cut.save if @current_cut
     edit = ride.edits.create(user: ride.user)
-    @current_cut = edit.cuts.create(video: video,
-                                    start_at: @frame.cut_start_at,
-                                    end_at: @frame.cut_end_at
-                                   )
+    @current_cut = edit.cuts.build(video: video,
+                                   start_at: @frame.cut_start_at,
+                                   end_at: @frame.cut_end_at
+                                  )
   end
 
   def current_edit_continue(video)

@@ -36,37 +36,25 @@ class StravaActivitySync
   def add_locations(ride)
     streams = client.retrieve_activity_streams(ride.strava_activity_id,
                                                'latlng,time')
-    location_attributes = streams_to_location_attributes(ride, streams)
-    bulk_insert_locations(ride, location_attributes)
+    ride.create_time_series_data(
+      timestamps: timestamps(ride, streams[1]['data']),
+      latitudes: latitudes(streams[0]['data']),
+      longitudes: longitudes(streams[0]['data']))
     debug("Created locations for ride: #{ride}")
   end
 
-  def bulk_insert_locations(ride, location_attributes)
-    raw_sql = <<-SQL
-      INSERT INTO #{Location.table_name} (timestamp, latitude, longitude, trackable_id, trackable_type) \
-      VALUES
-    SQL
-    raw_sql += location_attributes.map do |attrs|
-      sql = '('
-      sql += "'#{attrs[:timestamp]}', '#{attrs[:latitude]}', "
-      sql += "'#{attrs[:longitude]}', #{ride.id}, '#{Ride.name}'"
-      sql + ')'
-    end.join(', ') + ';'
-    ActiveRecord::Base.connection.execute raw_sql
+  def timestamps(ride, time_stream)
+    time_stream.map do |t|
+      ride.strava_start_at.since(t.to_i).strftime(DATE_FORMAT)
+    end
   end
 
-  def streams_to_location_attributes(ride, streams)
-    latlng = streams[0]
-    time = streams[1]
-    # will be an array of [[lat,lng], seconds]
-    datapoints = latlng['data'].zip time['data']
-    datapoints.map do |dp|
-      {
-        latitude: dp[0][0],
-        longitude: dp[0][1],
-        timestamp: ride.strava_start_at.since(dp[1].to_i).strftime(DATE_FORMAT)
-      }
-    end
+  def latitudes(latlng_stream)
+    latlng_stream.map { |latlng| latlng[0] }
+  end
+
+  def longitudes(latlng_stream)
+    latlng_stream.map { |latlng| latlng[1] }
   end
 
   def client

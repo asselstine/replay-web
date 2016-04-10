@@ -32,11 +32,11 @@ describe StravaActivitySync do
         ride = user.rides.first
         expect(ride.strava_activity_id).to eq('8529483')
         expect(ride.strava_name).to eq('Afternoon Ride')
-        expect(ride.locations.count).to eq(4)
-        loc1 = ride.locations.first
-        expect(loc1.latitude).to eq(38.603734)
-        expect(loc1.longitude).to eq(-122.864112)
-        expect(loc1.timestamp).to eq(ride.strava_start_at)
+        data = ride.time_series_data
+        expect(data.latitudes.count).to eq(4)
+        expect(data.latitudes.first).to eq(38.603734)
+        expect(data.longitudes.first).to eq(-122.864112)
+        expect(data.timestamps.first).to eq(ride.strava_start_at)
       end
     end
   end

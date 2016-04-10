@@ -3,7 +3,7 @@ class CamerasController < LoggedInController
 
   def new
     @camera = Camera.new(camera_params)
-    @camera.locations.build
+    @camera.build_time_series_data if @camera.time_series_data.blank?
   end
 
   def create
@@ -19,7 +19,7 @@ class CamerasController < LoggedInController
   end
 
   def edit
-    @camera.locations.build if @camera.locations.empty?
+    @camera.build_time_series_data if @camera.time_series_data.blank?
   end
 
   def update
@@ -47,11 +47,10 @@ class CamerasController < LoggedInController
           .permit(:name,
                   :range_m,
                   :recording_session_id,
-                  locations_attributes: [:id,
-                                         :_destroy,
-                                         :timestamp,
-                                         :latitude,
-                                         :longitude])
+                  time_series_data_attributes: [:id,
+                                                timestamps: [],
+                                                latitudes: [],
+                                                longitudes: []])
   end
 
   def find_camera

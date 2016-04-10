@@ -4,21 +4,9 @@ RSpec.describe MultiVideoEditor do
   set(:user) { create(:user) }
   set(:ride) do
     r = create(:ride, user: user)
-    locations = [
-      [0, 0],
-      [0, 1],
-      [0, 2],
-      [1, 2],
-      [2, 2],
-      [3, 2],
-      [3, 2]
-    ]
-    time = 0
-    locations.each do |lat, lng|
-      create(:location,
-             trackable: r, latitude: lat, longitude: lng, timestamp: t(time))
-      time += 1
-    end
+    r.create_time_series_data timestamps: Array.new(7) { |i| t(i) },
+                              latitudes: [0, 0, 0, 1, 2, 3, 3],
+                              longitudes: [0, 1, 2, 2, 2, 2, 2]
     r
   end
 

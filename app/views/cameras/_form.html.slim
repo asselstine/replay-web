@@ -2,14 +2,14 @@
   = f.input :name
   = f.input :recording_session_id, as: :hidden
   = f.input :range_m, input_html: { min: 1, max: 30, step: 1 }
-  = f.fields_for :locations do |ff|
+  = f.fields_for :time_series_data do |ff|
     div data-map-input=''
       a href='#' data-user-center-btn=''
         | Center on my location
       div data-user-center-status=''
         | Working
       div data-map=''
-      = ff.input :latitude, as: :hidden, input_html: { data: { latitude: '' } }
-      = ff.input :longitude, as: :hidden, input_html: { data: { longitude: '' } }
-      = ff.input :timestamp, as: :hidden, input_html: { value: @camera.recording_session.start_at.change(sec: 0) }
+      = ff.input :latitudes, as: :hidden, input_html: { multiple: true, data: { latitude: '' } }
+      = ff.input :longitudes, as: :hidden, input_html: { multiple: true, data: { longitude: '' } }
+      = ff.input :timestamps, as: :hidden, input_html: { multiple: true, value: @camera.recording_session.start_at.change(sec: 0) }
   = f.submit

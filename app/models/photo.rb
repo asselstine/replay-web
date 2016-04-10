@@ -37,10 +37,7 @@ class Photo < ActiveRecord::Base
   end
 
   def process_exif_coords
-    Location.create(trackable: find_or_create_camera,
-                    latitude: exif_latitude,
-                    longitude: exif_longitude,
-                    timestamp: timestamp)
+    set_camera_location(timestamp, exif_latitude, exif_longitude)
   end
 
   def infer_user_coords
@@ -48,13 +45,21 @@ class Photo < ActiveRecord::Base
                                                             end_at: timestamp))
                           .coords
     if coords
-      Location.create(trackable: camera,
-                      latitude: coords[0],
-                      longitude: coords[1],
-                      timestamp: timestamp)
+      set_camera_location(timestamp, coords[0], coords[1])
     else
       errors.add(:location,
                  'Cannot geotag this photo; no geographic info available.')
+    end
+  end
+
+  def set_camera_location(timestamp, latitude, longitude)
+    attrs = { timestamps: [timestamp],
+              latitudes: [latitude],
+              longitudes: [longitude] }
+    if camera.time_series_data.present?
+      camera.time_series_data.update(attrs)
+    else
+      camera.create_time_series_data(attrs)
     end
   end
 end

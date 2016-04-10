@@ -1,15 +1,15 @@
 require 'rails_helper'
 
 describe Ride do
-  let(:locations) { [] }
-  subject { create(:ride, locations: locations) }
+  let(:time_series_data) { [] }
+  subject { create(:ride, time_series_data: time_series_data) }
 
   context do
-    let(:locations) do
-      [
-        create(:location, timestamp: t(-10)), 
-        create(:location, timestamp: t(-3))
-      ] 
+    let(:time_series_data) do
+      create(:time_series_data,
+             timestamps: [t(-10), t(-3)],
+             latitudes: Array.new(2),
+             longitudes: Array.new(2))
     end
     describe '#start_at' do
       it 'should return the minimum location timestamp' do

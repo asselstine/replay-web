@@ -1,16 +1,18 @@
 require 'rails_helper'
 
 RSpec.describe CameraEvaluator do
+  let(:time_series_data) { double }
   let(:camera) { Camera.new }
   let(:frame) { Frame.new }
   subject { CameraEvaluator.new(frame: frame, camera: camera) }
 
   describe '#coords_at' do
-    it 'should find the static coords for the user_locations' do
-      locs = double
-      expect(subject).to receive(:camera_locations).and_return(locs)
-      expect(locs).to receive(:before).with(t(0)).and_return([double])
-      subject.coords_at(t(0))
+    it 'should use the time series to return the location' do
+      coords = double
+      expect(camera).to receive(:time_series_data).and_return(time_series_data)
+      expect(time_series_data).to receive(:coords_at)
+        .with(t(0)).and_return(coords)
+      expect(subject.coords_at(t(0))).to eq coords
     end
   end
 

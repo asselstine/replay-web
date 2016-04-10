@@ -15,7 +15,6 @@ Rails.application.routes.draw do
   root to: 'pages#landing', as: :unauthenticated_root
 
   resources :rides, :only => [:index, :show]
-  resources :locations, :only => [:index]
   resource :feed
   resources :edits, :only => [] do
     member do

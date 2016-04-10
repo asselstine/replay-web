@@ -22,8 +22,8 @@ When %(I update the camera location with my current location) do
 end
 
 Then %(the camera location should be updated) do
-  expect(@camera.locations.first.latitude).to eq(-49)
-  expect(@camera.locations.first.longitude).to eq(120)
+  expect(@camera.time_series_data.latitudes.first).to eq(-49)
+  expect(@camera.time_series_data.longitudes.first).to eq(120)
 end
 
 When %(I update the camera range to $range) do |range|
@@ -42,6 +42,6 @@ Then %(the camera should have a video) do
 end
 
 Then %(the camera location timestamp should eq the session start) do
-  expect(Camera.last.locations.first.timestamp)
+  expect(Camera.last.time_series_data.timestamps.first)
     .to eq(@recording_session.start_at.change(sec: 0))
 end

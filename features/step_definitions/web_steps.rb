@@ -1,13 +1,9 @@
 Given %(I've been somewhere) do
   @ride = create(:ride, user: @user)
-  @locations = []
-  10.times do |i|
-    @location = create(:location,
-                       latitude: i / 100.0,
-                       longitude: i / 100.0,
-                       trackable: @ride)
-    @locations << @location
-  end
+  @ride.create_time_series_data(
+    timestamps: Array.new(10) { |i| DateTime.now.utc.since(i) },
+    latitudes: Array.new(10) { |i| i / 100.0 },
+    longitudes: Array.new(10) { |i| i / 100.0 })
 end
 
 When %(pry) do

@@ -2,20 +2,10 @@ class UserEvaluator < Evaluator
   attribute :user, User
 
   def coords
-    location_evaluator.coords
-  end
-
-  protected
-
-  def location_evaluator
-    @location_evaluator ||= LocationEvaluator.new(locations: user_locations,
-                                                  frame: frame)
-  end
-
-  def user_locations
-    @locations ||= user.locations
-                       .order(timestamp: :asc)
-                       .during(frame.start_at - 10.minutes,
-                               frame.end_at + 10.minutes)
+    user.time_series_data.each do |time_series|
+      cords = time_series.coords_at(now)
+      return cords if cords.any?
+    end
+    nil
   end
 end

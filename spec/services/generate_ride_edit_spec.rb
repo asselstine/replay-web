@@ -1,12 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe GenerateRideEdit do
-  let(:start_at) { t(0) }
-  let(:end_at) { t(4) }
-  let(:user_location) { create(:location, timestamp: start_at) }
-  let(:user_location2) { create(:location, timestamp: end_at) }
+  let(:timestamps) { [t(0), t(4)] }
+  let(:latitudes) { [lat_rand, lat_rand] }
+  let(:longitudes) { [long_rand, long_rand] }
   let(:ride) do
-    create(:ride, edits: [], locations: [user_location, user_location2])
+    r = create(:ride, edits: [])
+    r.create_time_series_data timestamps: timestamps,
+                              latitudes: latitudes,
+                              longitudes: longitudes
+    r
   end
   let(:user) { create(:user, rides: [ride].compact) }
 
@@ -20,7 +23,7 @@ RSpec.describe GenerateRideEdit do
 
       it 'should build an edit for the ride' do
         expect(ride.edits).to receive(:build).with(user: user).and_return(edit)
-        expect(edit).to receive(:build_cuts).with(start_at, end_at)
+        expect(edit).to receive(:build_cuts).with(timestamps.first, timestamps.last)
         expect(edit).to receive(:save!)
         subject.call
       end
@@ -32,7 +35,7 @@ RSpec.describe GenerateRideEdit do
 
       it 'should destroy the edit' do
         expect(ride.edits).to receive(:build).with(user: user).and_return(edit)
-        expect(edit).to receive(:build_cuts).with(start_at, end_at)
+        expect(edit).to receive(:build_cuts).with(timestamps.first, timestamps.last)
         expect(ride.edits).to receive(:destroy).with(edit)
         subject.call
       end

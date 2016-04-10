@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
   has_many :edits, dependent: :destroy
   has_many :photos, dependent: :destroy
   has_many :rides, dependent: :destroy
-  has_many :locations, through: :rides
+  has_many :time_series_data, through: :rides
   has_many :recording_sessions, dependent: :destroy
   has_one :strava_account, dependent: :destroy
 
@@ -41,10 +41,16 @@ class User < ActiveRecord::Base
   end
 
   def feed_start_at
-    locations.with_timestamp.order(timestamp: :asc).first.try(:timestamp)
+    rides
+      .order(strava_start_at: :asc)
+      .first
+      .time_series_data.try(:timestamps).try(:first) || DateTime.now.utc
   end
 
   def feed_end_at
-    locations.with_timestamp.order(timestamp: :desc).first.try(:timestamp)
+    rides
+      .order(strava_start_at: :desc)
+      .first
+      .time_series_data.try(:timestamps).try(:last) || DateTime.now.utc
   end
 end

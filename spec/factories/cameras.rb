@@ -19,10 +19,9 @@ FactoryGirl.define do
       end
       static true
       after :create do |camera, evaluator|
-        create(:location, latitude: evaluator.lat,
-                          longitude: evaluator.lng,
-                          trackable: camera,
-                          timestamp: evaluator.start_at)
+        camera.create_time_series_data timestamps: [evaluator.start_at],
+                                       latitudes: [evaluator.lat],
+                                       longitudes: [evaluator.lng]
         create(:video,
                camera: camera,
                start_at: evaluator.start_at,

@@ -1,8 +1,9 @@
 class Ride < ActiveRecord::Base
   belongs_to :user
+  has_one :time_series_data, as: :trackable, dependent: :destroy
   has_many :edits
-  has_many :locations, as: :trackable
-  accepts_nested_attributes_for :locations
+  # has_many :locations, as: :trackable
+  # accepts_nested_attributes_for :locations
 
   def to_s
     <<-STRING
@@ -16,11 +17,11 @@ class Ride < ActiveRecord::Base
   end
 
   def start_at
-    locations.minimum(:timestamp)
+    time_series_data.timestamps.first
   end
 
   def end_at
-    locations.maximum(:timestamp)
+    time_series_data.timestamps.last
   end
 
   def interpolated_coords

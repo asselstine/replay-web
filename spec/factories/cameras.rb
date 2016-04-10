@@ -25,7 +25,7 @@ FactoryGirl.define do
         create(:video,
                camera: camera,
                start_at: evaluator.start_at,
-               end_at: evaluator.end_at)
+               end_at: evaluator.start_at.since(30.seconds))
       end
     end
   end

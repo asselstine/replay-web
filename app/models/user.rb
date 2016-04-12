@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable
 
   has_many :edits, dependent: :destroy
+  has_many :cameras
   has_many :photos, dependent: :destroy
   has_many :rides, dependent: :destroy
   has_many :time_series_data, through: :rides

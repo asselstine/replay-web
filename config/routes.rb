@@ -14,13 +14,12 @@ Rails.application.routes.draw do
 
   root to: 'pages#landing', as: :unauthenticated_root
 
-  resources :rides, :only => [:index, :show]
-  resource :feed
-  resources :edits, :only => [] do
-    member do
-      post '/recut' => 'edits#recut', as: :recut
-    end
+  resources :rides, :only => [:index, :show] do
+    post '/recut' => 'edits#recut', as: :recut
+    resources :edits, :only => [:index]
   end
+
+  resource :feed
 
   resource :slate, only: [:show] do
     get 'now', to: 'slates#now', as: :now

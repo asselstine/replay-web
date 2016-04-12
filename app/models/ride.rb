@@ -5,6 +5,10 @@ class Ride < ActiveRecord::Base
   # has_many :locations, as: :trackable
   # accepts_nested_attributes_for :locations
 
+  delegate :start_at, :end_at, :coords_at, to: :time_series_data
+  # delegate :end_at, to: :time_series_data
+  # delegate :coords_at, to:
+
   def to_s
     <<-STRING
       Ride(#{id}) {
@@ -14,14 +18,6 @@ class Ride < ActiveRecord::Base
                     strava_start_at: #{strava_start_at}
                   }
     STRING
-  end
-
-  def start_at
-    time_series_data.timestamps.first
-  end
-
-  def end_at
-    time_series_data.timestamps.last
   end
 
   def interpolated_coords

@@ -1,6 +1,28 @@
+Given %(a camera exists) do
+  @camera = Camera.create(name: 'Existing Camera')
+end
+
 Given %(there is a camera) do
   step %(I have an existing recording session)
   step %(there is an existing camera for the session)
+end
+
+When %(I create a new camera) do
+  expect do
+    visit new_camera_path
+    fill_in :camera_name, with: 'Camera 1'
+    click_button 'Create Camera'
+  end.to change { Camera.count }.by(1)
+  @camera = Camera.last
+end
+
+Then %(the camera should be listed) do
+  visit cameras_path
+  expect(page).to have_css('a', text: @camera.name)
+end
+
+Then %(the camera location should be the most recent location) do
+  pending# expect(@camera.location).to eq(@user.most_recent_locations.last
 end
 
 When %(I go to edit the camera) do
@@ -40,8 +62,8 @@ end
 Then %(the camera should have a video) do
   expect(@camera.videos).to_not be_empty
 end
-
-Then %(the camera location timestamp should eq the session start) do
-  expect(Camera.last.time_series_data.timestamps.first)
-    .to eq(@recording_session.start_at.change(sec: 0))
-end
+#
+# Then %(the camera location timestamp should eq the session start) do
+#   expect(Camera.last.time_series_data.timestamps.first)
+#     .to eq(@recording_session.start_at.change(sec: 0))
+# end

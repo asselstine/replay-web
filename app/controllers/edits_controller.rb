@@ -1,9 +1,8 @@
 class EditsController < ApplicationController
   before_action :find_edit, only: [:recut]
 
-  def recut
-    RoughCutEditor.call(ride: @edit.ride)
-    redirect_to feed_path
+  def index
+    @edits = @ride.edits
   end
 
   protected

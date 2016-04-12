@@ -4,17 +4,19 @@ class RoughCutEditor
 
   attribute :ride
 
+  attribute :process, Boolean, default: true
+
   def call
     ride.edits.destroy_all # destroy old edits
     @frame = Frame.new(start_at: ride.start_at, end_at: ride.end_at)
     build_edits
     @current_cut.save if @current_cut
-    process
+    do_process if process
   end
 
   protected
 
-  def process
+  def do_process
     ride.edits.each do |edit|
       EditProcessorJob.perform_later(edit: edit)
     end

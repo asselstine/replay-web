@@ -2,20 +2,19 @@ Feature: Manage cameras for recording session
 
   Background:
     Given I'm logged in
-    And I have an existing recording session
 
   Scenario: Create a new camera
-    When I create a new camera for the recording session
-    Then the camera should be listed in the recording session
-    And the camera location timestamp should eq the session start
+    When I create a new camera
+    Then the camera should be listed
+    And the camera location should be the most recent location
 
   @javascript
   Scenario: Update a camera location
-    Given there is an existing camera for the session
+    Given a camera exists
     When I update the camera location with my current location
     Then the camera location should be updated
 
   Scenario: Update a camera range
-    Given there is an existing camera for the session
+    Given a camera exists
     When I update the camera range to 20
     Then the camera range should be 20

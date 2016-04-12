@@ -1,7 +1,7 @@
 class RidesController < ApplicationController
   load_and_authorize_resource
-
-  before_action :set_ride, only: [:show]
+  include SetRide
+  before_action :set_ride, only: [:show, :recut]
 
   def index
     @rides = Ride.all
@@ -10,9 +10,8 @@ class RidesController < ApplicationController
   def show
   end
 
-  private
-
-  def set_ride
-    @ride = Ride.find(params.require(:id))
+  def recut
+    RoughCutEditor.call(ride: @ride)
+    redirect_to @ride
   end
 end

@@ -1,5 +1,4 @@
 class DropboxBrowserController < ApplicationController
-
   before_action :authenticate_user!
 
   include DropboxConcern

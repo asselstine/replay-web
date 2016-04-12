@@ -12,10 +12,10 @@ html
 
   body
 
-    - unless flash.empty?
-      p
-      = flash.first[1]
-
     = render 'nav'
+
+    - flash.each do |k, v|
+      .alert class="alert-#{flash_bootstrap_status_class(k)}"
+        = v
 
     = yield

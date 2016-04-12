@@ -7,6 +7,10 @@ class Frame
   attribute :cut_start_at
   attribute :cut_end_at
 
+  def self.new_from_ride(ride)
+    Frame.new(start_at: ride.start_at, end_at: ride.end_at)
+  end
+
   def cut_start_at
     @cut_start_at ||= start_at
   end

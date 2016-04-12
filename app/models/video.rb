@@ -8,7 +8,7 @@ class Video < ActiveRecord::Base
 
   belongs_to :camera, inverse_of: :videos
 
-  after_save :update_file
+  after_save :check_source_url
 
   def self.during(start_at, end_at)
     query = <<-SQL
@@ -21,7 +21,7 @@ class Video < ActiveRecord::Base
     where('start_at <= ? AND end_at >= ?', start_at, end_at)
   end
 
-  def update_file
+  def check_source_url
     return unless source_url.present? && source_url_changed?
     UpdateVideoFileJob.perform_later(video: self)
   end

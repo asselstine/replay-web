@@ -1,7 +1,31 @@
 require 'gsl'
 
 class TimeSeriesData < ActiveRecord::Base
+  before_validation :clear_blank_latitudes_and_longitudes
+  before_validation :default_timestamps_to_now
+
+  belongs_to :trackable
+
   validate :time_series_lengths_match
+
+  def start_at
+    timestamps.first
+  end
+
+  def end_at
+    timestamps.last
+  end
+
+  def default_timestamps_to_now
+    if timestamps.empty? && latitudes.length == 1
+      self.timestamps = [DateTime.now.utc]
+    end
+  end
+
+  def clear_blank_latitudes_and_longitudes
+    latitudes.reject!(&:blank?)
+    longitudes.reject!(&:blank?)
+  end
 
   def coords_at(time)
     if can_interpolate?(time)

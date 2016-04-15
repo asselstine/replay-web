@@ -6,7 +6,6 @@ Feature: Manage cameras for recording session
   Scenario: Create a new camera
     When I create a new camera
     Then the camera should be listed
-    And the camera location should be the most recent location
 
   @javascript
   Scenario: Update a camera location

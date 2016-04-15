@@ -22,6 +22,7 @@ Then %(the camera should be listed) do
 end
 
 Then %(the camera location should be the most recent location) do
+  binding.pry
   pending# expect(@camera.location).to eq(@user.most_recent_locations.last
 end
 

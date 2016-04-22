@@ -1,4 +1,4 @@
-class BatchEditor
+class BatchProcessor
   include Service
   include Virtus.model
 
@@ -17,9 +17,10 @@ class BatchEditor
   def edit_activity(activity)
     debug("edit_activity(#{activity.id})")
     Edit::ActivityVideoProcessor.call(activity: activity)
+    Edit::ActivityPhotoProcessor.call(activity: activity)
   end
 
   def debug(msg)
-    Rails.logger.debug("BatchEditor(user: #{user.id}): #{msg}")
+    Rails.logger.debug("BatchProcessor(user: #{user.id}): #{msg}")
   end
 end

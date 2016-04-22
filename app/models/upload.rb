@@ -6,6 +6,8 @@ class Upload < ActiveRecord::Base
 
   validates_presence_of :video
 
+  accepts_nested_attributes_for :video
+
   def self.during(start_at, end_at)
     query = <<-SQL
       (uploads.start_at, uploads.end_at) OVERLAPS (:start_at, :end_at)

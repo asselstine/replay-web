@@ -6,6 +6,6 @@ class Synchronize
 
   def call
     StravaActivitySync.call(user: user) if user.strava_account
-    BatchEditor.call(user: user) if user
+    BatchProcessor.call(user: user) if user
   end
 end

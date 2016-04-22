@@ -30,7 +30,7 @@ Rails.application.routes.draw do
 
   resources :recording_sessions
   resources :cameras
-  resources :videos
+  resources :uploads
 
   resources :photos do
     collection do

@@ -62,7 +62,7 @@
               Current Time: {currentTimeMs}ms
             </span>
             <h4>Enter the timecode</h4>
-            <form action={Routes.video_path(id: @props.video.id)} method='post'>
+            <form action={Routes.upload_path(id: @props.video.id)} method='post'>
               <input name="_method" type="hidden" value="patch" />
               <input name="utf8" type="hidden" value="&#x2713;" />
               <input name="authenticity_token" type="hidden" value={@props.csrf_token} />

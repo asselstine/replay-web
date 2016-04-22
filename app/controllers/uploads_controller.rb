@@ -1,4 +1,4 @@
-class VideosController < LoggedInController
+class UploadsController < LoggedInController
   before_action :find_video, except: [:new, :create]
 
   def new
@@ -47,7 +47,7 @@ class VideosController < LoggedInController
                                   :end_at,
                                   :duration_ms,
                                   :source_url,
-                                  :camera_id,
+                                  :user_id,
                                   :file)
   end
 

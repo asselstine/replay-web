@@ -9,6 +9,6 @@ hr
 
 h4 Videos
 p
-  = link_to 'New Video', new_video_path(video: { camera_id: @camera.id }), class: 'btn btn-primary'
+  = link_to 'Upload Video', new_upload_path(video: { camera_id: @camera.id }), class: 'btn btn-primary'
 ul
   = render @camera.videos

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160422223452) do
+ActiveRecord::Schema.define(version: 20160422224954) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,16 +27,6 @@ ActiveRecord::Schema.define(version: 20160422223452) do
     t.decimal  "latitudes",          default: [],              array: true
     t.decimal  "longitudes",         default: [],              array: true
   end
-
-  create_table "cameras", force: :cascade do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "recording_session_id"
-    t.string   "name"
-    t.integer  "user_id"
-  end
-
-  add_index "cameras", ["recording_session_id"], name: "index_cameras_on_recording_session_id", using: :btree
 
   create_table "cuts", force: :cascade do |t|
     t.integer  "edit_id"
@@ -138,7 +128,6 @@ ActiveRecord::Schema.define(version: 20160422223452) do
     t.integer  "user_id"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
-    t.integer  "camera_id"
   end
 
   create_table "recording_sessions", force: :cascade do |t|
@@ -151,14 +140,23 @@ ActiveRecord::Schema.define(version: 20160422223452) do
 
   add_index "recording_sessions", ["user_id"], name: "index_recording_sessions_on_user_id", using: :btree
 
+  create_table "setup_photos", force: :cascade do |t|
+    t.integer "setup_id"
+    t.integer "photo_id"
+  end
+
+  create_table "setup_uploads", force: :cascade do |t|
+    t.integer "setup_id"
+    t.integer "upload_id"
+  end
+
   create_table "setups", force: :cascade do |t|
-    t.integer  "camera_id"
     t.decimal  "range_m",    precision: 6,  scale: 2, default: 16.0
-    t.datetime "timestamp"
     t.decimal  "latitude",   precision: 12, scale: 8
     t.decimal  "longitude",  precision: 12, scale: 8
     t.datetime "created_at",                                         null: false
     t.datetime "updated_at",                                         null: false
+    t.text     "name"
   end
 
   create_table "strava_accounts", force: :cascade do |t|
@@ -172,7 +170,6 @@ ActiveRecord::Schema.define(version: 20160422223452) do
   end
 
   create_table "uploads", force: :cascade do |t|
-    t.integer  "camera_id"
     t.integer  "video_id"
     t.datetime "start_at"
     t.datetime "end_at"
@@ -231,7 +228,6 @@ ActiveRecord::Schema.define(version: 20160422223452) do
     t.string   "audio_channels"
   end
 
-  add_foreign_key "cameras", "recording_sessions"
   add_foreign_key "dropbox_events", "users"
   add_foreign_key "dropbox_photos", "dropbox_events"
   add_foreign_key "edits", "activities", column: "ride_id"

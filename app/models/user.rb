@@ -4,8 +4,7 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable
 
-  has_many :cameras
-  has_many :setups, through: :cameras
+  has_many :setups
   has_many :photos, dependent: :destroy
   has_many :uploads
   has_many :activities, dependent: :destroy

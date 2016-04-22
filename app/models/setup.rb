@@ -1,24 +1,13 @@
 class Setup < ActiveRecord::Base
-  belongs_to :camera
+  has_many :setup_uploads
   has_many :uploads,
-           through: :camera
+           through: :setup_uploads
+  has_many :setup_photos
   has_many :photos,
-           through: :camera
-  validates_presence_of :timestamp
+           through: :setup_photos
+
   validates :range_m, numericality: { greater_than: 0 }
   validates_numericality_of :latitude, :longitude
-
-  # want ones with the greatest timestamp for a camera less than the passed time
-  scope :at_time, (lambda do |time|
-    joins(<<-SQL
-      LEFT OUTER JOIN setups AS s2
-        ON setups.camera_id = s2.camera_id
-        AND setups.timestamp < s2.timestamp
-    SQL
-         )
-       .where('setups.timestamp < :time AND s2.timestamp < :time', time: time)
-       .where('s2.timestamp IS NULL')
-  end)
 
   def self.with_uploads_during(start_at, end_at)
     joins(:uploads).merge(Upload.during(start_at, end_at))

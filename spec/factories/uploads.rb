@@ -1,6 +1,5 @@
 FactoryGirl.define do
   factory :upload do
-    association :camera
     association :video
     association :user
     before :save do |upload, _|

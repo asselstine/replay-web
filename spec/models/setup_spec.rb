@@ -9,7 +9,7 @@ RSpec.describe Setup do
       let(:end_at) { t(2) }
       let(:setup) { create(:setup) }
       let!(:upload) do
-        create(:upload, camera: create(:camera, setups: [setup]),
+        create(:upload, setups: [setup],
                         start_at: start_at,
                         end_at: end_at)
       end

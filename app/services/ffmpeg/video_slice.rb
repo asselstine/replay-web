@@ -3,6 +3,7 @@ class FFMPEG::VideoSlice < FFMPEG::Service
   attribute :video
   attribute :start_at
   attribute :end_at
+  attribute :video_start_at
 
   def call
     download_video(video)
@@ -16,7 +17,7 @@ class FFMPEG::VideoSlice < FFMPEG::Service
     run(<<-SHELL
       ffmpeg -strict -2 \
              -ss #{start}\
-             -i #{video_filepath(cut.video)}\
+             -i #{video_filepath(video)}\
              -t #{duration}\
              #{output_filepath}
     SHELL
@@ -24,7 +25,7 @@ class FFMPEG::VideoSlice < FFMPEG::Service
   end
 
   def start
-    self.class.relative_time(start_at, video.start_at)
+    self.class.relative_time(start_at, video_start_at)
   end
 
   def duration

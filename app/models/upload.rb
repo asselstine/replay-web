@@ -3,8 +3,9 @@
 class Upload < ActiveRecord::Base
   belongs_to :camera
   belongs_to :video
+  belongs_to :user
 
-  validates_presence_of :video
+  validates_presence_of :video, :user
 
   accepts_nested_attributes_for :video
 

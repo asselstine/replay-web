@@ -29,7 +29,7 @@ Rails.application.routes.draw do
   get 'sns' => 'sns#message'
 
   resources :recording_sessions
-  resources :cameras
+  resources :setups
   resources :uploads
 
   resources :photos do

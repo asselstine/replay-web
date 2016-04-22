@@ -1,14 +1,19 @@
 class UploadsController < LoggedInController
-  before_action :find_video, except: [:new, :create]
+  before_action :find_upload, except: [:new, :create, :index]
+
+  def index
+    @uploads = current_user.uploads
+  end
 
   def new
-    @video = Video.new(create_params)
+    @upload = Upload.new
+    @upload.build_video
   end
 
   def create
-    @video = Video.create(create_params)
-    if @video.persisted?
-      redirect_to @video
+    @upload = Upload.create(create_params)
+    if @upload.persisted?
+      redirect_to @upload
     else
       render 'new'
     end
@@ -17,18 +22,18 @@ class UploadsController < LoggedInController
   # rubocop:disable Metrics/MethodLength
   def update
     respond_to do |format|
-      if @video.update(create_params)
+      if @upload.update(create_params)
         format.json do
-          render json: @video,
+          render json: @upload,
                  notice: I18n.t('flash.activerecord.update.success')
         end
         format.html do
-          redirect_to @video.camera,
+          redirect_to @upload,
                       notice: I18n.t('flash.activerecord.update.success')
         end
       else
         format.json do
-          render json: @video, status: :unprocessible_entity
+          render json: @upload, status: :unprocessible_entity
         end
         format.html do
           render 'new'
@@ -43,15 +48,16 @@ class UploadsController < LoggedInController
   protected
 
   def create_params
-    params.require(:video).permit(:start_at,
-                                  :end_at,
-                                  :duration_ms,
-                                  :source_url,
-                                  :user_id,
-                                  :file)
+    params.require(:upload)
+          .permit(:start_at,
+                  :end_at,
+                  video_attributes: [:id,
+                                     :source_url,
+                                     :file])
+          .merge(user: current_user)
   end
 
-  def find_video
-    @video = Video.find(params[:id])
+  def find_upload
+    @upload = Upload.find(params[:id])
   end
 end

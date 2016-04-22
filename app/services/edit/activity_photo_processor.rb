@@ -1,3 +1,4 @@
+# rubocop:disable Style/ClassAndModuleChildren
 class Edit::ActivityPhotoProcessor
   include Virtus.model
   include Service
@@ -17,6 +18,6 @@ class Edit::ActivityPhotoProcessor
     comparators = setups.map do |setup|
       Edit::PhotoComparator.new(setup: setup, activity: activity)
     end
-    Selector.new(comparators: comparators)
+    Edit::Selector.new(comparators: comparators)
   end
 end

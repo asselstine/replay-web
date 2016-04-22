@@ -4,8 +4,8 @@ class Edit::PhotoProcessor < Edit::Processor
 
   def process(comparator)
     comparator.photos.each do |photo|
-      DraftPhoto.create!(photo: photo,
-                         activity: comparator.activity)
+      @drafts << DraftPhoto.create!(photo: photo,
+                                    activity: comparator.activity)
     end
     frame.end_at
   end

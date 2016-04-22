@@ -6,7 +6,7 @@ class Edit::DraftSlicer
   attribute :draft
 
   def call
-    draft.video.create!(file: File.open(slice_upload))
+    draft.create_video!(file: File.open(slice_upload))
   end
 
   def slice_upload

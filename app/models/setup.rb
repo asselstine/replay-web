@@ -1,10 +1,8 @@
 class Setup < ActiveRecord::Base
   belongs_to :camera
   has_many :uploads,
-           -> { where('uploads.end_at > setups.timestamp') },
            through: :camera
   has_many :photos,
-           -> { where('photos.timestamp > setups.timestamp') },
            through: :camera
   validates_presence_of :timestamp
   validates :range_m, numericality: { greater_than: 0 }

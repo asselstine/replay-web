@@ -17,7 +17,7 @@ class FFMPEG::VideoSlice < FFMPEG::Service
     run(<<-SHELL
       ffmpeg -strict -2 \
              -ss #{start}\
-             -i #{video_filepath(video)}\
+             -i #{cached_video_filepath(video)}\
              -t #{duration}\
              #{output_filepath}
     SHELL

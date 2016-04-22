@@ -19,8 +19,8 @@ class FFMPEG::Service
 
   def download_video(video)
     return if File.exist? cached_video_filepath(video)
-    if Rails.env.test? || Rails.env.development?
-      run "cp #{video.file_url} #{video_filepath(video)}"
+    if Rails.env.test?
+      run "cp #{video.file_url} #{cached_video_filepath(video)}"
     else
       run(<<-SHELL
         wget --quiet '#{video.file.file.authenticated_url}' -O #{cached_video_filepath(video)}

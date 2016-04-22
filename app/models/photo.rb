@@ -14,8 +14,8 @@ class Photo < ActiveRecord::Base
   before_save :infer_user_coords, on: :create, if: 'exif_latitude.nil?'
 
   def self.during(start_at, end_at)
-    where('timestamp >= ?', start_at)
-      .where('timestamp <= ?', end_at)
+    where('photos.timestamp >= ?', start_at)
+      .where('photos.timestamp <= ?', end_at)
   end
 
   protected

@@ -8,7 +8,7 @@ class Edit::ActivityVideoProcessor
   def call
     Edit::VideoProcessor.call(selector: selector,
                               start_at: activity.start_at,
-                              end_at: activity.end_at)
+                              end_at: activity.end_at).each(&:save!)
   end
 
   private

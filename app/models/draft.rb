@@ -2,6 +2,7 @@ class Draft < ActiveRecord::Base
   belongs_to :setup
   belongs_to :activity
   belongs_to :upload
+  belongs_to :video
 
   validates_presence_of :setup, :activity, :upload, :start_at, :end_at
 

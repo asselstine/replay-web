@@ -1,9 +1,0 @@
-.container
-  .row
-    .col-xs-12
-      h1 Your Cameras
-      = link_to 'New', new_camera_path, class: 'btn'
-      - if @cameras.empty?
-        span.dim You don't have any!
-      - else
-        = render @cameras

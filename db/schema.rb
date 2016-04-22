@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160422224954) do
+ActiveRecord::Schema.define(version: 20160422230905) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,31 +27,6 @@ ActiveRecord::Schema.define(version: 20160422224954) do
     t.decimal  "latitudes",          default: [],              array: true
     t.decimal  "longitudes",         default: [],              array: true
   end
-
-  create_table "cuts", force: :cascade do |t|
-    t.integer  "edit_id"
-    t.integer  "video_id"
-    t.datetime "start_at"
-    t.datetime "end_at"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "delayed_jobs", force: :cascade do |t|
-    t.integer  "priority",   default: 0, null: false
-    t.integer  "attempts",   default: 0, null: false
-    t.text     "handler",                null: false
-    t.text     "last_error"
-    t.datetime "run_at"
-    t.datetime "locked_at"
-    t.datetime "failed_at"
-    t.string   "locked_by"
-    t.string   "queue"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
 
   create_table "draft_photos", force: :cascade do |t|
     t.integer "photo_id"
@@ -93,33 +68,6 @@ ActiveRecord::Schema.define(version: 20160422224954) do
 
   add_index "dropbox_photos", ["dropbox_event_id"], name: "index_dropbox_photos_on_dropbox_event_id", using: :btree
 
-  create_table "edits", force: :cascade do |t|
-    t.integer  "user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "ride_id"
-  end
-
-  add_index "edits", ["ride_id"], name: "index_edits_on_ride_id", using: :btree
-
-  create_table "final_cuts", force: :cascade do |t|
-    t.integer  "edit_id"
-    t.integer  "video_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  add_index "final_cuts", ["edit_id"], name: "index_final_cuts_on_edit_id", using: :btree
-  add_index "final_cuts", ["video_id"], name: "index_final_cuts_on_video_id", using: :btree
-
-  create_table "locations", force: :cascade do |t|
-    t.datetime "timestamp"
-    t.integer  "trackable_id"
-    t.string   "trackable_type"
-    t.decimal  "latitude",       precision: 12, scale: 8, default: 49.2578263
-    t.decimal  "longitude",      precision: 12, scale: 8, default: -123.1939534
-  end
-
   create_table "photos", force: :cascade do |t|
     t.float    "exif_latitude"
     t.float    "exif_longitude"
@@ -129,16 +77,6 @@ ActiveRecord::Schema.define(version: 20160422224954) do
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
   end
-
-  create_table "recording_sessions", force: :cascade do |t|
-    t.integer  "user_id"
-    t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.datetime "start_at"
-  end
-
-  add_index "recording_sessions", ["user_id"], name: "index_recording_sessions_on_user_id", using: :btree
 
   create_table "setup_photos", force: :cascade do |t|
     t.integer "setup_id"
@@ -230,8 +168,4 @@ ActiveRecord::Schema.define(version: 20160422224954) do
 
   add_foreign_key "dropbox_events", "users"
   add_foreign_key "dropbox_photos", "dropbox_events"
-  add_foreign_key "edits", "activities", column: "ride_id"
-  add_foreign_key "final_cuts", "edits"
-  add_foreign_key "final_cuts", "videos"
-  add_foreign_key "recording_sessions", "users"
 end

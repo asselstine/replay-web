@@ -5,16 +5,6 @@ describe Photo do
   let(:camera) { build(:camera) }
   subject { build(:photo, camera: camera, user: user) }
 
-  describe '#process_exif_coords' do
-    xit 'should create a location if there are new exif coordinates' do
-      expect(camera.time_series_data).to receive(:update)
-        .with(latitudes: [17],
-              longitudes: [23],
-              timestamps: [t(10)])
-      subject.update(exif_latitude: 17, exif_longitude: 23, timestamp: t(10))
-    end
-  end
-
   describe 'class' do
     subject { Photo }
     describe '#during' do
@@ -23,7 +13,7 @@ describe Photo do
       let!(:photo_between)   { create(:photo, timestamp: t(1)) }
       let!(:photo_eq_end)    { create(:photo, timestamp: t(2)) }
       let!(:photo_gt)        { create(:photo, timestamp: t(3)) }
-      xit do
+      it do
         photos = subject.during(t(0), t(2))
         expect(photos).to_not include(photo_lt)
         expect(photos).to include(photo_eq_start)

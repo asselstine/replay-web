@@ -11,7 +11,6 @@ class ActivitiesController < ApplicationController
   end
 
   def recut
-    RoughCutEditor.call(activity: @activity)
     redirect_to @activity
   end
 end

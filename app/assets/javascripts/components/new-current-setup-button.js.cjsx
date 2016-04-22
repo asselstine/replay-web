@@ -2,10 +2,8 @@
   displayName: 'NewCurrentSetupButton'
 
   propTypes:
-    cameras: React.PropTypes.array
 
   getDefaultProps: ->
-    cameras: []
 
   create: ->
 

@@ -1,6 +1,5 @@
 h1 Upload Video
 = simple_form_for @upload do |f|
-  - f.input :camera, collection: current_user.cameras
   = f.fields_for :video do |ff|
     = ff.input :source_url, as: :hidden, input_html: { data: { s3_uploader_target: 'video' } }
     - if Rails.env.test?

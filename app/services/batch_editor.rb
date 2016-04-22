@@ -6,10 +6,10 @@ class BatchEditor
 
   def call
     ActiveRecord::Base.transaction do
-      user.rides.each do |ride|
-        if ride.edits.empty?
-          debug("generate_edit(#{ride.id})")
-          generate_edit(ride)
+      user.activities.each do |activity|
+        if activity.edits.empty?
+          debug("generate_edit(#{activity.id})")
+          generate_edit(activity)
         end
       end
     end
@@ -17,8 +17,8 @@ class BatchEditor
 
   protected
 
-  def generate_edit(ride)
-    RoughCutEditor.call(ride: ride) if ride.edits.empty?
+  def generate_edit(activity)
+    RoughCutEditor.call(activity: activity) if activity.edits.empty?
   end
 
   def debug(msg)

@@ -1,8 +1,6 @@
 require 'gsl'
 
 class Location < ActiveRecord::Base
-  INTERPOLATION_WINDOW_SECONDS = 8
-
   belongs_to :trackable, polymorphic: true
   reverse_geocoded_by :latitude, :longitude
 

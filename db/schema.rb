@@ -11,18 +11,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160411052640) do
+ActiveRecord::Schema.define(version: 20160418053412) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "activities", force: :cascade do |t|
+    t.integer  "user_id"
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.string   "strava_activity_id"
+    t.string   "strava_name"
+    t.datetime "strava_start_at"
+    t.datetime "timestamps",         default: [],              array: true
+    t.decimal  "latitudes",          default: [],              array: true
+    t.decimal  "longitudes",         default: [],              array: true
+  end
+
   create_table "cameras", force: :cascade do |t|
-    t.decimal  "range_m",              default: 10.0
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "recording_session_id"
-    t.boolean  "static",               default: true
-    t.boolean  "one_time",             default: true
     t.string   "name"
     t.integer  "user_id"
   end
@@ -53,6 +62,16 @@ ActiveRecord::Schema.define(version: 20160411052640) do
   end
 
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
+
+  create_table "drafts", force: :cascade do |t|
+    t.integer  "setup_id"
+    t.integer  "activity_id"
+    t.datetime "start_at"
+    t.datetime "end_at"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.integer  "upload_id"
+  end
 
   create_table "dropbox_events", force: :cascade do |t|
     t.string   "cursor"
@@ -133,13 +152,14 @@ ActiveRecord::Schema.define(version: 20160411052640) do
 
   add_index "recording_sessions", ["user_id"], name: "index_recording_sessions_on_user_id", using: :btree
 
-  create_table "rides", force: :cascade do |t|
-    t.integer  "user_id"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
-    t.string   "strava_activity_id"
-    t.string   "strava_name"
-    t.datetime "strava_start_at"
+  create_table "setups", force: :cascade do |t|
+    t.integer  "camera_id"
+    t.decimal  "range_m",    precision: 6,  scale: 2, default: 16.0
+    t.datetime "timestamp"
+    t.decimal  "latitude",   precision: 12, scale: 8
+    t.decimal  "longitude",  precision: 12, scale: 8
+    t.datetime "created_at",                                         null: false
+    t.datetime "updated_at",                                         null: false
   end
 
   create_table "strava_accounts", force: :cascade do |t|
@@ -152,14 +172,11 @@ ActiveRecord::Schema.define(version: 20160411052640) do
     t.integer  "sync_job_status", default: 4
   end
 
-  create_table "time_series_data", force: :cascade do |t|
-    t.integer  "trackable_id"
-    t.string   "trackable_type"
-    t.datetime "timestamps",     default: [],              array: true
-    t.decimal  "latitudes",      default: [],              array: true
-    t.decimal  "longitudes",     default: [],              array: true
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+  create_table "uploads", force: :cascade do |t|
+    t.integer  "camera_id"
+    t.integer  "video_id"
+    t.datetime "start_at"
+    t.datetime "end_at"
   end
 
   create_table "users", force: :cascade do |t|
@@ -218,7 +235,7 @@ ActiveRecord::Schema.define(version: 20160411052640) do
   add_foreign_key "cameras", "recording_sessions"
   add_foreign_key "dropbox_events", "users"
   add_foreign_key "dropbox_photos", "dropbox_events"
-  add_foreign_key "edits", "rides"
+  add_foreign_key "edits", "activities", column: "ride_id"
   add_foreign_key "final_cuts", "edits"
   add_foreign_key "final_cuts", "videos"
   add_foreign_key "recording_sessions", "users"

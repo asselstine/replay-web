@@ -37,9 +37,9 @@ camera_index = (ride_length/2).to_i
 laptop = brendan.cameras.where(name: 'laptop').first_or_create do |camera|
   camera.name = 'laptop'
   camera.range_m = 16.0
-  camera.static_location(timestamp: now,
-                         latitude: lat + camera_index * multiplyer,
-                         longitude: long + camera_index * multiplyer )
+  camera.timestamp = now
+  camera.latitude = lat + camera_index * multiplyer
+  camera.longitude = long + camera_index * multiplyer
 end
 
 video = laptop.videos.where(filename: 'full-clipped.mp4').first_or_create do |video|

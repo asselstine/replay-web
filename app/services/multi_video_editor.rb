@@ -19,8 +19,8 @@ class MultiVideoEditor
     edit_eval = EditEvaluator.new(user_evaluator: user_evaluator, frame: @frame)
     loop do
       video = edit_eval.find_best_video
-      edit.cuts.build(start_at: @frame.cut_start_at,
-                      end_at: @frame.cut_end_at,
+      edit.cuts.build(start_at: @frame.start_at,
+                      end_at: @frame.end_at,
                       video: video) if video
       break unless @frame.next!
     end

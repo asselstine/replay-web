@@ -18,7 +18,7 @@ RSpec.describe CameraEvaluator do
 
   describe '#coords' do
     it 'should use the frame time' do
-      expect(frame).to receive(:cut_start_at).and_return(t(1))
+      expect(frame).to receive(:start_at).and_return(t(1))
       expect(subject).to receive(:coords_at).with(t(1))
       subject.coords
     end

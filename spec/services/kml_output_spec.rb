@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe KMLOutput do
-  let(:ride) { create(:ride) }
+  let(:activity) { create(:activity) }
   let(:context) { Frame.new }
-  let(:ride_evaluator) { UserEvaluator.new(ride: ride, context: context) }
+  let(:activity_evaluator) { UserEvaluator.new(activity: activity, context: context) }
 
-  subject { KMLOutput.new(ride_evaluator: ride_evaluator) }
+  subject { KMLOutput.new(activity_evaluator: activity_evaluator) }
 
   it 'should return the empty file' do
     #expect(subject.call).to include '<kml'

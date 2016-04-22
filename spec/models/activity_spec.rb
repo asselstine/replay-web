@@ -1,8 +1,8 @@
 require 'rails_helper'
 
-describe TimeSeriesData do
+RSpec.describe Activity do
   subject do
-    create(:time_series_data,
+    create(:activity,
            timestamps: [t(-10), t(-3)],
            latitudes: [0, 1],
            longitudes: [2, 3])

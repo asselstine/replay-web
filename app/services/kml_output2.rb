@@ -23,7 +23,7 @@ class KMLOutput
     coords = []
     context = user_evaluator.context
     while true
-      coords << [context.cut_start_at, user_evaluator.coords]
+      coords << [context.start_at, user_evaluator.coords]
       break unless context.next!
     end
     coords

@@ -2,7 +2,7 @@ class EditsController < ApplicationController
   before_action :find_edit, only: [:recut]
 
   def index
-    @edits = @ride.edits
+    @edits = @activity.edits
   end
 
   protected

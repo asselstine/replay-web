@@ -22,8 +22,8 @@ describe 'Factories' do
     expect( create(:location).valid? ).to be_truthy
   end
 
-  it 'ride factory' do
-    expect( create(:ride).valid? ).to be_truthy
+  it 'activity factory' do
+    expect( create(:activity).valid? ).to be_truthy
   end
 
   it 'camera factory' do

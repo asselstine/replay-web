@@ -32,6 +32,6 @@ class EditEvaluator < Evaluator
 
   # assuming the frame start and end do not change.
   def videos
-    @videos ||= Video.during(frame.start_at, frame.end_at)
+    @videos ||= Video.during(frame.activity.start_at, frame.activity.end_at)
   end
 end

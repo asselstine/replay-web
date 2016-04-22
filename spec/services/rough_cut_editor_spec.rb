@@ -2,15 +2,17 @@ require 'rails_helper'
 
 describe RoughCutEditor do
   set(:user) { create(:user) }
-  set(:ride) do
-    r = create(:ride, user: user)
-    r.create_time_series_data timestamps: Array.new(11) { |i| t(i) },
-                              latitudes: [0, 0, 0, 1, 2, 3, 2, 1, 0, 0, 0],
-                              longitudes: [0, 1, 2, 2, 2, 2, 2, 2, 2, 1, 0]
-    r
+  set(:activity) do
+    create(:activity,
+           user: user,
+           timestamps: Array.new(11) { |i| t(i) },
+           latitudes: [0, 0, 0, 1, 2, 3, 2, 1, 0, 0, 0],
+           longitudes: [0, 1, 2, 2, 2, 2, 2, 2, 2, 1, 0])
   end
 
-  subject { RoughCutEditor.new(ride: ride) }
+  subject do
+    RoughCutEditor.new(activity: activity)
+  end
 
   context 'there is only one camera' do
     let!(:cameras) do
@@ -28,8 +30,8 @@ describe RoughCutEditor do
         expect(EditProcessorJob).to receive(:perform_later).twice
           .with(edit: kind_of(Edit))
         subject.call
-        expect(ride.edits.length).to eq(2)
-        edits = ride.edits.order(created_at: :asc)
+        expect(activity.edits.length).to eq(2)
+        edits = activity.edits.order(created_at: :asc)
         expect(edits.first.cuts.length).to eq(1)
         cut1 = edits.first.cuts.first
         # we expect a 2 second cut

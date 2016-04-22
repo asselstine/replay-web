@@ -1,17 +1,17 @@
-class RidesController < ApplicationController
+class ActivitiesController < ApplicationController
   load_and_authorize_resource
-  include SetRide
-  before_action :set_ride, only: [:show, :recut]
+  include SetActivity
+  before_action :set_activity, only: [:show, :recut]
 
   def index
-    @rides = Ride.all
+    @activities = Activity.all
   end
 
   def show
   end
 
   def recut
-    RoughCutEditor.call(ride: @ride)
-    redirect_to @ride
+    RoughCutEditor.call(activity: @activity)
+    redirect_to @activity
   end
 end

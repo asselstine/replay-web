@@ -2,15 +2,17 @@ require 'rails_helper'
 
 RSpec.describe MultiVideoEditor do
   set(:user) { create(:user) }
-  set(:ride) do
-    r = create(:ride, user: user)
-    r.create_time_series_data timestamps: Array.new(7) { |i| t(i) },
-                              latitudes: [0, 0, 0, 1, 2, 3, 3],
-                              longitudes: [0, 1, 2, 2, 2, 2, 2]
-    r
+  set(:activity) do
+    create(:activity,
+           timestamps: Array.new(7) { |i| t(i) },
+           latitudes: [0, 0, 0, 1, 2, 3, 3],
+           longitudes: [0, 1, 2, 2, 2, 2, 2],
+           user: user)
   end
 
-  subject { MultiVideoEditor.new(edit: Edit.new(user: user, ride: ride)) }
+  subject do
+    MultiVideoEditor.new(edit: Edit.new(user: user, activity: activity))
+  end
 
   describe '#call' do
     let!(:cameras) do

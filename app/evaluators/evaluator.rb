@@ -3,6 +3,6 @@ class Evaluator
   attribute :frame, Frame
 
   def now
-    frame.cut_start_at
+    frame.start_at
   end
 end

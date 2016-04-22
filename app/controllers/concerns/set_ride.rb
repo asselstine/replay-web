@@ -1,9 +1,9 @@
-module SetRide
+module SetActivity
   extend ActiveSupport::Concern
 
   included do
-    def set_ride
-      @ride = Ride.find(params.require(:id))
+    def set_activity
+      @activity = Activity.find(params.require(:id))
     end
   end
 end

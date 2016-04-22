@@ -2,13 +2,11 @@ class RoughCutEditor
   include Service
   include Virtus.model
 
-  attribute :ride
-
+  attribute :activity
   attribute :process, Boolean, default: true
 
   def call
-    ride.edits.destroy_all # destroy old edits
-    @frame = Frame.new(start_at: ride.start_at, end_at: ride.end_at)
+    @frame = Frame.new(start_at: activity.start_at, end_at: activity.end_at)
     build_edits
     @current_cut.save if @current_cut
     do_process if process
@@ -17,7 +15,7 @@ class RoughCutEditor
   protected
 
   def do_process
-    ride.edits.each do |edit|
+    activity.edits.each do |edit|
       EditProcessorJob.perform_later(edit: edit)
     end
   end
@@ -32,27 +30,28 @@ class RoughCutEditor
 
   def create_new_edit(video)
     @current_cut.save if @current_cut
-    edit = ride.edits.create(user: ride.user)
+    edit = activity.edits.create(user: activity.user)
     @current_cut = edit.cuts.build(video: video,
-                                   start_at: @frame.cut_start_at,
-                                   end_at: @frame.cut_end_at
+                                   start_at: @frame.start_at,
+                                   end_at: @frame.end_at
                                   )
   end
 
   def current_edit_continue(video)
     return false unless @current_cut &&
                         @current_cut.video == video &&
-                        @current_cut.end_at == @frame.cut_start_at
-    @current_cut.end_at = @frame.cut_end_at
+                        @current_cut.end_at == @frame.start_at
+    @current_cut.end_at = @frame.end_at
     true
   end
 
   def edit_evaluator
-    @edit_evaluator ||= EditEvaluator.new(user_evaluator: ride_evaluator,
+    @edit_evaluator ||= EditEvaluator.new(user_evaluator: activity_evaluator,
                                           frame: @frame)
   end
 
-  def ride_evaluator
-    @ride_evaluator ||= RideEvaluator.new(frame: @frame, ride: ride)
+  def activity_evaluator
+    @activity_evaluator ||= ActivityEvaluator.new(frame: @frame,
+                                                  activity: activity)
   end
 end

@@ -53,13 +53,13 @@ class Photo < ActiveRecord::Base
   end
 
   def set_camera_location(timestamp, latitude, longitude)
-    attrs = { timestamps: [timestamp],
-              latitudes: [latitude],
-              longitudes: [longitude] }
-    if camera.time_series_data.present?
-      camera.time_series_data.update(attrs)
-    else
-      camera.create_time_series_data(attrs)
-    end
+    # attrs = { timestamps: [timestamp],
+    #           latitudes: [latitude],
+    #           longitudes: [longitude] }
+    # if camera.time_series_data.present?
+    #   camera.time_series_data.update(attrs)
+    # else
+    #   camera.create_time_series_data(attrs)
+    # end
   end
 end

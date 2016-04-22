@@ -7,18 +7,16 @@ class BatchEditor
   def call
     ActiveRecord::Base.transaction do
       user.activities.each do |activity|
-        if activity.edits.empty?
-          debug("generate_edit(#{activity.id})")
-          generate_edit(activity)
-        end
+        edit_activity(activity) if activity.drafts.empty?
       end
     end
   end
 
   protected
 
-  def generate_edit(activity)
-    RoughCutEditor.call(activity: activity) if activity.edits.empty?
+  def edit_activity(activity)
+    debug("edit_activity(#{activity.id})")
+    Edit::ActivityVideoProcessor.call(activity: activity)
   end
 
   def debug(msg)

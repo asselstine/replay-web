@@ -1,12 +1,12 @@
 module Geo
-  def self.distance_strength(coords1, coords2)
+  def self.distance_strength(coords1, coords2, range_m)
     return 0 unless coords1 && coords2
     kms = Geocoder::Calculations.distance_between(coords1, coords2, units: :km)
     # puts "Camera#strength: kms #{kms} bell: #{bell}"
-    bell = if kms.nil? || kms > setup.range_m / 1000.0
+    bell = if kms.nil? || kms > range_m / 1000.0
              0
            else
-             bell(kms / (setup.range_m / 1000.0))
+             bell(kms / (range_m / 1000.0))
            end
     bell
   end

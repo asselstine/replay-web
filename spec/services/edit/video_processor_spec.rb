@@ -1,15 +1,15 @@
 require 'rails_helper'
 
-RSpec.describe ActivityEditor do
-  let(:setup_selector) { double }
+RSpec.describe Edit::VideoProcessor do
+  let(:selector) { Edit::Selector.new }
   let(:start_at) { t(0) }
   let(:end_at) { t(10) }
   let(:frame_size) { 5.seconds }
   subject do
-    ActivityEditor.new(setup_selector: setup_selector,
-                       start_at: start_at,
-                       end_at: end_at,
-                       frame_size: frame_size)
+    Edit::VideoProcessor.new(selector: selector,
+                             start_at: start_at,
+                             end_at: end_at,
+                             frame_size: frame_size)
   end
 
   context 'with a video that smaller than the frame' do
@@ -57,8 +57,8 @@ RSpec.describe ActivityEditor do
   end
 
   def expect_frame(start_at, end_at, comparator = nil)
-    expect(setup_selector).to receive(:find_best_setup)
-      .with(Frame.new(start_at: start_at,
-                      end_at: end_at)).and_return(comparator)
+    expect(selector).to receive(:find_best)
+      .with(Edit::Frame.new(start_at: start_at,
+                            end_at: end_at)).and_return(comparator)
   end
 end

@@ -3,12 +3,7 @@ FactoryGirl.define do
     sequence(:name) do |n|
       "Camera#{n}"
     end
-    range_m 10
     association :recording_session
-
-    transient do
-      at nil
-    end
 
     trait :static do
       transient do
@@ -19,9 +14,12 @@ FactoryGirl.define do
       end
       static true
       after :create do |camera, evaluator|
-        camera.create_time_series_data timestamps: [evaluator.start_at],
-                                       latitudes: [evaluator.lat],
-                                       longitudes: [evaluator.lng]
+        if camera.setups.empty?
+          camera.create_setup timestamp: evaluator.start_at,
+                              range_m: 10,
+                              latitude: evaluator.lat,
+                              longitude: evaluator.lng
+        end
         create(:video,
                camera: camera,
                start_at: evaluator.start_at,

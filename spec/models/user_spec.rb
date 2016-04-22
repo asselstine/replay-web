@@ -21,7 +21,7 @@ describe User do
       c1_eval = double(CameraEvaluator)
       c2 = double(Camera, photos: double(Array))
       c2_eval = double(CameraEvaluator)
-      edit_context = Frame.new(start_at: t(0), end_at: t(1))
+      edit_context = Edit::Frame.new(start_at: t(0), end_at: t(1))
 
       expect(Camera).to receive(:all).and_return([c1, c2])
 

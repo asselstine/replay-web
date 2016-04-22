@@ -1,6 +1,7 @@
 class Setup < ActiveRecord::Base
   belongs_to :camera
-  has_many :videos, through: :camera
+  has_many :uploads, through: :camera
+  has_many :photos, through: :camera
   validates_presence_of :timestamp
   validates :range_m, numericality: { greater_than: 0 }
   validates_numericality_of :latitude, :longitude
@@ -17,12 +18,20 @@ class Setup < ActiveRecord::Base
        .where('s2.timestamp IS NULL')
   end)
 
-  def self.with_video_during(start_at, end_at)
-    joins(:videos).merge(Video.during(start_at, end_at))
+  def self.with_uploads_during(start_at, end_at)
+    joins(:uploads).merge(Upload.during(start_at, end_at))
   end
 
-  def self.with_video_containing(start_at, end_at = start_at)
-    joins(:videos).merge(Video.containing(start_at, end_at))
+  def uploads_during(frame)
+    uploads.during(frame.start_at, frame.end_at)
+  end
+
+  def self.with_photos_during(start_at, end_at)
+    joins(:photos).merge(Photo.during(start_at, end_at))
+  end
+
+  def photos_during(frame)
+    photos.during(frame.start_at, frame.end_at)
   end
 
   def coords

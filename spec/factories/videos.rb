@@ -1,6 +1,5 @@
 FactoryGirl.define do
   factory :video do
-    association :camera
     start_at DateTime.now
     end_at do
       start_at.since(1)

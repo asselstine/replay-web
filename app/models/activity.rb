@@ -49,7 +49,8 @@ class Activity < ActiveRecord::Base
   end
 
   def coords_at(time)
-    if can_interpolate?(time)
+    return unless valid_time?(time)
+    if can_interpolate?
       time_ms = self.class.to_time_ms(time)
       [lat_spline.eval(time_ms), long_spline.eval(time_ms)]
     else
@@ -57,13 +58,13 @@ class Activity < ActiveRecord::Base
     end
   end
 
-  def last_coords_at(time)
-    last_index = -1
-    timestamps.each_with_index do |timestamp, i|
-      break if timestamp > time
-      last_index = i
-    end
-    [latitudes[last_index], longitudes[last_index]] if last_index > -1
+  def can_interpolate?
+    timestamps.length >= 3
+  end
+
+  def valid_time?(time)
+    time >= timestamps.first &&
+      time <= timestamps.last
   end
 
   def self.to_time_ms(datetime)
@@ -80,6 +81,15 @@ class Activity < ActiveRecord::Base
 
   protected
 
+  def last_coords_at(time)
+    last_index = -1
+    timestamps.each_with_index do |timestamp, i|
+      break if timestamp > time
+      last_index = i
+    end
+    [latitudes[last_index], longitudes[last_index]] if last_index > -1
+  end
+
   def time_series_lengths_match
     if latitudes.length != timestamps.length
       errors.add(:latitudes, 'has different length than timestamps')
@@ -87,12 +97,6 @@ class Activity < ActiveRecord::Base
     if longitudes.length != timestamps.length
       errors.add(:longitudes, 'has different length than timestamps')
     end
-  end
-
-  def can_interpolate?(time)
-    timestamps.length >= 3 &&
-      time >= timestamps.first &&
-      time <= timestamps.last
   end
 
   def lat_spline

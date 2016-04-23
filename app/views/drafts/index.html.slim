@@ -1,0 +1,8 @@
+.container
+  .row
+    .col-xs-12
+      h1 Drafts
+      - if @drafts.empty?
+        span.dim You don't have any!
+      - else
+        = render @drafts

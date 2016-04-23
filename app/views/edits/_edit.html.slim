@@ -1,5 +1,5 @@
 .edit
-  h2 = edit.ride.try(:strava_name)
+  h2 = edit.activity.try(:strava_name)
   - last_cut = edit.final_cuts.last
   - if last_cut && last_cut.video
     h3 = last_cut.video.filename

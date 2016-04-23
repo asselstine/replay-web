@@ -1,6 +1,6 @@
-@RideMap = React.createClass
+@ActivityMap = React.createClass
   propTypes:
-    ride: React.PropTypes.object.isRequired
+    activity: React.PropTypes.object.isRequired
 
   getInitialState: ->
 

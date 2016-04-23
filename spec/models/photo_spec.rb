@@ -2,18 +2,8 @@ require 'rails_helper'
 
 describe Photo do
   let(:user) { build(:user) }
-  let(:camera) { build(:camera, time_series_data: build(:time_series_data)) }
+  let(:camera) { build(:camera) }
   subject { build(:photo, camera: camera, user: user) }
-
-  describe '#process_exif_coords' do
-    it 'should create a location if there are new exif coordinates' do
-      expect(camera.time_series_data).to receive(:update)
-        .with(latitudes: [17],
-              longitudes: [23],
-              timestamps: [t(10)])
-      subject.update(exif_latitude: 17, exif_longitude: 23, timestamp: t(10))
-    end
-  end
 
   describe 'class' do
     subject { Photo }

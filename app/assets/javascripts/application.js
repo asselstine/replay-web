@@ -18,10 +18,15 @@
 //= require s3_direct_upload
 //= require GoTime.min
 //= require moment.min
+//= require jed-watson-classnames
+//= require js-routes
+//= require messenger
+//= require messenger-theme-flat
+//= require i18n
+//= require i18n/translations
 //= require react
 //= require react_ujs
 //= require components
 //= require js-components
-//= require js-routes
 
 //= require_tree ./initializers

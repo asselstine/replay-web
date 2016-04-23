@@ -1,6 +1,6 @@
-When %(I upload a video to the camera) do
+When %(I upload a video) do
   visit camera_path(@camera)
-  click_link 'New Video'
+  click_link 'Upload Video'
   expect(page).to have_content('Add Video')
   attach_file :video_file,
               Rails.root.join('spec/fixtures/dan_session1-frame.mp4')
@@ -22,7 +22,7 @@ Then %(there should be a new video for the camera) do
 end
 
 When %(I scrub to the slate and set the timestamp) do
-  visit video_path(@video)
+  visit upload_path(@video)
   expect(page).to have_content(@video.filename)
   fill_in :date, with: '06-30-1984'
   fill_in :timezone, with: '-8:00'

@@ -1,6 +1,5 @@
 class VideoSerializer < BaseSerializer
-  attributes :id,
-             :source_url,
+  attributes :source_url,
              :start_at,
              :end_at,
              :duration,

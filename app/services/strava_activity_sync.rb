@@ -13,39 +13,40 @@ class StravaActivitySync
     ActiveRecord::Base.transaction do
       activities = client.list_athlete_activities
       debug("Found #{activities.length} activites")
-      activities.each do |activity|
-        debug("Checking activity #{activity['id']} with name #{activity['name']}")
-        ride = @user.rides.where(strava_activity_id: activity['id']).first
-        create_ride(activity) unless ride
+      activities.each do |strava_activity|
+        debug(<<-STRING
+          Checking strava activity #{strava_activity['id']} \
+          with name #{strava_activity['name']}
+        STRING
+             )
+        existing = @user.activities.where(
+          strava_activity_id: strava_activity['id']).first
+        create_activity(strava_activity) unless existing
       end
     end
   end
 
   protected
 
-  def create_ride(activity)
-    ride = @user.rides.create(
-      strava_activity_id: activity['id'],
-      strava_name: activity['name'],
-      strava_start_at: activity['start_date']
-    )
-    debug("Created new ride: #{ride}")
-    add_locations(ride)
-  end
-
-  def add_locations(ride)
-    streams = client.retrieve_activity_streams(ride.strava_activity_id,
+  # rubocop:disable Metrics/AbcSize
+  def create_activity(strava_activity)
+    streams = client.retrieve_activity_streams(strava_activity['id'],
                                                'latlng,time')
-    ride.create_time_series_data(
-      timestamps: timestamps(ride, streams[1]['data']),
+    start_at = DateTime.parse(strava_activity['start_date'])
+    activity = @user.activities.create(
+      strava_activity_id: strava_activity['id'],
+      strava_name: strava_activity['name'],
+      strava_start_at: start_at,
+      timestamps: timestamps(start_at, streams[1]['data']),
       latitudes: latitudes(streams[0]['data']),
-      longitudes: longitudes(streams[0]['data']))
-    debug("Created locations for ride: #{ride}")
+      longitudes: longitudes(streams[0]['data'])
+    )
+    debug("Created new activity: #{activity}")
   end
 
-  def timestamps(ride, time_stream)
+  def timestamps(start_at, time_stream)
     time_stream.map do |t|
-      ride.strava_start_at.since(t.to_i).strftime(DATE_FORMAT)
+      start_at.since(t.to_i).strftime(DATE_FORMAT)
     end
   end
 

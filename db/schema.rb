@@ -11,48 +11,38 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160411052640) do
+ActiveRecord::Schema.define(version: 20160422230905) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "cameras", force: :cascade do |t|
-    t.decimal  "range_m",              default: 10.0
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "recording_session_id"
-    t.boolean  "static",               default: true
-    t.boolean  "one_time",             default: true
-    t.string   "name"
+  create_table "activities", force: :cascade do |t|
     t.integer  "user_id"
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.string   "strava_activity_id"
+    t.string   "strava_name"
+    t.datetime "strava_start_at"
+    t.datetime "timestamps",         default: [],              array: true
+    t.decimal  "latitudes",          default: [],              array: true
+    t.decimal  "longitudes",         default: [],              array: true
   end
 
-  add_index "cameras", ["recording_session_id"], name: "index_cameras_on_recording_session_id", using: :btree
+  create_table "draft_photos", force: :cascade do |t|
+    t.integer "photo_id"
+    t.integer "activity_id"
+  end
 
-  create_table "cuts", force: :cascade do |t|
-    t.integer  "edit_id"
-    t.integer  "video_id"
+  create_table "drafts", force: :cascade do |t|
+    t.integer  "setup_id"
+    t.integer  "activity_id"
     t.datetime "start_at"
     t.datetime "end_at"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.integer  "upload_id"
+    t.integer  "video_id"
   end
-
-  create_table "delayed_jobs", force: :cascade do |t|
-    t.integer  "priority",   default: 0, null: false
-    t.integer  "attempts",   default: 0, null: false
-    t.text     "handler",                null: false
-    t.text     "last_error"
-    t.datetime "run_at"
-    t.datetime "locked_at"
-    t.datetime "failed_at"
-    t.string   "locked_by"
-    t.string   "queue"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
 
   create_table "dropbox_events", force: :cascade do |t|
     t.string   "cursor"
@@ -78,40 +68,6 @@ ActiveRecord::Schema.define(version: 20160411052640) do
 
   add_index "dropbox_photos", ["dropbox_event_id"], name: "index_dropbox_photos_on_dropbox_event_id", using: :btree
 
-  create_table "edits", force: :cascade do |t|
-    t.integer  "user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "ride_id"
-  end
-
-  add_index "edits", ["ride_id"], name: "index_edits_on_ride_id", using: :btree
-
-  create_table "final_cuts", force: :cascade do |t|
-    t.integer  "edit_id"
-    t.integer  "video_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  add_index "final_cuts", ["edit_id"], name: "index_final_cuts_on_edit_id", using: :btree
-  add_index "final_cuts", ["video_id"], name: "index_final_cuts_on_video_id", using: :btree
-
-  create_table "jobs", force: :cascade do |t|
-    t.integer  "status"
-    t.integer  "progress"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "locations", force: :cascade do |t|
-    t.datetime "timestamp"
-    t.integer  "trackable_id"
-    t.string   "trackable_type"
-    t.decimal  "latitude",       precision: 12, scale: 8, default: 49.2578263
-    t.decimal  "longitude",      precision: 12, scale: 8, default: -123.1939534
-  end
-
   create_table "photos", force: :cascade do |t|
     t.float    "exif_latitude"
     t.float    "exif_longitude"
@@ -120,26 +76,25 @@ ActiveRecord::Schema.define(version: 20160411052640) do
     t.integer  "user_id"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
-    t.integer  "camera_id"
   end
 
-  create_table "recording_sessions", force: :cascade do |t|
-    t.integer  "user_id"
-    t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.datetime "start_at"
+  create_table "setup_photos", force: :cascade do |t|
+    t.integer "setup_id"
+    t.integer "photo_id"
   end
 
-  add_index "recording_sessions", ["user_id"], name: "index_recording_sessions_on_user_id", using: :btree
+  create_table "setup_uploads", force: :cascade do |t|
+    t.integer "setup_id"
+    t.integer "upload_id"
+  end
 
-  create_table "rides", force: :cascade do |t|
-    t.integer  "user_id"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
-    t.string   "strava_activity_id"
-    t.string   "strava_name"
-    t.datetime "strava_start_at"
+  create_table "setups", force: :cascade do |t|
+    t.decimal  "range_m",    precision: 6,  scale: 2, default: 16.0
+    t.decimal  "latitude",   precision: 12, scale: 8
+    t.decimal  "longitude",  precision: 12, scale: 8
+    t.datetime "created_at",                                         null: false
+    t.datetime "updated_at",                                         null: false
+    t.text     "name"
   end
 
   create_table "strava_accounts", force: :cascade do |t|
@@ -152,14 +107,11 @@ ActiveRecord::Schema.define(version: 20160411052640) do
     t.integer  "sync_job_status", default: 4
   end
 
-  create_table "time_series_data", force: :cascade do |t|
-    t.integer  "trackable_id"
-    t.string   "trackable_type"
-    t.datetime "timestamps",     default: [],              array: true
-    t.decimal  "latitudes",      default: [],              array: true
-    t.decimal  "longitudes",     default: [],              array: true
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+  create_table "uploads", force: :cascade do |t|
+    t.integer  "video_id"
+    t.datetime "start_at"
+    t.datetime "end_at"
+    t.integer  "user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -185,7 +137,6 @@ ActiveRecord::Schema.define(version: 20160411052640) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   create_table "videos", force: :cascade do |t|
-    t.integer  "camera_id"
     t.string   "source_url"
     t.datetime "start_at"
     t.datetime "end_at"
@@ -215,11 +166,6 @@ ActiveRecord::Schema.define(version: 20160411052640) do
     t.string   "audio_channels"
   end
 
-  add_foreign_key "cameras", "recording_sessions"
   add_foreign_key "dropbox_events", "users"
   add_foreign_key "dropbox_photos", "dropbox_events"
-  add_foreign_key "edits", "rides"
-  add_foreign_key "final_cuts", "edits"
-  add_foreign_key "final_cuts", "videos"
-  add_foreign_key "recording_sessions", "users"
 end

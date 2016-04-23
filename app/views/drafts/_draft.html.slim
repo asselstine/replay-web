@@ -1,0 +1,6 @@
+h2
+  = draft.activity.strava_name
+- if draft.video
+  = react_component('VideoPlayer', video: VideoSerializer.new(draft.video))
+- else
+  | Video has not yet been processed.

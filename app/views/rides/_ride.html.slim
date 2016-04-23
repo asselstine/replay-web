@@ -1,8 +1,8 @@
 h6
-  = link_to ride_path(ride)
-    = ride.strava_name
+  = link_to activity_path(activity)
+    = activity.strava_name
     | on
-    = ride.created_at
-  = link_to 'Recut', ride_recut_path(edit), method: :post
+    = activity.created_at
+  = link_to 'Recut', activity_recut_path(edit), method: :post
 
 div data-map=''

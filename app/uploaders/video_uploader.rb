@@ -10,6 +10,7 @@ class VideoUploader < CarrierWave::Uploader::Base
     model.update(
       filename: File.basename(current_path),
       duration: movie.duration,
+      duration_ms: (movie.duration.to_f * 1000),
       bitrate: movie.bitrate,
       size: movie.size,
       video_stream: movie.video_stream,

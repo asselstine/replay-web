@@ -7,8 +7,10 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 
-brendan = User.where(email: 'brendan@codeandconduct.is').first_or_create do |user|
+brendan = User.where(email: 'brendan@codeandconduct.is').first_or_create! do |user|
   user.email = 'brendan@codeandconduct.is'
+  user.password = 'password'
+  user.password_confirmation = 'password'
 end
 
 now = DateTime.now.utc.to_time.change(usec: 0)
@@ -17,42 +19,37 @@ long = BigDecimal.new('-123.155719') # (rand - 0.5) * 360
 latlng_per_km =  BigDecimal.new('1.0')/BigDecimal.new('111.0')
 km_per_m = BigDecimal.new('1.0') / BigDecimal.new('1000.0')
 
-ride_length = 6
+activity_length = 6
 spread = 8
 multiplyer = spread * km_per_m * latlng_per_km
-ride = brendan.rides.where(strava_name: 'SeedRide').first_or_create do |ride|
-  ride.strava_name = 'SeedRide'
-  ride.create_time_series_data(timestamps: Array.new(ride_length) do |i|
-                                 now.since(i.seconds)
-                               end,
-                               latitudes: Array.new(ride_length) do |i|
-                                 lat + i * multiplyer
-                               end,
-                               longitudes: Array.new(ride_length) do |i|
-                                 long + i * multiplyer
-                               end)
+activity = brendan.activities.where(strava_name: 'SeedRide').first_or_create! do |activity|
+  activity.strava_name = 'SeedRide'
+  activity.timestamps = Array.new(activity_length) { |i| now.since(i.seconds) }
+  activity.latitudes = Array.new(activity_length) { |i| lat + i * multiplyer }
+  activity.longitudes = Array.new(activity_length) { |i| long + i * multiplyer }
 end
 
-camera_index = (ride_length/2).to_i
-laptop = brendan.cameras.where(name: 'laptop').first_or_create do |camera|
+setup_index = (activity_length/2).to_i
+laptop = brendan.cameras.where(name: 'laptop').first_or_create! do |camera|
   camera.name = 'laptop'
-  camera.range_m = 16.0
-  camera.static_location(timestamp: now,
-                         latitude: lat + camera_index * multiplyer,
-                         longitude: long + camera_index * multiplyer )
 end
 
-video = laptop.videos.where(filename: 'full-clipped.mp4').first_or_create do |video|
-  video.start_at = now.since(camera_index.seconds)
-  video.end_at = now.since(camera_index.seconds + 2.seconds)
-  video.file = File.open(Rails.root.join('spec',
-                                         'fixtures',
-                                         'full-clipped.mp4'))
+setup = brendan.setups.where(camera: laptop).first_or_create! do |setup|
+  setup.range_m = 16.0
+  setup.timestamp = now
+  setup.latitude = lat + setup_index * multiplyer
+  setup.longitude = long + setup_index * multiplyer
 end
 
-if ride.edits.empty?
-  RoughCutEditor.call(ride: ride, process: false)
-  ride.edits.each do |edit|
-    EditProcessorJob.perform_now(edit: edit)
-  end
+upload = brendan.uploads.joins(:video).where(videos: { filename: 'full-clipped.mp4' }).first_or_create! do |upload|
+  upload.camera = laptop
+  upload.start_at = now.since(setup_index.seconds)
+  upload.end_at = now.since(setup_index.seconds + 2.seconds)
+  upload.build_video(file: File.open(Rails.root.join('spec',
+                                                     'fixtures',
+                                                     'full-clipped.mp4')))
+end
+
+if brendan.drafts.empty?
+  BatchProcessor.call(user: brendan)
 end

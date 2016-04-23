@@ -1,0 +1,2 @@
+.container
+  = react_component('UploadEditor', csrf_token: form_authenticity_token, upload: UploadSerializer.new(@upload))

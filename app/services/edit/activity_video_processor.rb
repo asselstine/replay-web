@@ -18,6 +18,6 @@ class Edit::ActivityVideoProcessor
     comparators = setups.map do |setup|
       Edit::VideoComparator.new(setup: setup, activity: activity)
     end
-    Selector.new(comparators: comparators)
+    Edit::Selector.new(comparators: comparators)
   end
 end

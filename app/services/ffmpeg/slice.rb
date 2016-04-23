@@ -1,5 +1,5 @@
 # rubocop:disable Style/ClassAndModuleChildren
-class FFMPEG::VideoSlice < FFMPEG::Service
+class FFMPEG::Slice < FFMPEG::Service
   attribute :video
   attribute :start_at
   attribute :end_at

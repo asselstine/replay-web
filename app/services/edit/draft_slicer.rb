@@ -7,10 +7,11 @@ class Edit::DraftSlicer
 
   def call
     draft.create_video!(file: File.open(slice_upload))
+    draft.save!
   end
 
   def slice_upload
-    FFMPEG::VideoSlice.call(
+    FFMPEG::Slice.call(
       video: draft.upload.video,
       start_at: draft.start_at,
       end_at: draft.end_at,

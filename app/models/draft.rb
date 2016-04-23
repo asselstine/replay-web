@@ -6,7 +6,7 @@ class Draft < ActiveRecord::Base
 
   validates_presence_of :setup, :activity, :upload, :start_at, :end_at
 
-  after_create :slice_draft
+  after_save :slice_draft, if: 'video.blank?'
 
   def slice_draft
     DraftSlicerJob.perform_later(draft_id: id)

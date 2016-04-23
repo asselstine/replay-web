@@ -11,6 +11,7 @@ gem 'oj', '~> 2.12.14'
 
 gem 'streamio-ffmpeg'
 gem 'js-routes'
+gem 'i18n-js', '>= 3.0.0.rc11'
 gem 'ruby_kml'
 gem 'active_model_serializers'
 gem 'react-rails', '~> 1.5.0'

@@ -1,5 +1,4 @@
-class PhotosController < ApplicationController
-
+class PhotosController < LoggedInController
   load_and_authorize_resource
 
   def uploaded
@@ -8,7 +7,7 @@ class PhotosController < ApplicationController
   end
 
   def index
-    @photos = current_user.feed_photos
+    @photos = current_user.draft_photo_photos
   end
 
   def show
@@ -19,30 +18,35 @@ class PhotosController < ApplicationController
   end
 
   def create
-    @photo = Photo.create(create_params.merge('user' => current_user))
+    @photo = Photo.create(create_params)
     respond_to do |format|
-      format.html {
+      format.html do
         if @photo.persisted?
-          redirect_to @photo, notice: I18n.t('flash.activerecord.create.success')
+          redirect_to @photo,
+                      notice: I18n.t('flash.activerecord.create.success')
         else
+          flash[:alert] = @photo.errors.full_messages
           render 'new'
         end
-      }
-      format.json {
+      end
+      format.json do
         if @photo.persisted?
-          render :json => { :message => 'success' }, :status => :created
+          render json: { message: 'success' },
+                 status: :created
         else
-          render :json => { :message => @photo.errors.full_messages }, status: :unprocessable_entity
+          render json: { message: @photo.errors.full_messages },
+                 status: :unprocessable_entity
         end
-      }
+      end
     end
-
   end
 
   protected
 
   def create_params
-    params.require(:photo).permit(:image, :timestamp)
+    params
+      .require(:photo)
+      .permit(:image, :source_url)
+      .merge(user: current_user)
   end
-
 end

@@ -13,7 +13,7 @@ class UploadsController < LoggedInController
   def create
     @upload = Upload.create(create_params)
     if @upload.persisted?
-      redirect_to @upload
+      redirect_to @upload, notice: I18n.t('flash.activerecord.create.success')
     else
       render 'new'
     end

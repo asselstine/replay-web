@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-ruby '2.2.0'
+ruby '2.3.0'
 
 gem 'virtus'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
@@ -19,6 +19,7 @@ gem 'sprockets-coffee-react'
 gem 'bootstrap-datepicker-rails'
 gem 'aws-sdk', '~> 2'
 gem 'resque'
+gem 'react-rails-hot-loader'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
@@ -89,6 +90,8 @@ group :development, :test do
   gem 'byebug'
   gem 'pry'
   gem 'pry-byebug'
+  gem 'pry-remote'
+  gem 'pry-stack_explorer'
 
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.0'

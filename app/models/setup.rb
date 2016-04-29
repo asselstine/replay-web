@@ -6,6 +6,9 @@ class Setup < ActiveRecord::Base
   has_many :photos,
            through: :setup_photos
 
+  belongs_to :user
+
+  validates :name, presence: true
   validates :range_m, numericality: { greater_than: 0 }
   validates_numericality_of :latitude, :longitude
 

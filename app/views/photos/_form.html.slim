@@ -1,0 +1,12 @@
+= simple_form_for @photo do |f|
+  = f.input :source_url, as: :hidden, input_html: { data: { s3_uploader_target: 'photo' } }
+  - if Rails.env.test?
+    = f.input :image, as: :file
+  = f.submit
+- unless Rails.env.test?
+  hr
+  = s3_uploader_form data: { s3_uploader: 'photo' } do
+    = file_field_tag :file, multiple: false
+    .progress-bars
+      .progress
+        .bar

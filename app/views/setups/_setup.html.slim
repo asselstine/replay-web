@@ -1,0 +1,28 @@
+.row
+  .col-sm-6
+    h4
+      = link_to setup.name, setup_path(setup)
+    p
+      = link_to 'Delete', setup_path(setup), method: :delete
+
+    table
+      tr
+        td
+          | Last Updated
+        td
+          => time_ago_in_words(setup.updated_at)
+          | ago
+      tr
+        td
+          | Range (m)
+        td
+          = setup.range_m
+      tr
+        td
+          | Lat,Lng
+        td
+          => setup.latitude
+          | ,
+          =< setup.longitude
+  .col-sm-6
+    = react_component 'SetupMap', setup: SetupSerializer.new(setup), readOnly: true

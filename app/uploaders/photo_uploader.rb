@@ -8,6 +8,7 @@ class PhotoUploader < CarrierWave::Uploader::Base
   def set_exif_data
     exif = EXIFR::JPEG.new(file.to_file)
     photo = model
+    photo.filename = File.basename(current_path)
     photo.timestamp ||= exif.date_time || file.to_file.ctime
     if exif.try(:gps)
       photo.exif_latitude = exif.gps.latitude

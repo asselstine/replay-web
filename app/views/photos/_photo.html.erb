@@ -1,9 +1,0 @@
-<h5>Photo</h5>
-<%= photo.image.url %>
-<%= image_tag photo.image.url %>
-Uploaded by <%= photo.user.id %> on <%= photo.timestamp.to_s %>
-<% if photo.coords %>
-  <div class='coords'>
-    lat: <%= photo.coords[0] %>, long: <%= photo.coords[1] %>
-  </div>
-<% end %>

@@ -11,4 +11,9 @@ class ApplicationController < ActionController::Base
   def set_date_header
     response.header['X-Date'] = Time.now.httpdate
   end
+
+  def ajax_notice(msg)
+    flash.keep(:notice)
+    flash[:notice] = msg
+  end
 end

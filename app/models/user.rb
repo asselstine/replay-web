@@ -6,6 +6,8 @@ class User < ActiveRecord::Base
 
   has_many :setups
   has_many :photos, dependent: :destroy
+  has_many :draft_photos, through: :activities, dependent: :destroy
+  has_many :draft_photo_photos, through: :draft_photos, source: :photo
   has_many :uploads
   has_many :activities, dependent: :destroy
   has_many :drafts, through: :activities

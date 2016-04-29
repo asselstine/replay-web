@@ -130,8 +130,12 @@ GEM
       json
     dropzonejs-rails (0.7.1)
       rails (> 3.1)
+    em-websocket (0.5.1)
+      eventmachine (>= 0.12.9)
+      http_parser.rb (~> 0.6.0)
     equalizer (0.0.9)
     erubis (2.7.0)
+    eventmachine (1.0.8)
     excon (0.45.4)
     execjs (2.5.2)
     exifr (1.2.3)
@@ -254,6 +258,7 @@ GEM
       activesupport (>= 4.1.0)
     gsl (1.16.0.6)
     hashie (3.4.2)
+    http_parser.rb (0.6.0)
     httparty (0.13.7)
       json (~> 1.8)
       multi_xml (>= 0.5.2)
@@ -330,6 +335,12 @@ GEM
     pry-byebug (3.2.0)
       byebug (~> 5.0)
       pry (~> 0.10)
+    pry-remote (0.1.8)
+      pry (~> 0.9)
+      slop (~> 3.0)
+    pry-stack_explorer (0.4.9.2)
+      binding_of_caller (>= 0.7)
+      pry (>= 0.9.11)
     puma (2.15.3)
     rack (1.6.1)
     rack-protection (1.5.3)
@@ -377,6 +388,10 @@ GEM
       execjs
       rails (>= 3.2)
       tilt
+    react-rails-hot-loader (0.5.0)
+      em-websocket
+      rails
+      react-rails
     redis (3.2.2)
     redis-namespace (1.5.2)
       redis (~> 3.0, >= 3.0.4)
@@ -533,11 +548,14 @@ DEPENDENCIES
   pg
   pry
   pry-byebug
+  pry-remote
+  pry-stack_explorer
   puma
   rails (= 4.2.1)
   rails_12factor
   rb-gsl
   react-rails (~> 1.5.0)
+  react-rails-hot-loader
   resque
   rollbar (~> 2.7.1)
   rspec-rails
@@ -560,5 +578,8 @@ DEPENDENCIES
   virtus
   web-console (~> 2.0)
 
+RUBY VERSION
+   ruby 2.3.0p0
+
 BUNDLED WITH
-   1.10.3
+   1.12.0

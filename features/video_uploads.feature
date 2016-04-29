@@ -5,12 +5,11 @@ Feature: Upload videos
 
   Scenario: Upload a video
     When I upload a video
-    And I create the video
-    Then there should be a new video
+    Then the video upload should be listed
 
   @javascript
   Scenario: Set the timestamps for a video
-    Given there is a video
+    Given there is a video upload
     When I scrub to the slate and set the timestamp
     Then I should see the adjusted start and end times
     When I update the video

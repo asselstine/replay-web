@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160422230905) do
+ActiveRecord::Schema.define(version: 20160429203939) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,6 +26,8 @@ ActiveRecord::Schema.define(version: 20160422230905) do
     t.datetime "timestamps",         default: [],              array: true
     t.decimal  "latitudes",          default: [],              array: true
     t.decimal  "longitudes",         default: [],              array: true
+    t.datetime "start_at"
+    t.datetime "end_at"
   end
 
   create_table "draft_photos", force: :cascade do |t|
@@ -76,6 +78,8 @@ ActiveRecord::Schema.define(version: 20160422230905) do
     t.integer  "user_id"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
+    t.string   "source_url"
+    t.string   "filename"
   end
 
   create_table "setup_photos", force: :cascade do |t|
@@ -90,11 +94,12 @@ ActiveRecord::Schema.define(version: 20160422230905) do
 
   create_table "setups", force: :cascade do |t|
     t.decimal  "range_m",    precision: 6,  scale: 2, default: 16.0
-    t.decimal  "latitude",   precision: 12, scale: 8
-    t.decimal  "longitude",  precision: 12, scale: 8
-    t.datetime "created_at",                                         null: false
-    t.datetime "updated_at",                                         null: false
+    t.decimal  "latitude",   precision: 12, scale: 8, default: 49.256711
+    t.decimal  "longitude",  precision: 12, scale: 8, default: -123.114225
+    t.datetime "created_at",                                                null: false
+    t.datetime "updated_at",                                                null: false
     t.text     "name"
+    t.integer  "user_id"
   end
 
   create_table "strava_accounts", force: :cascade do |t|

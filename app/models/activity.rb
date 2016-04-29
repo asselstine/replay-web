@@ -4,10 +4,13 @@ class Activity < ActiveRecord::Base
   belongs_to :user
   has_many :edits
   has_many :drafts
+  has_many :draft_photos
   before_validation :clear_blank_latitudes_and_longitudes
   before_validation :default_timestamps_to_now
 
   validate :time_series_lengths_match
+
+  before_save :set_start_at_and_end_at
 
   def to_s
     <<-STRING
@@ -32,11 +35,11 @@ class Activity < ActiveRecord::Base
   end
 
   def start_at
-    timestamps.first
+    super || timestamps.first
   end
 
   def end_at
-    timestamps.last
+    super || timestamps.last
   end
 
   def default_timestamps_to_now
@@ -81,6 +84,11 @@ class Activity < ActiveRecord::Base
     spline
   end
 
+  scope :during, (lambda do |at|
+    where('activities.start_at <= ?', at)
+      .where('activities.end_at >= ?', at)
+  end)
+
   protected
 
   def last_coords_at(time)
@@ -113,5 +121,11 @@ class Activity < ActiveRecord::Base
     @spline_timestamps ||= timestamps.map do |timestamp|
       (timestamp.to_f * 1000).to_i
     end
+  end
+
+  def set_start_at_and_end_at
+    return unless new_record? || timestamps_changed?
+    @start_at = timestamps.first
+    @end_at = timestamps.last
   end
 end

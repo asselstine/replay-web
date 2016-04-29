@@ -1,0 +1,14 @@
+h5
+  = photo.filename
+= image_tag photo.image.url
+p
+  | Uploaded by
+  =< photo.user.id
+  | on
+  =< photo.timestamp.to_s
+- if photo.exif_latitude
+  p
+    | Lat/lng:
+    =< photo.exif_latitude
+    | ,
+    =< photo.exif_longitude

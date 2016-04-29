@@ -20,7 +20,6 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
   flash:
     activerecord:
       create:
@@ -30,6 +29,3 @@ en:
       destroy:
         success: 'Destroyed the record'
         failure: 'Could not destroy the record'
-  component:
-    NewCurrentSetupButton:
-      warning: 'Unable to grab your location!'

@@ -7,6 +7,6 @@ class Edit::PhotoProcessor < Edit::Processor
       @drafts << DraftPhoto.create!(photo: photo,
                                     activity: comparator.activity)
     end
-    frame.end_at
+    @frame.end_at
   end
 end

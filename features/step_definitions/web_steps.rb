@@ -30,3 +30,10 @@ end
 Then %(the record should have been created) do
   expect(page).to have_content(I18n.t('flash.activerecord.create.success'))
 end
+
+When %(I see the success message "$message") do |message|
+  within 'ul.messenger .success' do
+    expect(page).to have_content(message)
+    find('button.messenger-close').click
+  end
+end

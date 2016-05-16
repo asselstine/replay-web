@@ -11,34 +11,19 @@ class UploadsController < LoggedInController
   end
 
   def create
-    @upload = Upload.create(create_params)
+    @upload = Upload.create(upload_params)
     if @upload.persisted?
-      redirect_to @upload, notice: I18n.t('flash.activerecord.create.success')
+      render json: @upload, status: :ok
     else
-      render 'new'
+      render json: @upload, status: :unprocessible_entity
     end
   end
 
-  # rubocop:disable Metrics/MethodLength
   def update
-    respond_to do |format|
-      if @upload.update(create_params)
-        format.json do
-          render json: @upload,
-                 notice: I18n.t('flash.activerecord.update.success')
-        end
-        format.html do
-          redirect_to @upload,
-                      notice: I18n.t('flash.activerecord.update.success')
-        end
-      else
-        format.json do
-          render json: @upload, status: :unprocessible_entity
-        end
-        format.html do
-          render 'new'
-        end
-      end
+    if @upload.update(upload_params)
+      render json: @upload, status: :ok
+    else
+      render json: @upload, status: :unprocessible_entity
     end
   end
 
@@ -47,13 +32,15 @@ class UploadsController < LoggedInController
 
   protected
 
-  def create_params
+  def upload_params
     params.require(:upload)
           .permit(:start_at,
                   :end_at,
                   video_attributes: [:id,
                                      :source_url,
-                                     :file])
+                                     :file,
+                                     :filename],
+                  setup_ids: [])
           .merge(user: current_user)
   end
 

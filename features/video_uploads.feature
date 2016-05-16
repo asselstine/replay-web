@@ -1,3 +1,4 @@
+@javascript
 Feature: Upload videos
 
   Background:
@@ -7,7 +8,6 @@ Feature: Upload videos
     When I upload a video
     Then the video upload should be listed
 
-  @javascript
   Scenario: Set the timestamps for a video
     Given there is a video upload
     When I scrub to the slate and set the timestamp

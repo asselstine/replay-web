@@ -293,6 +293,7 @@ GEM
       nokogiri (>= 1.5.9)
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
+    messengerjs-rails (1.4.1)
     method_source (0.8.2)
     mime-types (2.6.1)
     mini_magick (4.2.7)
@@ -541,6 +542,7 @@ DEPENDENCIES
   jquery-rails
   js-routes
   letter_opener
+  messengerjs-rails (~> 1.4.1)
   mini_magick
   oj (~> 2.12.14)
   omniauth-dropbox-oauth2

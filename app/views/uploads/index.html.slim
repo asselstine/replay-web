@@ -1,5 +1,2 @@
-h4 Videos
-p
-  = link_to 'Upload Video', new_upload_path, class: 'btn btn-primary'
-ul
-  = render @uploads
+= react_component 'Uploads', uploads: serialize_to_json(@uploads),
+                             setups: serialize_to_json(current_user.setups)

@@ -12,7 +12,6 @@ module ApplicationHelper
     end
   end
 
-  # JavaScript: direct_upload_config: JSON.parse('#{raw direct_upload_config.to_json}'),
   def direct_upload_config(options = {})
     config_options = {
       acl: 'public-read',
@@ -24,5 +23,24 @@ module ApplicationHelper
       fields: uploader.fields,
       url: uploader.url
     }
+  end
+
+  def serialize_to_json(resource)
+    serializer = if resource.respond_to?(:to_ary)
+                   serialize_array_to_json(resource)
+                 else
+                   serialize_resource_to_json(resource)
+                 end
+    serializer.as_json
+  end
+
+  def serialize_resource_to_json(resource)
+    ActiveModel::Serializer.serializer_for(resource).new(resource)
+  end
+
+  def serialize_array_to_json(array)
+    ActiveModel::ArraySerializer.new(
+      array,
+      each_serializer: ActiveModel::Serializer.serializer_for(array.first))
   end
 end

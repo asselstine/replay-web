@@ -1,12 +1,18 @@
 When %(I upload a video) do
+  document_name = 'dan_session1-frame'
   expect do
     click_link 'Uploads'
-    click_link 'Upload Video'
-    expect(page).to have_content('Upload Video')
-    attach_file :upload_video_attributes_file,
-                Rails.root.join('spec/fixtures/dan_session1-frame.mp4')
-    click_button 'Create Upload'
-    step %(the record should have been created)
+    click_link 'Upload'
+    within '.new-upload' do
+      expect(page).to have_content('Upload Video')
+      page.execute_script <<-JAVASCRIPT
+        $('.direct-upload-form').trigger('s3_upload_complete',
+                                         { filename: '#{document_name}',
+                                           url: 'http://superfake.com/#{document_name}' })
+      JAVASCRIPT
+      click_button 'Upload'
+    end
+    step %(the upload should have been successful)
   end.to change { Upload.count }.by(1)
   @upload = Upload.last
 end
@@ -14,6 +20,10 @@ end
 Then %(the video upload should be listed) do
   visit uploads_path
   expect(page).to have_content('dan_session1-frame')
+end
+
+Then %(the upload should have been successful) do
+  step %(I see the success message "Uploaded video dan_session1-frame")
 end
 
 Given %(there is a video upload) do

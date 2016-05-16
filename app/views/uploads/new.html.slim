@@ -1,14 +1,2 @@
 h1 Upload Video
-= simple_form_for @upload do |f|
-  = f.fields_for :video do |ff|
-    = ff.input :source_url, as: :hidden, input_html: { data: { s3_uploader_target: 'video' } }
-    - if Rails.env.test?
-      = ff.input :file, as: :file
-  = f.submit
-- unless Rails.env.test?
-  hr
-  = s3_uploader_form data: { s3_uploader: 'video' } do
-    = file_field_tag :file, multiple: false
-    .progress-bars
-      .progress
-        .bar
+= react_component 'NewUpload', setups: current_user.setups

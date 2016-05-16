@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe PhotoUploader do
-
   subject { PhotoUploader.new }
 
   describe '#set_exif_data' do

@@ -1,9 +1,6 @@
 general:
   artifacts:
     - "tmp/capybara"
-test:
-  pre:
-    - bundle exec rake assets:precompile
 dependencies:
   pre:
     - sudo rm /usr/local/bin/gsl-config
@@ -14,9 +11,11 @@ dependencies:
     - sudo apt-get install -y libgsl0-dev; gsl-config --version
     - sudo apt-get install ffmpeg -y
     - ffmpeg -version
-  post:
     - npm install
     - npm install webpack -g
+test:
+  pre:
+    - bundle exec rake assets:precompile
 deployment:
   production:
     branch: master

@@ -11,18 +11,18 @@ module.exports = React.createClass
 
   getInitialState: ->
     uploads: @props.uploads
-    modalIsOpen: false
+    newModalIsOpen: false
 
-  openModal: ->
-    @setState(modalIsOpen: true)
+  openCreateModal: ->
+    @setState(newModalIsOpen: true)
 
-  closeModal: ->
-    @setState(modalIsOpen: false)
+  closeCreateModal: ->
+    @setState(newModalIsOpen: false)
 
   onUploadSuccess: (upload) ->
     @setState
       uploads: @state.uploads.concat([upload]), =>
-      @closeModal()
+      @closeCreateModal()
 
   render: ->
     rows = _.map(@state.uploads, (upload) ->
@@ -32,9 +32,9 @@ module.exports = React.createClass
     <div className='uploads container'>
       <div className='row'>
         <div className='col-xs-12'>
-          <a href='javascript:;' onClick={@openModal} className='btn btn-primary'>Upload</a>
-          <NewUploadModal isOpen={@state.modalIsOpen}
-                          onRequestClose={@closeModal}
+          <a href='javascript:;' onClick={@openCreateModal} className='btn btn-primary'>Upload</a>
+          <NewUploadModal isOpen={@state.newModalIsOpen}
+                          onRequestClose={@closeCreateModal}
                           onSuccess={@onUploadSuccess}
                           setups={@props.setups}/>
         </div>

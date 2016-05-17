@@ -32,3 +32,5 @@ en:
     upload:
       create:
         success: 'Uploaded video %{filename}'
+      update:
+        success: 'Saved upload %{filename}'

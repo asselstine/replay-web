@@ -15,8 +15,6 @@ class UploadsController < LoggedInController
   end
 
   def update
-    flash.keep
-    flash[:notice] = I18n.t('flash.activerecord.update.success')
     if @upload.update(upload_params)
       render json: @upload, status: :ok
     else

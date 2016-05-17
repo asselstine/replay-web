@@ -20537,17 +20537,17 @@
 	  getInitialState: function() {
 	    return {
 	      uploads: this.props.uploads,
-	      modalIsOpen: false
+	      newModalIsOpen: false
 	    };
 	  },
-	  openModal: function() {
+	  openCreateModal: function() {
 	    return this.setState({
-	      modalIsOpen: true
+	      newModalIsOpen: true
 	    });
 	  },
-	  closeModal: function() {
+	  closeCreateModal: function() {
 	    return this.setState({
-	      modalIsOpen: false
+	      newModalIsOpen: false
 	    });
 	  },
 	  onUploadSuccess: function(upload) {
@@ -20555,7 +20555,7 @@
 	      uploads: this.state.uploads.concat([upload])
 	    }, (function(_this) {
 	      return function() {};
-	    })(this), this.closeModal());
+	    })(this), this.closeCreateModal());
 	  },
 	  render: function() {
 	    var rows;
@@ -20573,11 +20573,11 @@
 	      "className": 'col-xs-12'
 	    }, React.createElement("a", {
 	      "href": 'javascript:;',
-	      "onClick": this.openModal,
+	      "onClick": this.openCreateModal,
 	      "className": 'btn btn-primary'
 	    }, "Upload"), React.createElement(NewUploadModal, {
-	      "isOpen": this.state.modalIsOpen,
-	      "onRequestClose": this.closeModal,
+	      "isOpen": this.state.newModalIsOpen,
+	      "onRequestClose": this.closeCreateModal,
 	      "onSuccess": this.onUploadSuccess,
 	      "setups": this.props.setups
 	    }))), React.createElement("div", {
@@ -24544,12 +24544,31 @@
 
 /***/ },
 /* 178 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
+
+	var EditUploadModal;
+
+	EditUploadModal = __webpack_require__(320);
 
 	module.exports = React.createClass({
 	  displayName: 'UploadRow',
 	  propTypes: {
 	    upload: React.PropTypes.object
+	  },
+	  getInitialState: function() {
+	    return {
+	      editModalIsOpen: false
+	    };
+	  },
+	  openEditModal: function() {
+	    return this.setState({
+	      editModalIsOpen: true
+	    });
+	  },
+	  closeEditModal: function() {
+	    return this.setState({
+	      editModalIsOpen: false
+	    });
 	  },
 	  render: function() {
 	    return React.createElement("div", {
@@ -24557,8 +24576,14 @@
 	    }, React.createElement("div", {
 	      "className": 'col-xs-5'
 	    }, React.createElement("a", {
-	      "href": Routes.upload_path(this.props.upload)
-	    }, this.props.upload.video.filename)), React.createElement("div", {
+	      "href": 'javascript:;',
+	      "onClick": this.openEditModal
+	    }, this.props.upload.video.filename), React.createElement(EditUploadModal, {
+	      "upload": this.props.upload,
+	      "isOpen": this.state.editModalIsOpen,
+	      "onRequestClose": this.closeEditModal,
+	      "onSuccess": this.closeEditModal
+	    })), React.createElement("div", {
 	      "className": 'col-xs-3'
 	    }), React.createElement("div", {
 	      "className": 'col-xs-4'
@@ -24571,11 +24596,11 @@
 /* 179 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var CSRF, DirectUploadForm, Modal, Select, _;
+	var DirectUploadForm, Modal, ModalStyle, Select, _;
 
 	Modal = __webpack_require__(180);
 
-	CSRF = __webpack_require__(200);
+	ModalStyle = __webpack_require__(321);
 
 	_ = __webpack_require__(176);
 
@@ -24678,6 +24703,7 @@
 	    return React.createElement(Modal, {
 	      "className": 'new-upload modal-dialog',
 	      "isOpen": this.props.isOpen,
+	      "style": ModalStyle,
 	      "onRequestClose": this.props.onRequestClose
 	    }, React.createElement("div", {
 	      "className": 'modal-content'
@@ -26660,37 +26686,7 @@
 
 
 /***/ },
-/* 200 */
-/***/ function(module, exports) {
-
-	module.exports = React.createClass({
-	  getInitialState: function() {
-	    return {
-	      token: ''
-	    };
-	  },
-	  componentDidMount: function() {
-	    var node;
-	    node = document.querySelector('meta[name="csrf-token"]');
-	    if (node) {
-	      return this.setState({
-	        token: node.content
-	      });
-	    }
-	  },
-	  render: function() {
-	    var token;
-	    token = this.state.token;
-	    return React.createElement("input", {
-	      "type": "hidden",
-	      "name": "authenticity_token",
-	      "value": token
-	    });
-	  }
-	});
-
-
-/***/ },
+/* 200 */,
 /* 201 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -28406,16 +28402,18 @@
 	    };
 	  },
 	  videoRef: function(ref) {
-	    var vidElem;
-	    vidElem = ReactDOM.findDOMNode(ref);
-	    vidElem.addEventListener('timeupdate', (function(_this) {
+	    if (ref === null) {
+	      return;
+	    }
+	    this.vidElem = ReactDOM.findDOMNode(ref);
+	    this.vidElem.addEventListener('timeupdate', (function(_this) {
 	      return function(e) {
 	        if (_this.props.onTimeUpdate) {
 	          return _this.props.onTimeUpdate(e);
 	        }
 	      };
 	    })(this));
-	    return vidElem.addEventListener('canplaythrough', (function(_this) {
+	    return this.vidElem.addEventListener('canplaythrough', (function(_this) {
 	      return function(e) {
 	        if (_this.props.onCanPlayThrough) {
 	          return _this.props.onCanPlayThrough(e);
@@ -28736,7 +28734,7 @@
 	  displayName: 'UploadEditor',
 	  propTypes: {
 	    upload: React.PropTypes.object.isRequired,
-	    csrf_token: React.PropTypes.string.isRequired
+	    onSuccess: React.PropTypes.func.isRequired
 	  },
 	  getInitialState: function() {
 	    return {
@@ -28804,13 +28802,20 @@
 	      });
 	    }
 	  },
-	  submit: function(e) {
+	  submit: function() {
 	    return $.ajax({
-	      url: e.target.action,
-	      data: $(e.target).serialize()
+	      url: Routes.upload_path({
+	        id: this.props.upload.id
+	      }),
+	      data: {
+	        upload: {
+	          start_at: this.state.start_at,
+	          end_at: this.state.end_at
+	        }
+	      }
 	    }).done((function(_this) {
 	      return function(data, xhr, status) {
-	        return window.location = Routes.uploads_path();
+	        return _this.props.onSuccess(data);
 	      };
 	    })(this)).fail(function(xhr, status, msg) {
 	      return message.ajaxFail(xhr, status, msg);
@@ -28831,32 +28836,8 @@
 	    }), React.createElement("div", {
 	      "className": 'controls'
 	    }, React.createElement("span", null, "Current Time: ", currentTimeMs, "ms"), React.createElement("h4", null, "Enter new timecode"), React.createElement("form", {
-	      "action": Routes.upload_path({
-	        id: this.props.upload.id
-	      }),
-	      "method": 'post',
 	      "onSubmit": this.submit
 	    }, React.createElement("input", {
-	      "name": "_method",
-	      "type": "hidden",
-	      "value": "patch"
-	    }), React.createElement("input", {
-	      "name": "utf8",
-	      "type": "hidden",
-	      "value": "&#x2713;"
-	    }), React.createElement("input", {
-	      "name": "authenticity_token",
-	      "type": "hidden",
-	      "value": this.props.csrf_token
-	    }), React.createElement("input", {
-	      "type": 'hidden',
-	      "name": 'upload[start_at]',
-	      "value": this.state.start_at
-	    }), React.createElement("input", {
-	      "type": 'hidden',
-	      "name": 'upload[end_at]',
-	      "value": this.state.end_at
-	    }), React.createElement("input", {
 	      "type": 'text',
 	      "name": 'date',
 	      "data-provide": 'datepicker',
@@ -28874,9 +28855,10 @@
 	      "placeholder": '12:43:05.232',
 	      "onChange": this.onChangeTimestamp
 	    }), React.createElement("h5", null, "Adjusted Times"), React.createElement("p", null, "Start time: ", this.state.start_at, React.createElement("br", null), "End Time: ", this.state.end_at), React.createElement("input", {
+	      "className": 'btn btn-primary',
 	      "type": 'submit',
 	      "disabled": disabled,
-	      "value": 'Set'
+	      "value": 'Save'
 	    })))), !this.props.upload.video.file_url && React.createElement("p", null, "File has not yet been processed."));
 	  }
 	});
@@ -42658,6 +42640,188 @@
 	    return zh_tw;
 
 	}));
+
+/***/ },
+/* 320 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Modal, ModalStyle, Select, moment;
+
+	Modal = __webpack_require__(180);
+
+	ModalStyle = __webpack_require__(321);
+
+	Select = __webpack_require__(202);
+
+	moment = __webpack_require__(218);
+
+	module.exports = React.createClass({
+	  displayName: 'EditUploadModal',
+	  propTypes: {
+	    upload: React.PropTypes.object.isRequired,
+	    isOpen: React.PropTypes.bool.isRequired,
+	    onRequestClose: React.PropTypes.func.isRequired,
+	    onSuccess: React.PropTypes.func.isRequired
+	  },
+	  getInitialState: function() {
+	    return {
+	      currentTime: 0,
+	      loaded: false,
+	      start_at: this.props.upload.start_at,
+	      end_at: this.props.upload.end_at
+	    };
+	  },
+	  onChangeDate: function(e) {
+	    return this.setState({
+	      date: e.target.value
+	    }, (function(_this) {
+	      return function() {
+	        return _this.updateAdjustedTimes();
+	      };
+	    })(this));
+	  },
+	  onChangeTimezone: function(e) {
+	    return this.setState({
+	      timezone: e.target.value
+	    }, (function(_this) {
+	      return function() {
+	        return _this.updateAdjustedTimes();
+	      };
+	    })(this));
+	  },
+	  onChangeTimestamp: function(e) {
+	    return this.setState({
+	      timestamp: e.target.value
+	    }, (function(_this) {
+	      return function() {
+	        return _this.updateAdjustedTimes();
+	      };
+	    })(this));
+	  },
+	  handleTimeUpdate: function(e) {
+	    return this.setState({
+	      currentTime: e.target.currentTime
+	    }, (function(_this) {
+	      return function() {
+	        return _this.updateAdjustedTimes();
+	      };
+	    })(this));
+	  },
+	  handleCanPlayThrough: function(e) {
+	    return this.setState({
+	      loaded: true
+	    }, (function(_this) {
+	      return function() {
+	        return _this.updateAdjustedTimes();
+	      };
+	    })(this));
+	  },
+	  updateAdjustedTimes: function() {
+	    var adjustedEndTime, adjustedStartTime, dateString, timestamp;
+	    dateString = this.state.date + " " + this.state.timestamp + this.state.timezone;
+	    timestamp = moment(new Date(dateString));
+	    if (timestamp.isValid()) {
+	      adjustedStartTime = timestamp.clone().subtract(this.state.currentTime * 1000.0, 'ms');
+	      adjustedEndTime = adjustedStartTime.clone().add(this.props.upload.video.duration * 1000.0, 'ms');
+	      return this.setState({
+	        start_at: adjustedStartTime.utc().toISOString(),
+	        end_at: adjustedEndTime.utc().toISOString()
+	      });
+	    }
+	  },
+	  submit: function() {
+	    return $.ajax({
+	      url: Routes.upload_path({
+	        id: this.props.upload.id
+	      }),
+	      method: 'PATCH',
+	      dataType: 'json',
+	      data: {
+	        upload: {
+	          start_at: this.state.start_at,
+	          end_at: this.state.end_at
+	        }
+	      }
+	    }).done((function(_this) {
+	      return function(data, xhr, status) {
+	        message.success(I18n.t('flash.upload.update.success', {
+	          filename: _this.props.upload.video.filename
+	        }));
+	        return _this.props.onSuccess(data);
+	      };
+	    })(this)).fail(function(xhr, status, msg) {
+	      return message.ajaxFail(xhr, status, msg);
+	    });
+	  },
+	  render: function() {
+	    var currentTimeMs, disabled, duration_ms;
+	    disabled = false;
+	    currentTimeMs = this.state.currentTime * 1000;
+	    if (this.props.upload.video.duration) {
+	      duration_ms = this.props.upload.video.duration * 1000;
+	    }
+	    return React.createElement(Modal, {
+	      "className": 'edit-upload-modal modal-dialog modal-lg',
+	      "style": ModalStyle,
+	      "isOpen": this.props.isOpen,
+	      "onRequestClose": this.props.onRequestClose
+	    }, React.createElement("div", {
+	      "className": 'modal-content'
+	    }, React.createElement("div", {
+	      "className": 'modal-header'
+	    }, this.state.loaded && React.createElement("h3", null, this.props.upload.video.filename)), React.createElement("div", {
+	      "className": 'modal-body'
+	    }, this.props.upload.video.file_url && React.createElement("div", null, React.createElement(VideoPlayer, {
+	      "video": this.props.upload.video,
+	      "onTimeUpdate": this.handleTimeUpdate,
+	      "onCanPlayThrough": this.handleCanPlayThrough,
+	      "canFlip": true
+	    }), React.createElement("div", {
+	      "className": 'controls'
+	    }, React.createElement("span", null, "Current Time: ", currentTimeMs, "ms"), React.createElement("h4", null, "Enter new timecode"), React.createElement("input", {
+	      "type": 'text',
+	      "name": 'date',
+	      "data-provide": 'datepicker',
+	      "data-date-format": "mm-dd-yyyy",
+	      "placeholder": 'mm-dd-year',
+	      "onBlur": this.onChangeDate
+	    }), React.createElement("input", {
+	      "type": 'text',
+	      "name": 'timezone',
+	      "placeholder": '-8:00',
+	      "onChange": this.onChangeTimezone
+	    }), React.createElement("input", {
+	      "type": 'text',
+	      "name": 'timestamp',
+	      "placeholder": '12:43:05.232',
+	      "onChange": this.onChangeTimestamp
+	    }), React.createElement("h5", null, "Adjusted Times"), React.createElement("p", null, "Start time: ", this.state.start_at, React.createElement("br", null), "End Time: ", this.state.end_at)))), React.createElement("div", {
+	      "className": 'modal-footer'
+	    }, React.createElement("div", {
+	      "className": 'pull-right'
+	    }, React.createElement("a", {
+	      "href": 'javascript:;',
+	      "className": 'btn btn-default',
+	      "onClick": this.props.onRequestClose
+	    }, "Close"), React.createElement("a", {
+	      "href": 'javascript:;',
+	      "className": 'btn btn-primary',
+	      "onClick": this.submit
+	    }, "Save")))));
+	  }
+	});
+
+
+/***/ },
+/* 321 */
+/***/ function(module, exports) {
+
+	module.exports = {
+	  overlay: {
+	    overflow: 'scroll'
+	  }
+	};
+
 
 /***/ }
 /******/ ]);

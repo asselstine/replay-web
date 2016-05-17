@@ -1,5 +1,5 @@
 Modal = require('react-modal')
-CSRF = require('./csrf')
+ModalStyle = require('../util/modal-default-style')
 _ = require('lodash/core')
 DirectUploadForm = require('./direct-upload-form')
 Select = require('react-select')
@@ -65,6 +65,7 @@ module.exports = React.createClass
     fileTypes = [] #['video/mp4']
     <Modal className='new-upload modal-dialog'
            isOpen={@props.isOpen}
+           style={ModalStyle}
            onRequestClose={@props.onRequestClose}>
       <div className='modal-content'>
         <div className='modal-header'>

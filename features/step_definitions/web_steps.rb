@@ -37,3 +37,16 @@ When %(I see the success message "$message") do |message|
     find('button.messenger-close').click
   end
 end
+
+# rubocop:disable Metrics/AbcSize
+def react_select(selector, label)
+  within selector do
+    find('.Select-control').click
+    find('input').set label
+    expect(page).to have_css('.Select-option', text: label)
+    find('.Select-option', text: label).hover
+    expect(page).to have_css('.Select-option', text: label)
+    find('.Select-option', text: label).click
+    expect(page).to have_css('.Select-value-label', text: label)
+  end
+end

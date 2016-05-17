@@ -1,9 +1,11 @@
-@SetupForm = React.createClass
+module.exports = React.createClass
+  displayName: 'SetupForm'
+
   propTypes:
     setup: React.PropTypes.object.isRequired
 
   getInitialState: ->
-    name: @props.setup.name
+    name: @props.setup.name || ''
     range_m: @props.setup.range_m
     latitude: @props.setup.latitude
     longitude: @props.setup.longitude

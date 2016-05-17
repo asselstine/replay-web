@@ -1,4 +1,4 @@
-@SetupMap = React.createClass
+module.exports = React.createClass
   displayName: 'SetupMap'
 
   propTypes:

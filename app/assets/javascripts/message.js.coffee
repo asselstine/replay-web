@@ -7,6 +7,10 @@
     Messenger().post
       message: message
       type: 'info'
+  error: (message) ->
+    Messenger().post
+      message: message
+      type: 'error'
   ajaxFail: (xhr, status, message) ->
     if xhr.responseJSON && xhr.responseJSON.error_messages
       msgs = xhr.responseJSON.error_messages

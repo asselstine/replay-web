@@ -1,4 +1,6 @@
-class @Label extends React.Component
+module.exports = React.createClass
+  displayName: 'Label'
+  
   @propTypes =
     label: React.PropTypes.string
 

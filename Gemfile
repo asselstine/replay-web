@@ -8,7 +8,7 @@ gem 'rails', '4.2.1'
 
 gem 'rollbar', '~> 2.7.1'
 gem 'oj', '~> 2.12.14'
-
+gem 'messengerjs-rails', '~> 1.4.1'
 gem 'streamio-ffmpeg'
 gem 'js-routes'
 gem 'i18n-js', '>= 3.0.0.rc11'
@@ -83,6 +83,7 @@ group :test do
   gem 'cucumber-rails', require: false
   gem 'database_cleaner'
   gem 'capybara'
+  gem 'capybara-screenshot'
   gem 'selenium-webdriver'
 end
 

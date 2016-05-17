@@ -29,3 +29,8 @@ en:
       destroy:
         success: 'Destroyed the record'
         failure: 'Could not destroy the record'
+    upload:
+      create:
+        success: 'Uploaded video %{filename}'
+      update:
+        success: 'Saved upload %{filename}'

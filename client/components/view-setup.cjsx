@@ -1,4 +1,6 @@
-@ViewSetup = React.createClass
+SetupForm = require('./setup-form')
+
+module.exports = React.createClass
   displayName: 'ViewSetup'
 
   propTypes:

@@ -1,4 +1,4 @@
-@ActivityMap = React.createClass
+module.exports = React.createClass
   propTypes:
     activity: React.PropTypes.object.isRequired
 

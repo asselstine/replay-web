@@ -1,9 +1,10 @@
-// Exposes React
+// Exposes React for react_ujs
 require('expose?React!react')
-require('expose?ReactCSSTransitionGroup!react-addons-css-transition-group')
 require('expose?ReactDOM!react-dom')
-
-require('expose?ee!./event_emitter')
-
-require('expose?ReactSelect!react-select')
 require('react-select/dist/react-select.css')
+
+require('expose?Uploads!./components/uploads')
+require('expose?VideoPlayer!./components/video-player')
+require('expose?SetupMap!./components/setup-map')
+require('expose?ViewSetup!./components/view-setup')
+require('expose?UploadEditor!./components/upload-editor')

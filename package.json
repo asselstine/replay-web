@@ -2,13 +2,15 @@
   "name": "replay",
   "version": "1.0.0",
   "description": "= Replay Trail Media",
-  "directories": {
-  },
+  "directories": {},
   "dependencies": {
+    "lodash": "^4.12.0",
+    "moment": "^2.13.0",
     "react": "^15.0.1",
     "react-addons-css-transition-group": "^15.0.1",
     "react-addons-update": "^15.0.1",
     "react-dom": "^15.0.1",
+    "react-modal": "^1.2.1",
     "react-select": "^1.0.0-beta12",
     "wolfy87-eventemitter": "^4.3.0"
   },

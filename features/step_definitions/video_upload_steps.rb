@@ -1,12 +1,32 @@
-When %(I upload a video) do
-  expect do
-    click_link 'Uploads'
-    click_link 'Upload Video'
+Given %(there is a setup) do
+  @setup = create(:setup, user: @user)
+end
+
+When %(I go to upload a video) do
+  click_link 'Uploads'
+  click_link 'Upload'
+end
+
+When %(I add a video) do
+  document_name = 'dan_session1-frame'
+  within '.new-upload' do
     expect(page).to have_content('Upload Video')
-    attach_file :upload_video_attributes_file,
-                Rails.root.join('spec/fixtures/dan_session1-frame.mp4')
-    click_button 'Create Upload'
-    step %(the record should have been created)
+    page.execute_script <<-JAVASCRIPT
+      $('.direct-upload-form').trigger('s3_upload_complete',
+                                       { filename: '#{document_name}',
+                                         url: 'http://superfake.com/#{document_name}' })
+    JAVASCRIPT
+  end
+end
+
+When %(I select a setup) do
+  react_select('.new-upload .Select', @setup.name)
+end
+
+When %(I upload the video) do
+  expect do
+    click_button 'Upload'
+    step %(the upload should have been successful)
   end.to change { Upload.count }.by(1)
   @upload = Upload.last
 end
@@ -16,19 +36,31 @@ Then %(the video upload should be listed) do
   expect(page).to have_content('dan_session1-frame')
 end
 
+Then %(the upload should have been successful) do
+  step %(I see the success message "Uploaded video dan_session1-frame")
+end
+
+Then %(the video upload should include the setup) do
+  expect(@upload.setups).to include(@setup)
+end
+
 Given %(there is a video upload) do
   file = Rails.root.join('spec/fixtures/dan_session1-frame.mp4')
   @upload = create(:upload,
+                   user: @user,
                    video: create(:video, file: File.open(file)))
 end
 
 When %(I scrub to the slate and set the timestamp) do
-  visit upload_path(@upload)
-  expect(page).to have_content(@upload.video.filename)
-  fill_in :date, with: '06-30-1984'
-  fill_in :timezone, with: '-8:00'
-  fill_in :timestamp, with: '12:12:12.000'
-  find('body').click
+  click_link 'Uploads'
+  click_link @upload.video.filename
+  within '.edit-upload-modal' do
+    expect(page).to have_content(@upload.video.filename)
+    fill_in :date, with: '06-30-1984'
+    fill_in :timezone, with: '-8:00'
+    fill_in :timestamp, with: '12:12:12.000'
+    find('.modal-content').click
+  end
   execute_script <<-JAVASCRIPT
     $('video')[0].load();
     $('video')[0].currentTime = 0.02;
@@ -42,8 +74,8 @@ Then %(I should see the adjusted start and end times) do
 end
 
 When %(I update the video) do
-  click_button 'Set'
-  step %(the record should have been updated)
+  click_link 'Save'
+  step %(I see the success message "Saved upload dan_session1-frame")
 end
 
 Then %(the video should have correct start and end times) do

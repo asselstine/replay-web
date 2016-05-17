@@ -9,6 +9,7 @@ class Upload < ActiveRecord::Base
   validates_presence_of :video, :user
 
   accepts_nested_attributes_for :video
+  accepts_nested_attributes_for :setups
 
   def self.during(start_at, end_at)
     query = <<-SQL

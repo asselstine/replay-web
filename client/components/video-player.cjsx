@@ -1,4 +1,4 @@
-@VideoPlayer = React.createClass
+module.exports = React.createClass
   displayName: 'VideoPlayer'
 
   propTypes:
@@ -14,11 +14,12 @@
     flip: false
 
   videoRef: (ref) ->
-    vidElem = ReactDOM.findDOMNode(ref)
-    vidElem.addEventListener 'timeupdate', (e) =>
+    return if ref == null
+    @vidElem = ReactDOM.findDOMNode(ref)
+    @vidElem.addEventListener 'timeupdate', (e) =>
       if @props.onTimeUpdate
         @props.onTimeUpdate(e)
-    vidElem.addEventListener 'canplaythrough', (e) =>
+    @vidElem.addEventListener 'canplaythrough', (e) =>
       if @props.onCanPlayThrough
         @props.onCanPlayThrough(e)
 

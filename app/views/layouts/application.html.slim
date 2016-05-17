@@ -7,10 +7,7 @@ html
     meta name="viewport" content="width=device-width, initial-scale=1"
     = stylesheet_link_tag 'application', media: 'all'
     script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=#{Figaro.env.google_maps_browser_key}&libraries=geometry"
-    = javascript_include_tag 'webpack.bundle'
-    = javascript_include_tag 'application'
     = csrf_meta_tags
-
   body
 
     = render 'nav'
@@ -20,3 +17,8 @@ html
         = v
 
     = yield
+
+    = render 'shared/constants'
+    = javascript_include_tag 'bundle-dependencies'
+    = javascript_include_tag 'webpack.bundle'
+    = javascript_include_tag 'application'

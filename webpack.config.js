@@ -68,16 +68,13 @@ if (isProduction) {
   console.log("Compiling in production mode...");
   config.devtool = 'source-map';
   config.plugins = [
+    new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/),
     new webpack.DefinePlugin({
       'process.env': {
         'NODE_ENV': '"production"'
       }
     }),
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false
-      }
-    })
+    new webpack.optimize.UglifyJsPlugin()
   ];
 }
 

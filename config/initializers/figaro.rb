@@ -1,5 +1,9 @@
-Figaro.require_keys('dropbox_app_key', 
-                    'dropbox_app_secret',
-                    'strava_client_id', 
-                    'strava_api_key',
-                    'google_maps_browser_key')
+Figaro.require_keys(%w(dropbox_app_key
+                       dropbox_app_secret
+                       strava_client_id
+                       strava_api_key
+                       google_maps_browser_key
+                       aws_access_key_id
+                       aws_secret_access_key
+                       aws_region
+                       aws_s3_bucket))

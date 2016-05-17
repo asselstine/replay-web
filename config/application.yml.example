@@ -14,6 +14,12 @@ aws_et_sns_topic_arn: 'TRUST_NO_ONE'
 host: 'http://tlaij23ltie.ngrok.com'
 REDISTOGO_URL: 'redis://localhost:6379'
 
+test:
+  aws_access_key_id: 'TRUST_NO_ONE'
+  aws_secret_access_key: 'TRUST_NO_ONE'
+  aws_region: 'TRUST_NO_ONE'
+  aws_s3_bucket: 'TRUST_NO_ONE'
+
 development:
   strava_client_id: 'TRUST_NO_ONE'
   strava_api_key: 'TRUST_NO_ONE'

@@ -8,5 +8,10 @@ class UpdateVideoFileJob < ActiveJob::Base
       Could not UpdateVideoFile for video with id #{video.id}
     STRING
                       ) unless video.save
+    begin
+      FFMPEG::Thumbnail.call(video: video)
+    rescue StandardError => e
+      Rails.logger.error(e)
+    end
   end
 end

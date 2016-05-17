@@ -11,7 +11,7 @@ class UploadsController < LoggedInController
   end
 
   def create
-    @upload = Upload.create(create_params)
+    @upload = Upload.create(upload_params)
     if @upload.persisted?
       redirect_to @upload, notice: I18n.t('flash.activerecord.create.success')
     else
@@ -22,7 +22,7 @@ class UploadsController < LoggedInController
   # rubocop:disable Metrics/MethodLength
   def update
     respond_to do |format|
-      if @upload.update(create_params)
+      if @upload.update(upload_params)
         format.json do
           render json: @upload,
                  notice: I18n.t('flash.activerecord.update.success')
@@ -47,14 +47,16 @@ class UploadsController < LoggedInController
 
   protected
 
-  def create_params
-    params.require(:upload)
-          .permit(:start_at,
-                  :end_at,
-                  video_attributes: [:id,
-                                     :source_url,
-                                     :file])
-          .merge(user: current_user)
+  def upload_params
+    uparams = params.require(:upload)
+                    .permit(:start_at,
+                            :end_at,
+                            video_attributes: [:id,
+                                               :source_url,
+                                               :file])
+                    .merge(user: current_user)
+    uparams[:video_attributes][:user] = current_user
+    uparams
   end
 
   def find_upload

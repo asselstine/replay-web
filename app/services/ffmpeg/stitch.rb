@@ -1,7 +1,7 @@
 # rubocop:disable Style/ClassAndModuleChildren
 class FFMPEG::Stitch < FFMPEG::Service
   def create_index
-    debug "Tmp dir is #{tmpdir}"
+    debug "Tmp dir is #{tmp_dir_path}"
     debug 'Creating index...'
     File.open(index_filepath, 'w') do |file|
       edit.cuts.each do |cut|
@@ -12,7 +12,7 @@ class FFMPEG::Stitch < FFMPEG::Service
   end
 
   def index_filepath
-    "#{tmpdir}/list.txt"
+    "#{tmp_dir_path}/list.txt"
   end
 
   def stitch_cuts

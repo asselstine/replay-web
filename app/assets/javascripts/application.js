@@ -12,7 +12,6 @@
 //
 //= require bootstrap-sprockets
 //= require bootstrap-datepicker/core
-//= require dropzone
 //= require GoTime.min
 //= require jed-watson-classnames
 //= require js-routes

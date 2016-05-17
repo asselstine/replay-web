@@ -1,6 +1,11 @@
 general:
   artifacts:
     - "tmp/capybara"
+test:
+  pre:
+    - bundle exec rake assets:precompile
+  post:
+    - cp log/test.log tmp/capybara/test.log
 dependencies:
   pre:
     - sudo rm /usr/local/bin/gsl-config

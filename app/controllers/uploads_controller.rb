@@ -28,15 +28,17 @@ class UploadsController < LoggedInController
   protected
 
   def upload_params
-    params.require(:upload)
-          .permit(:start_at,
-                  :end_at,
-                  video_attributes: [:id,
-                                     :source_url,
-                                     :file,
-                                     :filename],
-                  setup_ids: [])
-          .merge(user: current_user)
+    uparams = params.require(:upload)
+                    .permit(:start_at,
+                            :end_at,
+                            video_attributes: [:id,
+                                               :source_url,
+                                               :file,
+                                               :filename],
+                            setup_ids: [])
+                    .merge(user: current_user)
+    uparams[:video_attributes][:user] = current_user
+    uparams
   end
 
   def find_upload

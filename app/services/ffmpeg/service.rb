@@ -1,6 +1,6 @@
 # rubocop:disable Style/ClassAndModuleChildren
 class FFMPEG::Service
-  include Service
+  include ::Service
   include Virtus.model
 
   def self.relative_time(start_at, end_at)
@@ -15,9 +15,13 @@ class FFMPEG::Service
     format('%02d:%02d:%02d.%03d', hours, minutes, seconds, fraction)
   end
 
+  def cached_video_filepath(video)
+    "#{tmp_dir_path}/video-#{video.id}#{File.extname(video.filename)}"
+  end
+
   protected
 
-  def download_video(video)
+  def cache_video(video)
     return if File.exist? cached_video_filepath(video)
     if Rails.env.test?
       run "cp #{video.file_url} #{cached_video_filepath(video)}"
@@ -27,19 +31,16 @@ class FFMPEG::Service
       SHELL
          )
     end
+    cached_video_filepath(video)
   end
 
   def run(command_string)
     debug "Running command '#{command_string}':"
     output = `#{command_string} 2>&1`
-    fail "Error: #{output}" if $CHILD_STATUS != 0
+    raise "Error: #{output}" if $CHILD_STATUS != 0
   end
 
-  def cached_video_filepath(video)
-    "#{tmpdir}/video-#{video.id}#{File.extname(video.filename)}"
-  end
-
-  def tmpdir
+  def tmp_dir_path
     @tmp_dir_path ||= Dir.mktmpdir
   end
 

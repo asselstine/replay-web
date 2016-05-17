@@ -6,7 +6,7 @@ class FFMPEG::Slice < FFMPEG::Service
   attribute :video_start_at
 
   def call
-    download_video(video)
+    cache_video(video)
     slice_video
     output_filepath
   end
@@ -33,7 +33,7 @@ class FFMPEG::Slice < FFMPEG::Service
   end
 
   def output_filepath
-    "#{tmpdir}/#{timestamp}.mp4"
+    "#{tmp_dir_path}/#{timestamp}.mp4"
   end
 
   def timestamp

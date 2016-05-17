@@ -1,7 +1,7 @@
 desc 'Calls webpack to compile the JavaScript'
 task :webpack do
   puts 'Running webpack...'
-  output = `NODE_ENV=production webpack`
+  output = `NODE_ENV=production node node_modules/webpack/bin/webpack.js`
   puts output
   puts 'Done webpack.'
 end

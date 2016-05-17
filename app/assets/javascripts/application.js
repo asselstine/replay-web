@@ -13,6 +13,7 @@
 //= require bootstrap-sprockets
 //= require bootstrap-datepicker/core
 //= require GoTime.min
+//= require dropzone
 //= require jed-watson-classnames
 //= require js-routes
 //= require messenger

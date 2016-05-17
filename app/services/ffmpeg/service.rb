@@ -17,7 +17,7 @@ class FFMPEG::Service
 
   protected
 
-  def download_video(video)
+  def cache_video(video)
     return if File.exist? cached_video_filepath(video)
     if Rails.env.test?
       run "cp #{video.file_url} #{cached_video_filepath(video)}"
@@ -27,19 +27,20 @@ class FFMPEG::Service
       SHELL
          )
     end
+    cached_video_filepath(video)
   end
 
   def run(command_string)
     debug "Running command '#{command_string}':"
     output = `#{command_string} 2>&1`
-    fail "Error: #{output}" if $CHILD_STATUS != 0
+    raise "Error: #{output}" if $CHILD_STATUS != 0
   end
 
   def cached_video_filepath(video)
-    "#{tmpdir}/video-#{video.id}#{File.extname(video.filename)}"
+    "#{tmp_dir_path}/video-#{video.id}#{File.extname(video.filename)}"
   end
 
-  def tmpdir
+  def tmp_dir_path
     @tmp_dir_path ||= Dir.mktmpdir
   end
 

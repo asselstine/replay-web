@@ -1,5 +1,7 @@
 class Video < ActiveRecord::Base
   mount_uploader :file, VideoUploader
+  belongs_to :thumbnail, class_name: Photo
+
   validates_presence_of :source_url, if: (proc do |v|
     v.file.blank?
   end)

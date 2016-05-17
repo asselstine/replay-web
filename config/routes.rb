@@ -15,7 +15,7 @@ Rails.application.routes.draw do
   root to: 'pages#landing', as: :unauthenticated_root
 
   resources :setups
-  resources :uploads
+  resources :uploads, except: [:new]
   resources :drafts
   resources :activities, :only => [:index, :show] do
     post '/recut' => 'activities#recut', as: :recut

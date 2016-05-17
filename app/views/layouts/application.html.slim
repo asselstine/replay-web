@@ -18,7 +18,7 @@ html
 
     = yield
 
-    = javascript_include_tag 'constants'
+    = render 'shared/constants'
     = javascript_include_tag 'bundle-dependencies'
     = javascript_include_tag 'webpack.bundle'
     = javascript_include_tag 'application'

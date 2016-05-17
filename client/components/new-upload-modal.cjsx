@@ -1,6 +1,6 @@
 Modal = require('react-modal')
 CSRF = require('./csrf')
-_ = require('lodash')
+_ = require('lodash/core')
 DirectUploadForm = require('./direct-upload-form')
 Select = require('react-select')
 

@@ -5,11 +5,6 @@ class UploadsController < LoggedInController
     @uploads = current_user.uploads
   end
 
-  def new
-    @upload = Upload.new
-    @upload.build_video
-  end
-
   def create
     @upload = Upload.create(upload_params)
     if @upload.persisted?
@@ -20,6 +15,8 @@ class UploadsController < LoggedInController
   end
 
   def update
+    flash.keep
+    flash[:notice] = I18n.t('flash.activerecord.update.success')
     if @upload.update(upload_params)
       render json: @upload, status: :ok
     else

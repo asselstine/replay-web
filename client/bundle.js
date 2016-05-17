@@ -2,7 +2,6 @@
 require('expose?React!react')
 require('expose?ReactDOM!react-dom')
 require('react-select/dist/react-select.css')
-require('expose?moment!moment')
 
 require('expose?Uploads!./components/uploads')
 require('expose?VideoPlayer!./components/video-player')

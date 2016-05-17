@@ -7,7 +7,7 @@ module.exports = React.createClass
   render: ->
     <div className='upload-row row'>
       <div className='col-xs-5'>
-        {@props.upload.video.filename}
+        <a href={Routes.upload_path(@props.upload)}>{@props.upload.video.filename}</a>
       </div>
       <div className='col-xs-3'>
       </div>

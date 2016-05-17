@@ -1,4 +1,4 @@
-_ = require('lodash')
+_ = require('lodash/core')
 UploadRow = require('./upload-row')
 NewUploadModal = require('./new-upload-modal')
 

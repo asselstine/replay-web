@@ -1,3 +1,5 @@
+moment = require('moment')
+
 module.exports = React.createClass
   displayName: 'UploadEditor'
 
@@ -45,6 +47,15 @@ module.exports = React.createClass
         end_at: adjustedEndTime.utc().toISOString()
       )
 
+  submit: (e) ->
+    $.ajax(
+      url: e.target.action
+      data: $(e.target).serialize()
+    ).done (data, xhr, status) =>
+      window.location = Routes.uploads_path()
+     .fail (xhr, status, msg) ->
+       message.ajaxFail(xhr, status, msg)
+
   render: ->
     disabled = false # !@state.start_at || !@state.end_at
     currentTimeMs = @state.currentTime * 1000
@@ -64,7 +75,7 @@ module.exports = React.createClass
               Current Time: {currentTimeMs}ms
             </span>
             <h4>Enter new timecode</h4>
-            <form action={Routes.upload_path(id: @props.upload.id)} method='post'>
+            <form action={Routes.upload_path(id: @props.upload.id)} method='post' onSubmit={@submit}>
               <input name="_method" type="hidden" value="patch" />
               <input name="utf8" type="hidden" value="&#x2713;" />
               <input name="authenticity_token" type="hidden" value={@props.csrf_token} />

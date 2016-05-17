@@ -63,11 +63,12 @@ config = baseConfig('webpack.bundle');
  * Also, make sure to have Heroku NodeJS buildpacks installed.  I.e.:
  * heroku buildpacks:add --index 1 heroku/nodejs --app vey-staging
  */
-var isProduction = process.env.NODE_ENV === 'production';
-if (isProduction) {
-  console.log("Compiling in production mode...");
+// var isProduction = process.env.NODE_ENV === 'production';
+// if (isProduction) {
+  // console.log("Compiling in production mode...");
   config.devtool = 'source-map';
   config.plugins = [
+    new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/),
     new webpack.DefinePlugin({
       'process.env': {
         'NODE_ENV': '"production"'
@@ -79,7 +80,7 @@ if (isProduction) {
       }
     })
   ];
-}
+// }
 
 module.exports = [
   config

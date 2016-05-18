@@ -10,8 +10,8 @@ module.exports = React.createClass
   getInitialState: ->
     currentTime: 0
     loaded: false
-    start_at: @props.upload.start_at
-    end_at: @props.upload.end_at
+    start_at: @props.upload.video.start_at
+    end_at: @props.upload.video.end_at
 
   onChangeDate: (e) ->
     @setState(date: e.target.value, =>

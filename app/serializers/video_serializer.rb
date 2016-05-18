@@ -8,4 +8,5 @@ class VideoSerializer < BaseSerializer
              :status,
              :message,
              :job_id
+  has_one :thumbnail
 end

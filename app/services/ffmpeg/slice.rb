@@ -3,7 +3,6 @@ class FFMPEG::Slice < FFMPEG::Service
   attribute :video
   attribute :start_at
   attribute :end_at
-  attribute :video_start_at
 
   def call
     cache_video(video)
@@ -25,7 +24,7 @@ class FFMPEG::Slice < FFMPEG::Service
   end
 
   def start
-    self.class.relative_time(start_at, video_start_at)
+    self.class.relative_time(start_at, video.start_at)
   end
 
   def duration

@@ -43,11 +43,11 @@ end
 
 upload = brendan.uploads.joins(:video).where(videos: { filename: 'full-clipped.mp4' }).first_or_create! do |upload|
   upload.camera = laptop
-  upload.start_at = now.since(setup_index.seconds)
-  upload.end_at = now.since(setup_index.seconds + 2.seconds)
   upload.build_video(file: File.open(Rails.root.join('spec',
                                                      'fixtures',
-                                                     'full-clipped.mp4')))
+                                                     'full-clipped.mp4')),
+                     start_at: now.since(setup_index.seconds),
+                     end_at: now.since(setup_index.seconds + 2.seconds))
 end
 
 if brendan.drafts.empty?

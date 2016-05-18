@@ -1,4 +1,3 @@
-# rubocop:disable Style/ClassAndModuleChildren
 class Edit::VideoProcessor < Edit::Processor
   protected
 
@@ -18,11 +17,11 @@ class Edit::VideoProcessor < Edit::Processor
   end
 
   def draft_start_at(comparator)
-    [@frame.start_at, comparator.upload.start_at].max
+    [@frame.start_at, comparator.upload.video.start_at].max
   end
 
   def draft_end_at(comparator)
-    [@frame.end_at, comparator.upload.end_at].min
+    [@frame.end_at, comparator.upload.video.end_at].min
   end
 
   def continue_current_draft(comparator, start_at)

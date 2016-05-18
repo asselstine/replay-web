@@ -79,9 +79,9 @@ When %(I update the video) do
 end
 
 Then %(the video should have correct start and end times) do
-  expect(@upload.reload.start_at).to eq(
+  expect(@upload.reload.video.start_at).to eq(
     DateTime.parse('1984-06-30T20:12:11.980Z'))
-  expect(@upload.end_at).to eq(
+  expect(@upload.video.end_at).to eq(
     DateTime.parse('1984-06-30T20:12:12.087Z'))
 end
 

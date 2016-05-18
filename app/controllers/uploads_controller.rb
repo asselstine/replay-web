@@ -29,12 +29,12 @@ class UploadsController < LoggedInController
 
   def upload_params
     uparams = params.require(:upload)
-                    .permit(:start_at,
-                            :end_at,
-                            video_attributes: [:id,
+                    .permit(video_attributes: [:id,
                                                :source_url,
                                                :file,
-                                               :filename],
+                                               :filename,
+                                               :start_at,
+                                               :end_at],
                             setup_ids: [])
                     .merge(user: current_user)
     uparams[:video_attributes][:user] = current_user

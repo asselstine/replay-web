@@ -5,8 +5,8 @@ RSpec.describe Edit::VideoProcessor do
   let(:start_at) { t(0) }
   let(:end_at) { t(10) }
   let(:frame_size) { 5.seconds }
-  let(:upload) { Upload.new(video: video) }
-  let(:comparator) { double(upload: upload, setup: nil, activity: nil) }
+  let(:video_upload) { VideoUpload.new(video: video) }
+  let(:comparator) { double(video: video, setup: nil, activity: nil) }
   subject do
     Edit::VideoProcessor.new(selector: selector,
                              start_at: start_at,

@@ -1,4 +1,3 @@
 class UploadSerializer < BaseSerializer
-  attributes :user_id, :start_at, :end_at
-  has_one :video
+  attributes :user_id, :file_type, :filename, :file_size, :url
 end

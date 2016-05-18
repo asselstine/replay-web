@@ -3,18 +3,17 @@
 class Upload < ActiveRecord::Base
   has_many :setup_uploads
   has_many :setups, through: :setup_uploads
-  belongs_to :video
-  belongs_to :user
-
-  validates_presence_of :video, :user
-
-  accepts_nested_attributes_for :video
   accepts_nested_attributes_for :setups
 
-  def self.during(start_at, end_at)
-    query = <<-SQL
-      (uploads.start_at, uploads.end_at) OVERLAPS (:start_at, :end_at)
-    SQL
-    where(query, start_at: start_at, end_at: end_at).order(start_at: :asc)
+  belongs_to :user
+  validates_presence_of :user
+
+  scope :video, -> { where(type: 'VideoUpload') }
+  scope :photo, -> { where(type: 'PhotoUpload') }
+
+  after_create :process_upload
+
+  def process_upload
+    ProcessUploadJob.perform_later(upload: self)
   end
 end

@@ -29,8 +29,14 @@ module.exports = React.createClass
     message.error('Could not upload "'+filename+'": ' + error)
     @setState(uploadingFilenames: '')
 
-  onUpload: (filename, url) ->
-    @setState(filename: filename, url: url, uploadingFilenames: '')
+  onUpload: (filename, content) ->
+    @setState
+      filename: filename
+      fileSize: content.filesize
+      fileType: content.filetype
+      uniqueId: content.unique_id
+      url: decodeURIComponent(content.url)
+      uploadingFilenames: ''
 
   onChangeSetup: (options) ->
     @setState(selectedSetups: _.map(options, (option) -> option.value))
@@ -38,10 +44,11 @@ module.exports = React.createClass
   submit: ->
     data = {
       upload: {
-        video_attributes: {
-          source_url: @state.url,
-          filename: @state.filename
-        },
+        url: @state.url,
+        filename: @state.filename
+        file_size: content.fileSize
+        file_type: content.fileType
+        unique_id: content.uniqueId
         setup_ids: @state.selectedSetups
       }
     }

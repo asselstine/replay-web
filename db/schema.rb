@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160517221642) do
+ActiveRecord::Schema.define(version: 20160518185015) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,9 +42,12 @@ ActiveRecord::Schema.define(version: 20160517221642) do
     t.datetime "end_at"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
-    t.integer  "upload_id"
     t.integer  "video_id"
+    t.string   "type"
+    t.integer  "photo_id"
   end
+
+  add_index "drafts", ["photo_id"], name: "index_drafts_on_photo_id", using: :btree
 
   create_table "dropbox_events", force: :cascade do |t|
     t.string   "cursor"
@@ -78,7 +81,6 @@ ActiveRecord::Schema.define(version: 20160517221642) do
     t.integer  "user_id"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
-    t.string   "source_url"
     t.string   "filename"
   end
 
@@ -114,10 +116,20 @@ ActiveRecord::Schema.define(version: 20160517221642) do
 
   create_table "uploads", force: :cascade do |t|
     t.integer  "video_id"
-    t.datetime "start_at"
-    t.datetime "end_at"
     t.integer  "user_id"
+    t.string   "type",        default: "Upload"
+    t.string   "url"
+    t.string   "filename"
+    t.string   "unique_id"
+    t.integer  "file_size"
+    t.string   "file_type"
+    t.string   "process_msg"
+    t.integer  "photo_id"
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
   end
+
+  add_index "uploads", ["photo_id"], name: "index_uploads_on_photo_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
@@ -142,7 +154,6 @@ ActiveRecord::Schema.define(version: 20160517221642) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   create_table "videos", force: :cascade do |t|
-    t.string   "source_url"
     t.datetime "start_at"
     t.datetime "end_at"
     t.datetime "created_at"
@@ -175,7 +186,9 @@ ActiveRecord::Schema.define(version: 20160517221642) do
 
   add_index "videos", ["user_id"], name: "index_videos_on_user_id", using: :btree
 
+  add_foreign_key "drafts", "photos"
   add_foreign_key "dropbox_events", "users"
   add_foreign_key "dropbox_photos", "dropbox_events"
+  add_foreign_key "uploads", "photos"
   add_foreign_key "videos", "users"
 end

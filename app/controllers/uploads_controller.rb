@@ -6,7 +6,7 @@ class UploadsController < LoggedInController
   end
 
   def create
-    @upload = Upload.create(upload_params)
+    @upload = Upload.create(create_params)
     if @upload.persisted?
       render json: @upload, status: :ok
     else
@@ -15,7 +15,7 @@ class UploadsController < LoggedInController
   end
 
   def update
-    if @upload.update(upload_params)
+    if @upload.update(update_params)
       render json: @upload, status: :ok
     else
       render json: @upload, status: :unprocessible_entity
@@ -27,18 +27,21 @@ class UploadsController < LoggedInController
 
   protected
 
-  def upload_params
-    uparams = params.require(:upload)
-                    .permit(video_attributes: [:id,
-                                               :source_url,
-                                               :file,
-                                               :filename,
-                                               :start_at,
-                                               :end_at],
-                            setup_ids: [])
-                    .merge(user: current_user)
-    uparams[:video_attributes][:user] = current_user
-    uparams
+  def create_params
+    params.require(:upload)
+          .permit(:url,
+                  :file,
+                  :filename,
+                  :file_type,
+                  :file_size,
+                  :unique_id,
+                  setup_ids: [])
+          .merge(user: current_user)
+  end
+
+  def update_params
+    params.require(:upload)
+          .permit(setup_ids: [])
   end
 
   def find_upload

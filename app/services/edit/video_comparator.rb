@@ -1,9 +1,8 @@
-# rubocop:disable Style/ClassAndModuleChildren
 class Edit::VideoComparator < Edit::Comparator
-  attribute :upload, Upload
+  attribute :video, Video
 
   def compute_strength(frame)
-    @strength = if upload_during_frame?(frame)
+    @strength = if video_during_frame?(frame)
                   distance_strength(frame)
                 else
                   0
@@ -12,8 +11,8 @@ class Edit::VideoComparator < Edit::Comparator
 
   protected
 
-  def upload_during_frame?(frame)
-    @upload = setup.uploads_during(frame).first
-    @upload.present?
+  def video_during_frame?(frame)
+    @video = setup.videos_during(frame).first
+    @video.present?
   end
 end

@@ -14,7 +14,7 @@ class Edit::ActivityVideoProcessor
   private
 
   def selector
-    setups = Setup.with_uploads_during(activity.start_at, activity.end_at)
+    setups = Setup.with_videos_during(activity.start_at, activity.end_at)
     comparators = setups.map do |setup|
       Edit::VideoComparator.new(setup: setup, activity: activity)
     end

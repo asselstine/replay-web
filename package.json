@@ -4,30 +4,29 @@
   "description": "= Replay Trail Media",
   "directories": {},
   "dependencies": {
-    "lodash": "^4.12.0",
-    "moment": "^2.13.0",
-    "react": "^15.0.1",
-    "react-addons-css-transition-group": "^15.0.1",
-    "react-addons-update": "^15.0.1",
-    "react-dom": "^15.0.1",
-    "react-modal": "^1.2.1",
-    "react-select": "^1.0.0-beta12",
-    "wolfy87-eventemitter": "^4.3.0",
-
     "cjsx-loader": "^3.0.0",
+    "classnames": "^2.2.5",
     "coffee-loader": "^0.7.2",
     "coffee-script": "^1.10.0",
     "css-loader": "^0.23.1",
     "es6-promise": "^3.1.2",
     "expose-loader": "^0.7.1",
     "extract-text-webpack-plugin": "^1.0.1",
+    "lodash": "^4.12.0",
+    "moment": "^2.13.0",
     "node-sass": "^3.6.0",
+    "react": "^15.0.1",
+    "react-addons-css-transition-group": "^15.0.1",
+    "react-addons-update": "^15.0.1",
+    "react-dom": "^15.0.1",
+    "react-modal": "^1.2.1",
+    "react-select": "^1.0.0-beta12",
     "sass-loader": "^3.2.0",
     "style-loader": "^0.13.1",
-    "webpack": "^1.13.0"
+    "webpack": "^1.13.0",
+    "wolfy87-eventemitter": "^4.3.0"
   },
-  "devDependencies": {
-  },
+  "devDependencies": {},
   "scripts": {
     "test": "echo \"No tests.\""
   },

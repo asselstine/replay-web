@@ -31,6 +31,6 @@ en:
         failure: 'Could not destroy the record'
     upload:
       create:
-        success: 'Uploaded video %{filename}'
+        success: 'Uploaded %{filename}'
       update:
         success: 'Saved upload %{filename}'

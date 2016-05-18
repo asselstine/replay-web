@@ -1,6 +1,10 @@
 FactoryGirl.define do
   factory :upload do
     association :user
+    filename 'dan_session1-frame.mp4'
+    file_type 'video/mp4'
+    file_size 33_000
+    unique_id '3132klf'
     before :save do |upload, _|
       upload.setups << create(:setup, user: upload.user) if upload.setups.empty?
     end

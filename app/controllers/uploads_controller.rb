@@ -22,9 +22,6 @@ class UploadsController < LoggedInController
     end
   end
 
-  def show
-  end
-
   protected
 
   def create_params
@@ -41,7 +38,12 @@ class UploadsController < LoggedInController
 
   def update_params
     params.require(:upload)
-          .permit(setup_ids: [])
+          .permit(video_attributes: [
+                    :id,
+                    :start_at,
+                    :end_at
+                  ],
+                  setup_ids: [])
   end
 
   def find_upload

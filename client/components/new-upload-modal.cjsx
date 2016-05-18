@@ -46,9 +46,9 @@ module.exports = React.createClass
       upload: {
         url: @state.url,
         filename: @state.filename
-        file_size: content.fileSize
-        file_type: content.fileType
-        unique_id: content.uniqueId
+        file_size: @state.fileSize
+        file_type: @state.fileType
+        unique_id: @state.uniqueId
         setup_ids: @state.selectedSetups
       }
     }
@@ -59,7 +59,7 @@ module.exports = React.createClass
       data: data)
       .done (data, xhr, status) =>
         message.success(I18n.t('flash.upload.create.success',
-                               filename: data.video.filename))
+                               filename: data.filename))
         @props.onSuccess(data)
       .fail (xhr, status, msg) ->
         message.ajaxFail(xhr, status, msg)
@@ -69,14 +69,14 @@ module.exports = React.createClass
     uploading = <i>Uploading {@state.uploadingFilenames.join(', ')}...</i> unless _.isEmpty(@state.uploadingFilenames)
     filename = <b>{@state.filename}</b> unless _.isEmpty(@state.filename)
     selectOptions = _.map(@props.setups, (setup) -> { value: setup.id, label: setup.name })
-    fileTypes = [] #['video/mp4']
+    fileTypes = []#[/image\/.*/, /video\/.*/] #['video/mp4']
     <Modal className='new-upload modal-dialog'
            isOpen={@props.isOpen}
            style={ModalStyle}
            onRequestClose={@props.onRequestClose}>
       <div className='modal-content'>
         <div className='modal-header'>
-          <h3>Upload Video</h3>
+          <h3>Upload</h3>
         </div>
         <div className='modal-body'>
           {uploading}

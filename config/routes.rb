@@ -15,15 +15,10 @@ Rails.application.routes.draw do
   root to: 'pages#landing', as: :unauthenticated_root
 
   resources :setups
-  resources :uploads, except: [:new]
+  resources :uploads, except: [:new, :show, :delete]
   resources :drafts
   resources :activities, :only => [:index, :show] do
     post '/recut' => 'activities#recut', as: :recut
-  end
-  resources :photos do
-    collection do
-      get '/uploaded' => 'photos#uploaded', :as => :uploaded
-    end
   end
 
   resource :slate, only: [:show] do

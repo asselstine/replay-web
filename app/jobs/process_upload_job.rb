@@ -17,14 +17,16 @@ class ProcessUploadJob < ActiveJob::Base
   private
 
   def process_video(upload)
-    upload.type = VideoUpload
-    video = upload.create_video!(remote_file_url: upload.url)
+    upload = upload.becomes! VideoUpload
+    video = upload.create_video!(user: upload.user,
+                                 remote_file_url: upload.url)
     FFMPEG::Thumbnail.call(video: video)
   end
 
   def process_photo(upload)
-    upload.type = PhotoUpload
-    upload.create_photo!(remote_image_url: upload.url)
+    upload = upload.becomes! PhotoUpload
+    upload.create_photo!(user: upload.user,
+                         remote_image_url: upload.url)
   end
 
   def process_error(upload)

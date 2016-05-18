@@ -16,13 +16,16 @@ module.exports = React.createClass
     @setState(editModalIsOpen: false)
 
   render: ->
+    editModal = if @props.upload.type == 'VideoUpload'
+      <EditUploadModal upload={@props.upload}
+                       isOpen={@state.editModalIsOpen}
+                       onRequestClose={@closeEditModal}
+                       onSuccess={@closeEditModal}/>
+
     <div className='upload-row row'>
       <div className='col-xs-5'>
-        <a href='javascript:;' onClick={@openEditModal}>{@props.upload.video.filename}</a>
-        <EditUploadModal upload={@props.upload}
-                         isOpen={@state.editModalIsOpen}
-                         onRequestClose={@closeEditModal}
-                         onSuccess={@closeEditModal}/>
+        <a href='javascript:;' onClick={@openEditModal}>{@props.upload.filename}</a>
+        {editModal}
       </div>
       <div className='col-xs-3'>
       </div>

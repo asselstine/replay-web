@@ -29,3 +29,8 @@ Feature: Upload videos
     And I finish the photo upload
     Then the photo upload should be listed
     And the upload should include the setup
+
+  Scenario: View a photo
+    Given there is a photo upload
+    When I open the photo upload
+    Then I should see the photo

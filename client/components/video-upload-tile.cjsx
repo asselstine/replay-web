@@ -1,7 +1,8 @@
+moment = require('moment')
 EditUploadModal = require('./edit-upload-modal')
 
 module.exports = React.createClass
-  displayName: 'UploadRow'
+  displayName: 'VideoUploadTile'
 
   propTypes:
     upload: React.PropTypes.object
@@ -16,19 +17,16 @@ module.exports = React.createClass
     @setState(editModalIsOpen: false)
 
   render: ->
-    editModal = if @props.upload.type == 'VideoUpload'
+    <div className='video-upload-tile tile' onClick={@openEditModal}>
+      <img className='tile__img' src={@props.upload.video.thumbnail.small_url}/>
+      <p>
+        <small>{@props.upload.video.start_at}</small>
+      </p>
+      <p>
+        {@props.upload.filename}
+      </p>
       <EditUploadModal upload={@props.upload}
                        isOpen={@state.editModalIsOpen}
                        onRequestClose={@closeEditModal}
                        onSuccess={@closeEditModal}/>
-
-    <div className='upload-row row'>
-      <div className='col-xs-5'>
-        <a href='javascript:;' onClick={@openEditModal}>{@props.upload.filename}</a>
-        {editModal}
-      </div>
-      <div className='col-xs-3'>
-      </div>
-      <div className='col-xs-4'>
-      </div>
     </div>

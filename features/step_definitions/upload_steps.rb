@@ -125,3 +125,22 @@ end
 Then %(the video should have the correct duration) do
   expect(@upload.video.duration_ms).to eq(107)
 end
+
+Given %(there is a photo upload) do
+  file = Rails.root.join('spec/fixtures/1x1_empty.jpg')
+  @upload = create(:photo_upload,
+                   user: @user,
+                   photo: create(:photo,
+                                 file: File.open(file)))
+end
+
+When %(I open the photo upload) do
+  click_link 'Uploads'
+  click_link @upload.filename
+end
+
+Then %(I should see the photo) do
+  within '.view-photo-modal' do
+    expect(page).to have_content(@upload.filename)
+  end
+end

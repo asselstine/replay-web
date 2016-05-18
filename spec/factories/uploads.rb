@@ -15,6 +15,10 @@ FactoryGirl.define do
   end
 
   factory :photo_upload, class: PhotoUpload, parent: :upload do
+    filename '1x1_empty.jpg'
+    file_type 'image/jpg'
+    file_size 33_000
+    unique_id 'r3g2'
     association :photo
   end
 end

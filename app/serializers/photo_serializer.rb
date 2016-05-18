@@ -1,5 +1,9 @@
 class PhotoSerializer < BaseSerializer
-  attributes :timestamp, :filename, :thumb_url, :small_url
+  attributes :timestamp, :filename, :url, :thumb_url, :small_url
+
+  def url
+    object.image.url
+  end
 
   def thumb_url
     object.image.thumb.url

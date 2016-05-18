@@ -28,3 +28,5 @@ coverage
 /config/application.yml
 public/uploads
 node_modules
+webpack.bundle.js
+webpack.bundle.js.map

@@ -131,7 +131,7 @@ Given %(there is a photo upload) do
   @upload = create(:photo_upload,
                    user: @user,
                    photo: create(:photo,
-                                 file: File.open(file)))
+                                 image: File.open(file)))
 end
 
 When %(I open the photo upload) do

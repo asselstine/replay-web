@@ -32,7 +32,11 @@ module.exports = React.createClass
     flip = <a href='javascript:;' onClick={@flip}>Flip</a> if @props.canFlip
     <div>
       <div className='video-container'>
-        <video controls='true' ref={@videoRef} preload='true' className={'video-player ' + flipClass}>
+        <video controls='true'
+               ref={@videoRef}
+               preload='false'
+               className={'video-player ' + flipClass}
+               poster={@props.video.thumbnail.url}>
           <source src={@props.video.file_url}/>
         </video>
       </div>

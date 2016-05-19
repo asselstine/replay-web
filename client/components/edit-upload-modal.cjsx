@@ -81,9 +81,7 @@ module.exports = React.createClass
 
       <div className='modal-content'>
         <div className='modal-header'>
-          {@state.loaded &&
-            <h3>{@props.upload.video.filename}</h3>
-          }
+          <h3>{@props.upload.video.filename}</h3>
         </div>
         <div className='modal-body'>
           {@props.upload.video.file_url &&

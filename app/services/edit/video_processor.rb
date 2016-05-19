@@ -26,7 +26,7 @@ class Edit::VideoProcessor < Edit::Processor
 
   def continue_current_draft(comparator, start_at)
     @drafts.any? &&
-      @drafts.last.video == comparator.video &&
+      @drafts.last.source_video == comparator.video &&
       @drafts.last.end_at == start_at
   end
 end

@@ -6,9 +6,12 @@ class Edit::ActivityVideoProcessor
   attribute :activity
 
   def call
-    Edit::VideoProcessor.call(selector: selector,
-                              start_at: activity.start_at,
-                              end_at: activity.end_at).each(&:save!)
+    ActiveRecord::Base.transaction do
+      Edit::VideoProcessor.call(selector: selector,
+                                start_at: activity.start_at,
+                                end_at: activity.end_at)
+                          .each(&:save!)
+    end
   end
 
   private

@@ -3,9 +3,9 @@ class Edit::PhotoProcessor < Edit::Processor
 
   def process(comparator)
     comparator.photos.each do |photo|
-      @drafts << PhotoDraft.create!(photo: photo,
-                                    setup: comparator.setup,
-                                    activity: comparator.activity)
+      @drafts << PhotoDraft.new(photo: photo,
+                                setup: comparator.setup,
+                                activity: comparator.activity)
     end
     @frame.end_at
   end

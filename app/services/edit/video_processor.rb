@@ -9,7 +9,7 @@ class Edit::VideoProcessor < Edit::Processor
     else
       @drafts << VideoDraft.new(activity: comparator.activity,
                                 setup: comparator.setup,
-                                video: comparator.video,
+                                source_video: comparator.video,
                                 start_at: frame_start_at,
                                 end_at: frame_end_at)
     end

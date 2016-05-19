@@ -1,9 +1,9 @@
 class Draft < ActiveRecord::Base
   belongs_to :setup
   belongs_to :activity
-  belongs_to :upload
+  has_one :user, through: :activity
 
-  validates_presence_of :setup, :activity, :upload
+  validates_presence_of :setup, :activity
 
   scope :photo_or_video_exists, (lambda do
     table = arel_table

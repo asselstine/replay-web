@@ -12,6 +12,8 @@ class ProcessUploadJob < ActiveJob::Base
       process_error(upload)
     end
     upload.save!
+  rescue StandardError => e
+    Rails.logger.error(e)
   end
 
   private

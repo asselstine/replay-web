@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160518185015) do
+ActiveRecord::Schema.define(version: 20160519180157) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,14 +40,13 @@ ActiveRecord::Schema.define(version: 20160518185015) do
     t.integer  "activity_id"
     t.datetime "start_at"
     t.datetime "end_at"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
     t.integer  "video_id"
     t.string   "type"
     t.integer  "photo_id"
+    t.integer  "source_video_id"
   end
-
-  add_index "drafts", ["photo_id"], name: "index_drafts_on_photo_id", using: :btree
 
   create_table "dropbox_events", force: :cascade do |t|
     t.string   "cursor"
@@ -186,7 +185,6 @@ ActiveRecord::Schema.define(version: 20160518185015) do
 
   add_index "videos", ["user_id"], name: "index_videos_on_user_id", using: :btree
 
-  add_foreign_key "drafts", "photos"
   add_foreign_key "dropbox_events", "users"
   add_foreign_key "dropbox_photos", "dropbox_events"
   add_foreign_key "uploads", "photos"

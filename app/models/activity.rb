@@ -24,17 +24,6 @@ class Activity < ActiveRecord::Base
     STRING
   end
 
-  def interpolated_coords
-    coords = []
-    frame = Edit::Frame.new(start_at: object.start_at, end_at: object.end_at)
-    re = ActivityEvaluator.new(activity: self, frame: frame)
-    loop do
-      coords << re.coords
-      break unless frame.next!
-    end
-    coords
-  end
-
   def start_at
     super || timestamps.first
   end

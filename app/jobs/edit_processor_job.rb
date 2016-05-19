@@ -12,5 +12,7 @@ class EditProcessorJob < ActiveJob::Base
     else
       RemoteEditProcessor.new(edit: edit).call
     end
+  rescue StandardError => e
+    Rails.logger.error(e)
   end
 end

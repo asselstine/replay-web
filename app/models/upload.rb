@@ -12,9 +12,15 @@ class Upload < ActiveRecord::Base
   scope :video, -> { where(type: 'VideoUpload') }
   scope :photo, -> { where(type: 'PhotoUpload') }
 
-  after_create :process_upload
+  after_create :process_upload, unless: 'processed?'
 
   def process_upload
     ProcessUploadJob.perform_later(upload: self)
+  end
+
+  private
+
+  def processed?
+    process_msg.present? || type != 'Upload'
   end
 end

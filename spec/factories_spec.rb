@@ -7,4 +7,6 @@ describe 'Factories' do
   it { expect(create(:video_upload)).to be_valid }
   it { expect(create(:video)).to be_valid }
   it { expect(create(:setup)).to be_valid }
+  it { expect(create(:video_draft)).to be_valid }
+  it { expect(create(:photo_draft)).to be_valid }
 end

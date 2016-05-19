@@ -12,8 +12,8 @@ module.exports = React.createClass
     tiles = _.map(@props.drafts, (draft) ->
       <div className='col-sm-3' key={draft.id}>
         {switch draft.type
-          when 'VideoDraft' then <VideoDraftTile draft={draft}/>
-          when 'PhotoDraft' then <PhotoDraftTile draft={draft}/>
+          when 'VideoDraft' then <VideoDraftTile videoDraft={draft}/>
+          when 'PhotoDraft' then <PhotoDraftTile photoDraft={draft}/>
           else <div>Unknown tile: {draft.type}</div>
         }
       </div>

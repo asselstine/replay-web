@@ -6,15 +6,16 @@ class Edit::DraftSlicer
   attribute :draft
 
   def call
-    draft.create_video!(file: File.open(slice_upload))
+    draft.create_video!(file: File.open(slice_upload),
+                        user: draft.user)
+    FFMPEG::Thumbnail.call(video: draft.video)
     draft.save!
   end
 
   def slice_upload
     FFMPEG::Slice.call(
-      video: draft.upload.video,
+      video: draft.source_video,
       start_at: draft.start_at,
-      end_at: draft.end_at,
-      video_start_at: draft.upload.video.start_at)
+      end_at: draft.end_at)
   end
 end

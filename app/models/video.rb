@@ -2,6 +2,7 @@ class Video < ActiveRecord::Base
   mount_uploader :file, VideoUploader
   belongs_to :thumbnail, class_name: Photo
   belongs_to :user
+  has_many :video_drafts
 
   validates_presence_of :file
   validates_presence_of :user

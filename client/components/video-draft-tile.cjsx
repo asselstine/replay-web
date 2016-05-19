@@ -6,5 +6,9 @@ module.exports = React.createClass
 
   render: ->
     <div className='video-draft-tile'>
-      <img className='tile__img' src={@videoDraft.thumbnail.small_url}/>
+      <img className='tile__img'
+           src={@props.videoDraft.video.thumbnail.small_url}/>
+      <p>
+        {@props.videoDraft.video.filename}
+      </p>
     </div>

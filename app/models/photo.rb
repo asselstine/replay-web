@@ -5,6 +5,7 @@ class Photo < ActiveRecord::Base
   belongs_to :user
   has_many :setup_photos
   has_many :setups, through: :setup_photos
+  has_many :photo_drafts
   mount_uploader :image, PhotoUploader
 
   validates_presence_of :image

@@ -7,6 +7,7 @@ FactoryGirl.define do
 
   factory :video_draft, parent: :draft, class: 'VideoDraft' do
     type 'VideoDraft'
+    association :source_video, factory: :video
     association :video, factory: :video
     start_at DateTime.now
     end_at { start_at.since(0.1) }

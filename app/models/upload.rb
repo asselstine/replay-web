@@ -1,8 +1,9 @@
 # Represents an individual file upload.  The upload references the original
 # Video and the Camera it belongs to.
 class Upload < ActiveRecord::Base
-  has_many :setup_uploads
+  has_many :setup_uploads, inverse_of: :upload
   has_many :setups, through: :setup_uploads
+  has_many :drafts, inverse_of: :upload
   accepts_nested_attributes_for :setups
 
   belongs_to :user

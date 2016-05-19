@@ -1,9 +1,10 @@
 require 'gsl'
 
+# rubocop:disable Metrics/ClassLength
 class Activity < ActiveRecord::Base
   belongs_to :user
   has_many :edits
-  has_many :drafts
+  has_many :drafts, inverse_of: :activity
   has_many :draft_photos
   before_validation :clear_blank_latitudes_and_longitudes
   before_validation :default_timestamps_to_now

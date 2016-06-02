@@ -18,7 +18,7 @@ class Edit::Comparator
   protected
 
   def distance_strength(frame)
-    Geo.distance_strength(setup.coords,
+    Geo.distance_strength(setup.coords_at(frame.start_at),
                           activity.coords_at(frame.start_at),
                           setup.range_m)
   end

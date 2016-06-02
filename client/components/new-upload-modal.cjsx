@@ -29,8 +29,14 @@ module.exports = React.createClass
     message.error('Could not upload "'+filename+'": ' + error)
     @setState(uploadingFilenames: '')
 
-  onUpload: (filename, url) ->
-    @setState(filename: filename, url: url, uploadingFilenames: '')
+  onUpload: (filename, content) ->
+    @setState
+      filename: filename
+      fileSize: content.filesize
+      fileType: content.filetype
+      uniqueId: content.unique_id
+      url: decodeURIComponent(content.url)
+      uploadingFilenames: ''
 
   onChangeSetup: (options) ->
     @setState(selectedSetups: _.map(options, (option) -> option.value))
@@ -38,10 +44,11 @@ module.exports = React.createClass
   submit: ->
     data = {
       upload: {
-        video_attributes: {
-          source_url: @state.url,
-          filename: @state.filename
-        },
+        url: @state.url,
+        filename: @state.filename
+        file_size: @state.fileSize
+        file_type: @state.fileType
+        unique_id: @state.uniqueId
         setup_ids: @state.selectedSetups
       }
     }
@@ -52,7 +59,7 @@ module.exports = React.createClass
       data: data)
       .done (data, xhr, status) =>
         message.success(I18n.t('flash.upload.create.success',
-                               filename: data.video.filename))
+                               filename: data.filename))
         @props.onSuccess(data)
       .fail (xhr, status, msg) ->
         message.ajaxFail(xhr, status, msg)
@@ -62,14 +69,14 @@ module.exports = React.createClass
     uploading = <i>Uploading {@state.uploadingFilenames.join(', ')}...</i> unless _.isEmpty(@state.uploadingFilenames)
     filename = <b>{@state.filename}</b> unless _.isEmpty(@state.filename)
     selectOptions = _.map(@props.setups, (setup) -> { value: setup.id, label: setup.name })
-    fileTypes = [] #['video/mp4']
+    fileTypes = []#[/image\/.*/, /video\/.*/] #['video/mp4']
     <Modal className='new-upload modal-dialog'
            isOpen={@props.isOpen}
            style={ModalStyle}
            onRequestClose={@props.onRequestClose}>
       <div className='modal-content'>
         <div className='modal-header'>
-          <h3>Upload Video</h3>
+          <h3>Upload</h3>
         </div>
         <div className='modal-body'>
           {uploading}

@@ -5,10 +5,8 @@ class BatchProcessor
   attribute :user
 
   def call
-    ActiveRecord::Base.transaction do
-      user.activities.each do |activity|
-        edit_activity(activity) if activity.drafts.empty?
-      end
+    user.activities.each do |activity|
+      edit_activity(activity) if activity.drafts.empty?
     end
   end
 

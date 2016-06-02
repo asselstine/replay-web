@@ -22,12 +22,12 @@ RSpec.describe Edit::VideoComparator do
   end
 
   describe '#compute_strength' do
-    let(:uploads) { [double] }
+    let(:videos) { [double] }
     before(:each) do
-      expect(setup).to receive(:uploads_during)
-        .with(kind_of(Edit::Frame)).and_return(uploads)
+      expect(setup).to receive(:videos_during)
+        .with(kind_of(Edit::Frame)).and_return(videos)
     end
-    context 'with an upload during' do
+    context 'with an video during' do
       before(:each) do
         expect(activity).to receive(:coords_at)
           .with(t(0)).and_return(:coords)
@@ -35,20 +35,20 @@ RSpec.describe Edit::VideoComparator do
           .with(setup.coords, :coords, setup.range_m).and_return(0.8)
         subject.compute_strength(Edit::Frame.new(start_at: t(0)))
       end
-      it 'should set the upload' do
-        expect(subject.upload).to be(uploads.first)
+      it 'should set the video' do
+        expect(subject.video).to be(videos.first)
       end
       it 'should set the strength as the distance' do
         expect(subject.strength).to eq(0.8)
       end
     end
-    context 'with no uploads' do
-      let(:uploads) { [] }
+    context 'with no videos' do
+      let(:videos) { [] }
       before(:each) do
         subject.compute_strength(Edit::Frame.new(start_at: t(0)))
       end
       it 'should set the video as nil' do
-        expect(subject.upload).to be_nil
+        expect(subject.video).to be_nil
       end
       it 'should have a strength of zero' do
         expect(subject.strength).to eq(0)

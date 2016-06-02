@@ -1,4 +1,3 @@
-# rubocop:disable Style/ClassAndModuleChildren
 class Edit::PhotoComparator < Edit::Comparator
   attribute :photos, Array[Photo]
 

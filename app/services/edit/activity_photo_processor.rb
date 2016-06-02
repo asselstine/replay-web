@@ -6,9 +6,12 @@ class Edit::ActivityPhotoProcessor
   attribute :activity
 
   def call
-    Edit::PhotoProcessor.call(selector: selector,
-                              start_at: activity.start_at,
-                              end_at: activity.end_at)
+    ActiveRecord::Base.transaction do
+      Edit::PhotoProcessor.call(selector: selector,
+                                start_at: activity.start_at,
+                                end_at: activity.end_at)
+                          .each(&:save!)
+    end
   end
 
   protected

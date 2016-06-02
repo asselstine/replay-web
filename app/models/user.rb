@@ -9,6 +9,8 @@ class User < ActiveRecord::Base
   has_many :draft_photos, through: :activities, dependent: :destroy
   has_many :draft_photo_photos, through: :draft_photos, source: :photo
   has_many :uploads
+  has_many :video_uploads
+  has_many :photo_uploads
   has_many :activities, dependent: :destroy
   has_many :drafts, through: :activities
   has_many :time_series_data, through: :activities

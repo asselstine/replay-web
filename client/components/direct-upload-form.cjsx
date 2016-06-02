@@ -61,7 +61,7 @@ module.exports = React.createClass
       .bind 's3_upload_complete', (e, content) =>
         @setState
           filenames: @state.filenames.concat([content.filename])
-        @props.onUpload(content.filename, decodeURIComponent(content.url))
+        @props.onUpload(content.filename, content)
         @fileInputContainer.show()
 
   render: ->

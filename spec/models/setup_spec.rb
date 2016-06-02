@@ -4,18 +4,18 @@ RSpec.describe Setup do
   describe 'class' do
     subject { Setup }
 
-    describe '#with_uploads_during' do
+    describe '#with_videos_during' do
       let(:start_at) { t(0) }
       let(:end_at) { t(2) }
       let(:setup) { create(:setup) }
+      let(:video) { create(:video, start_at: start_at, end_at: end_at) }
       let!(:upload) do
-        create(:upload, setups: [setup],
-                        start_at: start_at,
-                        end_at: end_at)
+        create(:video_upload, setups: [setup],
+                              video: video)
       end
 
       def et(s1, e1)
-        expect(subject.with_uploads_during(t(s1), t(e1)))
+        expect(subject.with_videos_during(t(s1), t(e1)))
       end
 
       it { et(-1, 0).not_to include(setup) }

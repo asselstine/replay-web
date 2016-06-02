@@ -1,9 +1,10 @@
 require 'gsl'
 
+# rubocop:disable Metrics/ClassLength
 class Activity < ActiveRecord::Base
   belongs_to :user
   has_many :edits
-  has_many :drafts
+  has_many :drafts, inverse_of: :activity
   has_many :draft_photos
   before_validation :clear_blank_latitudes_and_longitudes
   before_validation :default_timestamps_to_now
@@ -21,17 +22,6 @@ class Activity < ActiveRecord::Base
                     strava_start_at: #{strava_start_at}
                   }
     STRING
-  end
-
-  def interpolated_coords
-    coords = []
-    frame = Edit::Frame.new(start_at: object.start_at, end_at: object.end_at)
-    re = ActivityEvaluator.new(activity: self, frame: frame)
-    loop do
-      coords << re.coords
-      break unless frame.next!
-    end
-    coords
   end
 
   def start_at

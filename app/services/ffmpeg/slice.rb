@@ -1,9 +1,7 @@
-# rubocop:disable Style/ClassAndModuleChildren
 class FFMPEG::Slice < FFMPEG::Service
   attribute :video
   attribute :start_at
   attribute :end_at
-  attribute :video_start_at
 
   def call
     cache_video(video)
@@ -25,11 +23,11 @@ class FFMPEG::Slice < FFMPEG::Service
   end
 
   def start
-    self.class.relative_time(start_at, video_start_at)
+    self.class.relative_time(video.start_at, start_at)
   end
 
   def duration
-    self.class.relative_time(end_at, start_at)
+    self.class.relative_time(start_at, end_at)
   end
 
   def output_filepath

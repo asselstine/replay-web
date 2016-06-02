@@ -5,6 +5,8 @@ RSpec.describe Edit::VideoProcessor do
   let(:start_at) { t(0) }
   let(:end_at) { t(10) }
   let(:frame_size) { 5.seconds }
+  let(:video_upload) { VideoUpload.new(video: video) }
+  let(:comparator) { double(video: video, setup: nil, activity: nil) }
   subject do
     Edit::VideoProcessor.new(selector: selector,
                              start_at: start_at,
@@ -13,8 +15,7 @@ RSpec.describe Edit::VideoProcessor do
   end
 
   context 'with a video that smaller than the frame' do
-    let(:upload) { Upload.new(start_at: t(1), end_at: t(2)) }
-    let(:comparator) { double(upload: upload, setup: nil, activity: nil) }
+    let(:video) { Video.new(start_at: t(1), end_at: t(2)) }
 
     it 'should create a draft that matches the video' do
       expect_frame t(0), t(5), comparator
@@ -26,8 +27,7 @@ RSpec.describe Edit::VideoProcessor do
   end
 
   context 'with a video that is larger than the frame' do
-    let(:upload) { Upload.new(start_at: t(3), end_at: t(9)) }
-    let(:comparator) { double(upload: upload, setup: nil, activity: nil) }
+    let(:video) { Video.new(start_at: t(3), end_at: t(9)) }
 
     it 'should create a draft of the video' do
       expect_frame t(0), t(5), comparator
@@ -39,8 +39,7 @@ RSpec.describe Edit::VideoProcessor do
   end
 
   context 'with a video that exceeds the total size' do
-    let(:upload) { Upload.new(start_at: t(-1), end_at: t(11)) }
-    let(:comparator) { double(upload: upload, setup: nil, activity: nil) }
+    let(:video) { Video.new(start_at: t(-1), end_at: t(11)) }
 
     it 'should create a draft of the maximum size' do
       expect_frame t(0), t(5), comparator

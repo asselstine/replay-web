@@ -6,15 +6,18 @@ class Edit::ActivityVideoProcessor
   attribute :activity
 
   def call
-    Edit::VideoProcessor.call(selector: selector,
-                              start_at: activity.start_at,
-                              end_at: activity.end_at).each(&:save!)
+    ActiveRecord::Base.transaction do
+      Edit::VideoProcessor.call(selector: selector,
+                                start_at: activity.start_at,
+                                end_at: activity.end_at)
+                          .each(&:save!)
+    end
   end
 
   private
 
   def selector
-    setups = Setup.with_uploads_during(activity.start_at, activity.end_at)
+    setups = Setup.with_videos_during(activity.start_at, activity.end_at)
     comparators = setups.map do |setup|
       Edit::VideoComparator.new(setup: setup, activity: activity)
     end

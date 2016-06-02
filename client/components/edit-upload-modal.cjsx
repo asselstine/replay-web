@@ -15,8 +15,8 @@ module.exports = React.createClass
   getInitialState: ->
     currentTime: 0
     loaded: false
-    start_at: @props.upload.start_at
-    end_at: @props.upload.end_at
+    start_at: @props.upload.video.start_at
+    end_at: @props.upload.video.end_at
 
   onChangeDate: (e) ->
     @setState(date: e.target.value, =>
@@ -59,8 +59,10 @@ module.exports = React.createClass
       dataType: 'json'
       data:
         upload:
-          start_at: @state.start_at
-          end_at: @state.end_at
+          video_attributes:
+            id: @props.upload.video.id
+            start_at: @state.start_at
+            end_at: @state.end_at
     ).done (data, xhr, status) =>
       message.success(I18n.t('flash.upload.update.success',
                              filename: @props.upload.video.filename))
@@ -79,9 +81,7 @@ module.exports = React.createClass
 
       <div className='modal-content'>
         <div className='modal-header'>
-          {@state.loaded &&
-            <h3>{@props.upload.video.filename}</h3>
-          }
+          <h3>{@props.upload.video.filename}</h3>
         </div>
         <div className='modal-body'>
           {@props.upload.video.file_url &&

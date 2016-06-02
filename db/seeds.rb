@@ -6,6 +6,7 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
+puts 'Reminder: A worker should be running.'
 
 brendan = User.where(email: 'brendan@codeandconduct.is').first_or_create! do |user|
   user.email = 'brendan@codeandconduct.is'
@@ -30,24 +31,23 @@ activity = brendan.activities.where(strava_name: 'SeedRide').first_or_create! do
 end
 
 setup_index = (activity_length/2).to_i
-laptop = brendan.cameras.where(name: 'laptop').first_or_create! do |camera|
-  camera.name = 'laptop'
-end
-
-setup = brendan.setups.where(camera: laptop).first_or_create! do |setup|
+setup = brendan.setups.where(name: 'laptop').first_or_create! do |setup|
+  setup.name = 'laptop'
   setup.range_m = 16.0
-  setup.timestamp = now
   setup.latitude = lat + setup_index * multiplyer
   setup.longitude = long + setup_index * multiplyer
 end
 
-upload = brendan.uploads.joins(:video).where(videos: { filename: 'full-clipped.mp4' }).first_or_create! do |upload|
-  upload.camera = laptop
-  upload.start_at = now.since(setup_index.seconds)
-  upload.end_at = now.since(setup_index.seconds + 2.seconds)
-  upload.build_video(file: File.open(Rails.root.join('spec',
+upload = brendan.video_uploads.joins(:video).where(videos: { filename: 'full-clipped.mp4' }).first_or_create! do |upload|
+  upload.user = brendan
+  upload.setups << setup
+  video = upload.create_video!(file: File.open(Rails.root.join('spec',
                                                      'fixtures',
-                                                     'full-clipped.mp4')))
+                                                     'full-clipped.mp4')),
+                       user: brendan,
+                       start_at: now.since(setup_index.seconds),
+                       end_at: now.since(setup_index.seconds + 2.seconds))
+  FFMPEG::Thumbnail.call(video: video)
 end
 
 if brendan.drafts.empty?

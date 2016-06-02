@@ -1,20 +1,26 @@
 # Represents an individual file upload.  The upload references the original
 # Video and the Camera it belongs to.
 class Upload < ActiveRecord::Base
-  has_many :setup_uploads
+  has_many :setup_uploads, inverse_of: :upload
   has_many :setups, through: :setup_uploads
-  belongs_to :video
-  belongs_to :user
-
-  validates_presence_of :video, :user
-
-  accepts_nested_attributes_for :video
+  has_many :drafts, inverse_of: :upload
   accepts_nested_attributes_for :setups
 
-  def self.during(start_at, end_at)
-    query = <<-SQL
-      (uploads.start_at, uploads.end_at) OVERLAPS (:start_at, :end_at)
-    SQL
-    where(query, start_at: start_at, end_at: end_at).order(start_at: :asc)
+  belongs_to :user
+  validates_presence_of :user
+
+  scope :video, -> { where(type: 'VideoUpload') }
+  scope :photo, -> { where(type: 'PhotoUpload') }
+
+  after_create :process_upload, unless: 'processed?'
+
+  def process_upload
+    ProcessUploadJob.perform_later(upload: self)
+  end
+
+  private
+
+  def processed?
+    process_msg.present? || type != 'Upload'
   end
 end

@@ -101,7 +101,7 @@ ActiveRecord::Schema.define(version: 20160602182521) do
     t.datetime "updated_at",                                                null: false
     t.text     "name"
     t.integer  "user_id"
-    t.boolean  "use_strava"
+    t.integer  "location",                            default: 1,           null: false
   end
 
   create_table "strava_accounts", force: :cascade do |t|

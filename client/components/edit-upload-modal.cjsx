@@ -1,6 +1,5 @@
 Modal = require('react-modal')
 ModalStyle = require('../util/modal-default-style')
-Select = require('react-select')
 moment = require('moment')
 
 module.exports = React.createClass

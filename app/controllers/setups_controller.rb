@@ -47,7 +47,7 @@ class SetupsController < LoggedInController
   def setup_params
     params
       .require(:setup)
-      .permit(:name, :range_m, :latitude, :longitude)
+      .permit(:name, :range_m, :latitude, :longitude, :location)
       .merge(user: current_user)
   end
 

@@ -9,6 +9,11 @@ class Setup < ActiveRecord::Base
   has_many :videos, through: :video_uploads
   has_many :photos, through: :photo_uploads
 
+  enum location: {
+    static: 0,
+    strava: 1
+  }
+
   belongs_to :user
 
   validates :name, presence: true
@@ -33,5 +38,14 @@ class Setup < ActiveRecord::Base
 
   def coords
     @coords ||= [latitude, longitude]
+  end
+
+  def coords_at(time)
+    if strava?
+      activity = user.activity_at(time)
+      activity.coords_at(time) if activity
+    else
+      coords
+    end
   end
 end

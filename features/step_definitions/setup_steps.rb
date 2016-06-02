@@ -1,11 +1,23 @@
-Given %(a setup exists) do
-  @setup = Setup.create(name: 'Here')
+Given %(a static setup exists) do
+  @setup = Setup.create(name: 'Here', location: 'static')
+end
+
+When %(I go to create a new setup) do
+  visit new_setup_path
+end
+
+When %(I enter the setup name) do
+  fill_in :setup_name, with: 'Camera Setup 1'
 end
 
 When %(I create a new setup) do
+  step %(I go to create a new setup)
+  step %(I enter the setup name)
+  step %(I create the new setup)
+end
+
+When %(I create the new setup) do
   expect do
-    visit new_setup_path
-    fill_in :setup_name, with: 'Camera Setup 1'
     click_button 'Create Setup'
     step %(the record should have been created)
   end.to change { Setup.count }.by(1)
@@ -21,6 +33,15 @@ When %(I go to edit the setup) do
   visit edit_setup_path(@setup)
 end
 
+When %(I select a static location and center it on my position) do
+  react_select('.setup-location', 'Static')
+  step %(I update the setup location with my current location)
+end
+
+When %(I select strava location) do
+  react_select('.setup-location', 'Strava')
+end
+
 When %(I update the setup location with my current location) do
   latitude = -49
   longitude = 120
@@ -32,9 +53,14 @@ When %(I update the setup location with my current location) do
   click_link 'Center'
 end
 
-Then %(the setup location should be updated) do
+Then %(the setup should be a static location) do
+  expect(@setup).to be_static
   expect(@setup.reload.latitude).to eq(-49)
   expect(@setup.longitude).to eq(120)
+end
+
+Then %(the setup should be for strava) do
+  expect(@setup).to be_strava
 end
 
 When %(I update the setup range to $range) do |range|

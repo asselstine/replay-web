@@ -1,3 +1,6 @@
+_ = require('lodash/fp')
+Select = require('react-select')
+
 module.exports = React.createClass
   displayName: 'SetupForm'
 
@@ -9,6 +12,7 @@ module.exports = React.createClass
     range_m: @props.setup.range_m
     latitude: @props.setup.latitude
     longitude: @props.setup.longitude
+    location: @props.setup.location
 
   changeRange: (e) ->
     @setState(range_m: e.target.value)
@@ -52,8 +56,19 @@ module.exports = React.createClass
     else
       @createSetup(e)
 
+  onChangeLocation: (option) ->
+    if option
+      @setState(location: option.value)
+    else
+      @setState(location: null)
+
   render: ->
     label = if @props.setup.id then 'Save Setup' else 'Create Setup'
+    locationOptions = for key, value of window.replayConstants.setupLocations
+      value: key
+      label: _.capitalize(key)
+    setupMap = if @state.location == 'static'
+      <SetupMap setup={@props.setup} onChange={@changeCoords}/>
     <div className='setup-form'>
       <form onSubmit={@onSubmit}>
         <input name='setup[name]'
@@ -64,9 +79,14 @@ module.exports = React.createClass
                  id='setup_range_m'
                  onChange={@changeRange}
                  value={@state.range_m}/>
+        <Select className='setup-location'
+                value={@state.location}
+                name='setup[location]'
+                options={locationOptions}
+                onChange={@onChangeLocation}/>
         <input type='hidden' name='setup[latitude]' id='setup_latitude' value={@state.latitude} readOnly={true}/>
         <input type='hidden' name='setup[longitude]' id='setup_longitude' value={@state.longitude} readOnly={true}/>
         <button type='Submit'>{label}</button>
       </form>
-      <SetupMap setup={@props.setup} onChange={@changeCoords}/>
+      {setupMap}
     </div>

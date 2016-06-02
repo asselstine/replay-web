@@ -24,5 +24,10 @@
           => setup.latitude
           | ,
           =< setup.longitude
+      tr
+        td
+          | Location
+        td
+          = setup.location
   .col-sm-6
     = react_component 'SetupMap', setup: SetupSerializer.new(setup), readOnly: true

@@ -1,6 +1,5 @@
 require 'gsl'
 
-# rubocop:disable Metrics/ClassLength
 class Activity < ActiveRecord::Base
   belongs_to :user
   has_many :edits
@@ -115,7 +114,7 @@ class Activity < ActiveRecord::Base
 
   def set_start_at_and_end_at
     return unless new_record? || timestamps_changed?
-    @start_at = timestamps.first
-    @end_at = timestamps.last
+    self.start_at = timestamps.first
+    self.end_at = timestamps.last
   end
 end

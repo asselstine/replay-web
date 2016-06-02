@@ -32,5 +32,5 @@ Feature: Upload videos
 
   Scenario: View a photo
     Given there is a photo upload
-    When I open the photo upload
+    When I view the upload
     Then I should see the photo

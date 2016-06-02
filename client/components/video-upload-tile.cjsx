@@ -17,7 +17,7 @@ module.exports = React.createClass
     @setState(editModalIsOpen: false)
 
   render: ->
-    <div className='video-upload-tile tile' onClick={@openEditModal}>
+    <div data-upload-id={@props.upload.id} className='video-upload-tile tile' onClick={@openEditModal}>
       <img className='tile__img' src={@props.upload.video.thumbnail.small_url}/>
       <p>
         <small>{@props.upload.video.start_at}</small>

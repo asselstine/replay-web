@@ -9,14 +9,14 @@ module.exports = React.createClass
   getInitialState: ->
     photoModalIsOpen: false
 
-  openEditModal: ->
+  openPhotoModal: ->
     @setState(photoModalIsOpen: true)
 
-  closeEditModal: ->
+  closePhotoModal: ->
     @setState(photoModalIsOpen: false)
 
   render: ->
-    <div className='pending-upload-tile tile' onClick={@openEditModal}>
+    <div data-upload-id={@props.upload.id} className='pending-upload-tile tile' onClick={@openPhotoModal}>
       <img className='tile__img' src={@props.upload.photo.small_url}/>
       <p>
         <small>{@props.upload.photo.timestamp}</small>
@@ -26,5 +26,5 @@ module.exports = React.createClass
       </p>
       <PhotoUploadModal upload={@props.upload}
                         isOpen={@state.photoModalIsOpen}
-                        onRequestClose={@closeEditModal}/>
+                        onRequestClose={@closePhotoModal}/>
     </div>

@@ -89,8 +89,7 @@ Given %(there is a video upload) do
 end
 
 When %(I scrub to the slate and set the timestamp) do
-  click_link 'Uploads'
-  click_link @upload.filename
+  step %(I view the upload)
   within '.edit-upload-modal' do
     expect(page).to have_content(@upload.filename)
     fill_in :date, with: '06-30-1984'
@@ -134,9 +133,10 @@ Given %(there is a photo upload) do
                                  image: File.open(file)))
 end
 
-When %(I open the photo upload) do
+When %(I view the upload) do
   click_link 'Uploads'
-  click_link @upload.filename
+  expect(page).to have_content(@upload.filename)
+  find(:xpath, "//div[@data-upload-id='#{@upload.id}']").click
 end
 
 Then %(I should see the photo) do

@@ -11,7 +11,7 @@ module.exports = React.createClass
     onRequestClose: React.PropTypes.func.isRequired
 
   render: ->
-    <Modal className='edit-upload-modal modal-dialog modal-lg'
+    <Modal className='view-photo-modal modal-dialog modal-lg'
            style={ModalStyle}
            isOpen={@props.isOpen}
            onRequestClose={@props.onRequestClose}>

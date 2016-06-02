@@ -41,8 +41,9 @@ class Setup < ActiveRecord::Base
   end
 
   def coords_at(time)
-    if use_strava?
-      user.activities.during(time).first.coords_at(time)
+    if strava?
+      activity = user.activity_at(time)
+      activity.coords_at(time) if activity
     else
       coords
     end

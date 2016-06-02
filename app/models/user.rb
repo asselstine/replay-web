@@ -30,4 +30,8 @@ class User < ActiveRecord::Base
       .first
       .time_series_data.try(:timestamps).try(:last) || DateTime.now.utc
   end
+
+  def activity_at(time)
+    activities.during(time).first
+  end
 end

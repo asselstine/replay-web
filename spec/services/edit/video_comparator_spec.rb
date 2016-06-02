@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Edit::VideoComparator do
-  let(:setup) { double(coords: double, range_m: 7) }
+  let(:setup) { double(range_m: 7) }
   let(:activity) { double }
   let(:strength) { nil }
 
@@ -31,8 +31,10 @@ RSpec.describe Edit::VideoComparator do
       before(:each) do
         expect(activity).to receive(:coords_at)
           .with(t(0)).and_return(:coords)
+        expect(setup).to receive(:coords_at)
+          .with(t(0)).and_return(:setup_coords)
         expect(Geo).to receive(:distance_strength)
-          .with(setup.coords, :coords, setup.range_m).and_return(0.8)
+          .with(:setup_coords, :coords, setup.range_m).and_return(0.8)
         subject.compute_strength(Edit::Frame.new(start_at: t(0)))
       end
       it 'should set the video' do

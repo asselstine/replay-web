@@ -36,6 +36,8 @@ describe StravaActivitySync do
         expect(activity.latitudes.first).to eq(38.603734)
         expect(activity.longitudes.first).to eq(-122.864112)
         expect(activity.timestamps.first).to eq(activity.strava_start_at)
+        expect(activity.read_attribute(:start_at)).to eq(activity.timestamps.first)
+        expect(activity.read_attribute(:end_at)).to eq(activity.timestamps.last)
       end
     end
   end

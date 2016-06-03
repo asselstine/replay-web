@@ -5,6 +5,10 @@ class DraftsController < LoggedInController
     @drafts = current_user.drafts.photo_or_video_exists
   end
 
+  def map
+    @drafts = Draft.all
+  end
+
   def show
   end
 

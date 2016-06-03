@@ -1,6 +1,6 @@
 Modal = require('react-modal')
 ModalStyle = require('../util/modal-default-style')
-_ = require('lodash/core')
+_ = require('lodash')
 DirectUploadForm = require('./direct-upload-form')
 Select = require('react-select')
 

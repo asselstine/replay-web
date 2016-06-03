@@ -1,4 +1,4 @@
-_ = require('lodash/core')
+_ = require('lodash')
 UploadTile = require('./upload-tile')
 VideoUploadTile = require('./video-upload-tile')
 PhotoUploadTile = require('./photo-upload-tile')

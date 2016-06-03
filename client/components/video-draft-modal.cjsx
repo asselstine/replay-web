@@ -9,6 +9,13 @@ module.exports = React.createClass
     isOpen: React.PropTypes.bool.isRequired
     onRequestClose: React.PropTypes.func.isRequired
 
+  handleProgressTime: (time, draft) ->
+    seconds = (time - draft.activity.timestamps_f[0])
+    @videoPlayer.seek(seconds) if @videoPlayer
+
+  videoPlayerRef: (ref) ->
+    @videoPlayer = ref
+
   render: ->
     <Modal className='video-draft-modal modal-dialog modal-lg'
            style={ModalStyle}
@@ -19,10 +26,19 @@ module.exports = React.createClass
           <h3>{@props.videoDraft.activity.strava_name}</h3>
         </div>
         <div className='modal-body'>
-          {@props.videoDraft.video.file_url &&
-              <VideoPlayer video={@props.videoDraft.video}
-                           canFlip={false}/>
-          }
+          <div className='row'>
+            <div className='col-sm-8'>
+              {@props.videoDraft.video.file_url &&
+                  <VideoPlayer video={@props.videoDraft.video}
+                               canFlip={false}
+                               ref={@videoPlayerRef}/>
+              }
+            </div>
+            <div className='col-sm-4'>
+              <MapBrowser drafts={[@props.videoDraft]}
+                          onProgressTime={@handleProgressTime}/>
+            </div>
+          </div>
         </div>
         <div className='modal-footer'>
           <div className='pull-right'>

@@ -1,5 +1,5 @@
 ReactDOM = require('react-dom')
-_ = require('lodash/core')
+_ = require('lodash')
 
 module.exports = React.createClass
   displayName: 'DirectUploadForm'

@@ -23,6 +23,9 @@ module.exports = React.createClass
       if @props.onCanPlayThrough
         @props.onCanPlayThrough(e)
 
+  seek: (time) ->
+    @vidElem.currentTime = time
+
   flip: ->
     @setState
       flip: !@state.flip

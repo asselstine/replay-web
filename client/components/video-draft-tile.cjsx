@@ -16,7 +16,7 @@ module.exports = React.createClass
     @setState(videoDraftModalIsOpen: false)
 
   render: ->
-    <div className='video-draft-tile' onClick={@openVideoDraftModal}>
+    <div data-video-draft-id={@props.videoDraft.id} className='video-draft-tile' onClick={@openVideoDraftModal}>
       <img className='tile__img'
            src={@props.videoDraft.video.thumbnail.small_url}/>
       <p>

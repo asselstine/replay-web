@@ -1,4 +1,4 @@
-_ = require('lodash/core')
+_ = require('lodash')
 VideoDraftTile = require('./video-draft-tile')
 PhotoDraftTile = require('./photo-draft-tile')
 

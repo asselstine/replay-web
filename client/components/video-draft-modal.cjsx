@@ -10,6 +10,7 @@ module.exports = React.createClass
     onRequestClose: React.PropTypes.func.isRequired
 
   handleProgressTime: (time, draft) ->
+    debugger
     seconds = (time - draft.activity.timestamps_f[0])
     @videoPlayer.seek(seconds) if @videoPlayer
 
@@ -27,11 +28,17 @@ module.exports = React.createClass
         </div>
         <div className='modal-body'>
           <div className='row'>
-            {@props.videoDraft.video.file_url &&
-                <VideoPlayer video={@props.videoDraft.video}
-                             canFlip={false}
-                             ref={@videoPlayerRef}/>
-            }
+            <div className='col-sm-8'>
+              {@props.videoDraft.video.file_url &&
+                  <VideoPlayer video={@props.videoDraft.video}
+                               canFlip={false}
+                               ref={@videoPlayerRef}/>
+              }
+            </div>
+            <div className='col-sm-4'>
+              <MapBrowser drafts={[@props.videoDraft]}
+                          onProgressTime={@handleProgressTime}/>
+            </div>
           </div>
         </div>
         <div className='modal-footer'>

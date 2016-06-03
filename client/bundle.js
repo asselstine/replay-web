@@ -2,7 +2,10 @@
 require('expose?React!react')
 require('expose?ReactDOM!react-dom')
 require('react-select/dist/react-select.css')
+require('leaflet/dist/leaflet.css')
+// require('leaflet')
 
+require('expose?MapBrowser!./components/map-browser')
 require('expose?Drafts!./components/drafts')
 require('expose?Slate!./components/slate')
 require('expose?Uploads!./components/uploads')

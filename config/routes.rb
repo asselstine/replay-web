@@ -9,13 +9,14 @@ Rails.application.routes.draw do
   }
 
   authenticated :user do
-    root :to => 'drafts#index', :as => :authenticated_root
+    root to: redirect('/map') #to: 'drafts#map', :as => :authenticated_root
   end
 
   root to: 'pages#landing', as: :unauthenticated_root
 
   resources :setups
   resources :uploads, except: [:new, :show, :delete]
+  get 'map', to: 'drafts#map', as: :map
   resources :drafts
   resources :activities, :only => [:index, :show] do
     post '/recut' => 'activities#recut', as: :recut

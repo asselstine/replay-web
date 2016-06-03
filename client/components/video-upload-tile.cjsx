@@ -1,5 +1,5 @@
 moment = require('moment')
-EditUploadModal = require('./edit-upload-modal')
+VideoUploadModal = require('./video-upload-modal')
 
 module.exports = React.createClass
   displayName: 'VideoUploadTile'
@@ -25,7 +25,7 @@ module.exports = React.createClass
       <p>
         {@props.upload.filename}
       </p>
-      <EditUploadModal upload={@props.upload}
+      <VideoUploadModal upload={@props.upload}
                        isOpen={@state.editModalIsOpen}
                        onRequestClose={@closeEditModal}
                        onSuccess={@closeEditModal}/>

@@ -90,7 +90,7 @@ end
 
 When %(I scrub to the slate and set the timestamp) do
   step %(I view the upload)
-  within '.edit-upload-modal' do
+  within '.video-upload-modal' do
     expect(page).to have_content(@upload.filename)
     fill_in :date, with: '06-30-1984'
     fill_in :timezone, with: '-8:00'

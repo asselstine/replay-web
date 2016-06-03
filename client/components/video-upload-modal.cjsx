@@ -3,7 +3,7 @@ ModalStyle = require('../util/modal-default-style')
 moment = require('moment')
 
 module.exports = React.createClass
-  displayName: 'EditUploadModal'
+  displayName: 'VideoUploadModal'
 
   propTypes:
     upload: React.PropTypes.object.isRequired
@@ -73,7 +73,7 @@ module.exports = React.createClass
     disabled = false # !@state.start_at || !@state.end_at
     currentTimeMs = @state.currentTime * 1000
     duration_ms = @props.upload.video.duration * 1000 if @props.upload.video.duration
-    <Modal className='edit-upload-modal modal-dialog modal-lg'
+    <Modal className='video-upload-modal modal-dialog modal-lg'
            style={ModalStyle}
            isOpen={@props.isOpen}
            onRequestClose={@props.onRequestClose}>

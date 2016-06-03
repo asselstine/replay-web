@@ -40,8 +40,7 @@ function baseConfig(outputFilename) {
       loaders: [
         { test: /\.cjsx$/, loaders: ['coffee-loader', 'cjsx']},
         { test: /\.coffee$/, loader: 'coffee-loader' },
-        { test: /\.css$/, loaders: ['style', 'css']},
-        { test: /\.png$/, loader: "url-loader?mimetype=image/png" }
+        { test: /\.css$/, loaders: ['style', 'css']}
       ]
     },
 

@@ -27,17 +27,11 @@ module.exports = React.createClass
         </div>
         <div className='modal-body'>
           <div className='row'>
-            <div className='col-sm-8'>
-              {@props.videoDraft.video.file_url &&
-                  <VideoPlayer video={@props.videoDraft.video}
-                               canFlip={false}
-                               ref={@videoPlayerRef}/>
-              }
-            </div>
-            <div className='col-sm-4'>
-              <MapBrowser drafts={[@props.videoDraft]}
-                          onProgressTime={@handleProgressTime}/>
-            </div>
+            {@props.videoDraft.video.file_url &&
+                <VideoPlayer video={@props.videoDraft.video}
+                             canFlip={false}
+                             ref={@videoPlayerRef}/>
+            }
           </div>
         </div>
         <div className='modal-footer'>

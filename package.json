@@ -12,7 +12,6 @@
     "es6-promise": "^3.1.2",
     "expose-loader": "^0.7.1",
     "extract-text-webpack-plugin": "^1.0.1",
-    "file-loader": "^0.8.5",
     "lodash": "^4.12.0",
     "moment": "^2.13.0",
     "node-sass": "^3.6.0",
@@ -25,7 +24,6 @@
     "react-select": "^1.0.0-beta12",
     "sass-loader": "^3.2.0",
     "style-loader": "^0.13.1",
-    "url-loader": "^0.5.7",
     "webpack": "^1.13.0",
     "wolfy87-eventemitter": "^4.3.0"
   },

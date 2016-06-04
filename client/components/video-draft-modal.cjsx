@@ -10,7 +10,6 @@ module.exports = React.createClass
     onRequestClose: React.PropTypes.func.isRequired
 
   handleProgressTime: (time, draft) ->
-    debugger
     seconds = (time - draft.activity.timestamps_f[0])
     @videoPlayer.seek(seconds) if @videoPlayer
 

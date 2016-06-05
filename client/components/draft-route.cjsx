@@ -46,11 +46,13 @@ module.exports = React.createClass
 
   handleMapMousemove: (e) ->
     return unless @polyline
-    if google.maps.geometry.poly.isLocationOnEdge(e.latLng, @gPolyline(), 0.001)
+    if google.maps.geometry.poly.isLocationOnEdge(e.latLng, @gPolyline(), 0.0002)
       @props.onProgressTime(@getTime(e.latLng), @props.draft)
+      latLng = @getClosestLatLng(e.latLng)
       @setState
         hover: true
-        hoverLatLng: @getClosestLatLng(e.latLng)
+        hoverLat: latLng.lat()
+        hoverLng: latLng.lng()
     else
       @setState
         hover: false
@@ -61,19 +63,19 @@ module.exports = React.createClass
 
   render: ->
     hoverWeight = 20
-    hoverColor = '#666'
+    hoverColor = '#266'
     hoverOpacity = 0
-
     hoverCircle = ''
     if @state.hover
-      hoverOpacity = 0.5
+      hoverOpacity = 0.2
       hoverCircle = <Circle mapHolderRef={@props.mapHolderRef}
-                            center={@state.hoverLatLng}
-                            radius={0.1}
+                            center={ { lat: @state.hoverLat, lng: @state.hoverLng } }
+                            radius={8}
                             options={
                               strokeOpacity: 1
                               strokeColor: '#FFF'
                               strokeWeight: 10
+                              zIndex: 1000
                             }
                             onMousemove={@handleMapMousemove}/>
 
@@ -82,7 +84,8 @@ module.exports = React.createClass
     opacity = 0.6
 
     <div>
-      <Polyline mapHolderRef={@props.mapHolderRef}
+      <Polyline key='hover'
+                mapHolderRef={@props.mapHolderRef}
                 path={@state.path}
                 options={
                     strokeOpacity: hoverOpacity
@@ -90,8 +93,8 @@ module.exports = React.createClass
                     strokeWeight: hoverWeight
                 }
                 onMousemove={@handleMapMousemove}/>
-      {hoverCircle}
-      <Polyline mapHolderRef={@props.mapHolderRef}
+      <Polyline key='route'
+                mapHolderRef={@props.mapHolderRef}
                 path={@state.path}
                 ref={@handlePolyline}
                 options={
@@ -100,4 +103,5 @@ module.exports = React.createClass
                     strokeWeight: weight
                 }
                 onMousemove={@handleMapMousemove}/>
+      {hoverCircle}
     </div>

@@ -18,6 +18,7 @@ module.exports = React.createClass
     hover: false
     frozenLatLng: new google.maps.LatLng()
     path: draftLatLngs(@props.draft)
+    onMousemove: _.throttle(@onMousemove, 50)
 
   getSnapToRoute: ->
     return @snapToRoute if @snapToRoute
@@ -35,32 +36,26 @@ module.exports = React.createClass
     offset = (nextTime - lastTime) * info.fTo
     lastTime + offset
 
-  componentDidMount: ->
-    @mapMousemoveHandle = @map().addListener('mousemove', @handleMapMousemove)
-
-  componentWillUnmount: ->
-    google.maps.event.removeListener(@mapMousemoveHandle) if @mapMousemoveHandle
-
   map: ->
     @props.mapHolderRef.props.map
 
   gPolyline: ->
     @polyline.state.polyline
 
-  handleMapMousemove: (e) ->
+  onMouseout: (e) ->
+    @setState
+      hover: false
+      hoverLatLng: null, =>
+        @grender()
+
+  onMousemove: (e) ->
     return unless @polyline
     if google.maps.geometry.poly.isLocationOnEdge(e.latLng, @gPolyline(), 0.0002)
       @props.onProgressTime(@getTime(e.latLng), @props.draft)
       latLng = @getClosestLatLng(e.latLng)
       @setState
         hover: true
-        hoverLat: latLng.lat()
-        hoverLng: latLng.lng(), =>
-          @grender()
-    else
-      @setState
-        hover: false
-        hoverLatLng: null, =>
+        hoverLatLng: latLng, =>
           @grender()
 
   handlePolylineClick: (e) ->
@@ -80,7 +75,9 @@ module.exports = React.createClass
     else
       hoverOpacity = 0
     @hoverCircle.state.circle.setOptions
-      hoverOpacity: hoverOpacity
+      opacity: hoverOpacity
+    @hoverCircle.state.circle.setCenter(@state.hoverLatLng)
+    @frozenCircle.state.circle.setCenter(@state.frozenLatLng)
 
   handlePolyline: (ref) ->
     @polyline = ref
@@ -103,7 +100,7 @@ module.exports = React.createClass
                     strokeColor: hoverColor
                     strokeWeight: hoverWeight
                 }
-                onMousemove={@handleMapMousemove}/>
+                />
       <Polyline key='route'
                 mapHolderRef={@props.mapHolderRef}
                 path={@state.path}
@@ -113,10 +110,10 @@ module.exports = React.createClass
                     strokeColor: color
                     strokeWeight: weight
                 }
-                onMousemove={@handleMapMousemove}/>
+                onClick={@handlePolylineClick}/>
       <Circle ref={@frozenCircleRef}
              mapHolderRef={@props.mapHolderRef}
-             center={ { lat: @state.frozenLatLng.lat(), lng: @state.frozenLatLng.lng() } }
+             center={ new google.maps.LatLng() }
              radius={8}
              options={
                strokeOpacity: 1
@@ -124,17 +121,27 @@ module.exports = React.createClass
                strokeWeight: 10
                zIndex: 1000
              }
-             onMousemove={@handleMapMousemove}
              onClick={@handlePolylineClick}/>
       <Circle ref={@hoverCircleRef}
               mapHolderRef={@props.mapHolderRef}
-              center={ { lat: @state.hoverLat, lng: @state.hoverLng } }
+              center={ new google.maps.LatLng() }
               radius={8}
               options={
                 strokeOpacity: 0.5
                 strokeColor: '#6F6'
                 strokeWeight: 10
-                zIndex: 1000
               }
-              onMousemove={@handleMapMousemove}/>
+              onClick={@handlePolylineClick}/>
+      <Polyline key='fat_event_line'
+                mapHolderRef={@props.mapHolderRef}
+                path={@state.path}
+                options={
+                    strokeOpacity: 0
+                    strokeColor: '#000'
+                    strokeWeight: 30
+                    zIndex: 1000
+                }
+                onMousemove={@state.onMousemove}
+                onMouseout={@onMouseout}
+                />
     </div>

@@ -16,17 +16,20 @@ module.exports = React.createClass
 
   getInitialState: ->
     hover: false
+    frozenLatLng: new google.maps.LatLng()
     path: draftLatLngs(@props.draft)
 
+  getSnapToRoute: ->
+    return @snapToRoute if @snapToRoute
+    @snapToRoute = new SnapToRoute()
+    @snapToRoute.init(@map(), @gPolyline())
+    @snapToRoute
+
   getClosestLatLng: (latLng) ->
-    snapToRoute = new SnapToRoute()
-    snapToRoute.init(@map(), @gPolyline())
-    snapToRoute.getClosestLatLng(latLng)
+    @getSnapToRoute().getClosestLatLng(latLng)
 
   getTime: (latLng) ->
-    snapToRoute = new SnapToRoute()
-    snapToRoute.init(@map(), @gPolyline())
-    info = snapToRoute.distanceToLines(latLng)
+    info = @getSnapToRoute().distanceToLines(latLng)
     lastTime = @props.draft.activity.timestamps_f[info.i - 1]
     nextTime = @props.draft.activity.timestamps_f[info.i]
     offset = (nextTime - lastTime) * info.fTo
@@ -52,11 +55,32 @@ module.exports = React.createClass
       @setState
         hover: true
         hoverLat: latLng.lat()
-        hoverLng: latLng.lng()
+        hoverLng: latLng.lng(), =>
+          @grender()
     else
       @setState
         hover: false
-        hoverLatLng: null
+        hoverLatLng: null, =>
+          @grender()
+
+  handlePolylineClick: (e) ->
+    console.debug('polyline clicked')
+    @setState
+      frozenLatLng: e.latLng
+
+  hoverCircleRef: (ref) ->
+    @hoverCircle = ref
+
+  frozenCircleRef: (ref) ->
+    @frozenCircle = ref
+
+  grender: () ->
+    if @state.hover
+      hoverOpacity = 0.2
+    else
+      hoverOpacity = 0
+    @hoverCircle.state.circle.setOptions
+      hoverOpacity: hoverOpacity
 
   handlePolyline: (ref) ->
     @polyline = ref
@@ -65,19 +89,6 @@ module.exports = React.createClass
     hoverWeight = 20
     hoverColor = '#266'
     hoverOpacity = 0
-    hoverCircle = ''
-    if @state.hover
-      hoverOpacity = 0.2
-      hoverCircle = <Circle mapHolderRef={@props.mapHolderRef}
-                            center={ { lat: @state.hoverLat, lng: @state.hoverLng } }
-                            radius={8}
-                            options={
-                              strokeOpacity: 1
-                              strokeColor: '#FFF'
-                              strokeWeight: 10
-                              zIndex: 1000
-                            }
-                            onMousemove={@handleMapMousemove}/>
 
     weight = 6
     color = '#229'
@@ -103,5 +114,27 @@ module.exports = React.createClass
                     strokeWeight: weight
                 }
                 onMousemove={@handleMapMousemove}/>
-      {hoverCircle}
+      <Circle ref={@frozenCircleRef}
+             mapHolderRef={@props.mapHolderRef}
+             center={ { lat: @state.frozenLatLng.lat(), lng: @state.frozenLatLng.lng() } }
+             radius={8}
+             options={
+               strokeOpacity: 1
+               strokeColor: '#FFF'
+               strokeWeight: 10
+               zIndex: 1000
+             }
+             onMousemove={@handleMapMousemove}
+             onClick={@handlePolylineClick}/>
+      <Circle ref={@hoverCircleRef}
+              mapHolderRef={@props.mapHolderRef}
+              center={ { lat: @state.hoverLat, lng: @state.hoverLng } }
+              radius={8}
+              options={
+                strokeOpacity: 0.5
+                strokeColor: '#6F6'
+                strokeWeight: 10
+                zIndex: 1000
+              }
+              onMousemove={@handleMapMousemove}/>
     </div>

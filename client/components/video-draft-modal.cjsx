@@ -11,7 +11,7 @@ module.exports = React.createClass
 
   handleProgressTime: (time, draft) ->
     seconds = (time - draft.activity.timestamps_f[0])
-    @videoPlayer.seek(seconds) if @videoPlayer
+    # @videoPlayer.seek(seconds) if @videoPlayer
 
   videoPlayerRef: (ref) ->
     @videoPlayer = ref

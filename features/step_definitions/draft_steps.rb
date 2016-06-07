@@ -15,7 +15,7 @@ Then %(my video draft is listed) do
 end
 
 When %(I click on the video draft) do
-  find(:xpath, "//div[@data-video-draft-id='#{@video_draft.id}']").click
+  find(:xpath, "//a[@data-video-draft-id='#{@video_draft.id}']").click
 end
 
 Then %(I should be able to play the video draft) do

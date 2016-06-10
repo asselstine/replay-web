@@ -84,6 +84,7 @@ group :test do
   gem 'database_cleaner'
   gem 'capybara'
   gem 'capybara-screenshot'
+  gem 'poltergeist'
   gem 'selenium-webdriver'
   gem 'timecop'
 end

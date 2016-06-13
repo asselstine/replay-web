@@ -14,14 +14,10 @@ module.exports = React.createClass
     flip: false
 
   videoRef: (ref) ->
-    return if ref == null
-    @vidElem = ReactDOM.findDOMNode(ref)
-    @vidElem.addEventListener 'timeupdate', (e) =>
-      if @props.onTimeUpdate
-        @props.onTimeUpdate(e)
-    @vidElem.addEventListener 'canplaythrough', (e) =>
-      if @props.onCanPlayThrough
-        @props.onCanPlayThrough(e)
+    if ref == null
+      @vidElem = null
+    else
+      @vidElem = ReactDOM.findDOMNode(ref)
 
   seek: (time) ->
     @vidElem.currentTime = time
@@ -29,6 +25,23 @@ module.exports = React.createClass
   flip: ->
     @setState
       flip: !@state.flip
+
+  videoTimeUpdate: (e) ->
+    if @props.onTimeUpdate
+      @props.onTimeUpdate(e)
+
+  videoCanPlayThrough: (e) ->
+    if @props.onCanPlayThrough
+      @props.onCanPlayThrough(e)
+
+  componentDidMount: ->
+    @vidElem.addEventListener 'timeupdate', @videoTimeUpdate
+    @vidElem.addEventListener 'canplaythrough', @videoCanPlayThrough
+
+  componentWillUnmount: ->
+    return unless @vidElem
+    @vidElem.removeEventListener 'timeupdate', @videoTimeUpdate
+    @vidElem.removeEventListener 'canplaythrough', @videoCanPlayThrough
 
   render: ->
     flipClass = if @state.flip then 'flip' else ''

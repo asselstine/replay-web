@@ -1,7 +1,4 @@
-GoogleMapLoader = require('react-google-maps').GoogleMapLoader
-GoogleMap = require('react-google-maps').GoogleMap
 DraftRoute = require('./draft-route')
-Marker = require('react-google-maps').Marker
 _ = require('lodash')
 draftLatLngs = require("../util/draft-latlngs")
 
@@ -15,6 +12,9 @@ module.exports = React.createClass
   getDefaultProps: ->
     drafts: []
 
+  getInitialState: ->
+    map: null
+
   getLatLngBounds: ->
     bounds = new google.maps.LatLngBounds()
     for draft in @props.drafts
@@ -22,28 +22,27 @@ module.exports = React.createClass
         bounds.extend(latLng)
     bounds
 
-  refGoogleMap: (ref) ->
-    ref.props.map.fitBounds(@getLatLngBounds()) if ref
+  googleMapRef: (ref) ->
+    return unless ref
+    @ref = ReactDOM.findDOMNode(ref)
+    @googleMap = new google.maps.Map(@ref,
+      scrollwheel: false,
+      streetViewControl: false
+    )
+    @googleMap.fitBounds(@getLatLngBounds())
+
+  componentDidMount: ->
+    @setState
+      map: @googleMap
 
   render: ->
-    <div className='map-browser' style={{height: '400px'}}>
-      <GoogleMapLoader
-        containerElement={
-          <div
-            {...@props.containerElementProps}
-            style={{
-              height: "100%",
-            }}
-          />
-        }
-        googleMapElement={
-          <GoogleMap ref={@refGoogleMap}>
-           {@props.drafts.map (draft) =>
-             <DraftRoute draft={draft}
-                         key={draft.id}
-                         onProgressTime={@props.onProgressTime}/>
-           }
-          </GoogleMap>
-        }
-      />
+    <div className='map-browser'>
+      <div style={{height: '400px'}} ref={@googleMapRef}>
+      </div>
+      {@props.drafts.map (draft) =>
+        <DraftRoute key={draft.id}
+                    map={@state.map}
+                    draft={draft}
+                    onProgressTime={@props.onProgressTime}/>
+      }
     </div>

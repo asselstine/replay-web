@@ -1,5 +1,3 @@
-Polyline = require('react-google-maps').Polyline
-Circle = require('react-google-maps').Circle
 SnapToRoute = require('../util/snap-to-route')
 _ = require('lodash')
 draftLatLngs = require('../util/draft-latlngs')
@@ -9,6 +7,7 @@ module.exports = React.createClass
 
   propTypes:
     draft: React.PropTypes.object.isRequired
+    map: React.PropTypes.object
     onProgressTime: React.PropTypes.func
 
   getDefaultProps: ->
@@ -19,11 +18,17 @@ module.exports = React.createClass
     frozenLatLng: new google.maps.LatLng()
     path: draftLatLngs(@props.draft)
     onMousemove: _.throttle(@onMousemove, 50)
+    hoverWeight: 20
+    hoverColor: '#266'
+    hoverOpacity: 0
+    weight: 6
+    color: '#229'
+    opacity: 0.6
 
   getSnapToRoute: ->
     return @snapToRoute if @snapToRoute
     @snapToRoute = new SnapToRoute()
-    @snapToRoute.init(@map(), @gPolyline())
+    @snapToRoute.init(@props.map, @polyline)
     @snapToRoute
 
   getClosestLatLng: (latLng) ->
@@ -36,27 +41,19 @@ module.exports = React.createClass
     offset = (nextTime - lastTime) * info.fTo
     lastTime + offset
 
-  map: ->
-    @props.mapHolderRef.props.map
-
-  gPolyline: ->
-    @polyline.state.polyline
-
   onMouseout: (e) ->
     @setState
       hover: false
-      hoverLatLng: null, =>
-        @grender()
+      hoverLatLng: null
 
   onMousemove: (e) ->
     return unless @polyline
-    if google.maps.geometry.poly.isLocationOnEdge(e.latLng, @gPolyline(), 0.0002)
+    if google.maps.geometry.poly.isLocationOnEdge(e.latLng, @polyline, 0.0002)
       @props.onProgressTime(@getTime(e.latLng), @props.draft)
       latLng = @getClosestLatLng(e.latLng)
       @setState
         hover: true
-        hoverLatLng: latLng, =>
-          @grender()
+        hoverLatLng: latLng
 
   handlePolylineClick: (e) ->
     console.debug('polyline clicked')
@@ -69,79 +66,68 @@ module.exports = React.createClass
   frozenCircleRef: (ref) ->
     @frozenCircle = ref
 
-  grender: () ->
+  handlePolyline: (ref) ->
+    @polyline = ref
+
+  componentDidMount: ->
+    @hoverPolyline = new google.maps.Polyline()
+    @polyline = new google.maps.Polyline()
+    @eventLine = new google.maps.Polyline()
+    @hoverCircle = new google.maps.Circle()
+    @frozenCircle = new google.maps.Circle()
+
+  componentWillReceiveProps: (nextProps) ->
+    return unless nextProps.map
+    @hoverPolyline.setMap(nextProps.map)
+    @polyline.setMap(nextProps.map)
+    @eventLine.setMap(nextProps.map)
+    @hoverCircle.setCenter(new google.maps.LatLng())
+    @hoverCircle.setRadius(4)
+    @hoverCircle.setMap(nextProps.map)
+    @frozenCircle.setCenter(new google.maps.LatLng())
+    @frozenCircle.setRadius(4)
+    @frozenCircle.setMap(nextProps.map)
+    @eventLine.addListener('mousemove', @state.onMousemove)
+    @eventLine.addListener('mouseout', @onMouseout)
+
+  grender: ->
+    return unless @hoverPolyline
+    @hoverPolyline.setPath(@state.path)
+    @polyline.setPath(@state.path)
+    @eventLine.setPath(@state.path)
+    @hoverCircle.setCenter(@state.hoverLatLng)
+    @frozenCircle.setCenter(@state.frozenLatLng)
+    @hoverPolyline.setOptions
+      strokeOpacity: @state.hoverOpacity
+      strokeColor: @state.hoverColor
+      strokeWeight: @state.hoverWeight
+    @polyline.setOptions
+      strokeOpacity: @state.opacity
+      strokeColor: @state.color
+      strokeWeight: @state.weight
+    @frozenCircle.setOptions
+      strokeOpacity: 0.5
+      strokeColor: '#6F6'
+      strokeWeight: 10
+    @hoverCircle.setOptions
+      strokeOpacity: 0.5
+      strokeColor: '#6F6'
+      strokeWeight: 10
+    @eventLine.setOptions
+      strokeOpacity: 0
+      strokeColor: '#00F'
+      strokeWeight: 20
+      zIndex: 1000
+
+  render: ->
     if @state.hover
       hoverOpacity = 0.2
     else
       hoverOpacity = 0
-    @hoverCircle.state.circle.setOptions
-      opacity: hoverOpacity
-    @hoverCircle.state.circle.setCenter(@state.hoverLatLng)
-    @frozenCircle.state.circle.setCenter(@state.frozenLatLng)
+    if @hoverCircle
+      @hoverCircle.setOptions
+        opacity: hoverOpacity
 
-  handlePolyline: (ref) ->
-    @polyline = ref
+    @grender()
 
-  render: ->
-    hoverWeight = 20
-    hoverColor = '#266'
-    hoverOpacity = 0
-
-    weight = 6
-    color = '#229'
-    opacity = 0.6
-
-    <div>
-      <Polyline key='hover'
-                mapHolderRef={@props.mapHolderRef}
-                path={@state.path}
-                options={
-                    strokeOpacity: hoverOpacity
-                    strokeColor: hoverColor
-                    strokeWeight: hoverWeight
-                }
-                />
-      <Polyline key='route'
-                mapHolderRef={@props.mapHolderRef}
-                path={@state.path}
-                ref={@handlePolyline}
-                options={
-                    strokeOpacity: opacity
-                    strokeColor: color
-                    strokeWeight: weight
-                }
-                onClick={@handlePolylineClick}/>
-      <Circle ref={@frozenCircleRef}
-             mapHolderRef={@props.mapHolderRef}
-             center={ new google.maps.LatLng() }
-             radius={8}
-             options={
-               strokeOpacity: 1
-               strokeColor: '#FFF'
-               strokeWeight: 10
-               zIndex: 1000
-             }
-             onClick={@handlePolylineClick}/>
-      <Circle ref={@hoverCircleRef}
-              mapHolderRef={@props.mapHolderRef}
-              center={ new google.maps.LatLng() }
-              radius={8}
-              options={
-                strokeOpacity: 0.5
-                strokeColor: '#6F6'
-                strokeWeight: 10
-              }
-              onClick={@handlePolylineClick}/>
-      <Polyline key='fat_event_line'
-                mapHolderRef={@props.mapHolderRef}
-                path={@state.path}
-                options={
-                    strokeOpacity: 0
-                    strokeColor: '#000'
-                    strokeWeight: 30
-                    zIndex: 1000
-                }
-                onMousemove={@state.onMousemove}
-                onMouseout={@onMouseout}
-                />
-    </div>
+    <div></div>

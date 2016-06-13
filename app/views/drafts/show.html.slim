@@ -1,0 +1,2 @@
+- if @draft.is_a? VideoDraft
+  = react_component 'VideoDraft', videoDraft: serialize_to_json(@draft)

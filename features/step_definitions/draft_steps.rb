@@ -19,7 +19,7 @@ When %(I click on the video draft) do
 end
 
 Then %(I should be able to play the video draft) do
-  within '.video-draft-modal' do
+  within '.video-draft' do
     expect(page).to have_content(@video_draft.activity.strava_name)
     expect(page).to have_css('video')
   end

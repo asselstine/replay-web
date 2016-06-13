@@ -5,25 +5,23 @@ module.exports = React.createClass
 
   propTypes:
     videoDraft: React.PropTypes.object.isRequired
-
-  getInitialState: ->
-    videoDraftModalIsOpen: false
-
-  openVideoDraftModal: ->
-    @setState(videoDraftModalIsOpen: true)
-
-  closeVideoDraftModal: ->
-    @setState(videoDraftModalIsOpen: false)
+  #
+  # getInitialState: ->
+  #   videoDraftModalIsOpen: false
+  #
+  # openVideoDraftModal: ->
+  #   @setState(videoDraftModalIsOpen: true)
+  #
+  # closeVideoDraftModal: ->
+  #   @setState(videoDraftModalIsOpen: false)
 
   render: ->
-    <a href='javascript:;' data-video-draft-id={@props.videoDraft.id} className='video-draft-tile' onClick={@openVideoDraftModal}>
+    <div className='video-draft-tile'>
+      <a href={Routes.draft_path(@props.videoDraft.id)} data-video-draft-id={@props.videoDraft.id}>
         <img className='tile__img'
              src={@props.videoDraft.video.thumbnail.small_url}/>
         <p>
           {@props.videoDraft.activity.strava_name}
         </p>
-        <VideoDraftModal videoDraft={@props.videoDraft}
-                         isOpen={@state.videoDraftModalIsOpen}
-                         onRequestClose={@closeVideoDraftModal}
-                         onSuccess={@closeVideoDraftModal}/>
-    </a>
+      </a>
+    </div>

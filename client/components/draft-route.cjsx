@@ -8,13 +8,13 @@ module.exports = React.createClass
 
   propTypes:
     draft: React.PropTypes.object.isRequired
-    map: React.PropTypes.object
     onProgressTime: React.PropTypes.func
     onMouseover: React.PropTypes.func
     onMouseout: React.PropTypes.func
     showHoverHighlight: React.PropTypes.bool
     showHoverCircle: React.PropTypes.bool
     onClick: React.PropTypes.func
+    circleLatLng: React.PropTypes.object
 
   getDefaultProps: ->
     onProgressTime: (->)
@@ -23,10 +23,14 @@ module.exports = React.createClass
     onClick: (->)
     showHoverHighlight: true
     showHoverCircle: true
+    circleLatLng: null
+
+  contextTypes:
+    map: React.PropTypes.object
 
   getInitialState: ->
     hover: false
-    frozenLatLng: new google.maps.LatLng()
+    defaultLatLng: new google.maps.LatLng()
     path: draftLatLngs(@props.draft)
     splinePath: csplineLatLngs(@props.draft.activity.cspline_latlngs)
     onMousemove: _.throttle(@onMousemove, 50)
@@ -42,7 +46,7 @@ module.exports = React.createClass
   getSnapToRoute: ->
     return @snapToRoute if @snapToRoute
     @snapToRoute = new SnapToRoute()
-    @snapToRoute.init(@props.map, @polyline)
+    @snapToRoute.init(@context.map, @polyline)
     @snapToRoute
 
   getClosestLatLng: (latLng) ->
@@ -56,13 +60,13 @@ module.exports = React.createClass
     lastTime + offset
 
   onMouseout: (e) ->
-    @props.onMouseout(e)
+    @props.onMouseout(e, @)
     @hover = false
     @setState
       hoverLatLng: null
 
   onMouseover: (e) ->
-    @props.onMouseover(e)
+    @props.onMouseover(e, @)
     @hover = true
     @setState
       hoverLatLng: @getClosestLatLng(e.latLng)
@@ -75,9 +79,8 @@ module.exports = React.createClass
       hoverLatLng: latLng
 
   handlePolylineClick: (e) ->
-    @props.onClick(e)
-    @setState
-      frozenLatLng: e.latLng
+    @props.onClick(e, @)
+
 
   hoverCircleRef: (ref) ->
     @hoverCircle = ref
@@ -96,22 +99,25 @@ module.exports = React.createClass
     @hoverCircle = new google.maps.Circle()
     @frozenCircle = new google.maps.Circle()
 
-  componentWillReceiveProps: (nextProps) ->
-    return unless nextProps.map
-    @hoverLine.setMap(nextProps.map)
-    @polyline.setMap(nextProps.map)
-    @splineLine.setMap(nextProps.map)
-    @eventLine.setMap(nextProps.map)
+  componentWillReceiveProps: (nextProps, nextContext) ->
+    return unless nextContext.map
+    @hoverLine.setMap(nextContext.map)
+    @polyline.setMap(nextContext.map)
+    @splineLine.setMap(nextContext.map)
+    @eventLine.setMap(nextContext.map)
     @hoverCircle.setCenter(new google.maps.LatLng())
     @hoverCircle.setRadius(4)
-    @hoverCircle.setMap(nextProps.map)
+    @hoverCircle.setMap(nextContext.map)
     @frozenCircle.setCenter(new google.maps.LatLng())
     @frozenCircle.setRadius(4)
-    @frozenCircle.setMap(nextProps.map)
+    @frozenCircle.setMap(nextContext.map)
     @eventLine.addListener('mousemove', @state.onMousemove)
     @eventLine.addListener('mouseout', @onMouseout)
     @eventLine.addListener('click', @handlePolylineClick)
     @eventLine.addListener('mouseover', @onMouseover)
+
+  mapWidgetsAreReady: ->
+    !!@hoverLine
 
   render: ->
     hoverLineOpacity = 0
@@ -123,7 +129,8 @@ module.exports = React.createClass
       if @props.showHoverCircle
         hoverCircleOpacity = 0.5
 
-    if @hoverLine
+    if @mapWidgetsAreReady()
+      @frozenCircle.setCenter(@props.circleLatLng)
       @splineLine.setPath(@state.splinePath)
       @splineLine.setOptions
         strokeOpacity: @state.splineLineOpacity
@@ -132,7 +139,6 @@ module.exports = React.createClass
       @polyline.setPath(@state.path)
       @eventLine.setPath(@state.path)
       @hoverCircle.setCenter(@state.hoverLatLng)
-      @frozenCircle.setCenter(@state.frozenLatLng)
       @hoverLine.setOptions
         strokeOpacity: hoverLineOpacity
         strokeColor: @state.hoverColor

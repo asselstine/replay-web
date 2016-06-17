@@ -7,7 +7,12 @@ module.exports = React.createClass
 
   propTypes:
     drafts: React.PropTypes.array
-    onProgressTime: React.PropTypes.func
+
+  childContextTypes:
+    map: React.PropTypes.object
+
+  getChildContext: ->
+    map: @googleMap
 
   getDefaultProps: ->
     drafts: []
@@ -30,8 +35,6 @@ module.exports = React.createClass
       streetViewControl: false
     )
     @googleMap.fitBounds(@getLatLngBounds())
-
-  componentDidMount: ->
     @setState
       map: @googleMap
 
@@ -39,10 +42,5 @@ module.exports = React.createClass
     <div className='map-browser'>
       <div style={{height: '400px'}} ref={@googleMapRef}>
       </div>
-      {@props.drafts.map (draft) =>
-        <DraftRoute key={draft.id}
-                    map={@state.map}
-                    draft={draft}
-                    onProgressTime={@props.onProgressTime}/>
-      }
+      {@props.children}
     </div>

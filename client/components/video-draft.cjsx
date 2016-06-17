@@ -1,4 +1,6 @@
 _ = require('lodash')
+MapBrowser = require('./map-browser')
+DraftRoute = require('./draft-route')
 
 module.exports = React.createClass
   displayName: 'VideoDraft'
@@ -21,7 +23,6 @@ module.exports = React.createClass
     @mapBrowser = ref
 
   videoTimeupdate: (e) ->
-    debugger
     # @mapBrowser.seek(seconds)
 
   render: ->
@@ -38,8 +39,11 @@ module.exports = React.createClass
         </div>
         <div className='col-sm-4'>
           <MapBrowser drafts={[@props.videoDraft]}
-                      onProgressTime={@state.throttledHandleProgressTime}
-                      ref={@mapBrowserRef}/>
+                      ref={@mapBrowserRef}>
+              <DraftRoute key={@props.videoDraft.id}
+                          onProgressTime={@state.throttledHandleProgressTime}
+                          draft={@props.videoDraft}/>
+          </MapBrowser>
         </div>
       </div>
     </div>

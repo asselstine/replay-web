@@ -12,8 +12,7 @@ module.exports = React.createClass
     throttledHandleProgressTime: _.throttle(@handleProgressTime, 250)
 
   handleProgressTime: (time, draft) ->
-    console.debug('go to ', time)
-    seconds = (time - draft.activity.timestamps_f[0])
+    seconds = (time - draft.start_at_f)
     @videoPlayer.seek(seconds) if @videoPlayer
 
   videoPlayerRef: (ref) ->

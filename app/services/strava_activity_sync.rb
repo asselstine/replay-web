@@ -31,7 +31,7 @@ class StravaActivitySync
   # rubocop:disable Metrics/AbcSize
   def create_activity(strava_activity)
     streams = client.retrieve_activity_streams(strava_activity['id'],
-                                               'latlng,time')
+                                               'latlng,time,velocity_smooth')
     start_at = DateTime.parse(strava_activity['start_date'])
     activity = @user.activities.create(
       strava_activity_id: strava_activity['id'],
@@ -39,7 +39,8 @@ class StravaActivitySync
       strava_start_at: start_at,
       timestamps: timestamps(start_at, streams[1]['data']),
       latitudes: latitudes(streams[0]['data']),
-      longitudes: longitudes(streams[0]['data'])
+      longitudes: longitudes(streams[0]['data']),
+      velocities: streams[2]['data']
     )
     debug("Created new activity: #{activity}")
   end

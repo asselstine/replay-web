@@ -31,8 +31,20 @@
       2,
       3
     ],
-    "series_type": "time",
+    "series_type": "distance",
     "original_size": 4,
+    "resolution": "high"
+  },
+  {
+    "type":"velocity_smooth",
+    "data": [
+      10.1,
+      9.5,
+      3.2,
+      3.3
+    ],
+    "series_type": "distance",
+    "original_size": 113,
     "resolution": "high"
   }
 ]

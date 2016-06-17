@@ -61,11 +61,15 @@ class Activity < ActiveRecord::Base
       time <= timestamps.last
   end
 
+  def cspline(values)
+    self.class.cspline(spline_timestamps, values)
+  end
+
   def self.to_time_ms(datetime)
     (datetime.to_f * 1000).to_i
   end
 
-  def self.spline(timestamps, values)
+  def self.cspline(timestamps, values)
     timestamps_v = GSL::Vector.alloc(timestamps)
     values_v = GSL::Vector.alloc(values)
     spline = GSL::Spline.alloc('cspline', values.length)
@@ -77,6 +81,11 @@ class Activity < ActiveRecord::Base
     where('activities.start_at <= ?', at)
       .where('activities.end_at >= ?', at)
   end)
+
+  def colour
+    srand(id)
+    (rand * 16_777_216).floor.to_s(16).rjust(6, '0')
+  end
 
   protected
 
@@ -99,11 +108,11 @@ class Activity < ActiveRecord::Base
   end
 
   def lat_spline
-    self.class.spline(spline_timestamps, latitudes)
+    @lat_spline ||= cspline(latitudes)
   end
 
   def long_spline
-    self.class.spline(spline_timestamps, longitudes)
+    @lng_spline ||= cspline(longitudes)
   end
 
   def spline_timestamps

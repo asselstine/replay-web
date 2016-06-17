@@ -17,6 +17,13 @@ module.exports = React.createClass
   videoPlayerRef: (ref) ->
     @videoPlayer = ref
 
+  mapBrowserRef: (ref) ->
+    @mapBrowser = ref
+
+  videoTimeupdate: (e) ->
+    debugger
+    # @mapBrowser.seek(seconds)
+
   render: ->
     <div className='video-draft'>
       <h3>{@props.videoDraft.activity.strava_name}</h3>
@@ -25,12 +32,14 @@ module.exports = React.createClass
           {@props.videoDraft.video.file_url &&
               <VideoPlayer video={@props.videoDraft.video}
                            canFlip={false}
-                           ref={@videoPlayerRef}/>
+                           ref={@videoPlayerRef}
+                           onTimeUpdate={@videoTimeupdate}/>
           }
         </div>
         <div className='col-sm-4'>
           <MapBrowser drafts={[@props.videoDraft]}
-                      onProgressTime={@state.throttledHandleProgressTime}/>
+                      onProgressTime={@state.throttledHandleProgressTime}
+                      ref={@mapBrowserRef}/>
         </div>
       </div>
     </div>

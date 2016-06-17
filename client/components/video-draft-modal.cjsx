@@ -1,5 +1,7 @@
 Modal = require('react-modal')
 ModalStyle = require('../util/modal-default-style')
+MapBrowser = require('./map-browser')
+DraftRoute = require('./draft-route')
 
 module.exports = React.createClass
   displayName: 'VideoDraftModal'
@@ -36,7 +38,10 @@ module.exports = React.createClass
             </div>
             <div className='col-sm-4'>
               <MapBrowser drafts={[@props.videoDraft]}
-                          onProgressTime={@handleProgressTime}/>
+                          onProgressTime={@handleProgressTime}>
+                <DraftRoute key={@props.videoDraft.id}
+                            draft={@props.videoDraft}/>
+              </MapBrowser>
             </div>
           </div>
         </div>

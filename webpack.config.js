@@ -31,13 +31,15 @@ function baseConfig(outputFilename) {
     },
 
     resolve: {
-      extensions: ['', '.js', '.coffee', '.cjsx']
+      extensions: ['', '.js', '.jsx', '.coffee', '.cjsx']
     },
 
     // The 'module' and 'loaders' options tell webpack to use loaders.
     // @see http://webpack.github.io/docs/using-loaders.html
     module: {
       loaders: [
+        { test: /\.jsx$/, exclude: /node_modules/, loader: 'babel-loader', query: { presets: ['es2015', 'react'] } },
+        { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader'},
         { test: /\.cjsx$/, loaders: ['coffee-loader', 'cjsx']},
         { test: /\.coffee$/, loader: 'coffee-loader' },
         { test: /\.css$/, loaders: ['style', 'css']}

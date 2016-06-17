@@ -45,7 +45,7 @@ module.exports = React.createClass
 
   render: ->
     flipClass = if @state.flip then 'flip' else ''
-    flip = <a href='javascript:;' onClick={@flip}>Flip</a> if @props.canFlip
+    flip = <a className='btn btn-primary' href='javascript:;' onClick={@flip}>Flip</a> if @props.canFlip
     <div>
       <div className='video-container'>
         <video controls='true'

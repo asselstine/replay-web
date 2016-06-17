@@ -12,6 +12,8 @@ module.exports = React.createClass
     onProgressTime: React.PropTypes.func
     onMouseover: React.PropTypes.func
     onMouseout: React.PropTypes.func
+    showHoverHighlight: React.PropTypes.bool
+    showHoverCircle: React.PropTypes.bool
     onClick: React.PropTypes.func
 
   getDefaultProps: ->
@@ -19,6 +21,8 @@ module.exports = React.createClass
     onMouseover: (->)
     onMouseout: (->)
     onClick: (->)
+    showHoverHighlight: true
+    showHoverCircle: true
 
   getInitialState: ->
     hover: false
@@ -110,14 +114,14 @@ module.exports = React.createClass
     @eventLine.addListener('mouseover', @onMouseover)
 
   render: ->
-    if @hover
-      hoverLineOpacity = 0.1
-      hoverCircleOpacity = 0.5
-    else
-      hoverLineOpacity = 0
-      hoverCircleOpacity = 0
+    hoverLineOpacity = 0
+    hoverCircleOpacity = 0
 
-    console.debug('opacity: ', hoverLineOpacity, hoverCircleOpacity)
+    if @hover
+      if @props.showHoverHighlight
+        hoverLineOpacity = 0.1
+      if @props.showHoverCircle
+        hoverCircleOpacity = 0.5
 
     if @hoverLine
       @splineLine.setPath(@state.splinePath)

@@ -7,14 +7,4 @@ class ActivitySerializer < BaseSerializer
   def timestamps_f
     object.timestamps.map(&:to_f)
   end
-
-  def cspline_latlngs
-    now = object.timestamps.first
-    result = []
-    while now < object.timestamps.last
-      now += 0.25.seconds
-      result << object.coords_at(now)
-    end
-    result
-  end
 end

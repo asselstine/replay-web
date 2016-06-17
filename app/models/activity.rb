@@ -87,6 +87,17 @@ class Activity < ActiveRecord::Base
     (rand * 16_777_216).floor.to_s(16).rjust(6, '0')
   end
 
+  def cspline_latlngs
+    return [] if timestamps.empty?
+    now = timestamps.first
+    result = []
+    while now < timestamps.last
+      now += 0.25.seconds
+      result << coords_at(now)
+    end
+    result
+  end
+
   protected
 
   def last_coords_at(time)

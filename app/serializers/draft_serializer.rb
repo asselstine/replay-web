@@ -5,10 +5,10 @@ class DraftSerializer < BaseSerializer
   has_one :activity
 
   def start_at_f
-    start_at.to_f
+    object.start_at.to_f
   end
 
   def end_at_f
-    end_at_f
+    object.end_at.to_f
   end
 end

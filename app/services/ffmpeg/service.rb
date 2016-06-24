@@ -16,7 +16,7 @@ class FFMPEG::Service
   end
 
   def cached_video_filepath(video)
-    "#{tmp_dir_path}/video-#{video.id}#{File.extname(video.filename)}"
+    "/tmp/video-#{video.id}#{File.extname(video.filename)}"
   end
 
   protected

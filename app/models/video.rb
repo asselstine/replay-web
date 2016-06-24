@@ -3,6 +3,7 @@ class Video < ActiveRecord::Base
   belongs_to :thumbnail, class_name: Photo
   belongs_to :user
   has_many :video_drafts
+  has_many :scrub_images
 
   validates_presence_of :file
   validates_presence_of :user

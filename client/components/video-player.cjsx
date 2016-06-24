@@ -12,6 +12,7 @@ module.exports = React.createClass
 
   getInitialState: ->
     flip: false
+    currentTimeMs: 0
 
   videoRef: (ref) ->
     if ref == null
@@ -27,6 +28,8 @@ module.exports = React.createClass
       flip: !@state.flip
 
   videoTimeUpdate: (e) ->
+    @setState
+      currentTimeMs: +(e.target.currentTime * 1000)
     if @props.onTimeUpdate
       @props.onTimeUpdate(e)
 
@@ -34,16 +37,46 @@ module.exports = React.createClass
     if @props.onCanPlayThrough
       @props.onCanPlayThrough(e)
 
+  videoSeeking: (e) ->
+    @setState
+      currentTimeMs: @vidElem.currentTime * 1000
+
   componentDidMount: ->
     @vidElem.addEventListener 'timeupdate', @videoTimeUpdate
     @vidElem.addEventListener 'canplaythrough', @videoCanPlayThrough
+    @vidElem.addEventListener 'seeking', @videoSeeking
+    @vidElem.addEventListener 'seeked', @videoSeeked
 
   componentWillUnmount: ->
     return unless @vidElem
     @vidElem.removeEventListener 'timeupdate', @videoTimeUpdate
     @vidElem.removeEventListener 'canplaythrough', @videoCanPlayThrough
+    @vidElem.removeEventListener 'seeking', @videoSeeking
+    @vidElem.removeEventListener 'seeked', @videoSeeked
+
+  getScrubImageSrc: (timeMs) ->
+    # one per second
+    scrubFrameIndex = Math.floor(timeMs / 1000)
+    # 40 per page
+    scrubPageIndex = Math.floor(scrubFrameIndex / 30)
+    @props.video.scrub_images[scrubPageIndex]
+
+  getScrubImageOffset: (timeMs) ->
+    # one per second
+    scrubFrameIndex = Math.floor(timeMs / 1000)
+    # 40 per page, 480px wide
+    scrubPageOffset = (scrubFrameIndex % 30) * 480
 
   render: ->
+    scrubSrc = @getScrubImageSrc(@state.currentTimeMs)
+    scrubOffset = @getScrubImageOffset(@state.currentTimeMs)
+    scrubStyle = {
+      width: '480px',
+      height: '270px',
+      backgroundImage: "url(#{scrubSrc})",
+      backgroundPosition: "-#{scrubOffset}px 0"
+    }
+
     flipClass = if @state.flip then 'flip' else ''
     flip = <a className='btn btn-primary' href='javascript:;' onClick={@flip}>Flip</a> if @props.canFlip
     <div>
@@ -57,4 +90,10 @@ module.exports = React.createClass
         </video>
       </div>
       {flip}
+      <div className='scrubber' style={scrubStyle}>
+      </div>
+
+      {@props.video.scrub_images.map (url) ->
+        <img src={url} style={'display': 'none'}/>
+      }
     </div>

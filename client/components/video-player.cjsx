@@ -67,16 +67,23 @@ module.exports = React.createClass
     # 40 per page, 480px wide
     scrubPageOffset = (scrubFrameIndex % 30) * 480
 
-  render: ->
+  getScrubStyle: (timeMs) ->
     scrubSrc = @getScrubImageSrc(@state.currentTimeMs)
     scrubOffset = @getScrubImageOffset(@state.currentTimeMs)
-    scrubStyle = {
-      width: '480px',
-      height: '270px',
-      backgroundImage: "url(#{scrubSrc})",
-      backgroundPosition: "-#{scrubOffset}px 0"
-    }
+    if scrubSrc
+      {
+        width: '480px',
+        height: '270px',
+        backgroundImage: "url(#{scrubSrc})",
+        backgroundPosition: "-#{scrubOffset}px 0"
+      }
+    else
+      {
+        width: '0px',
+        height: '0px'
+      }
 
+  render: ->
     flipClass = if @state.flip then 'flip' else ''
     flip = <a className='btn btn-primary' href='javascript:;' onClick={@flip}>Flip</a> if @props.canFlip
     <div>
@@ -90,7 +97,7 @@ module.exports = React.createClass
         </video>
       </div>
       {flip}
-      <div className='scrubber' style={scrubStyle}>
+      <div className='scrubber' style={@getScrubStyle(@state.currentTimeMs)}>
       </div>
 
       {@props.video.scrub_images.map (url) ->

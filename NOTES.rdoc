@@ -1,0 +1,14 @@
+Need to match Videos to Segment Efforts.
+To get resulting Video Efforts.
+
+Draft:
+  - Activity Video: given an activity, build the video for it.
+  - Segment Effort: Given a segment effort, build the video for it
+  - Video: Given a video, find the Segment Efforts in it.
+
+SegmentEffortVideo:
+
+- Source Video
+- Start at
+- end at
+- SegmentEffort

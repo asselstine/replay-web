@@ -2,11 +2,12 @@ require 'gsl'
 
 class Activity < ActiveRecord::Base
   include ColourFromId
-  
+
   belongs_to :user
   has_many :edits
   has_many :drafts, inverse_of: :activity
   has_many :draft_photos
+  has_many :segment_efforts
   before_validation :clear_blank_latitudes_and_longitudes
   before_validation :default_timestamps_to_now
 

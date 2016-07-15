@@ -42,6 +42,12 @@ class Activity < ActiveRecord::Base
     longitudes.reject!(&:blank?)
   end
 
+  def timeseries_index_at(time)
+    timestamps.bsearch_index do |timestamp|
+      timestamp >= time
+    end
+  end
+
   def coords_at(time)
     return unless valid_time?(time)
     if can_interpolate?

@@ -19,5 +19,19 @@ RSpec.describe Activity do
         expect(subject.end_at).to eq(t(-3))
       end
     end
+    describe '#timeseries_index_at' do
+      it 'should return 0 when before the range' do
+        expect(subject.timeseries_index_at(t(-11))).to eq(0)
+      end
+
+      it 'should return nil when after the range' do
+        expect(subject.timeseries_index_at(t(4))).to be_nil
+      end
+
+      it 'should return the index of the timestamp' do
+        expect(subject.timeseries_index_at(t(-10))).to eq(0)
+        expect(subject.timeseries_index_at(t(-3))).to eq(1)
+      end
+    end
   end
 end

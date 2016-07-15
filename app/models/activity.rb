@@ -1,6 +1,8 @@
 require 'gsl'
 
 class Activity < ActiveRecord::Base
+  include ColourFromId
+  
   belongs_to :user
   has_many :edits
   has_many :drafts, inverse_of: :activity
@@ -87,11 +89,6 @@ class Activity < ActiveRecord::Base
     where('activities.start_at <= ?', at)
       .where('activities.end_at >= ?', at)
   end)
-
-  def colour
-    srand(id)
-    (rand * 16_777_216).floor.to_s(16).rjust(6, '0')
-  end
 
   def cspline_latlngs
     return [] if timestamps.empty?

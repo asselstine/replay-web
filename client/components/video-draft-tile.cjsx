@@ -21,7 +21,7 @@ module.exports = React.createClass
         <img className='tile__img'
              src={@props.videoDraft.video.thumbnail.small_url}/>
         <p>
-          {@props.videoDraft.activity.strava_name}
+          {@props.videoDraft.name}
         </p>
       </a>
     </div>

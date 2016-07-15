@@ -20,11 +20,17 @@ module.exports = React.createClass
   getInitialState: ->
     map: null
 
-  getLatLngBounds: ->
-    bounds = new google.maps.LatLngBounds()
+  getDraftLatLngs: ->
+    latLngs = []
     for draft in @props.drafts
       for latLng in draftLatLngs(draft)
-        bounds.extend(latLng)
+        latLngs.push(latLng)
+    latLngs
+
+  getLatLngBounds: ->
+    bounds = new google.maps.LatLngBounds()
+    for latLng in @getDraftLatLngs()
+      bounds.extend(latLng)
     bounds
 
   googleMapRef: (ref) ->
@@ -32,7 +38,9 @@ module.exports = React.createClass
     @ref = ReactDOM.findDOMNode(ref)
     @googleMap = new google.maps.Map(@ref,
       scrollwheel: false,
-      streetViewControl: false
+      streetViewControl: false,
+      zoom: 7,
+      center: {lat: -34, lng: 151}
     )
     @googleMap.fitBounds(@getLatLngBounds())
     @setState

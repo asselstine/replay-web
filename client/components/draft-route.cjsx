@@ -32,7 +32,7 @@ module.exports = React.createClass
     hover: false
     defaultLatLng: new google.maps.LatLng()
     path: draftLatLngs(@props.draft)
-    splinePath: csplineLatLngs(@props.draft.activity.cspline_latlngs)
+    splinePath: [] # splinePath: csplineLatLngs(@props.draft.activity.cspline_latlngs)
     onMousemove: _.throttle(@onMousemove, 50)
     hoverWeight: 20
     hoverColor: '#000'
@@ -54,8 +54,8 @@ module.exports = React.createClass
 
   getTime: (latLng) ->
     info = @getSnapToRoute().distanceToLines(latLng)
-    lastTime = @props.draft.activity.timestamps_f[info.i - 1]
-    nextTime = @props.draft.activity.timestamps_f[info.i]
+    lastTime = @props.draft.timestamps_f[info.i - 1]
+    nextTime = @props.draft.timestamps_f[info.i]
     offset = (nextTime - lastTime) * info.fTo
     lastTime + offset
 
@@ -145,7 +145,7 @@ module.exports = React.createClass
         strokeWeight: @state.hoverWeight
       @polyline.setOptions
         strokeOpacity: @state.opacity
-        strokeColor: '#' + @props.draft.activity.colour
+        strokeColor: '#' + @props.draft.colour
         strokeWeight: @state.weight
       @frozenCircle.setOptions
         strokeOpacity: 0.5

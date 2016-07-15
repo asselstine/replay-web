@@ -11,7 +11,8 @@ class Edit::VideoProcessor < Edit::Processor
                                 setup: comparator.setup,
                                 source_video: comparator.video,
                                 start_at: frame_start_at,
-                                end_at: frame_end_at)
+                                end_at: frame_end_at,
+                                name: comparator.activity.strava_name)
     end
     frame_end_at
   end

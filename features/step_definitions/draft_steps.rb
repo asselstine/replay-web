@@ -11,7 +11,7 @@ When %(I browse drafts) do
 end
 
 Then %(my video draft is listed) do
-  expect(page).to have_content(@video_draft.activity.strava_name)
+  expect(page).to have_content(@video_draft.name)
 end
 
 When %(I click on the video draft) do
@@ -20,7 +20,7 @@ end
 
 Then %(I should be able to play the video draft) do
   within '.video-draft' do
-    expect(page).to have_content(@video_draft.activity.strava_name)
+    expect(page).to have_content(@video_draft.name)
     expect(page).to have_css('video')
   end
 end

@@ -26,7 +26,7 @@ module.exports = React.createClass
 
   render: ->
     <div className='video-draft'>
-      <h3>{@props.videoDraft.activity.strava_name}</h3>
+      <h3>{@props.videoDraft.name}</h3>
       <div className='row'>
         <div className='col-sm-8'>
           {@props.videoDraft.video.file_url &&

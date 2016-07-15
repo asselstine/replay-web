@@ -1,4 +1,6 @@
 class Draft < ActiveRecord::Base
+  include ColourFromId
+
   belongs_to :setup
   belongs_to :activity
   belongs_to :video
@@ -18,6 +20,10 @@ class Draft < ActiveRecord::Base
 
   def longitudes
     timeseries(activity.longitudes)
+  end
+
+  def timestamps
+    timeseries(activity.timestamps)
   end
 
   private

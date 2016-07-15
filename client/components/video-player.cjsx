@@ -101,6 +101,6 @@ module.exports = React.createClass
       </div>
 
       {@props.video.scrub_images.map (url) ->
-        <img src={url} style={'display': 'none'}/>
+        <img src={url} style={'display': 'none'} key={url}/>
       }
     </div>

@@ -5,7 +5,8 @@ class Edit::PhotoProcessor < Edit::Processor
     comparator.photos.each do |photo|
       @drafts << PhotoDraft.new(photo: photo,
                                 setup: comparator.setup,
-                                activity: comparator.activity)
+                                activity: comparator.activity,
+                                name: photo.filename)
     end
     @frame.end_at
   end

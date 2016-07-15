@@ -12,7 +12,7 @@ module.exports = React.createClass
     onRequestClose: React.PropTypes.func.isRequired
 
   handleProgressTime: (time, draft) ->
-    seconds = (time - draft.activity.timestamps_f[0])
+    seconds = (time - draft.timestamps_f[0])
     # @videoPlayer.seek(seconds) if @videoPlayer
 
   videoPlayerRef: (ref) ->
@@ -25,7 +25,7 @@ module.exports = React.createClass
            onRequestClose={@props.onRequestClose}>
       <div className='modal-content'>
         <div className='modal-header'>
-          <h3>{@props.videoDraft.activity.strava_name}</h3>
+          <h3>{@props.videoDraft.name}</h3>
         </div>
         <div className='modal-body'>
           <div className='row'>

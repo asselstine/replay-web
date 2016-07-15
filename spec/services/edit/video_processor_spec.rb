@@ -6,7 +6,11 @@ RSpec.describe Edit::VideoProcessor do
   let(:end_at) { t(10) }
   let(:frame_size) { 5.seconds }
   let(:video_upload) { VideoUpload.new(video: video) }
-  let(:comparator) { double(video: video, setup: nil, activity: nil) }
+  let(:comparator) do
+    double(video: video,
+           setup: nil,
+           activity: Activity.new(strava_name: 'strava'))
+  end
   subject do
     Edit::VideoProcessor.new(selector: selector,
                              start_at: start_at,
@@ -22,7 +26,8 @@ RSpec.describe Edit::VideoProcessor do
       expect_frame t(2), t(7)
       expect_frame t(7), t(12)
       expect_first_draft_includes(subject.call, start_at: t(1),
-                                                end_at: t(2))
+                                                end_at: t(2),
+                                                name: 'strava')
     end
   end
 
@@ -34,7 +39,8 @@ RSpec.describe Edit::VideoProcessor do
       expect_frame t(5), t(10), comparator
       expect_frame t(9), t(14)
       expect_first_draft_includes(subject.call, start_at: t(3),
-                                                end_at: t(9))
+                                                end_at: t(9),
+                                                name: 'strava')
     end
   end
 
@@ -45,7 +51,8 @@ RSpec.describe Edit::VideoProcessor do
       expect_frame t(0), t(5), comparator
       expect_frame t(5), t(10), comparator
       expect_first_draft_includes(subject.call, start_at: t(0),
-                                                end_at: t(10))
+                                                end_at: t(10),
+                                                name: 'strava')
     end
   end
 

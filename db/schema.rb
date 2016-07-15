@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160715184405) do
+ActiveRecord::Schema.define(version: 20160715221221) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -89,6 +89,35 @@ ActiveRecord::Schema.define(version: 20160715184405) do
     t.integer "video_id"
     t.string  "image"
     t.integer "index"
+  end
+
+  create_table "segment_efforts", force: :cascade do |t|
+    t.integer  "strava_segment_effort_id", limit: 8, null: false
+    t.string   "name",                               null: false
+    t.datetime "start_at",                           null: false
+    t.integer  "elapsed_time",             limit: 8, null: false
+    t.integer  "moving_time",              limit: 8, null: false
+    t.integer  "start_index",              limit: 8, null: false
+    t.integer  "end_index",                limit: 8, null: false
+    t.integer  "kom_rank",                 limit: 8
+    t.integer  "pr_rank",                  limit: 8
+    t.integer  "activity_id"
+    t.integer  "segment_id"
+  end
+
+  create_table "segments", force: :cascade do |t|
+    t.integer "strava_segment_id", limit: 8, null: false
+    t.string  "name"
+    t.string  "activity_type"
+    t.decimal "distance"
+    t.decimal "average_grade"
+    t.decimal "maximum_grade"
+    t.decimal "elevation_high"
+    t.decimal "elevation_low"
+    t.string  "city"
+    t.string  "state"
+    t.string  "country"
+    t.boolean "is_private"
   end
 
   create_table "setup_photos", force: :cascade do |t|

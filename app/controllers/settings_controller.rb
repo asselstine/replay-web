@@ -1,4 +1,4 @@
-class SettingsController < LoggedInController 
+class SettingsController < LoggedInController
   def show
   end
 end

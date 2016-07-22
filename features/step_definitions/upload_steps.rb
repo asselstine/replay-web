@@ -89,19 +89,13 @@ Given %(there is a video upload) do
 end
 
 When %(I scrub to the slate and set the timestamp) do
-  step %(I view the upload)
-  within '.video-upload-modal' do
-    expect(page).to have_content(@upload.filename)
-    fill_in :date, with: '06-30-1984'
-    fill_in :timezone, with: '-8:00'
-    fill_in :timestamp, with: '12:12:12.000'
-    find('.modal-content').click
-  end
-  execute_script <<-JAVASCRIPT
-    $('video')[0].load();
-    $('video')[0].currentTime = 0.02;
-  JAVASCRIPT
-  expect(page).to have_content('20ms')
+  update_video_upload_timestamp(DateTime.parse('1984-06-30T20:12:12'))
+end
+
+When %(I update the video upload timestamp) do
+  step %(I scrub to the slate and set the timestamp)
+  step %(I should see the adjusted start and end times)
+  step %(I update the video)
 end
 
 Then %(I should see the adjusted start and end times) do
@@ -116,9 +110,11 @@ end
 
 Then %(the video should have correct start and end times) do
   expect(@upload.reload.video.start_at).to eq(
-    DateTime.parse('1984-06-30T20:12:11.980Z'))
+    DateTime.parse('1984-06-30T20:12:11.980Z')
+  )
   expect(@upload.video.end_at).to eq(
-    DateTime.parse('1984-06-30T20:12:12.087Z'))
+    DateTime.parse('1984-06-30T20:12:12.087Z')
+  )
 end
 
 Then %(the video should have the correct duration) do
@@ -143,4 +139,28 @@ Then %(I should see the photo) do
   within '.view-photo-modal' do
     expect(page).to have_content(@upload.filename)
   end
+end
+
+def update_video_upload_timestamp(time)
+  step %(I view the upload)
+  within '.video-upload-modal' do
+    expect(page).to have_content(@upload.filename)
+    fill_in_video_draft_timestamp(time)
+    find('.modal-content').click
+  end
+  scrub_video_to_s(0.02)
+  expect(page).to have_content('20ms')
+end
+
+def fill_in_video_draft_timestamp(time)
+  fill_in :date, with: time.strftime('%m-%d-%Y') # '06-30-1984'
+  fill_in :timezone, with: time.strftime('%z') # '-8:00'
+  fill_in :timestamp, with: time.strftime('%T.%L') # '12:12:12.000'
+end
+
+def scrub_video_to_s(seconds)
+  execute_script <<-JAVASCRIPT
+    $('video')[0].load();
+    $('video')[0].currentTime = #{seconds};
+  JAVASCRIPT
 end

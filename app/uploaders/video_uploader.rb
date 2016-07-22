@@ -3,10 +3,12 @@
 class VideoUploader < CarrierWave::Uploader::Base
   process :video_metadata
 
+  # rubocop:disable Metrics/MethodLength
+  # rubocop:disable Metrics/AbcSize
   def video_metadata
     cache_stored_file! unless cached?
     movie = FFMPEG::Movie.new(current_path)
-    fail 'video_metadata: invalid movie' unless movie.valid?
+    raise 'video_metadata: invalid movie' unless movie.valid?
     model.update(
       filename: File.basename(current_path),
       duration: movie.duration,

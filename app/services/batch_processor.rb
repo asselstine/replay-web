@@ -14,8 +14,8 @@ class BatchProcessor
 
   def edit_activity(activity)
     debug("edit_activity(#{activity.id})")
-    Edit::ActivityVideoProcessor.call(activity: activity)
-    Edit::ActivityPhotoProcessor.call(activity: activity)
+    ActivityVideos.call(activity: activity)
+    ActivityPhotos.call(activity: activity)
   end
 
   def debug(msg)

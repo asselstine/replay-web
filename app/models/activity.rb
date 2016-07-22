@@ -1,5 +1,6 @@
 require 'gsl'
 
+# rubocop:disable Metrics/ClassLength
 class Activity < ActiveRecord::Base
   include ColourFromId
 

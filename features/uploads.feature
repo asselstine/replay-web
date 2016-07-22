@@ -15,9 +15,7 @@ Feature: Upload videos
 
   Scenario: Set the timestamps for a video
     Given there is a video upload
-    When I scrub to the slate and set the timestamp
-    Then I should see the adjusted start and end times
-    When I update the video
+    When I update the video upload timestamp
     Then the video should have correct start and end times
     And the video should have the correct duration
 

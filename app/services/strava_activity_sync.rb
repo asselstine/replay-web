@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/ClassLength
 class StravaActivitySync
   PAGE_SIZE = 10
 
@@ -18,16 +19,20 @@ class StravaActivitySync
     ActiveRecord::Base.transaction do
       loop do
         activities = client.list_athlete_activities(params)
-        debug("Found #{activities.length} activites")
-        activities.each do |strava_activity|
-          find_or_create_activity(strava_activity)
-        end
+        find_or_create_activities(activities)
         break if activities.count < PAGE_SIZE
       end
     end
   end
 
   protected
+
+  def find_or_create_activities(activities)
+    debug("Found #{activities.length} activites")
+    activities.each do |strava_activity|
+      find_or_create_activity(strava_activity)
+    end
+  end
 
   def params
     result = {}
@@ -90,6 +95,7 @@ class StravaActivitySync
     effort
   end
 
+  # rubocop:disable Metrics/MethodLength
   def create_segment_effort(activity, strava_segment_effort)
     segment = find_or_create_segment(
       strava_segment_effort['segment']

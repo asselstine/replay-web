@@ -1,5 +1,6 @@
 FactoryGirl.define do
   factory :segment do
+    strava_segment_id SecureRandom.uuid
     name 'SegmentName'
     activity_type 'Ride'
     distance 12.23

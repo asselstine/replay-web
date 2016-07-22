@@ -16,6 +16,7 @@ class Edit::DraftSlicer
     FFMPEG::Slice.call(
       video: draft.source_video,
       start_at: draft.start_at,
-      end_at: draft.end_at)
+      end_at: draft.end_at
+    )
   end
 end

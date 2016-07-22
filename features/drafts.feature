@@ -12,8 +12,11 @@ Feature: Drafts
     When I click on the video draft
     Then I should be able to play the video draft
 
-  Scenario: View a segment effort video
+  Scenario: Video update triggers segment effort video
     Given I have a segment effort
-    And I uploaded a video for the segment effort
+    And there is a video upload
+    And the video upload is updated with the effort timestamp
     When I browse drafts
     Then I can see the segment effort video
+
+#  Scenario: Segment effort update triggers segment effort video

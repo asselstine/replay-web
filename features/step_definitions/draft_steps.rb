@@ -30,9 +30,10 @@ Given %(I have a segment effort) do
                            activity: @activity)
 end
 
-Given %(I uploaded a video for the segment effort) do
-  create(:video_upload,
-         user: @user,
-         video: create(:video, start_at: t(0),
-                               end_at: t(10)))
+Given %(the video upload is updated with the effort timestamp) do
+  update_video_upload_timestamp(@segment_effort.start_at)
+end
+
+Then %(I can see the segment effort video) do
+  expect(page).to have_content(@segment_effort.name)
 end

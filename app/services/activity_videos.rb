@@ -1,5 +1,4 @@
-# rubocop:disable Style/ClassAndModuleChildren
-class Edit::ActivityPhotoProcessor
+class ActivityVideos
   include Virtus.model
   include Service
 
@@ -7,19 +6,19 @@ class Edit::ActivityPhotoProcessor
 
   def call
     ActiveRecord::Base.transaction do
-      Edit::PhotoProcessor.call(selector: selector,
+      Edit::VideoProcessor.call(selector: selector,
                                 start_at: activity.start_at,
                                 end_at: activity.end_at)
                           .each(&:save!)
     end
   end
 
-  protected
+  private
 
   def selector
-    setups = Setup.with_photos_during(activity.start_at, activity.end_at)
+    setups = Setup.with_videos_during(activity.start_at, activity.end_at)
     comparators = setups.map do |setup|
-      Edit::PhotoComparator.new(setup: setup, activity: activity)
+      Edit::VideoComparator.new(setup: setup, activity: activity)
     end
     Edit::Selector.new(comparators: comparators)
   end

@@ -12,3 +12,8 @@ SegmentEffortVideo:
 - Start at
 - end at
 - SegmentEffort
+
+Given a start time and end time
+
+1. Find all segment efforts in that time span
+2. For each segment effort, find all valid videos and create VideoDrafts for the segment.

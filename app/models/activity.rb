@@ -27,16 +27,17 @@ class Activity < ActiveRecord::Base
   end
 
   def start_at
-    super || timestamps.first
+    super || strava_start_at.since(timestamps.first)
   end
 
   def end_at
-    super || timestamps.last
+    super || strava_start_at.since(timestamps.last)
   end
 
   def default_timestamps_to_now
     if timestamps.empty? && latitudes.length == 1
-      self.timestamps = [DateTime.now.utc]
+      self.start_at = Time.zone.now
+      self.timestamps = [0]
     end
   end
 
@@ -46,15 +47,19 @@ class Activity < ActiveRecord::Base
   end
 
   def timeseries_index_at(time)
+    timeseries_index_at_s(time.to_f - start_at.to_f)
+  end
+
+  def timeseries_index_at_s(seconds)
     timestamps.bsearch_index do |timestamp|
-      timestamp >= time
+      timestamp >= seconds
     end
   end
 
   def coords_at(time)
     return unless valid_time?(time)
     if can_interpolate?
-      time_ms = self.class.to_time_ms(time)
+      time_ms = relative_time_ms(time)
       [lat_spline.eval(time_ms), long_spline.eval(time_ms)]
     else
       last_coords_at(time)
@@ -66,16 +71,16 @@ class Activity < ActiveRecord::Base
   end
 
   def valid_time?(time)
-    time >= timestamps.first &&
-      time <= timestamps.last
+    relative_time_ms(time) >= timestamps.first &&
+      relative_time_ms(time) <= timestamps.last
   end
 
   def cspline(values)
     self.class.cspline(spline_timestamps, values)
   end
 
-  def self.to_time_ms(datetime)
-    (datetime.to_f * 1000).to_i
+  def relative_time_ms(datetime)
+    ((datetime.to_f - start_at.to_f) * 1000).to_i
   end
 
   def self.cspline(timestamps, values)

@@ -3,7 +3,8 @@ require 'rails_helper'
 RSpec.describe Draft do
   let(:activity) do
     create(:activity,
-           timestamps: [t(0), t(1), t(2), t(3)],
+           strava_start_at: t(0),
+           timestamps: [0, 1, 2, 3],
            latitudes: [0, 1, 2, 3],
            longitudes: [2, 3, 5, 7])
   end

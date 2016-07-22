@@ -48,14 +48,15 @@ describe StravaActivitySync do
         expect(activity.longitudes.first).to eq(-122.864112)
         expect(activity.velocities.first).to eq(10.1)
         expect(activity.velocities.last).to eq(3.3)
-        expect(activity.timestamps.first).to eq(activity.strava_start_at)
-        expect(activity.read_attribute(:start_at)).to eq(activity.timestamps.first)
-        expect(activity.read_attribute(:end_at)).to eq(activity.timestamps.last)
+        expect(activity.strava_start_at).to eq(activity.strava_start_at)
+        expect(activity.start_at).to eq(activity.strava_start_at)
+        expect(activity.end_at).to eq(activity.strava_start_at.since(activity.timestamps.last))
 
         expect(activity.segment_efforts).to_not be_empty
         segment_effort = activity.segment_efforts.first
         expect(segment_effort.name).to eq('Dash for the Ferry')
         expect(segment_effort.start_at).to_not be_nil
+        expect(segment_effort.end_at).to eq(segment_effort.start_at + 304.seconds)
         expect(segment_effort.elapsed_time).to eq(304)
         expect(segment_effort.moving_time).to eq(304)
         expect(segment_effort.start_index).to eq(5348)

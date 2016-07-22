@@ -1,7 +1,7 @@
-class Edit::PhotoProcessor < Edit::Processor
+class Edit::PhotoProcessor < Edit::PriorityProcessor
   protected
 
-  def process(comparator)
+  def process_comparator(comparator)
     comparator.photos.each do |photo|
       @drafts << PhotoDraft.new(photo: photo,
                                 setup: comparator.setup,

@@ -63,7 +63,7 @@ class StravaActivitySync
       strava_activity_id: strava_activity['id'],
       strava_name: strava_activity['name'],
       strava_start_at: start_at,
-      timestamps: timestamps(start_at, streams[1]['data']),
+      timestamps: streams[1]['data'],
       latitudes: latitudes(streams[0]['data']),
       longitudes: longitudes(streams[0]['data']),
       velocities: streams[2]['data']
@@ -84,7 +84,9 @@ class StravaActivitySync
     effort = SegmentEffort.where(
       strava_segment_effort_id: strava_segment_effort['id']
     ).first
-    effort = create_segment_effort(activity, strava_segment_effort) unless effort
+    unless effort
+      effort = create_segment_effort(activity, strava_segment_effort)
+    end
     effort
   end
 
@@ -92,10 +94,13 @@ class StravaActivitySync
     segment = find_or_create_segment(
       strava_segment_effort['segment']
     )
+    end_at = DateTime.parse(strava_segment_effort['start_date']) +
+             strava_segment_effort['elapsed_time'].seconds
     SegmentEffort.create(
       strava_segment_effort_id: strava_segment_effort['id'],
       name: strava_segment_effort['name'],
       start_at: strava_segment_effort['start_date'],
+      end_at: end_at,
       elapsed_time: strava_segment_effort['elapsed_time'],
       moving_time: strava_segment_effort['moving_time'],
       start_index: strava_segment_effort['start_index'],
@@ -123,12 +128,6 @@ class StravaActivitySync
              country: strava_segment['country'],
              is_private: strava_segment['private']
            )
-  end
-
-  def timestamps(start_at, time_stream)
-    time_stream.map do |t|
-      start_at.since(t.to_i).strftime(DATE_FORMAT)
-    end
   end
 
   def latitudes(latlng_stream)

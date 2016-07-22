@@ -24,3 +24,15 @@ Then %(I should be able to play the video draft) do
     expect(page).to have_css('video')
   end
 end
+
+Given %(I have a segment effort) do
+  @segment_effort = create(:segment_effort,
+                           activity: @activity)
+end
+
+Given %(I uploaded a video for the segment effort) do
+  create(:video_upload,
+         user: @user,
+         video: create(:video, start_at: t(0),
+                               end_at: t(10)))
+end

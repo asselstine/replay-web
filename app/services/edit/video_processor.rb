@@ -1,9 +1,9 @@
-class Edit::VideoProcessor < Edit::Processor
+class Edit::VideoProcessor < Edit::PriorityProcessor
   protected
 
-  def process(comparator)
-    frame_start_at = draft_start_at(comparator)
-    frame_end_at = draft_end_at(comparator)
+  def process_comparator(frame, comparator)
+    frame_start_at = draft_start_at(frame, comparator)
+    frame_end_at = draft_end_at(frame, comparator)
     if continue_current_draft(comparator, frame_start_at)
       @drafts.last.end_at = frame_end_at
     else
@@ -17,12 +17,12 @@ class Edit::VideoProcessor < Edit::Processor
     frame_end_at
   end
 
-  def draft_start_at(comparator)
-    [@frame.start_at, comparator.video.start_at].max
+  def draft_start_at(frame, comparator)
+    [frame.start_at, comparator.video.start_at].max
   end
 
-  def draft_end_at(comparator)
-    [@frame.end_at, comparator.video.end_at].min
+  def draft_end_at(frame, comparator)
+    [frame.end_at, comparator.video.end_at].min
   end
 
   def continue_current_draft(comparator, start_at)

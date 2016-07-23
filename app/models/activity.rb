@@ -14,6 +14,11 @@ class Activity < ActiveRecord::Base
 
   validate :time_series_lengths_match
 
+  scope :during, (lambda do |at|
+    where('activities.start_at <= ?', at)
+      .where('activities.end_at >= ?', at)
+  end)
+
   before_save :set_start_at_and_end_at
 
   def to_s
@@ -91,11 +96,6 @@ class Activity < ActiveRecord::Base
     spline.init(timestamps_v, values_v)
     spline
   end
-
-  scope :during, (lambda do |at|
-    where('activities.start_at <= ?', at)
-      .where('activities.end_at >= ?', at)
-  end)
 
   def cspline_latlngs
     return [] if timestamps.empty?

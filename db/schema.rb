@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160722173135) do
+ActiveRecord::Schema.define(version: 20160723000002) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,13 +41,14 @@ ActiveRecord::Schema.define(version: 20160722173135) do
     t.integer  "activity_id"
     t.datetime "start_at"
     t.datetime "end_at"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
     t.integer  "video_id"
     t.string   "type"
     t.integer  "photo_id"
     t.integer  "source_video_id"
     t.string   "name"
+    t.integer  "segment_effort_id"
   end
 
   create_table "dropbox_events", force: :cascade do |t|

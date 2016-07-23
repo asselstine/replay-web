@@ -14,9 +14,16 @@ class Activity < ActiveRecord::Base
 
   validate :time_series_lengths_match
 
-  scope :during, (lambda do |at|
+  scope :at, (lambda do |at|
     where('activities.start_at <= ?', at)
       .where('activities.end_at >= ?', at)
+  end)
+
+  scope :during, (lambda do |start_at, end_at|
+    query = <<-SQL
+      (activities.start_at, activities.end_at) OVERLAPS (:start_at, :end_at)
+    SQL
+    where(query, start_at: start_at, end_at: end_at).order(start_at: :asc)
   end)
 
   before_save :set_start_at_and_end_at

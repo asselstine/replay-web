@@ -1,8 +1,8 @@
-class VideoSegmentEfforts
+class SegmentEffortVideos
   include Virtus.model
   include Service
 
-  attribute :video_upload, VideoUpload
+  attribute :segment_effort, SegmentEffort
 
   def call
     ActiveRecord::Base.transaction do
@@ -27,10 +27,14 @@ class VideoSegmentEfforts
   end
 
   def comparators
-    Activity.during(video_upload.video.start_at,
-                    video_upload.video.end_at).map do |activity|
+    Setup.with_videos_during(segment_effort.start_at,
+                             segment_effort.end_at).map do |setup|
       Edit::Comparators::SegmentComparator.new(activity: activity,
-                                               setup: video_upload.setup)
+                                               setup: setup)
     end
+  end
+
+  def activity
+    segment_effort.activity
   end
 end

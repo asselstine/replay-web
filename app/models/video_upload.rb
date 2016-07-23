@@ -12,7 +12,9 @@ class VideoUpload < Upload
   private
 
   def check_video_start_at_changed
-    return unless video.start_at_changed?
-    Edit::CreateVideoDraftsFromUpload.call(video_upload: self)
+    return unless video.start_at_changed? &&
+                  video.start_at.present? &&
+                  video.end_at.present?
+    VideoSegmentEfforts.call(video_upload: self)
   end
 end

@@ -4,10 +4,12 @@ module Edit
       include Virtus.model
 
       attribute :selector, Edit::Selector
-      attribute :video_drafts, Array[VideoDraft], default: []
       attribute :video_drafting_strategy,
                 VideoDraftingStrategy,
                 default: VideoDraftingStrategies::ActivityVideoStrategy.new
+
+      # Output attribute
+      attribute :video_drafts, Array[VideoDraft], default: []
 
       def process(frame)
         comparator = selector.select(frame)

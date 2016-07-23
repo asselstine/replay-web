@@ -3,8 +3,11 @@ module Edit
     include Comparable
     include Virtus.model
 
+    # Input attributes
     attribute :setup, Setup
     attribute :activity, Activity
+
+    # Output attributes
     attribute :strength, BigDecimal
 
     def <=>(other)

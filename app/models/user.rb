@@ -32,6 +32,6 @@ class User < ActiveRecord::Base
   end
 
   def activity_at(time)
-    activities.during(time).first
+    activities.at(time).first
   end
 end

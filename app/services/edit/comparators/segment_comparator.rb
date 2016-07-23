@@ -1,6 +1,8 @@
 module Edit
   module Comparators
     class SegmentComparator < VideoComparator
+
+      # Output attribute
       attribute :segment_effort, SegmentEffort
 
       def compute_strength(frame)
@@ -15,7 +17,7 @@ module Edit
       protected
 
       def segment_effort_during_frame?(frame)
-        @segment_effort = activity.segment_efforts.during(frame.start_at).first
+        @segment_effort = activity.segment_efforts.at(frame.start_at).first
         @segment_effort.present?
       end
     end

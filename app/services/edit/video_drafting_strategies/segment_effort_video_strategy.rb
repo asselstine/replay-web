@@ -12,11 +12,12 @@ module Edit
       end
 
       def new_draft(frame, comparator)
-        VideoDraft.new(segment_effort: comparator.segment_effort,
+        VideoDraft.new(activity: comparator.activity,
+                       segment_effort: comparator.segment_effort,
                        setup: comparator.setup,
                        source_video: comparator.video,
-                       start_at: activity_video_start_at(frame, comparator),
-                       end_at: activity_video_end_at(frame, comparator),
+                       start_at: effort_video_start_at(frame, comparator),
+                       end_at: effort_video_end_at(frame, comparator),
                        name: comparator.segment_effort.name)
       end
 

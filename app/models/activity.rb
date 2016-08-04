@@ -64,7 +64,7 @@ class Activity < ActiveRecord::Base
   def coords_at(time)
     return unless valid_time?(time)
     if can_interpolate?
-      time_ms = relative_time_ms(time)
+      time_ms = relative_time_s(time)
       [lat_spline.eval(time_ms), long_spline.eval(time_ms)]
     else
       last_coords_at(time)
@@ -76,16 +76,16 @@ class Activity < ActiveRecord::Base
   end
 
   def valid_time?(time)
-    relative_time_ms(time) >= timestamps.first &&
-      relative_time_ms(time) <= timestamps.last
+    relative_time_s(time) >= timestamps.first &&
+      relative_time_s(time) <= timestamps.last
   end
 
   def cspline(values)
     self.class.cspline(spline_timestamps, values)
   end
 
-  def relative_time_ms(datetime)
-    ((datetime.to_f - start_at.to_f) * 1000).to_i
+  def relative_time_s(datetime)
+    datetime.to_f - start_at.to_f
   end
 
   def self.cspline(timestamps, values)

@@ -20,6 +20,7 @@ module.exports = React.createClass
     )
 
     <div className='drafts container'>
+      <h1>Drafts</h1>
       <div className='row'>
         {tiles}
       </div>

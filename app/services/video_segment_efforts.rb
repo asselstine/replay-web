@@ -8,32 +8,29 @@ class VideoSegmentEfforts
     ActiveRecord::Base.transaction do
       # gather all the activities during the video upload
       selectors.each do |selector|
-        Edit::VideoProcessor.call(
-          selector: selector,
-          video_drafting_strategy: strategy
+        Edit::FrameSeries.call(
+          processor: video_processor(selector),
+          start_at: video_upload.video.start_at,
+          end_at: video_upload.video.end_at
         )
       end
+      @video_processor.video_drafts.each(&:save)
     end
+  end
+
+  def video_processor(selector)
+    @video_processor ||= Edit::FrameProcessors::VideoProcessor.new(
+      video_drafting_strategy: strategy
+    )
+    @video_processor.selector = selector
+    @video_processor
   end
 
   def strategy
-    Edit::VideoDraftingStrategies::SegmentEffortVideoStrategy.new
+    @strategy ||= Edit::VideoDraftingStrategies::SegmentEffortVideoStrategy.new
   end
 
   def selectors
-    # A strange interface for a single comparator.  But it's consistent.
-    comparators.map do |comparator|
-      Edit::Selector.new(comparators: [comparator])
-    end
-  end
-
-  def comparators
-    Activity.during(video_upload.video.start_at,
-                    video_upload.video.end_at).map do |activity|
-      video_upload.setups.map do |setup|
-        Edit::Comparators::SegmentComparator.new(activity: activity,
-                                                 setup: setup)
-      end
-    end.flatten
+    VideoUploadSelectors.call(video_upload: video_upload)
   end
 end

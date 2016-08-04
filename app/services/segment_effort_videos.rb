@@ -5,15 +5,26 @@ class SegmentEffortVideos
   attribute :segment_effort, SegmentEffort
 
   def call
+    processor = video_processor
     ActiveRecord::Base.transaction do
       # gather all the activities during the video upload
       selectors.each do |selector|
-        Edit::VideoProcessor.call(
-          selector: selector,
-          video_drafting_strategy: strategy
+        processor.selector = selector
+        Edit::FrameSeries.call(
+          processor: processor,
+          start_at: segment_effort.start_at,
+          end_at: segment_effort.end_at
         )
       end
+      processor.video_drafts.each(&:save)
     end
+    processor.video_drafts
+  end
+
+  def video_processor
+    Edit::FrameProcessors::VideoProcessor.new(
+      video_drafting_strategy: strategy
+    )
   end
 
   def strategy
@@ -21,20 +32,6 @@ class SegmentEffortVideos
   end
 
   def selectors
-    comparators.map do |comparator|
-      Edit::Selector.new(comparators: [comparator])
-    end
-  end
-
-  def comparators
-    Setup.with_videos_during(segment_effort.start_at,
-                             segment_effort.end_at).map do |setup|
-      Edit::Comparators::SegmentComparator.new(activity: activity,
-                                               setup: setup)
-    end
-  end
-
-  def activity
-    segment_effort.activity
+    Edit::SegmentEffortSelectors.call(segment_effort: segment_effort)
   end
 end

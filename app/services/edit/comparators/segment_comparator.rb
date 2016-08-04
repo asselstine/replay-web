@@ -1,7 +1,6 @@
 module Edit
   module Comparators
     class SegmentComparator < VideoComparator
-
       # Output attribute
       attribute :segment_effort, SegmentEffort
 

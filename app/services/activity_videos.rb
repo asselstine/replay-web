@@ -6,10 +6,10 @@ class ActivityVideos
 
   def call
     ActiveRecord::Base.transaction do
-      Edit::VideoProcessor.call(selector: selector,
-                                start_at: activity.start_at,
-                                end_at: activity.end_at)
-                          .each(&:save!)
+      Edit::FrameProcessors::VideoProcessor.call(selector: selector,
+                                                 start_at: activity.start_at,
+                                                 end_at: activity.end_at)
+                                           .each(&:save!)
     end
   end
 

@@ -34,7 +34,7 @@ RSpec.describe VideoSegmentEfforts do
       .with(processor: video_processor,
             start_at: t(0),
             end_at: t(10))
-    expect(video_draft).to receive(:save)
+    expect(video_draft).to receive(:save!)
     subject.call
   end
 end

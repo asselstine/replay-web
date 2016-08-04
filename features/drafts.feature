@@ -15,6 +15,8 @@ Feature: Drafts
   Scenario: Video update triggers segment effort video
     Given I have a segment effort
     And there is a video upload
+    And there is a setup
+    And the video upload belongs to the setup
     And the video upload is updated with the effort timestamp
     When I browse drafts
     Then I can see the segment effort video

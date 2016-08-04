@@ -1,3 +1,7 @@
+Given %(the video upload belongs to the setup) do
+  @upload.setups << @setup
+end
+
 Given %(there is a setup) do
   @setup = create(:setup, user: @user)
 end
@@ -94,14 +98,14 @@ end
 
 When %(I update the video upload timestamp) do
   step %(I scrub to the slate and set the timestamp)
-  step %(I should see the adjusted start and end times)
+  # step %(I should see the adjusted start and end times)
   step %(I update the video)
 end
 
-Then %(I should see the adjusted start and end times) do
-  expect(page).to have_content('1984-06-30T20:12:11.980Z')
-  expect(page).to have_content('1984-06-30T20:12:12.087Z')
-end
+# Then %(I should see the adjusted start and end times) do
+#   expect(page).to have_content('1984-06-30T20:12:11.980Z')
+#   expect(page).to have_content('1984-06-30T20:12:12.087Z')
+# end
 
 When %(I update the video) do
   click_link 'Save'
@@ -148,8 +152,20 @@ def update_video_upload_timestamp(time)
     fill_in_video_draft_timestamp(time)
     find('.modal-content').click
   end
-  scrub_video_to_s(0.02)
-  expect(page).to have_content('20ms')
+  scrub_video_upload_s(time, 0.02)
+end
+
+def scrub_video_upload_s(time, seconds)
+  scrub_video_to_s(seconds)
+  expect(page).to have_content("#{(seconds * 1000).to_i}ms")
+  expect_scrub_offset(time, seconds)
+end
+
+def expect_scrub_offset(time, seconds)
+  expect(page).to have_content(stringtime(offset_time(time, -seconds)))
+  expect(page).to have_content(stringtime(offset_time(time, 0.107 - seconds)))
+  # expect(page).to have_content('1984-06-30T20:12:11.980Z')
+  # expect(page).to have_content('1984-06-30T20:12:12.087Z')
 end
 
 def fill_in_video_draft_timestamp(time)

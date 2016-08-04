@@ -21,6 +21,7 @@ class VideoSegmentEfforts
   end
 
   def selectors
+    # A strange interface for a single comparator.  But it's consistent.
     comparators.map do |comparator|
       Edit::Selector.new(comparators: [comparator])
     end
@@ -29,8 +30,10 @@ class VideoSegmentEfforts
   def comparators
     Activity.during(video_upload.video.start_at,
                     video_upload.video.end_at).map do |activity|
-      Edit::Comparators::SegmentComparator.new(activity: activity,
-                                               setup: video_upload.setup)
-    end
+      video_upload.setups.map do |setup|
+        Edit::Comparators::SegmentComparator.new(activity: activity,
+                                                 setup: setup)
+      end
+    end.flatten
   end
 end

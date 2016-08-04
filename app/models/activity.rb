@@ -12,7 +12,9 @@ class Activity < ActiveRecord::Base
   before_validation :clear_blank_latitudes_and_longitudes
   before_validation :default_timestamps_to_now
 
+  validate :set_start_at_and_end_at
   validate :time_series_lengths_match
+  validates :start_at, :end_at, presence: true
 
   scope :at, (lambda do |at|
     where('activities.start_at <= ?', at)
@@ -26,8 +28,6 @@ class Activity < ActiveRecord::Base
     where(query, start_at: start_at, end_at: end_at).order(start_at: :asc)
   end)
 
-  before_save :set_start_at_and_end_at
-
   def to_s
     <<-STRING
       Activity(#{id}) {
@@ -37,14 +37,6 @@ class Activity < ActiveRecord::Base
                     strava_start_at: #{strava_start_at}
                   }
     STRING
-  end
-
-  def start_at
-    super || strava_start_at.since(timestamps.first)
-  end
-
-  def end_at
-    super || strava_start_at.since(timestamps.last)
   end
 
   def default_timestamps_to_now
@@ -150,8 +142,8 @@ class Activity < ActiveRecord::Base
   end
 
   def set_start_at_and_end_at
-    return unless new_record? || timestamps_changed?
-    self.start_at = timestamps.first
-    self.end_at = timestamps.last
+    return unless new_record? || strava_start_at_changed? || timestamps_changed?
+    self.start_at ||= strava_start_at.since(timestamps.first)
+    self.end_at ||= strava_start_at.since(timestamps.last)
   end
 end

@@ -1,6 +1,7 @@
 module Edit
   module Comparators
     class VideoComparator < Edit::Comparator
+      # Output attribute
       attribute :video, Video
 
       def compute_strength(frame)

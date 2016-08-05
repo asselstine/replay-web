@@ -1,4 +1,4 @@
-class ScrubImageSerializer < ActiveModel::Serializer
+class ScrubImageSerializer < ApplicationSerializer
   attributes :url, :index
 
   def url

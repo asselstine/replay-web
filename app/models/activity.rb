@@ -12,9 +12,12 @@ class Activity < ActiveRecord::Base
   before_validation :clear_blank_latitudes_and_longitudes
   before_validation :default_timestamps_to_now
 
-  validate :set_start_at_and_end_at
+  after_validation :set_start_at_and_end_at
+  after_create :trigger_drafts
   validate :time_series_lengths_match
-  validates :start_at, :end_at, presence: true
+  validates :strava_start_at,
+            :timestamps,
+            presence: true
 
   scope :at, (lambda do |at|
     where('activities.start_at <= ?', at)
@@ -145,5 +148,10 @@ class Activity < ActiveRecord::Base
     return unless new_record? || strava_start_at_changed? || timestamps_changed?
     self.start_at ||= strava_start_at.since(timestamps.first)
     self.end_at ||= strava_start_at.since(timestamps.last)
+  end
+
+  def trigger_drafts
+    VideoDrafter.call(start_at: start_at, end_at: end_at, activities: [self])
+    PhotoDrafter.call(start_at: start_at, end_at: end_at, activities: [self])
   end
 end

@@ -15,6 +15,10 @@ When %(I go to settings) do
   click_link 'Settings'
 end
 
+Given %(a user exists) do
+  @user ||= create(:user)
+end
+
 Given %(I'm logged in) do
   @user ||= create(:user)
   visit new_user_session_path

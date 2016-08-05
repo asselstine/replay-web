@@ -26,7 +26,7 @@ RSpec.describe VideoSegmentEfforts do
     expect(Edit::FrameProcessors::VideoProcessor).to receive(:new)
       .with(video_drafting_strategy: an_instance_of(segment_effort_strategy))
       .and_return(video_processor)
-    expect(Edit::VideoUploadSelectors).to receive(:call)
+    expect(Edit::VideoUploadSegmentSelectors).to receive(:call)
       .with(video_upload: video_upload)
       .and_return([:selector])
     expect(video_processor).to receive(:selector=).with(:selector)

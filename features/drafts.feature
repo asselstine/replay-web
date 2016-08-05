@@ -3,7 +3,6 @@ Feature: Drafts
 
   Background:
     Given I'm logged in
-    And I have an activity
 
   Scenario: Browse video drafts
     Given I have a video draft
@@ -12,13 +11,21 @@ Feature: Drafts
     When I click on the video draft
     Then I should be able to play the video draft
 
-  Scenario: Video update triggers segment effort video
+  Scenario: Video upload triggers video drafting
     Given I have a segment effort
-    And there is a video upload
+    And I have a video upload
     And there is a setup
     And the video upload belongs to the setup
     And the video upload is updated with the effort timestamp
-    When I browse drafts
-    Then I can see the segment effort video
+    And I browse drafts
+    Then I can see a video draft
+    And I can see the segment effort
 
-#  Scenario: Segment effort update triggers segment effort video
+  Scenario: New segment effort triggers video drafting
+    Given I have a video upload
+    And there is a setup
+    And the video upload belongs to the setup
+    And the video upload has timestamps
+    When I have a new activity during the video upload near the setup
+    And I browse drafts
+    Then I can see a video draft

@@ -5,6 +5,8 @@ module Edit
 
       attribute :selector, Edit::Selector
 
+      attribute :drafts, Array[PhotoDraft], default: []
+
       def process(frame)
         comparator = selector.select(frame)
         return unless comparator

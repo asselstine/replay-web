@@ -5,17 +5,11 @@ module.exports = React.createClass
 
   propTypes:
     videoDraft: React.PropTypes.object.isRequired
-  #
-  # getInitialState: ->
-  #   videoDraftModalIsOpen: false
-  #
-  # openVideoDraftModal: ->
-  #   @setState(videoDraftModalIsOpen: true)
-  #
-  # closeVideoDraftModal: ->
-  #   @setState(videoDraftModalIsOpen: false)
 
   render: ->
+    segmentEfforts = @props.videoDraft.segment_efforts.map (segmentEffort) =>
+      <span key={segmentEffort.id}>{segmentEffort.name}</span>
+
     <div className='video-draft-tile'>
       <a href={Routes.draft_path(@props.videoDraft.id)} data-video-draft-id={@props.videoDraft.id}>
         <img className='tile__img'
@@ -23,5 +17,6 @@ module.exports = React.createClass
         <p>
           {@props.videoDraft.name}
         </p>
+        {segmentEfforts}
       </a>
     </div>

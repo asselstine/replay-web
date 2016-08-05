@@ -1,4 +1,4 @@
-class ActivitySerializer < BaseSerializer
+class ActivitySerializer < ApplicationSerializer
   attributes :strava_name, :strava_start_at, :start_at, :end_at, :start_at_f
   attributes :latitudes, :longitudes, :timestamps_f, :cspline_latlngs, :colour
 

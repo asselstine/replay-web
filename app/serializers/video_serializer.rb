@@ -1,4 +1,4 @@
-class VideoSerializer < BaseSerializer
+class VideoSerializer < ModelSerializer
   attributes :start_at,
              :end_at,
              :duration,

@@ -1,3 +1,5 @@
+# Turns out SegmentEffortVideoStrategy was not needed- drafts are simply about
+# portions of video uploads that are good candidates for the user's feed.
 module Edit
   module VideoDraftingStrategies
     class SegmentEffortVideoStrategy < VideoDraftingStrategy

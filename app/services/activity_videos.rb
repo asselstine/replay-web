@@ -1,5 +1,4 @@
-# rubocop:disable Style/ClassAndModuleChildren
-class Edit::ActivityVideoProcessor
+class ActivityVideos
   include Virtus.model
   include Service
 
@@ -7,10 +6,10 @@ class Edit::ActivityVideoProcessor
 
   def call
     ActiveRecord::Base.transaction do
-      Edit::VideoProcessor.call(selector: selector,
-                                start_at: activity.start_at,
-                                end_at: activity.end_at)
-                          .each(&:save!)
+      Edit::FrameProcessors::VideoProcessor.call(selector: selector,
+                                                 start_at: activity.start_at,
+                                                 end_at: activity.end_at)
+                                           .each(&:save!)
     end
   end
 

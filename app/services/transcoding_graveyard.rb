@@ -4,7 +4,7 @@ class TranscodingGraveyard
   # STATUS_CANCELED     = 'Canceled'.freeze
   # STATUS_ERROR        = 'Error'.freeze
   # STATUS_COMPLETE     = 'Complete'.freeze
-  # COMPLETE_STATUS     = [STATUS_COMPLETE, STATUS_ERROR, STATUS_CANCELED].freeze
+  # COMPLETE_STATUS = [STATUS_COMPLETE, STATUS_ERROR, STATUS_CANCELED].freeze
   #
   # scope :incomplete, -> { where.not(status: COMPLETE_STATUS) }
   #
@@ -31,7 +31,7 @@ class TranscodingGraveyard
   # def output_key
   #   "edits/#{id}/output.mp4"
   # end
-  # 
+  #
   # def extract_response_attributes(data)
   #   {
   #     status: data[:job][:output][:status],

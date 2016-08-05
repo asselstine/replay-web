@@ -1,5 +1,6 @@
 require 'gsl'
 
+# rubocop:disable Metrics/ClassLength
 class Activity < ActiveRecord::Base
   include ColourFromId
 
@@ -11,9 +12,21 @@ class Activity < ActiveRecord::Base
   before_validation :clear_blank_latitudes_and_longitudes
   before_validation :default_timestamps_to_now
 
+  validate :set_start_at_and_end_at
   validate :time_series_lengths_match
+  validates :start_at, :end_at, presence: true
 
-  before_save :set_start_at_and_end_at
+  scope :at, (lambda do |at|
+    where('activities.start_at <= ?', at)
+      .where('activities.end_at >= ?', at)
+  end)
+
+  scope :during, (lambda do |start_at, end_at|
+    query = <<-SQL
+      (activities.start_at, activities.end_at) OVERLAPS (:start_at, :end_at)
+    SQL
+    where(query, start_at: start_at, end_at: end_at).order(start_at: :asc)
+  end)
 
   def to_s
     <<-STRING
@@ -26,17 +39,10 @@ class Activity < ActiveRecord::Base
     STRING
   end
 
-  def start_at
-    super || timestamps.first
-  end
-
-  def end_at
-    super || timestamps.last
-  end
-
   def default_timestamps_to_now
     if timestamps.empty? && latitudes.length == 1
-      self.timestamps = [DateTime.now.utc]
+      self.start_at = Time.zone.now
+      self.timestamps = [0]
     end
   end
 
@@ -46,15 +52,19 @@ class Activity < ActiveRecord::Base
   end
 
   def timeseries_index_at(time)
+    timeseries_index_at_s(time.to_f - start_at.to_f)
+  end
+
+  def timeseries_index_at_s(seconds)
     timestamps.bsearch_index do |timestamp|
-      timestamp >= time
+      timestamp >= seconds
     end
   end
 
   def coords_at(time)
     return unless valid_time?(time)
     if can_interpolate?
-      time_ms = self.class.to_time_ms(time)
+      time_ms = relative_time_s(time)
       [lat_spline.eval(time_ms), long_spline.eval(time_ms)]
     else
       last_coords_at(time)
@@ -66,16 +76,16 @@ class Activity < ActiveRecord::Base
   end
 
   def valid_time?(time)
-    time >= timestamps.first &&
-      time <= timestamps.last
+    relative_time_s(time) >= timestamps.first &&
+      relative_time_s(time) <= timestamps.last
   end
 
   def cspline(values)
     self.class.cspline(spline_timestamps, values)
   end
 
-  def self.to_time_ms(datetime)
-    (datetime.to_f * 1000).to_i
+  def relative_time_s(datetime)
+    datetime.to_f - start_at.to_f
   end
 
   def self.cspline(timestamps, values)
@@ -85,11 +95,6 @@ class Activity < ActiveRecord::Base
     spline.init(timestamps_v, values_v)
     spline
   end
-
-  scope :during, (lambda do |at|
-    where('activities.start_at <= ?', at)
-      .where('activities.end_at >= ?', at)
-  end)
 
   def cspline_latlngs
     return [] if timestamps.empty?
@@ -137,8 +142,8 @@ class Activity < ActiveRecord::Base
   end
 
   def set_start_at_and_end_at
-    return unless new_record? || timestamps_changed?
-    self.start_at = timestamps.first
-    self.end_at = timestamps.last
+    return unless new_record? || strava_start_at_changed? || timestamps_changed?
+    self.start_at ||= strava_start_at.since(timestamps.first)
+    self.end_at ||= strava_start_at.since(timestamps.last)
   end
 end

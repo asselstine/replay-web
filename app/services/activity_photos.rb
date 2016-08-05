@@ -1,5 +1,4 @@
-# rubocop:disable Style/ClassAndModuleChildren
-class Edit::ActivityPhotoProcessor
+class ActivityPhotos
   include Virtus.model
   include Service
 

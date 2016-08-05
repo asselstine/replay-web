@@ -1,6 +1,6 @@
 module RelativeTime
-  @@time = Time.now.change(usec: 0).to_datetime
   def t(seconds)
-    @@time.since(seconds)
+    @time ||= Time.zone.now.change(usec: 0).to_datetime
+    @time.since(seconds)
   end
 end

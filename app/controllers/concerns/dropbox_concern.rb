@@ -7,11 +7,11 @@ module DropboxConcern
   included do
     def metadata(path = '/')
       metadata = client.metadata(path)
-      OpenStruct.new( metadata )
+      OpenStruct.new(metadata)
     end
 
     def client
-      @client ||= DropboxClient.new( current_user.access_token )
+      @client ||= DropboxClient.new(current_user.access_token)
     end
   end
 end

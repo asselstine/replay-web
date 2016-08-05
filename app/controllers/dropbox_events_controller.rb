@@ -1,5 +1,4 @@
 class DropboxEventsController < ApplicationController
-
   load_and_authorize_resource
 
   include DropboxConcern
@@ -9,11 +8,14 @@ class DropboxEventsController < ApplicationController
   end
 
   def create
-    @dropbox_event = DropboxEvent.create( create_params.merge('user' => current_user) )
+    @dropbox_event = DropboxEvent.create(
+      create_params.merge('user' => current_user)
+    )
     if @dropbox_event.persisted?
       redirect_to @dropbox_event
     else
-      flash[:error] = "We were unable to create the Dropbox: #{@dropbox_event.errors.full_messages}"
+      flash[:error] =
+        "Unable to create Dropbox: #{@dropbox_event.errors.full_messages}"
       redirect_to :back
     end
   end
@@ -27,5 +29,4 @@ class DropboxEventsController < ApplicationController
   def create_params
     params.require(:dropbox_event).permit(:path)
   end
-
 end

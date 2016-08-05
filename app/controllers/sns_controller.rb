@@ -1,7 +1,9 @@
 class SnsController < ApplicationController
-
   skip_before_filter :verify_authenticity_token
 
+  # rubocop:disable Metrics/MethodLength
+  # rubocop:disable Metrics/LineLength
+  # rubocop:disable Metrics/AbcSize
   def message
     body = request.body.read
     if Aws::SNS::MessageVerifier.new.authentic?(body)

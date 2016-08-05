@@ -6,6 +6,7 @@ Given %(I've been somewhere) do
                      longitudes: Array.new(10) { |i| i / 100.0 })
 end
 
+# rubocop:disable Lint/Debugger
 When %(pry) do
   binding.pry
 end

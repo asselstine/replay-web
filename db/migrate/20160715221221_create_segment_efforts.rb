@@ -4,6 +4,7 @@ class CreateSegmentEfforts < ActiveRecord::Migration
       t.integer :strava_segment_effort_id, null: false, unique: true, limit: 8
       t.string :name, null: false
       t.datetime :start_at, null: false
+      t.datetime :end_at, null: false
       t.integer :elapsed_time, null: false, limit: 8
       t.integer :moving_time, null: false, limit: 8
       t.integer :start_index, null: false, limit: 8

@@ -1,14 +1,14 @@
 require 'rails_helper'
 
-RSpec.describe Edit::VideoComparator do
+RSpec.describe Edit::Comparators::VideoComparator do
   let(:setup) { double(range_m: 7) }
   let(:activity) { double }
   let(:strength) { nil }
 
   subject do
-    Edit::VideoComparator.new(setup: setup,
-                              activity: activity,
-                              strength: strength)
+    Edit::Comparators::VideoComparator.new(setup: setup,
+                                           activity: activity,
+                                           strength: strength)
   end
 
   describe '#<=>' do
@@ -59,6 +59,6 @@ RSpec.describe Edit::VideoComparator do
   end
 
   def new_strength(strength)
-    Edit::VideoComparator.new(strength: strength)
+    Edit::Comparators::VideoComparator.new(strength: strength)
   end
 end

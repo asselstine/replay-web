@@ -24,3 +24,25 @@ Then %(I should be able to play the video draft) do
     expect(page).to have_css('video')
   end
 end
+
+Given %(I have a segment effort) do
+  @segment_effort = create(:segment_effort,
+                           activity: @activity)
+end
+
+Given %(the video upload is updated with the effort timestamp) do
+  update_video_upload_timestamp(@segment_effort.start_at)
+  step %(I update the video)
+end
+
+Then %(I can see the segment effort video) do
+  expect(page).to have_content(@segment_effort.name)
+end
+
+def stringtime(time)
+  time.strftime('%Y-%m-%dT%T.%L') # '06-30-1984T12:12:12.004'
+end
+
+def offset_time(time, offset)
+  Time.zone.at(time.to_f + offset)
+end

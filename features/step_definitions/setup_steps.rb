@@ -79,6 +79,12 @@ end
 Then %(the setup should have a video) do
   expect(@setup.videos).to_not be_empty
 end
+
+Given %(I have a strava setup) do
+  @strava_account ||= create(:strava_account, user: @user)
+  @user.reload
+  @setup ||= create(:setup, location: :strava, user: @user)
+end
 #
 # Then %(the setup location timestamp should eq the session start) do
 #   expect(Setup.last.time_series_data.timestamps.first)

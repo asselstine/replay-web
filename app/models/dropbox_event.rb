@@ -7,5 +7,4 @@ class DropboxEvent < ActiveRecord::Base
   def synchronize
     DropboxSync.new.synchronize(self)
   end
-
 end

@@ -3,9 +3,9 @@
 class Setup < ActiveRecord::Base
   has_many :setup_uploads
   has_many :video_uploads,
-           through: :setup_uploads, source: :upload, class_name: VideoUpload
+           through: :setup_uploads, source: :upload, class_name: 'VideoUpload'
   has_many :photo_uploads,
-           through: :setup_uploads, source: :upload, class_name: PhotoUpload
+           through: :setup_uploads, source: :upload, class_name: 'PhotoUpload'
   has_many :videos, through: :video_uploads
   has_many :photos, through: :photo_uploads
 

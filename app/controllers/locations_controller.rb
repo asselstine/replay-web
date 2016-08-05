@@ -1,5 +1,4 @@
 class LocationsController < ApplicationController
-
   load_and_authorize_resource
 
   def index
@@ -9,5 +8,4 @@ class LocationsController < ApplicationController
   def clear
     Location.destroy_all
   end
-
 end

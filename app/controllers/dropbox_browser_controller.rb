@@ -5,18 +5,13 @@ class DropboxBrowserController < ApplicationController
 
   def index
     path = params[:path] || '/'
-    @metadata ||= metadata( path )
-    @dropbox_event = dropbox_event( path )
+    @metadata ||= metadata(path)
+    @dropbox_event = dropbox_event(path)
   end
 
   protected
 
   def dropbox_event(path)
-    if path.present?
-      DropboxEvent.find_by_path(path)
-    else
-      nil
-    end
+    DropboxEvent.find_by_path(path) if path.present?
   end
-
 end

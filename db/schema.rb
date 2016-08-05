@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160715221221) do
+ActiveRecord::Schema.define(version: 20160723000002) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,12 +23,12 @@ ActiveRecord::Schema.define(version: 20160715221221) do
     t.string   "strava_activity_id"
     t.string   "strava_name"
     t.datetime "strava_start_at"
-    t.datetime "timestamps",         default: [],              array: true
     t.decimal  "latitudes",          default: [],              array: true
     t.decimal  "longitudes",         default: [],              array: true
     t.datetime "start_at"
     t.datetime "end_at"
     t.decimal  "velocities",         default: [],              array: true
+    t.integer  "timestamps",         default: [],              array: true
   end
 
   create_table "draft_photos", force: :cascade do |t|
@@ -41,13 +41,14 @@ ActiveRecord::Schema.define(version: 20160715221221) do
     t.integer  "activity_id"
     t.datetime "start_at"
     t.datetime "end_at"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
     t.integer  "video_id"
     t.string   "type"
     t.integer  "photo_id"
     t.integer  "source_video_id"
     t.string   "name"
+    t.integer  "segment_effort_id"
   end
 
   create_table "dropbox_events", force: :cascade do |t|
@@ -95,6 +96,7 @@ ActiveRecord::Schema.define(version: 20160715221221) do
     t.integer  "strava_segment_effort_id", limit: 8, null: false
     t.string   "name",                               null: false
     t.datetime "start_at",                           null: false
+    t.datetime "end_at",                             null: false
     t.integer  "elapsed_time",             limit: 8, null: false
     t.integer  "moving_time",              limit: 8, null: false
     t.integer  "start_index",              limit: 8, null: false

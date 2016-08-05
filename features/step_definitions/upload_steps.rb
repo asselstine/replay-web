@@ -1,7 +1,8 @@
 Given %(the video upload has timestamps) do
+  now = Time.zone.now.change(usec: 0).to_datetime
   @upload.video.update(
-    start_at: t(0),
-    end_at: t(10)
+    start_at: now,
+    end_at: now.since(10)
   )
 end
 

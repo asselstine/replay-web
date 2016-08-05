@@ -80,7 +80,6 @@ Cucumber::Rails::Database.javascript_strategy = :truncation
 include FactoryGirl::Syntax::Methods
 
 include ActiveJob::TestHelper
-include RelativeTime
 
 Around('@queue') do |_, block|
   before_setup

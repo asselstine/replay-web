@@ -22,12 +22,6 @@ Then %(I should be able to play the video draft) do
   end
 end
 
-Given %(I have a segment effort) do
-  step %(I have an activity)
-  @segment_effort ||= create(:segment_effort,
-                             activity: @activity)
-end
-
 Given %(the video upload is updated with the effort timestamp) do
   update_video_upload_timestamp(@segment_effort.start_at)
   step %(I update the video)

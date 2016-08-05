@@ -19,7 +19,7 @@ Given %(a user exists) do
   @user ||= create(:user)
 end
 
-Given %(I'm logged in) do
+Given %(I log in) do
   @user ||= create(:user)
   visit new_user_session_path
   fill_in :user_email, with: @user.email

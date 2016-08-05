@@ -13,7 +13,6 @@ class Activity < ActiveRecord::Base
   before_validation :default_timestamps_to_now
 
   after_validation :set_start_at_and_end_at
-  after_create :trigger_drafts
   validate :time_series_lengths_match
   validates :strava_start_at,
             :timestamps,
@@ -148,10 +147,5 @@ class Activity < ActiveRecord::Base
     return unless new_record? || strava_start_at_changed? || timestamps_changed?
     self.start_at ||= strava_start_at.since(timestamps.first)
     self.end_at ||= strava_start_at.since(timestamps.last)
-  end
-
-  def trigger_drafts
-    VideoDrafter.call(start_at: start_at, end_at: end_at, activities: [self])
-    PhotoDrafter.call(start_at: start_at, end_at: end_at, activities: [self])
   end
 end

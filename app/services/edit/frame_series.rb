@@ -10,13 +10,19 @@ module Edit
     attribute :processor, FrameProcessor
 
     def call
-      @frame = Edit::Frame.new(start_at: start_at,
-                               end_at: start_at + frame_size)
+      @frame = initial_frame
       while @frame.start_at < end_at
         frame_end_at = processor.process(@frame)
         @frame.start_at = frame_end_at || @frame.end_at
         @frame.end_at = [@frame.start_at + frame_size, end_at].min
       end
+    end
+
+    private
+
+    def initial_frame
+      Edit::Frame.new(start_at: start_at,
+                      end_at: start_at + frame_size)
     end
   end
 end

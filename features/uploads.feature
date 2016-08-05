@@ -2,7 +2,7 @@
 Feature: Upload videos
 
   Background:
-    Given I'm logged in
+    Given I log in
 
   Scenario: Upload a video
     Given there is a setup

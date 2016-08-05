@@ -3,13 +3,23 @@ Given %(I have an activity) do
   @activity ||= create(:activity, user: @user)
 end
 
-When %(I have a new activity during the video upload near the setup) do
+Given %(I have a segment effort) do
+  step %(I have an activity)
+  @segment_effort ||= create(:segment_effort,
+                             activity: @activity)
+end
+
+When %(I have an activity matching the video upload) do
   step %(a user exists)
   step %(I have a video upload)
-  @activity = create(:activity,
-                     strava_start_at: @upload.video.start_at,
-                     timestamps: Array.new(10) { |n| n },
-                     latitudes: Array.new(10) { @upload.setups.first.latitude },
-                     longitudes: Array.new(10) { @upload.setups.first.longitude },
-                     user: @user)
+  @activity ||= create(:activity,
+                       strava_start_at: @upload.video.start_at,
+                       timestamps: Array.new(10) { |n| n },
+                       latitudes: Array.new(10) do
+                         @upload.setups.first.latitude
+                       end,
+                       longitudes: Array.new(10) do
+                         @upload.setups.first.longitude
+                       end,
+                       user: @user)
 end

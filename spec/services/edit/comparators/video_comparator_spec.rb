@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 RSpec.describe Edit::Comparators::VideoComparator do
   let(:setup) { double(range_m: 7) }

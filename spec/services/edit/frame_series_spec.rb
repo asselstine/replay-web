@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 RSpec.describe Edit::FrameSeries do
   let(:processor) { double }

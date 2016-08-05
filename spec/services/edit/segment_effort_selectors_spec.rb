@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 RSpec.describe Edit::SegmentEffortSelectors do
   let(:start_at) { t(0) }

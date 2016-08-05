@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 RSpec.describe Edit::FrameProcessors::VideoProcessor do
   let(:selector) { Edit::Selector.new }

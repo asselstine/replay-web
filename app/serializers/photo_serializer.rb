@@ -1,4 +1,4 @@
-class PhotoSerializer < BaseSerializer
+class PhotoSerializer < ModelSerializer
   attributes :timestamp, :filename, :url, :thumb_url, :small_url
 
   def url

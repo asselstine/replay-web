@@ -12,6 +12,7 @@ class User < ActiveRecord::Base
   has_many :video_uploads
   has_many :photo_uploads
   has_many :activities, dependent: :destroy
+  has_many :segment_efforts, through: :activities
   has_many :drafts, through: :activities
   has_many :time_series_data, through: :activities
   has_many :recording_sessions, dependent: :destroy

@@ -1,5 +1,5 @@
 module Edit
-  class VideoUploadSelectors
+  class VideoUploadActivitySelectors
     include Virtus.model
     include Service
 
@@ -16,8 +16,8 @@ module Edit
       Activity.during(video_upload.video.start_at,
                       video_upload.video.end_at).map do |activity|
         video_upload.setups.map do |setup|
-          Edit::Comparators::SegmentComparator.new(activity: activity,
-                                                   setup: setup)
+          Edit::Comparators::VideoComparator.new(activity: activity,
+                                                 setup: setup)
         end
       end.flatten
     end

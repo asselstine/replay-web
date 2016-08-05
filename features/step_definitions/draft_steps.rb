@@ -1,8 +1,5 @@
-Given %(I have an activity) do
-  @activity = create(:activity, user: @user)
-end
-
 Given %(I have a video draft) do
+  step %(I have an activity)
   @video_draft = create(:video_draft, activity: @activity)
 end
 
@@ -25,18 +22,22 @@ Then %(I should be able to play the video draft) do
   end
 end
 
-Given %(I have a segment effort) do
-  @segment_effort = create(:segment_effort,
-                           activity: @activity)
-end
-
 Given %(the video upload is updated with the effort timestamp) do
   update_video_upload_timestamp(@segment_effort.start_at)
   step %(I update the video)
 end
 
-Then %(I can see the segment effort video) do
+Then %(I can see the video draft) do
+  expect(page).to have_content(@video_draft.name)
+end
+
+Then %(I can see the segment effort) do
   expect(page).to have_content(@segment_effort.name)
+end
+
+Then %(I can see a video draft) do
+  expect(VideoDraft.count).to be > 0
+  expect(page).to have_content(VideoDraft.last.name)
 end
 
 def stringtime(time)

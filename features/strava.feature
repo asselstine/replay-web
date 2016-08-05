@@ -1,7 +1,7 @@
 Feature: Connect to Strava
 
   Background:
-    Given I'm logged in
+    Given I log in
 
   @queue
   Scenario: Add Strava account

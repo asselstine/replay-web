@@ -2,7 +2,7 @@
 Feature: Manage setups
 
   Background:
-    Given I'm logged in
+    Given I log in
 
   Scenario: Create a new setup
     When I create a new setup

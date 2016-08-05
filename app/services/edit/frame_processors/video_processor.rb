@@ -6,7 +6,7 @@ module Edit
       attribute :selector, Edit::Selector
       attribute :video_drafting_strategy,
                 VideoDraftingStrategy,
-                default: VideoDraftingStrategies::ActivityVideoStrategy.new
+                default: ActivityVideoStrategy.new
 
       # Output attribute
       attribute :video_drafts, Array[VideoDraft], default: []

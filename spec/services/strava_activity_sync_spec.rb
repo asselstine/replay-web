@@ -58,13 +58,14 @@ describe StravaActivitySync do
         segment_effort = activity.segment_efforts.first
         expect(segment_effort.name).to eq('Dash for the Ferry')
         expect(segment_effort.start_at).to_not be_nil
+        expect(segment_effort.start_at).to eq(activity.strava_start_at)
         expect(segment_effort.end_at).to eq(
-          segment_effort.start_at + 304.seconds
+          activity.strava_start_at + 3.seconds
         )
         expect(segment_effort.elapsed_time).to eq(304)
         expect(segment_effort.moving_time).to eq(304)
-        expect(segment_effort.start_index).to eq(5348)
-        expect(segment_effort.end_index).to eq(6485)
+        expect(segment_effort.start_index).to eq(0)
+        expect(segment_effort.end_index).to eq(3)
         expect(segment_effort.kom_rank).to eq(2)
         expect(segment_effort.pr_rank).to eq(1)
 

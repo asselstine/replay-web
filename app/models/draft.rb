@@ -26,6 +26,10 @@ class Draft < ActiveRecord::Base
     timeseries(activity.timestamps)
   end
 
+  def segment_efforts
+    @segment_efforts ||= user.segment_efforts.during(start_at, end_at)
+  end
+
   private
 
   def timeseries(array)

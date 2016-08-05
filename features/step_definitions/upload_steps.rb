@@ -1,3 +1,11 @@
+Given %(the video upload has timestamps) do
+  now = Time.zone.now.change(usec: 0).to_datetime
+  @upload.video.update(
+    start_at: now,
+    end_at: now.since(10)
+  )
+end
+
 Given %(the video upload belongs to the setup) do
   @upload.setups << @setup
 end
@@ -84,12 +92,13 @@ Then %(the upload should include the setup) do
   expect(@upload.setups).to include(@setup)
 end
 
-Given %(there is a video upload) do
+Given %(I have a video upload) do
+  step %(a user exists)
   file = Rails.root.join('spec/fixtures/dan_session1-frame.mp4')
-  @upload = create(:video_upload,
-                   user: @user,
-                   video: create(:video,
-                                 file: File.open(file)))
+  @upload ||= create(:video_upload,
+                     user: @user,
+                     video: create(:video,
+                                   file: File.open(file)))
 end
 
 When %(I scrub to the slate and set the timestamp) do

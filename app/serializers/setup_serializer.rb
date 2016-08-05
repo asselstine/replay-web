@@ -1,4 +1,4 @@
-class SetupSerializer < BaseSerializer
+class SetupSerializer < ModelSerializer
   attributes :range_m,
              :name,
              :latitude,

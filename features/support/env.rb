@@ -6,6 +6,8 @@ require_relative '../../lib/simplecov/config.rb'
 # instead of editing this one. Cucumber will automatically load all
 # features/**/*.rb files.
 
+require_relative '../../spec/support/relative_time'
+
 require 'cucumber/rails'
 require 'capybara/rails'
 require 'capybara/poltergeist'

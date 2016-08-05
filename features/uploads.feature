@@ -2,7 +2,7 @@
 Feature: Upload videos
 
   Background:
-    Given I'm logged in
+    Given I log in
 
   Scenario: Upload a video
     Given there is a setup
@@ -14,7 +14,7 @@ Feature: Upload videos
     And the upload should include the setup
 
   Scenario: Set the timestamps for a video
-    Given there is a video upload
+    Given I have a video upload
     When I update the video upload timestamp
     Then the video should have correct start and end times
     And the video should have the correct duration

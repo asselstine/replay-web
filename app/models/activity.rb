@@ -12,9 +12,11 @@ class Activity < ActiveRecord::Base
   before_validation :clear_blank_latitudes_and_longitudes
   before_validation :default_timestamps_to_now
 
-  validate :set_start_at_and_end_at
+  after_validation :set_start_at_and_end_at
   validate :time_series_lengths_match
-  validates :start_at, :end_at, presence: true
+  validates :strava_start_at,
+            :timestamps,
+            presence: true
 
   scope :at, (lambda do |at|
     where('activities.start_at <= ?', at)
@@ -105,6 +107,11 @@ class Activity < ActiveRecord::Base
       result << coords_at(now)
     end
     result
+  end
+
+  def valid_index?(index)
+    return false unless index
+    index >= 0 && index < (timestamps&.length || 0)
   end
 
   protected

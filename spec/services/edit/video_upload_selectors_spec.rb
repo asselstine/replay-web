@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Edit::VideoUploadSelectors do
+RSpec.describe Edit::VideoUploadSegmentSelectors do
   let(:start_at) { t(0) }
   let(:end_at) { t(10) }
   let(:video) do
@@ -13,7 +13,7 @@ RSpec.describe Edit::VideoUploadSelectors do
   end
 
   subject do
-    Edit::VideoUploadSelectors.new(video_upload: video_upload)
+    Edit::VideoUploadSegmentSelectors.new(video_upload: video_upload)
   end
 
   it 'should find the Setups, create comparators for each' do

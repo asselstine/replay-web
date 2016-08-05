@@ -18,9 +18,9 @@ class StravaActivitySync
     debug('Starting Data sync...')
     ActiveRecord::Base.transaction do
       loop do
-        activities = client.list_athlete_activities(params)
-        find_or_create_activities(activities)
-        break if activities.count < PAGE_SIZE
+        strava_activities = client.list_athlete_activities(params)
+        find_or_create_activities(strava_activities)
+        break if strava_activities.count < PAGE_SIZE
       end
     end
   end
@@ -95,18 +95,13 @@ class StravaActivitySync
     effort
   end
 
-  # rubocop:disable Metrics/MethodLength
   def create_segment_effort(activity, strava_segment_effort)
     segment = find_or_create_segment(
       strava_segment_effort['segment']
     )
-    end_at = DateTime.parse(strava_segment_effort['start_date']) +
-             strava_segment_effort['elapsed_time'].seconds
     SegmentEffort.create(
       strava_segment_effort_id: strava_segment_effort['id'],
       name: strava_segment_effort['name'],
-      start_at: strava_segment_effort['start_date'],
-      end_at: end_at,
       elapsed_time: strava_segment_effort['elapsed_time'],
       moving_time: strava_segment_effort['moving_time'],
       start_index: strava_segment_effort['start_index'],

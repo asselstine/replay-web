@@ -24,12 +24,12 @@ class SegmentEffort < ActiveRecord::Base
   end
 
   def start_index_time
-    return unless start_index
+    return unless activity.valid_index? start_index
     activity.start_at + activity.timestamps[start_index].seconds
   end
 
   def end_index_time
-    return unless end_index
+    return unless activity.valid_index? end_index
     activity.start_at + activity.timestamps[end_index].seconds
   end
 end

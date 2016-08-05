@@ -109,6 +109,11 @@ class Activity < ActiveRecord::Base
     result
   end
 
+  def valid_index?(index)
+    return false unless index
+    index >= 0 && index < (timestamps&.length || 0)
+  end
+
   protected
 
   def last_coords_at(time)

@@ -5,12 +5,20 @@ class Synchronize
   attribute :user, User
 
   def call
-    StravaActivitySync.call(user: user) if user.strava_account
+    sync_strava if user.strava_account
     draft_videos
     draft_photos
   end
 
   private
+
+  def sync_strava
+    start_at = VideoUpload.oldest_by_video_start_at.first.video.start_at
+    end_at = VideoUpload.newest_by_video_end_at.first.video.end_at
+    StravaActivitySync.call(user: user,
+                            start_at: start_at,
+                            end_at: end_at)
+  end
 
   def draft_videos
     VideoDrafter.call(start_at: start_at,

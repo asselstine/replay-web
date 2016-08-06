@@ -140,6 +140,7 @@ class StravaActivitySync
   end
 
   def client
+    return unless user.strava_account
     user.strava_account.client
   end
 

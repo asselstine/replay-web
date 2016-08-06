@@ -46,8 +46,12 @@ class VideoDrafter
       setups.map do |setup|
         Edit::Selector.new(
           comparators: [
-            Edit::Comparators::VideoComparator.new(setup: setup,
-                                                   activity: activity)
+            Edit::Comparators::VideoComparator.new(
+              setup: setup,
+              activity: activity,
+              cache_start_at: activity.start_at,
+              cache_end_at: activity.end_at
+            )
           ]
         )
       end

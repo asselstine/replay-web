@@ -28,12 +28,12 @@ class Setup < ActiveRecord::Base
     joins(:photos).merge(Photo.during(start_at, end_at))
   end
 
-  def videos_during(frame)
-    videos.during(frame.start_at, frame.end_at)
+  def videos_during(start_at, end_at)
+    videos.during(start_at, end_at)
   end
 
-  def photos_during(frame)
-    photos.during(frame.start_at, frame.end_at)
+  def photos_during(start_at, end_at)
+    photos.during(start_at, end_at)
   end
 
   def coords

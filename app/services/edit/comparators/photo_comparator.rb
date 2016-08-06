@@ -13,7 +13,7 @@ module Edit
     protected
 
     def photos_during?(frame)
-      @photos = setup.photos_during(frame)
+      @photos = setup.photos_during(frame.start_at, frame.end_at)
       @photos.any?
     end
   end

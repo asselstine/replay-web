@@ -15,8 +15,25 @@ module Edit
       protected
 
       def video_during_frame?(frame)
-        @video = setup.videos_during(frame).first
+        @video = if cache_start_at && cache_end_at
+                   cached_video_during_frame(frame)
+                 else
+                   first_video(frame)
+                 end
         @video.present?
+      end
+
+      def first_video(frame)
+        setup.videos_during(frame.start_at, frame.end_at).first
+      end
+
+      def cached_video_during_frame(frame)
+        @videos ||= setup.videos_during(cache_start_at, cache_end_at)
+                         .order(start_at: :asc).to_a
+        @videos.bsearch do |video|
+          video.start_at <= frame.end_at &&
+            video.end_at > frame.start_at
+        end
       end
     end
   end

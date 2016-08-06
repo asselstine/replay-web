@@ -13,28 +13,41 @@ class Synchronize
   private
 
   def sync_strava
-    start_at = VideoUpload.oldest_by_video_start_at.first.video.start_at
-    end_at = VideoUpload.newest_by_video_end_at.first.video.end_at
     StravaActivitySync.call(user: user,
-                            start_at: start_at,
-                            end_at: end_at)
+                            start_at: video_start_at,
+                            end_at: video_end_at)
   end
 
   def draft_videos
-    VideoDrafter.call(start_at: start_at,
-                      end_at: now,
+    VideoDrafter.call(start_at: activity_start_at,
+                      end_at: activity_end_at,
                       activities: user.activities)
   end
 
   def draft_photos
-    PhotoDrafter.call(start_at: start_at,
-                      end_at: now,
+    PhotoDrafter.call(start_at: activity_start_at,
+                      end_at: activity_end_at,
                       activities: user.activities)
   end
 
-  def start_at
+  def video_start_at
+    first_video = VideoUpload.oldest_by_video_start_at&.first&.video
+    @video_start_at ||= (first_video&.start_at || now).ago(4.hours)
+  end
+
+  def video_end_at
+    last_video = VideoUpload.newest_by_video_end_at&.first&.video
+    @video_end_at ||= (last_video&.end_at || now).since(4.hours)
+  end
+
+  def activity_start_at
     first_activity = user.activities.order(strava_start_at: :asc).first
-    @start_at ||= first_activity&.strava_start_at || now
+    @activity_start_at ||= first_activity&.strava_start_at || now
+  end
+
+  def activity_end_at
+    last_activity = user.activities.order(end_at: :desc).first
+    @activity_end_at ||= last_activity&.end_at || now
   end
 
   def now

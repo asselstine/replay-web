@@ -131,7 +131,7 @@ Then %(the video should have correct start and end times) do
 end
 
 Then %(the video should have the correct duration) do
-  expect(@upload.video.duration_ms).to eq(107)
+  expect(@upload.video.duration).to eq(0.107)
 end
 
 Given %(there is a photo upload) do

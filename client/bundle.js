@@ -13,3 +13,5 @@ require('expose?ViewSetup!./components/view-setup')
 require('expose?UploadEditor!./components/upload-editor')
 require('expose?VideoDraft!./components/video-draft')
 require('expose?DraftsMap!./components/drafts-map')
+
+require('expose?VideoJS!./components/videojs')

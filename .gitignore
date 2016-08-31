@@ -12,7 +12,6 @@ bin
 /.bundle
 coverage
 
-*.mp4
 *.swp
 
 # Ignore the default SQLite database.
@@ -32,3 +31,9 @@ webpack.bundle.js
 webpack.bundle.js.map
 
 screenshot*
+
+# Video formats
+*.mp4
+*.ts
+*.m3u8
+*.mpd

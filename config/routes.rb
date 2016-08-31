@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   end
 
   root to: 'pages#landing', as: :unauthenticated_root
+  get 'video', to: 'pages#video'
 
   resources :setups
   resources :uploads, except: [:new, :show, :delete]

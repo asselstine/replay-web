@@ -2,6 +2,9 @@ class Video < ActiveRecord::Base
   mount_uploader :file, VideoUploader
   belongs_to :thumbnail, class_name: Photo
   belongs_to :user
+  belongs_to :source_video, class_name: 'Video'
+
+  has_many :videos, inverse_of: :source_video
   has_many :video_drafts
   has_many :scrub_images
 

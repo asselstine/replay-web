@@ -8,6 +8,8 @@ html
     = stylesheet_link_tag 'application', media: 'all'
     script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=#{Figaro.env.google_maps_browser_key}&libraries=geometry"
     = csrf_meta_tags
+    script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/video.js/5.11.4/video.min.js'
+    script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-hls/3.5.2/videojs-contrib-hls.js'
   body
 
     = render 'nav'

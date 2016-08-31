@@ -43,6 +43,9 @@ function baseConfig(outputFilename) {
         { test: /\.cjsx$/, loaders: ['coffee-loader', 'cjsx']},
         { test: /\.coffee$/, loader: 'coffee-loader' },
         { test: /\.css$/, loaders: ['style', 'css']}
+      ],
+      noParse: [
+          /node_modules[\\/]video\.js/
       ]
     },
 

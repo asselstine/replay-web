@@ -51,9 +51,9 @@ describe SnsController, type: :controller do
   it 'should update video when the transcoding is finished' do
     msg = transcoding_notification
     expect_verify_with(msg.to_json).and_return(true)
-    video = double(Video)
-    expect(Video).to receive(:where).with(job_id: '1453956797956-5ci8ub').and_return([video])
-    expect(video).to receive(:update_et)
+    job = double(Job)
+    expect(Job).to receive(:where).with(external_id: '1453956797956-5ci8ub').and_return([job])
+    expect(HlsJobs::Read).to receive(:call).with(job: job)
     post :message, msg.to_json
   end
 end

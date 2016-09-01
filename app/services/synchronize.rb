@@ -19,15 +19,17 @@ class Synchronize
   end
 
   def draft_videos
-    VideoDrafter.call(start_at: activity_start_at,
-                      end_at: activity_end_at,
-                      activities: user.activities)
+    # NOTE: The video drafter runs frame series for each activites for the
+    # entire during between start_at and end_at.... this algorithm is TERRIBLE
+    # VideoDrafter.call(start_at: activity_start_at,
+    #                   end_at: activity_end_at,
+    #                   activities: user.activities)
   end
 
   def draft_photos
-    PhotoDrafter.call(start_at: activity_start_at,
-                      end_at: activity_end_at,
-                      activities: user.activities)
+    # PhotoDrafter.call(start_at: activity_start_at,
+    #                   end_at: activity_end_at,
+    #                   activities: user.activities)
   end
 
   def video_start_at

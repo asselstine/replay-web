@@ -22,7 +22,8 @@ class ProcessUploadJob < ActiveJob::Base
     upload = upload.becomes! VideoUpload
     video = upload.create_video!(user: upload.user,
                                  remote_file_url: upload.url)
-    FFMPEG::Thumbnail.call(video: video)
+    # FFMPEG::Thumbnail.call(video: video)
+    Job.create!(video: video)
   end
 
   def process_photo(upload)

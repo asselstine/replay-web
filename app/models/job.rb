@@ -26,6 +26,6 @@ class Job < ActiveRecord::Base
   private
 
   def create_et_job
-    HlsJob::Create.call(job: self)
+    HlsJobs::Create.call(job: self)
   end
 end

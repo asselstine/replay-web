@@ -9,7 +9,7 @@ RSpec.describe HlsJobs::Create do
     double(Job, id: 17,
                 video: video,
                 rotate_auto?: false,
-                rotate: :rotate_0)
+                rotation: :rotate_0)
   end
   let(:et_client) { double }
   let(:new_et_job) do
@@ -33,12 +33,13 @@ RSpec.describe HlsJobs::Create do
         [
           {
             key: HlsJobs::OUTPUT_480_KEY,
-            rotate: 0,
-            segment_duration: 2,
+            rotate: '0',
+            segment_duration: '2',
             preset_id: HlsJobs::OUTPUT_480_PRESET_ID
           },
           {
             key: HlsJobs::OUTPUT_160K_AUDIO_KEY,
+            segment_duration: '2',
             preset_id: HlsJobs::OUTPUT_160K_AUDIO_PRESET_ID
           }
         ],
@@ -62,18 +63,19 @@ RSpec.describe HlsJobs::Create do
         [
           {
             key: HlsJobs::OUTPUT_720_KEY,
-            rotate: 0,
-            segment_duration: 2,
+            rotate: '0',
+            segment_duration: '2',
             preset_id: HlsJobs::OUTPUT_720_PRESET_ID
           },
           {
             key: HlsJobs::OUTPUT_480_KEY,
-            rotate: 0,
-            segment_duration: 2,
+            rotate: '0',
+            segment_duration: '2',
             preset_id: HlsJobs::OUTPUT_480_PRESET_ID
           },
           {
             key: HlsJobs::OUTPUT_160K_AUDIO_KEY,
+            segment_duration: '2',
             preset_id: HlsJobs::OUTPUT_160K_AUDIO_PRESET_ID
           }
         ],
@@ -98,24 +100,25 @@ RSpec.describe HlsJobs::Create do
         [
           {
             key: HlsJobs::OUTPUT_1080_KEY,
-            rotate: 0,
-            segment_duration: 2,
+            rotate: '0',
+            segment_duration: '2',
             preset_id: HlsJobs::OUTPUT_1080_PRESET_ID
           },
           {
             key: HlsJobs::OUTPUT_720_KEY,
-            rotate: 0,
-            segment_duration: 2,
+            rotate: '0',
+            segment_duration: '2',
             preset_id: HlsJobs::OUTPUT_720_PRESET_ID
           },
           {
             key: HlsJobs::OUTPUT_480_KEY,
-            rotate: 0,
-            segment_duration: 2,
+            rotate: '0',
+            segment_duration: '2',
             preset_id: HlsJobs::OUTPUT_480_PRESET_ID
           },
           {
             key: HlsJobs::OUTPUT_160K_AUDIO_KEY,
+            segment_duration: '2',
             preset_id: HlsJobs::OUTPUT_160K_AUDIO_PRESET_ID
           }
         ],

@@ -11,6 +11,7 @@ class VideoDrafter
   attribute :activities
 
   def call
+    Rails.logger.debug("VideoDrafter: Starting #{start_at}, #{end_at}")
     processor = video_processor
     ActiveRecord::Base.transaction do
       # gather all the activities during the video upload

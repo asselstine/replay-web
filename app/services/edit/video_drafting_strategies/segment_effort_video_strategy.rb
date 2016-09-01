@@ -9,11 +9,13 @@ module Edit
                      draft.end_at == effort_video_start_at(frame, comparator) &&
                      draft.segment_effort == comparator.segment_effort
         return false unless continuing
+        Rails.logger.debug("Edit::VideoDraftingStrategies::SegmentEffortVideoStrategy: continuing_draft #{draft.id} for frame #{frame}")
         draft.end_at = effort_video_end_at(frame, comparator)
         true
       end
 
       def new_draft(frame, comparator)
+        Rails.logger.debug("Edit::VideoDraftingStrategies::SegmentEffortVideoStrategy: new_draft #{frame}")
         VideoDraft.new(activity: comparator.activity,
                        segment_effort: comparator.segment_effort,
                        setup: comparator.setup,

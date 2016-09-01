@@ -98,17 +98,18 @@ module HlsJobs
     def audio_160k
       {
         key: OUTPUT_160K_AUDIO_KEY,
+        segment_duration: segment_duration,
         preset_id: OUTPUT_160K_AUDIO_PRESET_ID
       }
     end
 
     def segment_duration
-      SEGMENT_DURATION
+      SEGMENT_DURATION.to_s
     end
 
     def rotation
       return 'auto' if job.rotate_auto?
-      Job.rotations[job.rotate]
+      Job.rotations[job.rotation].to_s
     end
 
     def et_client

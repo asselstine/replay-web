@@ -10,8 +10,10 @@ module Edit
     attribute :processor, FrameProcessor
 
     def call
+      Rails.logger.debug("Edit::FrameSeries: Starting #{start_at}, #{end_at}")
       @frame = initial_frame
       while @frame.start_at < end_at
+        Rails.logger.debug("Edit::FrameSeries: while #{@frame.start_at}, #{end_at}")
         frame_end_at = processor.process(@frame)
         @frame.start_at = frame_end_at || @frame.end_at
         @frame.end_at = [@frame.start_at + frame_size, end_at].min

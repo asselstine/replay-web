@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160819212244) do
+ActiveRecord::Schema.define(version: 20160831150327) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -75,6 +75,19 @@ ActiveRecord::Schema.define(version: 20160819212244) do
 
   add_index "dropbox_photos", ["dropbox_event_id"], name: "index_dropbox_photos_on_dropbox_event_id", using: :btree
 
+  create_table "jobs", force: :cascade do |t|
+    t.integer  "status",      default: 0, null: false
+    t.string   "message"
+    t.string   "external_id"
+    t.datetime "started_at"
+    t.datetime "finished_at"
+    t.integer  "video_id"
+    t.integer  "rotation",    default: 0, null: false
+    t.string   "key"
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
   create_table "photos", force: :cascade do |t|
     t.float    "exif_latitude"
     t.float    "exif_longitude"
@@ -84,6 +97,13 @@ ActiveRecord::Schema.define(version: 20160819212244) do
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
     t.string   "filename"
+  end
+
+  create_table "playlists", force: :cascade do |t|
+    t.integer  "video_id"
+    t.string   "key"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "scrub_images", force: :cascade do |t|
@@ -151,6 +171,9 @@ ActiveRecord::Schema.define(version: 20160819212244) do
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
     t.integer  "sync_job_status", default: 4
+  end
+
+  create_table "thumbnails", force: :cascade do |t|
   end
 
   create_table "uploads", force: :cascade do |t|

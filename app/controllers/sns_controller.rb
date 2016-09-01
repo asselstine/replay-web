@@ -16,11 +16,11 @@ class SnsController < ApplicationController
       else
         msg = JSON.parse(json['Message'])
         Rails.logger.debug("SNS: Message is for job: #{msg['jobId']} with state #{msg['state']}")
-        video = Video.where(job_id: msg['jobId']).first
-        if video
-          video.update_et
+        job = Job.where(external_id: msg['jobId']).first
+        if job
+          HlsJob::Read.call(job: job)
         else
-          Rails.logger.debug("No Video for job id #{msg['jobId']}")
+          Rails.logger.debug("No Job for job id #{msg['jobId']}")
         end
       end
     end

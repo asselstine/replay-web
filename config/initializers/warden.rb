@@ -1,3 +1,3 @@
 Warden::Manager.after_set_user except: :fetch do |user, auth, opts|
-  Synchronize.call(user: user)
+  SynchronizeJob.perform_later user_id: user.id
 end

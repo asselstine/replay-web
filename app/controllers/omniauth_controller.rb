@@ -31,16 +31,12 @@ class OmniauthController < Devise::OmniauthCallbacksController
   # end
 
   def find_or_create_strava_account(oauth)
-    strava = StravaAccount.where(uid: oauth['uid']).first_or_create(
+    StravaAccount.where(uid: oauth['uid']).first_or_create(
       uid: oauth['uid'],
       token: oauth['credentials']['token'],
       username: oauth['extra']['raw_info']['username'],
       user: find_or_create_user(oauth)
     )
-    unless strava.waiting? || strava.working?
-      SynchronizeJob.perform_later strava.user_id
-    end
-    strava
   end
 
   def find_or_create_user(oauth)

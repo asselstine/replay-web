@@ -34,3 +34,11 @@ en:
         success: 'Uploaded %{filename}'
       update:
         success: 'Saved upload %{filename}'
+  models:
+    job:
+      rotation:
+        rotate_auto: 'Auto'
+        rotate_0: '0'
+        rotate_90: '90'
+        rotate_180: '180'
+        rotate_270: '270'

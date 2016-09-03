@@ -1,6 +1,8 @@
+_ = require('lodash')
 Modal = require('react-modal')
 ModalStyle = require('../util/modal-default-style')
 moment = require('moment')
+Select = require('react-select')
 
 module.exports = React.createClass
   displayName: 'VideoUploadModal'
@@ -16,6 +18,7 @@ module.exports = React.createClass
     loaded: false
     start_at: @props.upload.video.start_at
     end_at: @props.upload.video.end_at
+    rotation: 'rotate_0'
 
   onChangeDate: (e) ->
     @setState(date: e.target.value, =>
@@ -31,6 +34,9 @@ module.exports = React.createClass
     @setState(timestamp: e.target.value, =>
       @updateAdjustedTimes()
     )
+
+  onChangeRotation: (option) ->
+    @setState rotation: option.value
 
   handleTimeUpdate: (e) ->
     @setState currentTime: e.target.currentTime, =>
@@ -50,6 +56,20 @@ module.exports = React.createClass
         start_at: adjustedStartTime.utc().toISOString()
         end_at: adjustedEndTime.utc().toISOString()
       )
+
+  transcode: ->
+    $.ajax
+      url: Routes.jobs_path()
+      method: 'POST'
+      dataType: 'json'
+      data:
+        job:
+          video_id: @props.upload.video.id
+          rotation: @state.rotation
+    .done (data, xhr, status) =>
+      message.success('Created job')
+    .fail (xhr, status, msg) =>
+      message.ajaxFail(xhr, status, msg)
 
   submit: ->
     $.ajax(
@@ -73,6 +93,9 @@ module.exports = React.createClass
     disabled = false # !@state.start_at || !@state.end_at
     currentTimeMs = @state.currentTime * 1000
     duration_ms = @props.upload.video.duration * 1000 if @props.upload.video.duration
+    rotationOptions = _.map window.replayConstants.Job.rotations, (value, key) =>
+      { label: I18n.t('models.job.rotation.'+key), value: key }
+
     <Modal className='video-upload-modal modal-dialog modal-lg'
            style={ModalStyle}
            isOpen={@props.isOpen}
@@ -106,11 +129,24 @@ module.exports = React.createClass
               </div>
             </div>
           }
+          <div className='row'>
+            <div className='col-sm-3'>
+              Rotate
+            </div>
+            <div className='col-sm-9'>
+              <Select multi={false}
+                      clearable={false}
+                      value={@state.rotation}
+                      options={rotationOptions}
+                      onChange={@onChangeRotation}/>
+            </div>
+          </div>
         </div>
         <div className='modal-footer'>
           <div className='pull-right'>
             <a href='javascript:;' className='btn btn-default' onClick={@props.onRequestClose}>Close</a>
             <a href='javascript:;' className='btn btn-primary' onClick={@submit}>Save</a>
+            <a href='javascript:;' className='btn btn-default' onClick={@transcode}>Transcode</a>
           </div>
         </div>
       </div>

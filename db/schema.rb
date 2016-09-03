@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160831150327) do
+ActiveRecord::Schema.define(version: 20160902223649) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -82,6 +82,7 @@ ActiveRecord::Schema.define(version: 20160831150327) do
     t.datetime "started_at"
     t.datetime "finished_at"
     t.integer  "video_id"
+    t.integer  "playlist_id"
     t.integer  "rotation",    default: 0, null: false
     t.string   "key"
     t.datetime "created_at",              null: false
@@ -100,7 +101,6 @@ ActiveRecord::Schema.define(version: 20160831150327) do
   end
 
   create_table "playlists", force: :cascade do |t|
-    t.integer  "video_id"
     t.string   "key"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -173,7 +173,11 @@ ActiveRecord::Schema.define(version: 20160831150327) do
     t.integer  "sync_job_status", default: 4
   end
 
-  create_table "thumbnails", force: :cascade do |t|
+  create_table "streams", force: :cascade do |t|
+    t.string  "ts_key"
+    t.string  "iframe_key"
+    t.string  "playlist_key"
+    t.integer "playlist_id"
   end
 
   create_table "uploads", force: :cascade do |t|

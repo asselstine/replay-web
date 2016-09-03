@@ -6,7 +6,7 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-puts 'Reminder: A worker should be running.'
+# puts 'Reminder: A worker should be running.'
 
 brendan = User.where(email: 'brendan@codeandconduct.is').first_or_create! do |user|
   user.email = 'brendan@codeandconduct.is'
@@ -53,20 +53,19 @@ setup = brendan.setups.where(name: 'laptop').first_or_create! do |setup|
   setup.latitude = lat + setup_index * multiplyer
   setup.longitude = long + setup_index * multiplyer
 end
-
-upload = brendan.video_uploads.joins(:video).where(videos: { filename: 'full-clipped.mp4' }).first_or_create! do |upload|
-  upload.user = brendan
-  upload.setups << setup
-  video = upload.create_video!(file: File.open(Rails.root.join('spec',
-                                                     'fixtures',
-                                                     'full-clipped.mp4')),
-                       user: brendan,
-                       start_at: now.since(setup_index.seconds),
-                       end_at: now.since(setup_index.seconds + 2.seconds))
-  FFMPEG::Thumbnail.call(video: video)
-end
-
-if brendan.drafts.empty?
-  VideoDrafter.call(start_at: now, end_at: now.since(activity_length))
-  PhotoDrafter.call(start_at: now, end_at: now.since(activity_length))
-end
+#
+# upload = brendan.video_uploads.joins(:video).where(videos: { filename: 'full-clipped.mp4' }).first_or_create! do |upload|
+#   upload.user = brendan
+#   upload.setups << setup
+#   video = upload.create_video!(file: File.open(Rails.root.join('spec',
+#                                                      'fixtures',
+#                                                      'full-clipped.mp4')),
+#                                user: brendan,
+#                                start_at: now.since(setup_index.seconds),
+#                                end_at: now.since(setup_index.seconds + 2.seconds))
+# end
+#
+# if brendan.drafts.empty?
+#   VideoDrafter.call(start_at: now, end_at: now.since(activity_length))
+#   PhotoDrafter.call(start_at: now, end_at: now.since(activity_length))
+# end

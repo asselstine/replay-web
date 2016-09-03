@@ -8,6 +8,7 @@ class CreateJobs < ActiveRecord::Migration
       t.datetime :finished_at
 
       t.references :video
+      t.references :playlist
       t.integer :rotation, default: 0, null: false
       t.string :key
 

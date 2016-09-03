@@ -10,6 +10,7 @@ class User < ActiveRecord::Base
   has_many :draft_photo_photos, through: :draft_photos, source: :photo
   has_many :uploads
   has_many :video_uploads
+  has_many :jobs, through: :video_uploads
   has_many :photo_uploads
   has_many :activities, dependent: :destroy
   has_many :segment_efforts, through: :activities

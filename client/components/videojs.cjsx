@@ -1,11 +1,13 @@
 module.exports = React.createClass
   displayName: 'VideoJS'
 
+  propTypes:
+    video: React.PropTypes.object.isRequired
+
   videoRef: (ref) ->
     @videoRef = ReactDOM.findDOMNode(ref)
 
   onVideoPlayerReady: ->
-    console.debug('ready')
     window.player = @videoPlayer
 
   componentDidMount: ->

@@ -1,5 +1,8 @@
 javascript:
   window.replayConstants = {
     directUploadConfig: JSON.parse('#{raw direct_upload_config.to_json}'),
-    setupLocations: JSON.parse('#{raw Setup.locations.to_json}')
+    setupLocations: JSON.parse('#{raw Setup.locations.to_json}'),
+    Job: {
+      rotations: JSON.parse('#{raw Job.rotations.to_json}')
+    }
   };

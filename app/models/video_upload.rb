@@ -1,6 +1,9 @@
 class VideoUpload < Upload
   belongs_to :video
+  has_many :jobs, through: :video
+
   validates_presence_of :video
+
   accepts_nested_attributes_for :video
 
   scope :during, (lambda do |start_at, end_at|

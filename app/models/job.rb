@@ -1,6 +1,6 @@
 class Job < ActiveRecord::Base
   belongs_to :video
-  has_many :playlists
+  belongs_to :playlist
 
   enum status: {
     created: 0,
@@ -19,13 +19,13 @@ class Job < ActiveRecord::Base
     rotate_270: 270
   }
 
-  validates :video, presence: true
+  validates :video, :rotation, presence: true
 
-  after_create :create_et_job
+  after_create :create_playlist
 
   private
 
-  def create_et_job
-    HlsJobs::Create.call(job: self)
+  def create_playlist
+    HlsJobs::CreatePlaylist.call(job: self)
   end
 end

@@ -1,14 +1,16 @@
 doctype html
 html
   head
+    = csrf_meta_tags
     title
       | ReplayServer
     meta http-equiv="X-UA-Compatible" content="IE=edge"
     meta name="viewport" content="width=device-width, initial-scale=1"
     = stylesheet_link_tag 'application', media: 'all'
+    = stylesheet_link_tag 'https://cdnjs.cloudflare.com/ajax/libs/video.js/5.13.0/video-js.min.css'
+
     script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=#{Figaro.env.google_maps_browser_key}&libraries=geometry"
-    = csrf_meta_tags
-    script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/video.js/5.11.4/video.min.js'
+    script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/video.js/5.13.0/video.min.js'
     script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-hls/3.5.2/videojs-contrib-hls.js'
   body
 

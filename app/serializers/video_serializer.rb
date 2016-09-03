@@ -9,6 +9,7 @@ class VideoSerializer < ModelSerializer
              :job_id,
              :scrub_images
   has_one :thumbnail
+  has_many :playlists
 
   def scrub_images
     object.scrub_images.order(index: :asc).map do |scrub_image|

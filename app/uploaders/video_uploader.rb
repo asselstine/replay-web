@@ -8,7 +8,6 @@ class VideoUploader < CarrierWave::Uploader::Base
   def video_metadata
     cache_stored_file! unless cached?
     movie = FFMPEG::Movie.new(current_path)
-    raise 'video_metadata: invalid movie' unless movie.valid?
     model.update(
       filename: File.basename(current_path),
       duration: movie.duration,

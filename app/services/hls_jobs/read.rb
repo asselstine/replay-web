@@ -11,7 +11,7 @@ module HlsJobs
         "HlsJobs::Read: Received Response: #{response.to_json}"
       )
       update_job(response)
-      check_playlist
+      complete_job if job.complete?
     end
 
     private
@@ -25,13 +25,17 @@ module HlsJobs
       job.update(attrs)
     end
 
-    def complete?(status)
-      status[/complete|canceled|error/]
+    def complete_job
+      S3.make_public(job.playlist.key)
+      job.playlist.streams.each do |stream|
+        S3.make_public(stream.ts_key)
+        S3.make_public(stream.iframe_key) if stream.iframe_key.present?
+        S3.make_public(stream.playlist_key)
+      end
     end
 
-    def check_playlist
-      return unless job.complete?
-      Playlist.create!(video: job.video, key: job.key)
+    def complete?(status)
+      status[/complete|canceled|error/]
     end
 
     def et_client

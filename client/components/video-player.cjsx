@@ -41,11 +41,23 @@ module.exports = React.createClass
     @setState
       currentTimeMs: @vidElem.currentTime * 1000
 
+  onVideoPlayerReady: ->
+    if @props.video.playlists.length > 0
+      @videoPlayer.src({
+        'type': 'application/x-mpegURL',
+        'src': @props.video.playlists[0].file_url
+      })
+    else
+      @videoPlayer.src({
+        'src': @props.video.file_url
+      })
+
   componentDidMount: ->
     @vidElem.addEventListener 'timeupdate', @videoTimeUpdate
     @vidElem.addEventListener 'canplaythrough', @videoCanPlayThrough
     @vidElem.addEventListener 'seeking', @videoSeeking
     @vidElem.addEventListener 'seeked', @videoSeeked
+    @videoPlayer = videojs(@vidElem, {}).ready(@onVideoPlayerReady)
 
   componentWillUnmount: ->
     return unless @vidElem
@@ -91,9 +103,7 @@ module.exports = React.createClass
         <video controls='true'
                ref={@videoRef}
                preload='false'
-               className={'video-player ' + flipClass}
-               poster={@props.video.thumbnail.url}>
-          <source src={@props.video.file_url}/>
+               className={'video-js vjs-default-skin vjs-16-9 vjs-big-play-centered video-player ' + flipClass}>
         </video>
       </div>
       {flip}

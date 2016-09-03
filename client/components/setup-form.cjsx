@@ -1,4 +1,4 @@
-_ = require('lodash/fp')
+_ = require('lodash')
 Select = require('react-select')
 
 module.exports = React.createClass

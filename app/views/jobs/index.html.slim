@@ -1,0 +1,10 @@
+- @jobs.each do |job|
+  .row
+    .col-sm-2
+      = job.status
+    .col-sm-2
+      = job.message
+    .col-sm-2
+      = link_to job.video.filename, video_path(job.video)
+    .col-sm-2
+      = job.rotation

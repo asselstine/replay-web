@@ -13,14 +13,15 @@ module ApplicationHelper
   end
 
   def direct_upload_key_path
-    "direct_uploads/{timestamp}-{unique_id}-#{SecureRandom.hex}/${filename}"
+    "uploads/{timestamp}-{unique_id}-#{SecureRandom.hex}/${filename}"
   end
 
   def direct_upload_config(options = {})
     config_options = {
       acl: 'public-read',
       key: direct_upload_key_path,
-      key_starts_with: 'direct_uploads/'
+      max_file_size: 5.gigabytes,
+      key_starts_with: 'uploads/'
     }.merge options
     uploader = S3DirectUpload::UploadHelper::S3Uploader.new(config_options)
     {

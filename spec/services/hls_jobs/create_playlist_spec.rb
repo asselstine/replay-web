@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe HlsJobs::Create do
+RSpec.describe HlsJobs::CreatePlaylist do
   let(:video) do
     double(Video, vertical_resolution: vertical_resolution,
                   source_key: 'uploads/something.mp4')
@@ -9,7 +9,8 @@ RSpec.describe HlsJobs::Create do
     double(Job, id: 17,
                 video: video,
                 rotate_auto?: false,
-                rotation: :rotate_0)
+                rotation: :rotate_0,
+                playlist: double(id: 999))
   end
   let(:et_client) { double }
   let(:new_et_job) do
@@ -19,10 +20,12 @@ RSpec.describe HlsJobs::Create do
       }
     }
   end
-  subject { HlsJobs::Create.new(job: job) }
+  subject { HlsJobs::CreatePlaylist.new(job: job) }
 
   before(:each) do
     allow(subject).to receive(:et_client).and_return(et_client)
+    expect(job).to receive(:create_playlist!)
+      .with(file: 'something.m3u8')
   end
 
   context 'when the resolution is 720' do
@@ -147,7 +150,6 @@ RSpec.describe HlsJobs::Create do
   def expect_update
     expect(job).to receive(:update).with(
       external_id: 99,
-      key: 'hls/job-17/something.m3u8',
       status: Job.statuses[:submitted],
       started_at: an_instance_of(ActiveSupport::TimeWithZone)
     )
@@ -158,7 +160,7 @@ RSpec.describe HlsJobs::Create do
       .with(
         pipeline_id: Figaro.env.aws_et_pipeline_id,
         input: { key: 'uploads/something.mp4' },
-        output_key_prefix: 'hls/job-17/',
+        output_key_prefix: 'hls/playlist-999/',
         outputs: outputs,
         playlists: [playlist]
       )

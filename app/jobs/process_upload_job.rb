@@ -16,14 +16,17 @@ class ProcessUploadJob < ActiveJob::Base
     Rails.logger.error(e)
   end
 
+  def self.url_to_s3_key(url)
+    uri = URI(url)
+    uri.path.gsub("/#{Figaro.env.aws_s3_bucket}/", '')
+  end
+
   private
 
   def process_video(upload)
     upload = upload.becomes! VideoUpload
-    video = upload.create_video!(user: upload.user,
-                                 remote_file_url: upload.url)
-    # FFMPEG::Thumbnail.call(video: video)
-    Job.create!(video: video)
+    upload.create_video!(user: upload.user,
+                         file: self.class.url_to_s3_key(upload.url))
   end
 
   def process_photo(upload)

@@ -17,7 +17,6 @@ module.exports = React.createClass
 
   render: ->
     <div data-draft-id={@props.draft.id} className='draft-tile tile' onClick={@openDraftModal}>
-      <img className='tile__img' src={@props.draft.video.thumbnail.small_url}/>
       <p>
         <small>{@props.draft.video.start_at}</small>
       </p>

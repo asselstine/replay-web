@@ -17,7 +17,20 @@ module S3
     "https://s3.amazonaws.com/#{Figaro.env.aws_s3_bucket}/#{key}"
   end
 
+  def self.make_public(key)
+    object(key).acl.put(acl: 'public-read')
+  end
+
   def self.bucket
     Figaro.env.aws_s3_bucket
+  end
+
+  def self.object(key)
+    s3 = Aws::S3::Resource.new(client: client)
+    s3.bucket(bucket).object(key)
+  end
+
+  def self.client
+    Aws::S3::Client.new(region: Figaro.env.aws_region)
   end
 end

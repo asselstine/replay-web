@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   root to: 'pages#landing', as: :unauthenticated_root
   get 'video', to: 'pages#video'
 
+  resources :jobs, only: [:index, :create]
   resources :setups
   resources :uploads, except: [:new, :show, :delete]
   get 'map', to: 'drafts#map', as: :map

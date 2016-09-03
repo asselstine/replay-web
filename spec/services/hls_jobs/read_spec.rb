@@ -57,9 +57,6 @@ RSpec.describe HlsJobs::Read do
           message: 'status detail',
           finished_at: an_instance_of(ActiveSupport::TimeWithZone)
         )
-      expect(Playlist).to receive(:create!)
-        .with(video: :video,
-              key: :key)
       subject.call
     end
   end

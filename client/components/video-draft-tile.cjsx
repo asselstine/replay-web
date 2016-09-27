@@ -11,10 +11,8 @@ module.exports = React.createClass
       <span key={segmentEffort.id}>{segmentEffort.name}</span>
 
     <div className='video-draft-tile'>
-      <a href={Routes.draft_path(@props.videoDraft.id)} data-video-draft-id={@props.videoDraft.id}>
-        <p>
-          {@props.videoDraft.name}
-        </p>
-        {segmentEfforts}
+      <a href={Routes.draft_path(@props.videoDraft.id)}>
+        {@props.videoDraft.name}
       </a>
+      {segmentEfforts}
     </div>

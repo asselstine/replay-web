@@ -45,20 +45,20 @@ module.exports = React.createClass
 
   rafTick: (timestamp) ->
     return unless @vidElem
-    # @setState
-    #   currentTimeMs: +(@vidElem.currentTime * 1000)
-    # if @props.onTimeUpdate
-    #   @props.onTimeUpdate({ target: @vidElem })
-    # console.debug(@vidElem.currentTime)
+    # do something
     raf(@rafTick)
 
   videoCanPlayThrough: (e) ->
     if @props.onCanPlayThrough
       @props.onCanPlayThrough(e)
 
+  onTimeUpdate: ->
+    @props.onTimeUpdate(@vidElem.currentTime)
+
   videoSeeking: (e) ->
-    # @setState
-    #   currentTimeMs: @vidElem.currentTime * 1000
+    @setState
+      currentTimeMs: @vidElem.currentTime * 1000,
+      @onTimeUpdate
 
   sourceUrl: ->
     if @props.video.playlists.length > 0
@@ -70,22 +70,22 @@ module.exports = React.createClass
     # console.debug('init')
     if Hls.isSupported() && @props.video.playlists.length > 0
       @hls = new Hls({
-        debug: true
+        debug: false
       })
       @hls.loadSource(@props.video.playlists[0].file_url)
       @hls.attachMedia(@vidElem)
       @hls.on Hls.Events.MANIFEST_PARSED, () =>
         @vidElem.play()
-      console.debug('nextLevel: ', @hls.nextLevel)
-      console.debug('loadLevel: ', @hls.loadLevel)
-      console.debug('capLevel: ', @hls.capLevel)
+      # console.debug('nextLevel: ', @hls.nextLevel)
+      # console.debug('loadLevel: ', @hls.loadLevel)
+      # console.debug('capLevel: ', @hls.capLevel)
 
   componentDidMount: ->
     # @vidElem.addEventListener 'timeupdate', @videoTimeUpdate
     @vidElem.addEventListener 'canplaythrough', @videoCanPlayThrough
     @vidElem.addEventListener 'seeking', @videoSeeking
-    @vidElem.addEventListener 'seeked', @videoSeeked
-    raf(@rafTick)
+    @vidElem.addEventListener 'seeked', @videoSeeking
+    # raf(@rafTick)
     @initVideoPlayer()
 
   componentWillUnmount: ->
@@ -94,7 +94,7 @@ module.exports = React.createClass
     # @vidElem.removeEventListener 'timeupdate', @videoTimeUpdate
     @vidElem.removeEventListener 'canplaythrough', @videoCanPlayThrough
     @vidElem.removeEventListener 'seeking', @videoSeeking
-    @vidElem.removeEventListener 'seeked', @videoSeeked
+    @vidElem.removeEventListener 'seeked', @videoSeeking
 
   getScrubImageSrc: (timeMs) ->
     # one per second

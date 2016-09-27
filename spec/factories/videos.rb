@@ -6,6 +6,6 @@ FactoryGirl.define do
     end_at do
       start_at.since(1)
     end
-    file File.open(Rails.root.join('app/assets/test/dan_session1-frame.mp4'))
+    file '/dan_session1-frame.mp4'
   end
 end

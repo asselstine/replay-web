@@ -94,11 +94,8 @@ end
 
 Given %(I have a video upload) do
   step %(a user exists)
-  file = Rails.root.join('spec/fixtures/dan_session1-frame.mp4')
   @upload ||= create(:video_upload,
-                     user: @user,
-                     video: create(:video,
-                                   file: File.open(file)))
+                     user: @user)
 end
 
 When %(I scrub to the slate and set the timestamp) do

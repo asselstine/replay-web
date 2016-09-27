@@ -12,7 +12,9 @@ Then %(my video draft is listed) do
 end
 
 When %(I click on the video draft) do
-  find(:xpath, "//a[@data-video-draft-id='#{@video_draft.id}']").click
+  within '.video-draft-tile' do
+    click_link(@video_draft.name)
+  end
 end
 
 Then %(I should be able to play the video draft) do

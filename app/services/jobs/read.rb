@@ -6,12 +6,12 @@ module Jobs
     attribute :job
 
     def call
-      response = et_client.read_job(id: job.external_id)
+      response = et_client.read_job(id: @job.external_id)
       Rails.logger.debug(
         "Jobs::Read: Received Response: #{response.to_json}"
       )
       update_job(response)
-      Jobs::MakePublic.call(job: job) if job.complete?
+      Jobs::MakePublic.call(job: @job) if @job.complete?
     end
 
     private

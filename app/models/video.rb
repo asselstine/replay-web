@@ -28,7 +28,8 @@ class Video < ActiveRecord::Base
   end
 
   def file_url
-    fog_file_from_key(file).public_url
+    return source_key if Rails.env.test?
+    fog_file_from_key(source_key).public_url
   end
 
   def uploader_class
@@ -41,5 +42,9 @@ class Video < ActiveRecord::Base
 
   def source_key
     file.sub(%r{^\/}, '')
+  end
+
+  def duration
+    end_at - start_at
   end
 end

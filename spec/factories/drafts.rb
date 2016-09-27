@@ -2,6 +2,9 @@ FactoryGirl.define do
   factory :draft do
     association :setup
     association :activity
+    sequence(:name) do |n|
+      "Draft#{n}"
+    end
     type 'Draft'
   end
 

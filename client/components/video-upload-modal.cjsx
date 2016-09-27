@@ -16,6 +16,7 @@ module.exports = React.createClass
   getInitialState: ->
     currentTime: 0
     loaded: false
+    duration: 1
     start_at: @props.upload.video.start_at
     end_at: @props.upload.video.end_at
     rotation: 'rotate_0'
@@ -38,12 +39,14 @@ module.exports = React.createClass
   onChangeRotation: (option) ->
     @setState rotation: option.value
 
-  handleTimeUpdate: (e) ->
-    @setState currentTime: e.target.currentTime, =>
+  handleTimeUpdate: (currentTime) ->
+    @setState currentTime: currentTime, =>
       @updateAdjustedTimes()
 
   handleCanPlayThrough: (e) ->
-    @setState loaded: true, =>
+    @setState
+      loaded: true
+      duration: e.target.duration, =>
       @updateAdjustedTimes()
 
   updateAdjustedTimes: ->
@@ -51,7 +54,7 @@ module.exports = React.createClass
     timestamp = moment(new Date(dateString))
     if timestamp.isValid()
       adjustedStartTime = timestamp.clone().subtract(@state.currentTime * 1000.0, 'ms')
-      adjustedEndTime = adjustedStartTime.clone().add(@props.upload.video.duration * 1000.0, 'ms')
+      adjustedEndTime = adjustedStartTime.clone().add(@state.duration * 1000.0, 'ms')
       @setState(
         start_at: adjustedStartTime.utc().toISOString()
         end_at: adjustedEndTime.utc().toISOString()
@@ -84,7 +87,7 @@ module.exports = React.createClass
             end_at: @state.end_at
     ).done (data, xhr, status) =>
       message.success(I18n.t('flash.upload.update.success',
-                             filename: @props.upload.video.filename))
+                             filename: @props.upload.filename))
       @props.onSuccess(data)
      .fail (xhr, status, msg) ->
        message.ajaxFail(xhr, status, msg)
@@ -103,7 +106,7 @@ module.exports = React.createClass
 
       <div className='modal-content'>
         <div className='modal-header'>
-          <h3>{@props.upload.video.filename}</h3>
+          <h3>{@props.upload.filename}</h3>
         </div>
         <div className='modal-body'>
           {@props.upload.video.file_url &&

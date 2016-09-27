@@ -28,8 +28,8 @@ module.exports = React.createClass
       @updateAdjustedTimes()
     )
 
-  handleTimeUpdate: (e) ->
-    @setState currentTime: e.target.currentTime, =>
+  handleTimeUpdate: (currentTime) ->
+    @setState currentTime: currentTime, =>
       @updateAdjustedTimes()
 
   handleCanPlayThrough: (e) ->

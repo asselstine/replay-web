@@ -1,3 +1,6 @@
+Select = require('react-select')
+raf = require('raf')
+
 module.exports = React.createClass
   displayName: 'VideoPlayer'
 
@@ -13,12 +16,19 @@ module.exports = React.createClass
   getInitialState: ->
     flip: false
     currentTimeMs: 0
+    currentLevel: -1
 
   videoRef: (ref) ->
     if ref == null
       @vidElem = null
     else
       @vidElem = ReactDOM.findDOMNode(ref)
+
+  videoContainerRef: (ref) ->
+    if ref == null
+      @videoContainer = null
+    else
+      @videoContainer = ReactDOM.findDOMNode(ref)
 
   seek: (time) ->
     @vidElem.currentTime = time
@@ -33,35 +43,55 @@ module.exports = React.createClass
     if @props.onTimeUpdate
       @props.onTimeUpdate(e)
 
+  rafTick: (timestamp) ->
+    return unless @vidElem
+    # @setState
+    #   currentTimeMs: +(@vidElem.currentTime * 1000)
+    # if @props.onTimeUpdate
+    #   @props.onTimeUpdate({ target: @vidElem })
+    # console.debug(@vidElem.currentTime)
+    raf(@rafTick)
+
   videoCanPlayThrough: (e) ->
     if @props.onCanPlayThrough
       @props.onCanPlayThrough(e)
 
   videoSeeking: (e) ->
-    @setState
-      currentTimeMs: @vidElem.currentTime * 1000
+    # @setState
+    #   currentTimeMs: @vidElem.currentTime * 1000
 
-  onVideoPlayerReady: ->
+  sourceUrl: ->
     if @props.video.playlists.length > 0
-      @videoPlayer.src({
-        'type': 'application/x-mpegURL',
-        'src': @props.video.playlists[0].file_url
-      })
+      @props.video.playlists[0].file_url
     else
-      @videoPlayer.src({
-        'src': @props.video.file_url
+      @props.video.file_url
+
+  initVideoPlayer: ->
+    # console.debug('init')
+    if Hls.isSupported() && @props.video.playlists.length > 0
+      @hls = new Hls({
+        debug: true
       })
+      @hls.loadSource(@props.video.playlists[0].file_url)
+      @hls.attachMedia(@vidElem)
+      @hls.on Hls.Events.MANIFEST_PARSED, () =>
+        @vidElem.play()
+      console.debug('nextLevel: ', @hls.nextLevel)
+      console.debug('loadLevel: ', @hls.loadLevel)
+      console.debug('capLevel: ', @hls.capLevel)
 
   componentDidMount: ->
-    @vidElem.addEventListener 'timeupdate', @videoTimeUpdate
+    # @vidElem.addEventListener 'timeupdate', @videoTimeUpdate
     @vidElem.addEventListener 'canplaythrough', @videoCanPlayThrough
     @vidElem.addEventListener 'seeking', @videoSeeking
     @vidElem.addEventListener 'seeked', @videoSeeked
-    @videoPlayer = videojs(@vidElem, {}).ready(@onVideoPlayerReady)
+    raf(@rafTick)
+    @initVideoPlayer()
 
   componentWillUnmount: ->
     return unless @vidElem
-    @vidElem.removeEventListener 'timeupdate', @videoTimeUpdate
+    @hls.destroy() if @hls
+    # @vidElem.removeEventListener 'timeupdate', @videoTimeUpdate
     @vidElem.removeEventListener 'canplaythrough', @videoCanPlayThrough
     @vidElem.removeEventListener 'seeking', @videoSeeking
     @vidElem.removeEventListener 'seeked', @videoSeeked
@@ -95,16 +125,39 @@ module.exports = React.createClass
         height: '0px'
       }
 
+  onChangeLevel: (option) ->
+    @hls.currentLevel = option.value
+    @setState
+      currentLevel: option.value
+
   render: ->
     flipClass = if @state.flip then 'flip' else ''
     flip = <a className='btn btn-primary' href='javascript:;' onClick={@flip}>Flip</a> if @props.canFlip
+
+    if @props.video.playlists.length == 0
+      source = <source src={@props.video.file_url}/>
+
+    levelOptions = [
+      { label: 'auto', value: -1 },
+      { label: 'sd', value: 0 },
+      { label: 'hd', value: 1 }
+    ]
+
     <div>
-      <div className='video-container'>
-        <video controls='true'
+      <div className='video-container' ref={@videoContainerRef}>
+        <video controls autoplay
                ref={@videoRef}
-               preload='false'
-               className={'video-js vjs-default-skin vjs-16-9 vjs-big-play-centered video-player ' + flipClass}>
+               preload={false}
+               className='video-player'>
+          {source}
         </video>
+        <div>
+          <Select options={levelOptions}
+                  value={@state.currentLevel}
+                  clearable={false}
+                  multi={false}
+                  onChange={@onChangeLevel}/>
+        </div>
       </div>
       {flip}
       <div className='scrubber' style={@getScrubStyle(@state.currentTimeMs)}>

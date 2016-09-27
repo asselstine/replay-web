@@ -10,6 +10,7 @@ CarrierWave.configure do |config|
     config.fog_public = false
     config.fog_directory = Figaro.env.aws_s3_bucket
     config.fog_authenticated_url_expiration = 86400
+    # config.asset_host = 'http://d17qcvydnnr06b.cloudfront.net'
   else
     config.storage = :file
   end

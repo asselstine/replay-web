@@ -18,7 +18,7 @@ class SnsController < ApplicationController
         Rails.logger.debug("SNS: Message is for job: #{msg['jobId']} with state #{msg['state']}")
         job = Job.where(external_id: msg['jobId']).first
         if job
-          HlsJobs::Read.call(job: job)
+          Jobs::Read.call(job: job)
         else
           Rails.logger.debug("No Job for job id #{msg['jobId']}")
         end

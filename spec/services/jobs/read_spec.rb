@@ -1,10 +1,15 @@
 require 'rails_helper'
 
-RSpec.describe HlsJobs::Read do
+RSpec.describe Jobs::Read do
   let(:complete?) { false }
-  let(:job) { double(Job, video: :video, key: :key, external_id: 99, complete?: complete?) }
+  let(:job) do
+    double(Job, video: :video,
+                playlist_key: :playlist_key,
+                external_id: 99,
+                complete?: complete?)
+  end
   let(:et_client) { double }
-  subject { HlsJobs::Read.new(job: job) }
+  subject { Jobs::Read.new(job: job) }
 
   let(:et_job) do
     {
@@ -57,6 +62,7 @@ RSpec.describe HlsJobs::Read do
           message: 'status detail',
           finished_at: an_instance_of(ActiveSupport::TimeWithZone)
         )
+      expect(Jobs::MakePublic).to receive(:call).with(job: job)
       subject.call
     end
   end

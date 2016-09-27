@@ -19,13 +19,31 @@ class Job < ActiveRecord::Base
     rotate_270: 270
   }
 
+  delegate :source_key, to: :video
+
   validates :video, :rotation, presence: true
 
   after_create :create_playlist
 
+  def filename_with_prefix(key)
+    "#{prefix}#{key}"
+  end
+
+  def prefix
+    "hls/job-#{id}/"
+  end
+
+  def playlist_filename
+    "#{video.source_filename_no_ext}.m3u8"
+  end
+
+  def playlist_key
+    filename_with_prefix(playlist_filename)
+  end
+
   private
 
   def create_playlist
-    HlsJobs::CreatePlaylist.call(job: self)
+    Jobs::Create.call(job: self)
   end
 end

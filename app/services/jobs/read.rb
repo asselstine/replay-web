@@ -1,4 +1,4 @@
-module HlsJobs
+module Jobs
   class Read
     include Service
     include Virtus.model
@@ -8,10 +8,10 @@ module HlsJobs
     def call
       response = et_client.read_job(id: job.external_id)
       Rails.logger.debug(
-        "HlsJobs::Read: Received Response: #{response.to_json}"
+        "Jobs::Read: Received Response: #{response.to_json}"
       )
       update_job(response)
-      complete_job if job.complete?
+      Jobs::MakePublic.call(job: job) if job.complete?
     end
 
     private
@@ -23,15 +23,6 @@ module HlsJobs
       }
       attrs[:finished_at] = Time.zone.now if complete?(attrs[:status])
       job.update(attrs)
-    end
-
-    def complete_job
-      S3.make_public(job.playlist.key)
-      job.playlist.streams.each do |stream|
-        S3.make_public(stream.ts_key)
-        S3.make_public(stream.iframe_key) if stream.iframe_key.present?
-        S3.make_public(stream.playlist_key)
-      end
     end
 
     def complete?(status)

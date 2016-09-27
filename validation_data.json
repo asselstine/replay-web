@@ -1,0 +1,1379 @@
+{
+  "independentSegments" : false,
+  "playlistKind" : "master",
+  "gzipEncoded" : false,
+  "dataID" : 0,
+  "messages" : [
+    {
+      "errorParserCode" : -12274,
+      "errorComment" : "PROGRAM-ID has been deprecated and is no longer a valid attribute for #EXT-X-STREAM-INF",
+      "errorStatusCode" : 0,
+      "errorParserLine" : "#EXT-X-I-FRAME-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=56369000,CODECS=\"avc1.4d0028\",URI=\"hls_2m_video_iframe.m3u8\""
+    },
+    {
+      "errorParserCode" : -12274,
+      "errorComment" : "PROGRAM-ID has been deprecated and is no longer a valid attribute for #EXT-X-STREAM-INF",
+      "errorStatusCode" : 0,
+      "errorParserLine" : "#EXT-X-I-FRAME-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=9593000,CODECS=\"avc1.42001e\",URI=\"hls_600k_video_iframe.m3u8\""
+    },
+    {
+      "errorParserCode" : -12274,
+      "errorComment" : "PROGRAM-ID has been deprecated and is no longer a valid attribute for #EXT-X-STREAM-INF",
+      "errorStatusCode" : 0,
+      "errorParserLine" : "#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=5525000,RESOLUTION=1280x720,CODECS=\"avc1.4d0028,mp4a.40.5\",AUDIO=\"audio-0\""
+    },
+    {
+      "errorParserCode" : -12274,
+      "errorComment" : "PROGRAM-ID has been deprecated and is no longer a valid attribute for #EXT-X-STREAM-INF",
+      "errorStatusCode" : 0,
+      "errorParserLine" : "#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=672000,RESOLUTION=480x270,CODECS=\"avc1.42001e,mp4a.40.5\",AUDIO=\"audio-0\""
+    },
+    {
+      "errorParserCode" : -12274,
+      "errorComment" : "PROGRAM-ID has been deprecated and is no longer a valid attribute for #EXT-X-STREAM-INF",
+      "errorStatusCode" : 0,
+      "errorParserLine" : "#EXT-X-STREAM-INF:PROGRAM-ID=1,BANDWIDTH=74000,CODECS=\"mp4a.40.5\",AUDIO=\"audio-0\""
+    },
+    {
+      "errorComment" : "Measured peak bitrate compared to master playlist declared value exceeds error tolerance",
+      "errorReferenceDataID" : 2,
+      "errorStatusCode" : -1,
+      "errorDetail" : "Measured: 939.48 kb\/s, Master playlist: 56369.00 kb\/s, Error: 5900.00%"
+    },
+    {
+      "errorComment" : "Measured peak bitrate compared to master playlist declared value exceeds error tolerance",
+      "errorReferenceDataID" : 3,
+      "errorStatusCode" : -1,
+      "errorDetail" : "Measured: 159.89 kb\/s, Master playlist: 9593.00 kb\/s, Error: 5899.82%"
+    },
+    {
+      "errorComment" : "Measured peak bitrate compared to master playlist declared value exceeds error tolerance",
+      "errorReferenceDataID" : 6,
+      "errorStatusCode" : -1,
+      "errorDetail" : "Measured: 147.80 kb\/s, Master playlist: 74.00 kb\/s, Error: 49.93%, Combined rendition name: Default"
+    }
+  ],
+  "validatorVersion" : "1.2(160525)",
+  "validatorTimestamp" : "2016-09-03T09:46:28-07:00",
+  "sslHosts" : {
+    "https:\/\/replay-media-dev.s3.amazonaws.com" : {
+      "sslNegotiatedProtocolVersion" : 8,
+      "sslNegotiatedCipher" : 49171,
+      "sslRSAKeySizeInBits" : 2048
+    }
+  },
+  "sslContentDeliveredSecurely" : true,
+  "url" : "https:\/\/replay-media-dev.s3.amazonaws.com\/hls\/job-9\/GOPR4795.m3u8",
+  "variants" : [
+    {
+      "processedSegmentsCount" : 4,
+      "url" : "https:\/\/replay-media-dev.s3.amazonaws.com\/hls\/job-9\/hls_600k_video_v4.m3u8",
+      "hasDiscSequenceTag" : false,
+      "messages" : [
+        {
+          "errorParserCode" : -12268,
+          "errorComment" : "#EXT-X-ALLOW-CACHE has been deprecated",
+          "errorStatusCode" : 0,
+          "errorParserLine" : "#EXT-X-ALLOW-CACHE:YES"
+        }
+      ],
+      "measuredMeanBitrate" : 552056,
+      "parsedSegmentsCount" : 4,
+      "hasEndTag" : true,
+      "playlistCodecs" : "avc1.42001e,mp4a.40.5",
+      "playlistResolutionHeight" : 270,
+      "measuredMaxBitrate" : 598140,
+      "independentSegments" : false,
+      "audioGroup" : {
+        "playlistGroupID" : "audio-0",
+        "renditions" : [
+          {
+            "url" : "hls_160k_audio_v4.m3u8",
+            "persistentID" : 0
+          }
+        ]
+      },
+      "closedCaptionGroup" : {
+        "playlistGroupID" : "CC",
+        "renditions" : [
+          {
+            "persistentID" : 1
+          }
+        ]
+      },
+      "iframeOnly" : false,
+      "playlistKind" : "media",
+      "playlistMaxBitrate" : 672000,
+      "sslContentDeliveredSecurely" : true,
+      "discontinuities" : [
+        {
+          "segments" : [
+            {
+              "discontinuityDomain" : 0,
+              "segmentByteRangeLength" : 747676,
+              "url" : "hls_600k_video.ts",
+              "dataID" : 7,
+              "videoFrameRate" : 30,
+              "segmentCryptMethod" : "NONE",
+              "videoStartsWithIDR" : true,
+              "segmentDurationTag" : 10,
+              "mediaSequence" : 0,
+              "sslContentDeliveredSecurely" : true,
+              "segmentByteRangeOffset" : 0
+            },
+            {
+              "discontinuityDomain" : 0,
+              "segmentByteRangeLength" : 782456,
+              "url" : "hls_600k_video.ts",
+              "dataID" : 8,
+              "videoFrameRate" : 30,
+              "segmentCryptMethod" : "NONE",
+              "videoStartsWithIDR" : true,
+              "segmentDurationTag" : 12,
+              "mediaSequence" : 1,
+              "sslContentDeliveredSecurely" : true,
+              "segmentByteRangeOffset" : 747676
+            },
+            {
+              "discontinuityDomain" : 0,
+              "segmentByteRangeLength" : 670596,
+              "url" : "hls_600k_video.ts",
+              "dataID" : 9,
+              "videoFrameRate" : 30,
+              "segmentCryptMethod" : "NONE",
+              "videoStartsWithIDR" : true,
+              "segmentDurationTag" : 10,
+              "mediaSequence" : 2,
+              "sslContentDeliveredSecurely" : true,
+              "segmentByteRangeOffset" : 1530132
+            },
+            {
+              "discontinuityDomain" : 0,
+              "segmentByteRangeLength" : 262824,
+              "url" : "hls_600k_video.ts",
+              "dataID" : 10,
+              "videoFrameRate" : 30,
+              "segmentCryptMethod" : "NONE",
+              "videoStartsWithIDR" : true,
+              "segmentDurationTag" : 3.700000000000003,
+              "mediaSequence" : 3,
+              "sslContentDeliveredSecurely" : true,
+              "segmentByteRangeOffset" : 2200728
+            }
+          ],
+          "measurements" : {
+            "measuredMaxBitrate" : 598140.8,
+            "measuredMeanBitrate" : 552056.4705882353
+          },
+          "tracks" : [
+            {
+              "trackVideoIDRStandardDeviation" : 0,
+              "trackId" : 1,
+              "trackVideoWidth" : 480,
+              "trackVideoLevel" : 30,
+              "trackVideoHeight" : 270,
+              "trackMediaType" : "vide",
+              "trackVideoIDRInterval" : 2,
+              "trackVideoIsInterlaced" : false,
+              "trackVideoProfile" : 66,
+              "trackMediaSubType" : "avc1"
+            }
+          ]
+        }
+      ],
+      "playlistResolutionWidth" : 480,
+      "playlistTargetDuration" : 12,
+      "gzipEncoded" : false,
+      "dataID" : 5
+    },
+    {
+      "processedSegmentsCount" : 4,
+      "url" : "https:\/\/replay-media-dev.s3.amazonaws.com\/hls\/job-9\/hls_2m_video_v4.m3u8",
+      "hasDiscSequenceTag" : false,
+      "messages" : [
+        {
+          "errorParserCode" : -12268,
+          "errorComment" : "#EXT-X-ALLOW-CACHE has been deprecated",
+          "errorStatusCode" : 0,
+          "errorParserLine" : "#EXT-X-ALLOW-CACHE:YES"
+        },
+        {
+          "errorComment" : "Different target durations detected",
+          "errorReferenceDataID" : 5,
+          "errorStatusCode" : -1,
+          "errorDetail" : "Target duration: 11 vs Target duration: 12"
+        }
+      ],
+      "measuredMeanBitrate" : 4708404,
+      "parsedSegmentsCount" : 4,
+      "hasEndTag" : true,
+      "playlistCodecs" : "avc1.4d0028,mp4a.40.5",
+      "playlistResolutionHeight" : 720,
+      "measuredMaxBitrate" : 5451849,
+      "independentSegments" : false,
+      "audioGroup" : {
+        "playlistGroupID" : "audio-0",
+        "renditions" : [
+          {
+            "url" : "hls_160k_audio_v4.m3u8",
+            "persistentID" : 0
+          }
+        ]
+      },
+      "closedCaptionGroup" : {
+        "playlistGroupID" : "CC",
+        "renditions" : [
+          {
+            "persistentID" : 1
+          }
+        ]
+      },
+      "iframeOnly" : false,
+      "playlistKind" : "media",
+      "playlistMaxBitrate" : 5525000,
+      "sslContentDeliveredSecurely" : true,
+      "discontinuities" : [
+        {
+          "segments" : [
+            {
+              "discontinuityDomain" : 0,
+              "segmentByteRangeLength" : 6814812,
+              "url" : "hls_2m_video.ts",
+              "dataID" : 11,
+              "videoFrameRate" : 30,
+              "segmentCryptMethod" : "NONE",
+              "videoStartsWithIDR" : true,
+              "segmentDurationTag" : 10,
+              "mediaSequence" : 0,
+              "sslContentDeliveredSecurely" : true,
+              "segmentByteRangeOffset" : 0
+            },
+            {
+              "discontinuityDomain" : 0,
+              "segmentByteRangeLength" : 5553896,
+              "url" : "hls_2m_video.ts",
+              "dataID" : 12,
+              "videoFrameRate" : 30,
+              "segmentCryptMethod" : "NONE",
+              "videoStartsWithIDR" : true,
+              "segmentDurationTag" : 10,
+              "mediaSequence" : 1,
+              "sslContentDeliveredSecurely" : true,
+              "segmentByteRangeOffset" : 6814812
+            },
+            {
+              "discontinuityDomain" : 0,
+              "segmentByteRangeLength" : 5421732,
+              "url" : "hls_2m_video.ts",
+              "dataID" : 13,
+              "videoFrameRate" : 30,
+              "segmentCryptMethod" : "NONE",
+              "videoStartsWithIDR" : true,
+              "segmentDurationTag" : 10,
+              "mediaSequence" : 2,
+              "sslContentDeliveredSecurely" : true,
+              "segmentByteRangeOffset" : 12368708
+            },
+            {
+              "discontinuityDomain" : 0,
+              "segmentByteRangeLength" : 3220816,
+              "url" : "hls_2m_video.ts",
+              "dataID" : 14,
+              "videoFrameRate" : 30,
+              "segmentCryptMethod" : "NONE",
+              "videoStartsWithIDR" : true,
+              "segmentDurationTag" : 5.700000000000003,
+              "mediaSequence" : 3,
+              "sslContentDeliveredSecurely" : true,
+              "segmentByteRangeOffset" : 17790440
+            }
+          ],
+          "measurements" : {
+            "measuredMaxBitrate" : 5451849.6,
+            "measuredMeanBitrate" : 4708404.705882353
+          },
+          "tracks" : [
+            {
+              "trackVideoIDRStandardDeviation" : 0,
+              "trackId" : 1,
+              "trackVideoWidth" : 1280,
+              "trackVideoLevel" : 40,
+              "trackVideoHeight" : 720,
+              "trackMediaType" : "vide",
+              "trackVideoIDRInterval" : 2,
+              "trackVideoIsInterlaced" : false,
+              "trackVideoProfile" : 77,
+              "trackMediaSubType" : "avc1"
+            }
+          ]
+        }
+      ],
+      "playlistResolutionWidth" : 1280,
+      "playlistTargetDuration" : 11,
+      "gzipEncoded" : false,
+      "dataID" : 4
+    },
+    {
+      "iframeOnly" : true,
+      "independentSegments" : false,
+      "parsedSegmentsCount" : 18,
+      "hasDiscSequenceTag" : false,
+      "discontinuities" : [
+        {
+          "segments" : [
+            {
+              "discontinuityDomain" : 0,
+              "segmentByteRangeLength" : 234871,
+              "url" : "hls_2m_video.ts",
+              "messages" : [
+                {
+                  "errorStatusCode" : -1,
+                  "errorComment" : "Segment size cannot be divided evenly by 188. Partial TS packet found",
+                  "errorDetail" : "Segment size is 234871 = 188 * 1249 + 59"
+                }
+              ],
+              "dataID" : 38,
+              "segmentCryptMethod" : "NONE",
+              "videoStartsWithIDR" : true,
+              "segmentDurationTag" : 2,
+              "mediaSequence" : 0,
+              "sslContentDeliveredSecurely" : true,
+              "segmentByteRangeOffset" : 564
+            },
+            {
+              "discontinuityDomain" : 0,
+              "segmentByteRangeLength" : 103305,
+              "url" : "hls_2m_video.ts",
+              "messages" : [
+                {
+                  "errorStatusCode" : -1,
+                  "errorComment" : "Segment size cannot be divided evenly by 188. Partial TS packet found",
+                  "errorDetail" : "Segment size is 103305 = 188 * 549 + 93"
+                }
+              ],
+              "dataID" : 40,
+              "segmentCryptMethod" : "NONE",
+              "videoStartsWithIDR" : true,
+              "segmentDurationTag" : 2,
+              "mediaSequence" : 1,
+              "sslContentDeliveredSecurely" : true,
+              "segmentByteRangeOffset" : 1810064
+            },
+            {
+              "discontinuityDomain" : 0,
+              "segmentByteRangeLength" : 160973,
+              "url" : "hls_2m_video.ts",
+              "messages" : [
+                {
+                  "errorStatusCode" : -1,
+                  "errorComment" : "Segment size cannot be divided evenly by 188. Partial TS packet found",
+                  "errorDetail" : "Segment size is 160973 = 188 * 856 + 45"
+                }
+              ],
+              "dataID" : 41,
+              "segmentCryptMethod" : "NONE",
+              "videoStartsWithIDR" : true,
+              "segmentDurationTag" : 2,
+              "mediaSequence" : 2,
+              "sslContentDeliveredSecurely" : true,
+              "segmentByteRangeOffset" : 2642716
+            },
+            {
+              "discontinuityDomain" : 0,
+              "segmentByteRangeLength" : 194058,
+              "url" : "hls_2m_video.ts",
+              "messages" : [
+                {
+                  "errorStatusCode" : -1,
+                  "errorComment" : "Segment size cannot be divided evenly by 188. Partial TS packet found",
+                  "errorDetail" : "Segment size is 194058 = 188 * 1032 + 42"
+                }
+              ],
+              "dataID" : 42,
+              "segmentCryptMethod" : "NONE",
+              "videoStartsWithIDR" : true,
+              "segmentDurationTag" : 1.999999999999999,
+              "mediaSequence" : 3,
+              "sslContentDeliveredSecurely" : true,
+              "segmentByteRangeOffset" : 3929576
+            },
+            {
+              "discontinuityDomain" : 0,
+              "segmentByteRangeLength" : 149751,
+              "url" : "hls_2m_video.ts",
+              "messages" : [
+                {
+                  "errorStatusCode" : -1,
+                  "errorComment" : "Segment size cannot be divided evenly by 188. Partial TS packet found",
+                  "errorDetail" : "Segment size is 149751 = 188 * 796 + 103"
+                }
+              ],
+              "dataID" : 43,
+              "segmentCryptMethod" : "NONE",
+              "videoStartsWithIDR" : true,
+              "segmentDurationTag" : 2,
+              "mediaSequence" : 4,
+              "sslContentDeliveredSecurely" : true,
+              "segmentByteRangeOffset" : 5239748
+            },
+            {
+              "discontinuityDomain" : 0,
+              "segmentByteRangeLength" : 135245,
+              "url" : "hls_2m_video.ts",
+              "messages" : [
+                {
+                  "errorStatusCode" : -1,
+                  "errorComment" : "Segment size cannot be divided evenly by 188. Partial TS packet found",
+                  "errorDetail" : "Segment size is 135245 = 188 * 719 + 73"
+                }
+              ],
+              "dataID" : 44,
+              "segmentCryptMethod" : "NONE",
+              "videoStartsWithIDR" : true,
+              "segmentDurationTag" : 2,
+              "mediaSequence" : 5,
+              "sslContentDeliveredSecurely" : true,
+              "segmentByteRangeOffset" : 6814812
+            },
+            {
+              "discontinuityDomain" : 0,
+              "segmentByteRangeLength" : 193408,
+              "url" : "hls_2m_video.ts",
+              "messages" : [
+                {
+                  "errorStatusCode" : -1,
+                  "errorComment" : "Segment size cannot be divided evenly by 188. Partial TS packet found",
+                  "errorDetail" : "Segment size is 193408 = 188 * 1028 + 144"
+                }
+              ],
+              "dataID" : 45,
+              "segmentCryptMethod" : "NONE",
+              "videoStartsWithIDR" : true,
+              "segmentDurationTag" : 2,
+              "mediaSequence" : 6,
+              "sslContentDeliveredSecurely" : true,
+              "segmentByteRangeOffset" : 8032112
+            },
+            {
+              "discontinuityDomain" : 0,
+              "segmentByteRangeLength" : 187260,
+              "url" : "hls_2m_video.ts",
+              "messages" : [
+                {
+                  "errorStatusCode" : -1,
+                  "errorComment" : "Segment size cannot be divided evenly by 188. Partial TS packet found",
+                  "errorDetail" : "Segment size is 187260 = 188 * 996 + 12"
+                }
+              ],
+              "dataID" : 46,
+              "segmentCryptMethod" : "NONE",
+              "videoStartsWithIDR" : true,
+              "segmentDurationTag" : 2.000000000000002,
+              "mediaSequence" : 7,
+              "sslContentDeliveredSecurely" : true,
+              "segmentByteRangeOffset" : 9068932
+            },
+            {
+              "discontinuityDomain" : 0,
+              "segmentByteRangeLength" : 198520,
+              "url" : "hls_2m_video.ts",
+              "messages" : [
+                {
+                  "errorStatusCode" : -1,
+                  "errorComment" : "Segment size cannot be divided evenly by 188. Partial TS packet found",
+                  "errorDetail" : "Segment size is 198520 = 188 * 1055 + 180"
+                }
+              ],
+              "dataID" : 47,
+              "segmentCryptMethod" : "NONE",
+              "videoStartsWithIDR" : true,
+              "segmentDurationTag" : 2,
+              "mediaSequence" : 8,
+              "sslContentDeliveredSecurely" : true,
+              "segmentByteRangeOffset" : 10144668
+            },
+            {
+              "discontinuityDomain" : 0,
+              "segmentByteRangeLength" : 198391,
+              "url" : "hls_2m_video.ts",
+              "messages" : [
+                {
+                  "errorStatusCode" : -1,
+                  "errorComment" : "Segment size cannot be divided evenly by 188. Partial TS packet found",
+                  "errorDetail" : "Segment size is 198391 = 188 * 1055 + 51"
+                }
+              ],
+              "dataID" : 48,
+              "segmentCryptMethod" : "NONE",
+              "videoStartsWithIDR" : true,
+              "segmentDurationTag" : 2,
+              "mediaSequence" : 9,
+              "sslContentDeliveredSecurely" : true,
+              "segmentByteRangeOffset" : 11267216
+            },
+            {
+              "discontinuityDomain" : 0,
+              "segmentByteRangeLength" : 172961,
+              "url" : "hls_2m_video.ts",
+              "messages" : [
+                {
+                  "errorStatusCode" : -1,
+                  "errorComment" : "Segment size cannot be divided evenly by 188. Partial TS packet found",
+                  "errorDetail" : "Segment size is 172961 = 188 * 920 + 1"
+                }
+              ],
+              "dataID" : 49,
+              "segmentCryptMethod" : "NONE",
+              "videoStartsWithIDR" : true,
+              "segmentDurationTag" : 2,
+              "mediaSequence" : 10,
+              "sslContentDeliveredSecurely" : true,
+              "segmentByteRangeOffset" : 12368708
+            },
+            {
+              "discontinuityDomain" : 0,
+              "segmentByteRangeLength" : 179087,
+              "url" : "hls_2m_video.ts",
+              "messages" : [
+                {
+                  "errorStatusCode" : -1,
+                  "errorComment" : "Segment size cannot be divided evenly by 188. Partial TS packet found",
+                  "errorDetail" : "Segment size is 179087 = 188 * 952 + 111"
+                }
+              ],
+              "dataID" : 50,
+              "segmentCryptMethod" : "NONE",
+              "videoStartsWithIDR" : true,
+              "segmentDurationTag" : 2,
+              "mediaSequence" : 11,
+              "sslContentDeliveredSecurely" : true,
+              "segmentByteRangeOffset" : 13447076
+            },
+            {
+              "discontinuityDomain" : 0,
+              "segmentByteRangeLength" : 181524,
+              "url" : "hls_2m_video.ts",
+              "messages" : [
+                {
+                  "errorStatusCode" : -1,
+                  "errorComment" : "Segment size cannot be divided evenly by 188. Partial TS packet found",
+                  "errorDetail" : "Segment size is 181524 = 188 * 965 + 104"
+                }
+              ],
+              "dataID" : 51,
+              "segmentCryptMethod" : "NONE",
+              "videoStartsWithIDR" : true,
+              "segmentDurationTag" : 2,
+              "mediaSequence" : 12,
+              "sslContentDeliveredSecurely" : true,
+              "segmentByteRangeOffset" : 14569248
+            },
+            {
+              "discontinuityDomain" : 0,
+              "segmentByteRangeLength" : 177796,
+              "url" : "hls_2m_video.ts",
+              "messages" : [
+                {
+                  "errorStatusCode" : -1,
+                  "errorComment" : "Segment size cannot be divided evenly by 188. Partial TS packet found",
+                  "errorDetail" : "Segment size is 177796 = 188 * 945 + 136"
+                }
+              ],
+              "dataID" : 52,
+              "segmentCryptMethod" : "NONE",
+              "videoStartsWithIDR" : true,
+              "segmentDurationTag" : 2,
+              "mediaSequence" : 13,
+              "sslContentDeliveredSecurely" : true,
+              "segmentByteRangeOffset" : 15618288
+            },
+            {
+              "discontinuityDomain" : 0,
+              "segmentByteRangeLength" : 176237,
+              "url" : "hls_2m_video.ts",
+              "messages" : [
+                {
+                  "errorStatusCode" : -1,
+                  "errorComment" : "Segment size cannot be divided evenly by 188. Partial TS packet found",
+                  "errorDetail" : "Segment size is 176237 = 188 * 937 + 81"
+                }
+              ],
+              "dataID" : 53,
+              "segmentCryptMethod" : "NONE",
+              "videoStartsWithIDR" : true,
+              "segmentDurationTag" : 2,
+              "mediaSequence" : 14,
+              "sslContentDeliveredSecurely" : true,
+              "segmentByteRangeOffset" : 16735196
+            },
+            {
+              "discontinuityDomain" : 0,
+              "segmentByteRangeLength" : 177054,
+              "url" : "hls_2m_video.ts",
+              "messages" : [
+                {
+                  "errorStatusCode" : -1,
+                  "errorComment" : "Segment size cannot be divided evenly by 188. Partial TS packet found",
+                  "errorDetail" : "Segment size is 177054 = 188 * 941 + 146"
+                }
+              ],
+              "dataID" : 54,
+              "segmentCryptMethod" : "NONE",
+              "videoStartsWithIDR" : true,
+              "segmentDurationTag" : 2,
+              "mediaSequence" : 15,
+              "sslContentDeliveredSecurely" : true,
+              "segmentByteRangeOffset" : 17790440
+            },
+            {
+              "discontinuityDomain" : 0,
+              "segmentByteRangeLength" : 186018,
+              "url" : "hls_2m_video.ts",
+              "messages" : [
+                {
+                  "errorStatusCode" : -1,
+                  "errorComment" : "Segment size cannot be divided evenly by 188. Partial TS packet found",
+                  "errorDetail" : "Segment size is 186018 = 188 * 989 + 86"
+                }
+              ],
+              "dataID" : 55,
+              "segmentCryptMethod" : "NONE",
+              "videoStartsWithIDR" : true,
+              "segmentDurationTag" : 2,
+              "mediaSequence" : 16,
+              "sslContentDeliveredSecurely" : true,
+              "segmentByteRangeOffset" : 18933856
+            },
+            {
+              "discontinuityDomain" : 0,
+              "segmentByteRangeLength" : 177080,
+              "url" : "hls_2m_video.ts",
+              "messages" : [
+                {
+                  "errorStatusCode" : -1,
+                  "errorComment" : "Segment size cannot be divided evenly by 188. Partial TS packet found",
+                  "errorDetail" : "Segment size is 177080 = 188 * 941 + 172"
+                }
+              ],
+              "dataID" : 56,
+              "segmentCryptMethod" : "NONE",
+              "videoStartsWithIDR" : true,
+              "segmentDurationTag" : 1.700000000000003,
+              "mediaSequence" : 17,
+              "sslContentDeliveredSecurely" : true,
+              "segmentByteRangeOffset" : 20034596
+            }
+          ],
+          "measurements" : {
+            "measuredMaxBitrate" : 939484,
+            "measuredMeanBitrate" : 713398.0952380951
+          },
+          "tracks" : [
+            {
+              "trackVideoIDRStandardDeviation" : 0,
+              "trackId" : 1,
+              "trackVideoWidth" : 1280,
+              "trackVideoLevel" : 40,
+              "trackVideoHeight" : 720,
+              "trackMediaType" : "vide",
+              "trackVideoIDRInterval" : 2,
+              "trackVideoIsInterlaced" : false,
+              "trackVideoProfile" : 77,
+              "trackMediaSubType" : "avc1"
+            }
+          ]
+        }
+      ],
+      "measuredMaxBitrate" : 939484,
+      "gzipEncoded" : false,
+      "messages" : [
+        {
+          "errorParserCode" : -12268,
+          "errorComment" : "#EXT-X-ALLOW-CACHE has been deprecated",
+          "errorStatusCode" : 0,
+          "errorParserLine" : "#EXT-X-ALLOW-CACHE:YES"
+        },
+        {
+          "errorComment" : "Different target durations detected",
+          "errorReferenceDataID" : 5,
+          "errorStatusCode" : -1,
+          "errorDetail" : "Target duration: 3 vs Target duration: 12"
+        },
+        {
+          "errorComment" : "Different target durations detected",
+          "errorReferenceDataID" : 4,
+          "errorStatusCode" : -1,
+          "errorDetail" : "Target duration: 3 vs Target duration: 11"
+        },
+        {
+          "errorComment" : "Different target durations detected",
+          "errorReferenceDataID" : 1,
+          "errorStatusCode" : -1,
+          "errorDetail" : "Target duration: 3 vs Target duration: 11"
+        },
+        {
+          "errorComment" : "Different target durations detected",
+          "errorReferenceDataID" : 6,
+          "errorStatusCode" : -1,
+          "errorDetail" : "Target duration: 3 vs Target duration: 11"
+        }
+      ],
+      "url" : "https:\/\/replay-media-dev.s3.amazonaws.com\/hls\/job-9\/hls_2m_video_iframe.m3u8",
+      "playlistKind" : "media",
+      "sslContentDeliveredSecurely" : true,
+      "dataID" : 2,
+      "closedCaptionGroup" : {
+        "playlistGroupID" : "CC",
+        "renditions" : [
+          {
+            "persistentID" : 1
+          }
+        ]
+      },
+      "playlistMaxBitrate" : 56369000,
+      "processedSegmentsCount" : 18,
+      "playlistTargetDuration" : 3,
+      "hasEndTag" : true,
+      "playlistCodecs" : "avc1.4d0028",
+      "measuredMeanBitrate" : 713398
+    },
+    {
+      "iframeOnly" : true,
+      "independentSegments" : false,
+      "parsedSegmentsCount" : 18,
+      "hasDiscSequenceTag" : false,
+      "discontinuities" : [
+        {
+          "segments" : [
+            {
+              "discontinuityDomain" : 0,
+              "segmentByteRangeLength" : 23912,
+              "url" : "hls_600k_video.ts",
+              "messages" : [
+                {
+                  "errorStatusCode" : -1,
+                  "errorComment" : "Segment size cannot be divided evenly by 188. Partial TS packet found",
+                  "errorDetail" : "Segment size is 23912 = 188 * 127 + 36"
+                }
+              ],
+              "dataID" : 19,
+              "segmentCryptMethod" : "NONE",
+              "videoStartsWithIDR" : true,
+              "segmentDurationTag" : 2,
+              "mediaSequence" : 0,
+              "sslContentDeliveredSecurely" : true,
+              "segmentByteRangeOffset" : 564
+            },
+            {
+              "discontinuityDomain" : 0,
+              "segmentByteRangeLength" : 21921,
+              "url" : "hls_600k_video.ts",
+              "messages" : [
+                {
+                  "errorStatusCode" : -1,
+                  "errorComment" : "Segment size cannot be divided evenly by 188. Partial TS packet found",
+                  "errorDetail" : "Segment size is 21921 = 188 * 116 + 113"
+                }
+              ],
+              "dataID" : 21,
+              "segmentCryptMethod" : "NONE",
+              "videoStartsWithIDR" : true,
+              "segmentDurationTag" : 2,
+              "mediaSequence" : 1,
+              "sslContentDeliveredSecurely" : true,
+              "segmentByteRangeOffset" : 171080
+            },
+            {
+              "discontinuityDomain" : 0,
+              "segmentByteRangeLength" : 20815,
+              "url" : "hls_600k_video.ts",
+              "messages" : [
+                {
+                  "errorStatusCode" : -1,
+                  "errorComment" : "Segment size cannot be divided evenly by 188. Partial TS packet found",
+                  "errorDetail" : "Segment size is 20815 = 188 * 110 + 135"
+                }
+              ],
+              "dataID" : 22,
+              "segmentCryptMethod" : "NONE",
+              "videoStartsWithIDR" : true,
+              "segmentDurationTag" : 2,
+              "mediaSequence" : 2,
+              "sslContentDeliveredSecurely" : true,
+              "segmentByteRangeOffset" : 309072
+            },
+            {
+              "discontinuityDomain" : 0,
+              "segmentByteRangeLength" : 28981,
+              "url" : "hls_600k_video.ts",
+              "messages" : [
+                {
+                  "errorStatusCode" : -1,
+                  "errorComment" : "Segment size cannot be divided evenly by 188. Partial TS packet found",
+                  "errorDetail" : "Segment size is 28981 = 188 * 154 + 29"
+                }
+              ],
+              "dataID" : 23,
+              "segmentCryptMethod" : "NONE",
+              "videoStartsWithIDR" : true,
+              "segmentDurationTag" : 2,
+              "mediaSequence" : 3,
+              "sslContentDeliveredSecurely" : true,
+              "segmentByteRangeOffset" : 437852
+            },
+            {
+              "discontinuityDomain" : 0,
+              "segmentByteRangeLength" : 25914,
+              "url" : "hls_600k_video.ts",
+              "messages" : [
+                {
+                  "errorStatusCode" : -1,
+                  "errorComment" : "Segment size cannot be divided evenly by 188. Partial TS packet found",
+                  "errorDetail" : "Segment size is 25914 = 188 * 137 + 158"
+                }
+              ],
+              "dataID" : 24,
+              "segmentCryptMethod" : "NONE",
+              "videoStartsWithIDR" : true,
+              "segmentDurationTag" : 2,
+              "mediaSequence" : 4,
+              "sslContentDeliveredSecurely" : true,
+              "segmentByteRangeOffset" : 582612
+            },
+            {
+              "discontinuityDomain" : 0,
+              "segmentByteRangeLength" : 22232,
+              "url" : "hls_600k_video.ts",
+              "messages" : [
+                {
+                  "errorStatusCode" : -1,
+                  "errorComment" : "Segment size cannot be divided evenly by 188. Partial TS packet found",
+                  "errorDetail" : "Segment size is 22232 = 188 * 118 + 48"
+                }
+              ],
+              "dataID" : 25,
+              "segmentCryptMethod" : "NONE",
+              "videoStartsWithIDR" : true,
+              "segmentDurationTag" : 2,
+              "mediaSequence" : 5,
+              "sslContentDeliveredSecurely" : true,
+              "segmentByteRangeOffset" : 747676
+            },
+            {
+              "discontinuityDomain" : 0,
+              "segmentByteRangeLength" : 25627,
+              "url" : "hls_600k_video.ts",
+              "messages" : [
+                {
+                  "errorStatusCode" : -1,
+                  "errorComment" : "Segment size cannot be divided evenly by 188. Partial TS packet found",
+                  "errorDetail" : "Segment size is 25627 = 188 * 136 + 59"
+                }
+              ],
+              "dataID" : 26,
+              "segmentCryptMethod" : "NONE",
+              "videoStartsWithIDR" : true,
+              "segmentDurationTag" : 2,
+              "mediaSequence" : 6,
+              "sslContentDeliveredSecurely" : true,
+              "segmentByteRangeOffset" : 897136
+            },
+            {
+              "discontinuityDomain" : 0,
+              "segmentByteRangeLength" : 30014,
+              "url" : "hls_600k_video.ts",
+              "messages" : [
+                {
+                  "errorStatusCode" : -1,
+                  "errorComment" : "Segment size cannot be divided evenly by 188. Partial TS packet found",
+                  "errorDetail" : "Segment size is 30014 = 188 * 159 + 122"
+                }
+              ],
+              "dataID" : 27,
+              "segmentCryptMethod" : "NONE",
+              "videoStartsWithIDR" : true,
+              "segmentDurationTag" : 1.999999999999998,
+              "mediaSequence" : 7,
+              "sslContentDeliveredSecurely" : true,
+              "segmentByteRangeOffset" : 1007492
+            },
+            {
+              "discontinuityDomain" : 0,
+              "segmentByteRangeLength" : 29754,
+              "url" : "hls_600k_video.ts",
+              "messages" : [
+                {
+                  "errorStatusCode" : -1,
+                  "errorComment" : "Segment size cannot be divided evenly by 188. Partial TS packet found",
+                  "errorDetail" : "Segment size is 29754 = 188 * 158 + 50"
+                }
+              ],
+              "dataID" : 28,
+              "segmentCryptMethod" : "NONE",
+              "videoStartsWithIDR" : true,
+              "segmentDurationTag" : 2,
+              "mediaSequence" : 8,
+              "sslContentDeliveredSecurely" : true,
+              "segmentByteRangeOffset" : 1123864
+            },
+            {
+              "discontinuityDomain" : 0,
+              "segmentByteRangeLength" : 39972,
+              "url" : "hls_600k_video.ts",
+              "messages" : [
+                {
+                  "errorStatusCode" : -1,
+                  "errorComment" : "Segment size cannot be divided evenly by 188. Partial TS packet found",
+                  "errorDetail" : "Segment size is 39972 = 188 * 212 + 116"
+                }
+              ],
+              "dataID" : 29,
+              "segmentCryptMethod" : "NONE",
+              "videoStartsWithIDR" : true,
+              "segmentDurationTag" : 2,
+              "mediaSequence" : 9,
+              "sslContentDeliveredSecurely" : true,
+              "segmentByteRangeOffset" : 1256216
+            },
+            {
+              "discontinuityDomain" : 0,
+              "segmentByteRangeLength" : 30050,
+              "url" : "hls_600k_video.ts",
+              "messages" : [
+                {
+                  "errorStatusCode" : -1,
+                  "errorComment" : "Segment size cannot be divided evenly by 188. Partial TS packet found",
+                  "errorDetail" : "Segment size is 30050 = 188 * 159 + 158"
+                }
+              ],
+              "dataID" : 30,
+              "segmentCryptMethod" : "NONE",
+              "videoStartsWithIDR" : true,
+              "segmentDurationTag" : 2,
+              "mediaSequence" : 10,
+              "sslContentDeliveredSecurely" : true,
+              "segmentByteRangeOffset" : 1390636
+            },
+            {
+              "discontinuityDomain" : 0,
+              "segmentByteRangeLength" : 28473,
+              "url" : "hls_600k_video.ts",
+              "messages" : [
+                {
+                  "errorStatusCode" : -1,
+                  "errorComment" : "Segment size cannot be divided evenly by 188. Partial TS packet found",
+                  "errorDetail" : "Segment size is 28473 = 188 * 151 + 85"
+                }
+              ],
+              "dataID" : 31,
+              "segmentCryptMethod" : "NONE",
+              "videoStartsWithIDR" : true,
+              "segmentDurationTag" : 2,
+              "mediaSequence" : 11,
+              "sslContentDeliveredSecurely" : true,
+              "segmentByteRangeOffset" : 1530132
+            },
+            {
+              "discontinuityDomain" : 0,
+              "segmentByteRangeLength" : 29775,
+              "url" : "hls_600k_video.ts",
+              "messages" : [
+                {
+                  "errorStatusCode" : -1,
+                  "errorComment" : "Segment size cannot be divided evenly by 188. Partial TS packet found",
+                  "errorDetail" : "Segment size is 29775 = 188 * 158 + 71"
+                }
+              ],
+              "dataID" : 32,
+              "segmentCryptMethod" : "NONE",
+              "videoStartsWithIDR" : true,
+              "segmentDurationTag" : 2,
+              "mediaSequence" : 12,
+              "sslContentDeliveredSecurely" : true,
+              "segmentByteRangeOffset" : 1670192
+            },
+            {
+              "discontinuityDomain" : 0,
+              "segmentByteRangeLength" : 28723,
+              "url" : "hls_600k_video.ts",
+              "messages" : [
+                {
+                  "errorStatusCode" : -1,
+                  "errorComment" : "Segment size cannot be divided evenly by 188. Partial TS packet found",
+                  "errorDetail" : "Segment size is 28723 = 188 * 152 + 147"
+                }
+              ],
+              "dataID" : 33,
+              "segmentCryptMethod" : "NONE",
+              "videoStartsWithIDR" : true,
+              "segmentDurationTag" : 2,
+              "mediaSequence" : 13,
+              "sslContentDeliveredSecurely" : true,
+              "segmentByteRangeOffset" : 1795400
+            },
+            {
+              "discontinuityDomain" : 0,
+              "segmentByteRangeLength" : 29479,
+              "url" : "hls_600k_video.ts",
+              "messages" : [
+                {
+                  "errorStatusCode" : -1,
+                  "errorComment" : "Segment size cannot be divided evenly by 188. Partial TS packet found",
+                  "errorDetail" : "Segment size is 29479 = 188 * 156 + 151"
+                }
+              ],
+              "dataID" : 34,
+              "segmentCryptMethod" : "NONE",
+              "videoStartsWithIDR" : true,
+              "segmentDurationTag" : 2,
+              "mediaSequence" : 14,
+              "sslContentDeliveredSecurely" : true,
+              "segmentByteRangeOffset" : 1935272
+            },
+            {
+              "discontinuityDomain" : 0,
+              "segmentByteRangeLength" : 28455,
+              "url" : "hls_600k_video.ts",
+              "messages" : [
+                {
+                  "errorStatusCode" : -1,
+                  "errorComment" : "Segment size cannot be divided evenly by 188. Partial TS packet found",
+                  "errorDetail" : "Segment size is 28455 = 188 * 151 + 67"
+                }
+              ],
+              "dataID" : 35,
+              "segmentCryptMethod" : "NONE",
+              "videoStartsWithIDR" : true,
+              "segmentDurationTag" : 2,
+              "mediaSequence" : 15,
+              "sslContentDeliveredSecurely" : true,
+              "segmentByteRangeOffset" : 2063676
+            },
+            {
+              "discontinuityDomain" : 0,
+              "segmentByteRangeLength" : 29045,
+              "url" : "hls_600k_video.ts",
+              "messages" : [
+                {
+                  "errorStatusCode" : -1,
+                  "errorComment" : "Segment size cannot be divided evenly by 188. Partial TS packet found",
+                  "errorDetail" : "Segment size is 29045 = 188 * 154 + 93"
+                }
+              ],
+              "dataID" : 36,
+              "segmentCryptMethod" : "NONE",
+              "videoStartsWithIDR" : true,
+              "segmentDurationTag" : 2,
+              "mediaSequence" : 16,
+              "sslContentDeliveredSecurely" : true,
+              "segmentByteRangeOffset" : 2200728
+            },
+            {
+              "discontinuityDomain" : 0,
+              "segmentByteRangeLength" : 29830,
+              "url" : "hls_600k_video.ts",
+              "messages" : [
+                {
+                  "errorStatusCode" : -1,
+                  "errorComment" : "Segment size cannot be divided evenly by 188. Partial TS packet found",
+                  "errorDetail" : "Segment size is 29830 = 188 * 158 + 126"
+                }
+              ],
+              "dataID" : 37,
+              "segmentCryptMethod" : "NONE",
+              "videoStartsWithIDR" : true,
+              "segmentDurationTag" : 1.700000000000003,
+              "mediaSequence" : 17,
+              "sslContentDeliveredSecurely" : true,
+              "segmentByteRangeOffset" : 2338908
+            }
+          ],
+          "measurements" : {
+            "measuredMaxBitrate" : 159888,
+            "measuredMeanBitrate" : 112710.81232493
+          },
+          "tracks" : [
+            {
+              "trackVideoIDRStandardDeviation" : 0,
+              "trackId" : 1,
+              "trackVideoWidth" : 480,
+              "trackVideoLevel" : 30,
+              "trackVideoHeight" : 270,
+              "trackMediaType" : "vide",
+              "trackVideoIDRInterval" : 2,
+              "trackVideoIsInterlaced" : false,
+              "trackVideoProfile" : 66,
+              "trackMediaSubType" : "avc1"
+            }
+          ]
+        }
+      ],
+      "measuredMaxBitrate" : 159888,
+      "gzipEncoded" : false,
+      "messages" : [
+        {
+          "errorParserCode" : -12268,
+          "errorComment" : "#EXT-X-ALLOW-CACHE has been deprecated",
+          "errorStatusCode" : 0,
+          "errorParserLine" : "#EXT-X-ALLOW-CACHE:YES"
+        },
+        {
+          "errorComment" : "Different target durations detected",
+          "errorReferenceDataID" : 5,
+          "errorStatusCode" : -1,
+          "errorDetail" : "Target duration: 3 vs Target duration: 12"
+        },
+        {
+          "errorComment" : "Different target durations detected",
+          "errorReferenceDataID" : 4,
+          "errorStatusCode" : -1,
+          "errorDetail" : "Target duration: 3 vs Target duration: 11"
+        },
+        {
+          "errorComment" : "Different target durations detected",
+          "errorReferenceDataID" : 1,
+          "errorStatusCode" : -1,
+          "errorDetail" : "Target duration: 3 vs Target duration: 11"
+        },
+        {
+          "errorComment" : "Different target durations detected",
+          "errorReferenceDataID" : 6,
+          "errorStatusCode" : -1,
+          "errorDetail" : "Target duration: 3 vs Target duration: 11"
+        }
+      ],
+      "url" : "https:\/\/replay-media-dev.s3.amazonaws.com\/hls\/job-9\/hls_600k_video_iframe.m3u8",
+      "playlistKind" : "media",
+      "sslContentDeliveredSecurely" : true,
+      "dataID" : 3,
+      "closedCaptionGroup" : {
+        "playlistGroupID" : "CC",
+        "renditions" : [
+          {
+            "persistentID" : 1
+          }
+        ]
+      },
+      "playlistMaxBitrate" : 9593000,
+      "processedSegmentsCount" : 18,
+      "playlistTargetDuration" : 3,
+      "hasEndTag" : true,
+      "playlistCodecs" : "avc1.42001e",
+      "measuredMeanBitrate" : 112710
+    },
+    {
+      "processedSegmentsCount" : 4,
+      "url" : "https:\/\/replay-media-dev.s3.amazonaws.com\/hls\/job-9\/hls_160k_audio_v4.m3u8",
+      "hasDiscSequenceTag" : false,
+      "messages" : [
+        {
+          "errorParserCode" : -12268,
+          "errorComment" : "#EXT-X-ALLOW-CACHE has been deprecated",
+          "errorStatusCode" : 0,
+          "errorParserLine" : "#EXT-X-ALLOW-CACHE:YES"
+        },
+        {
+          "errorComment" : "Different target durations detected",
+          "errorReferenceDataID" : 5,
+          "errorStatusCode" : -1,
+          "errorDetail" : "Target duration: 11 vs Target duration: 12"
+        }
+      ],
+      "measuredMeanBitrate" : 73543,
+      "parsedSegmentsCount" : 4,
+      "hasEndTag" : true,
+      "playlistCodecs" : "mp4a.40.5",
+      "measuredMaxBitrate" : 73898,
+      "independentSegments" : false,
+      "iframeOnly" : false,
+      "audioGroup" : {
+        "playlistGroupID" : "audio-0",
+        "renditions" : [
+          {
+            "url" : "hls_160k_audio_v4.m3u8",
+            "persistentID" : 0
+          }
+        ]
+      },
+      "closedCaptionGroup" : {
+        "playlistGroupID" : "CC",
+        "renditions" : [
+          {
+            "persistentID" : 1
+          }
+        ]
+      },
+      "playlistKind" : "media",
+      "playlistMaxBitrate" : 74000,
+      "sslContentDeliveredSecurely" : true,
+      "discontinuities" : [
+        {
+          "segments" : [
+            {
+              "discontinuityDomain" : 0,
+              "segmentByteRangeLength" : 93624,
+              "url" : "hls_160k_audio.ts",
+              "dataID" : 15,
+              "segmentCryptMethod" : "NONE",
+              "segmentDurationTag" : 10.216778,
+              "mediaSequence" : 0,
+              "sslContentDeliveredSecurely" : true,
+              "segmentByteRangeOffset" : 0
+            },
+            {
+              "discontinuityDomain" : 0,
+              "segmentByteRangeLength" : 92684,
+              "url" : "hls_160k_audio.ts",
+              "dataID" : 16,
+              "segmentCryptMethod" : "NONE",
+              "segmentDurationTag" : 10.1239,
+              "mediaSequence" : 1,
+              "sslContentDeliveredSecurely" : true,
+              "segmentByteRangeOffset" : 93624
+            },
+            {
+              "discontinuityDomain" : 0,
+              "segmentByteRangeLength" : 92496,
+              "url" : "hls_160k_audio.ts",
+              "dataID" : 17,
+              "segmentCryptMethod" : "NONE",
+              "segmentDurationTag" : 10.077455,
+              "mediaSequence" : 2,
+              "sslContentDeliveredSecurely" : true,
+              "segmentByteRangeOffset" : 186308
+            },
+            {
+              "discontinuityDomain" : 0,
+              "segmentByteRangeLength" : 49068,
+              "url" : "hls_160k_audio.ts",
+              "dataID" : 18,
+              "segmentCryptMethod" : "NONE",
+              "segmentDurationTag" : 5.247699999999998,
+              "mediaSequence" : 3,
+              "sslContentDeliveredSecurely" : true,
+              "segmentByteRangeOffset" : 278804
+            }
+          ],
+          "measurements" : {
+            "measuredMaxBitrate" : 73898.89368166261,
+            "measuredMeanBitrate" : 73543.1021616683
+          },
+          "tracks" : [
+            {
+              "trackMediaType" : "soun",
+              "trackAudioChannelCount" : 2,
+              "trackId" : 1,
+              "trackAudioSampleRate" : 44100,
+              "trackMediaSubType" : "aach",
+              "trackAudioChannelLayout" : "Stereo (L R)"
+            }
+          ]
+        }
+      ],
+      "playlistTargetDuration" : 11,
+      "gzipEncoded" : false,
+      "dataID" : 6
+    },
+    {
+      "playlistDefault" : true,
+      "processedSegmentsCount" : 4,
+      "url" : "https:\/\/replay-media-dev.s3.amazonaws.com\/hls\/job-9\/hls_160k_audio_v4.m3u8",
+      "hasDiscSequenceTag" : false,
+      "messages" : [
+        {
+          "errorParserCode" : -12268,
+          "errorComment" : "#EXT-X-ALLOW-CACHE has been deprecated",
+          "errorStatusCode" : 0,
+          "errorParserLine" : "#EXT-X-ALLOW-CACHE:YES"
+        },
+        {
+          "errorComment" : "Different target durations detected",
+          "errorReferenceDataID" : 5,
+          "errorStatusCode" : -1,
+          "errorDetail" : "Target duration: 11 vs Target duration: 12"
+        }
+      ],
+      "playlistName" : "Default",
+      "measuredMeanBitrate" : 73543,
+      "parsedSegmentsCount" : 4,
+      "persistentID" : 0,
+      "playlistAutoselect" : true,
+      "hasEndTag" : true,
+      "playlistMediaType" : "soun",
+      "isRendition" : true,
+      "playlistGroupID" : "audio-0",
+      "measuredMaxBitrate" : 73898,
+      "independentSegments" : false,
+      "playlistKind" : "media",
+      "sslContentDeliveredSecurely" : true,
+      "discontinuities" : [
+        {
+          "segments" : [
+            {
+              "discontinuityDomain" : 0,
+              "segmentByteRangeLength" : 93624,
+              "url" : "hls_160k_audio.ts",
+              "dataID" : 15,
+              "segmentCryptMethod" : "NONE",
+              "segmentDurationTag" : 10.216778,
+              "mediaSequence" : 0,
+              "sslContentDeliveredSecurely" : true,
+              "segmentByteRangeOffset" : 0
+            },
+            {
+              "discontinuityDomain" : 0,
+              "segmentByteRangeLength" : 92684,
+              "url" : "hls_160k_audio.ts",
+              "dataID" : 16,
+              "segmentCryptMethod" : "NONE",
+              "segmentDurationTag" : 10.1239,
+              "mediaSequence" : 1,
+              "sslContentDeliveredSecurely" : true,
+              "segmentByteRangeOffset" : 93624
+            },
+            {
+              "discontinuityDomain" : 0,
+              "segmentByteRangeLength" : 92496,
+              "url" : "hls_160k_audio.ts",
+              "dataID" : 17,
+              "segmentCryptMethod" : "NONE",
+              "segmentDurationTag" : 10.077455,
+              "mediaSequence" : 2,
+              "sslContentDeliveredSecurely" : true,
+              "segmentByteRangeOffset" : 186308
+            },
+            {
+              "discontinuityDomain" : 0,
+              "segmentByteRangeLength" : 49068,
+              "url" : "hls_160k_audio.ts",
+              "dataID" : 18,
+              "segmentCryptMethod" : "NONE",
+              "segmentDurationTag" : 5.247699999999998,
+              "mediaSequence" : 3,
+              "sslContentDeliveredSecurely" : true,
+              "segmentByteRangeOffset" : 278804
+            }
+          ],
+          "measurements" : {
+            "measuredMaxBitrate" : 73898.89368166261,
+            "measuredMeanBitrate" : 73543.1021616683
+          },
+          "tracks" : [
+            {
+              "trackMediaType" : "soun",
+              "trackAudioChannelCount" : 2,
+              "trackId" : 1,
+              "trackAudioSampleRate" : 44100,
+              "trackMediaSubType" : "aach",
+              "trackAudioChannelLayout" : "Stereo (L R)"
+            }
+          ]
+        }
+      ],
+      "playlistTargetDuration" : 11,
+      "gzipEncoded" : false,
+      "dataID" : 1
+    }
+  ],
+  "dataVersion" : 1
+}

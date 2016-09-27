@@ -8,7 +8,9 @@ class Video < ActiveRecord::Base
   has_many :videos, inverse_of: :source_video
   has_many :video_drafts
   has_many :scrub_images
-  has_many :playlists, -> { merge(Job.complete) }, through: :jobs
+  has_many :playlists,
+           -> { merge(Job.complete).order(created_at: :desc) },
+           through: :jobs
   has_many :jobs
 
   validates_presence_of :file
@@ -20,6 +22,10 @@ class Video < ActiveRecord::Base
     SQL
     where(query, start_at: start_at, end_at: end_at).order(start_at: :asc)
   end)
+
+  def source_filename_no_ext
+    File.basename(source_key, File.extname(source_key))
+  end
 
   def file_url
     fog_file_from_key(file).public_url

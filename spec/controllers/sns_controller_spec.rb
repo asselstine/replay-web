@@ -53,7 +53,7 @@ describe SnsController, type: :controller do
     expect_verify_with(msg.to_json).and_return(true)
     job = double(Job)
     expect(Job).to receive(:where).with(external_id: '1453956797956-5ci8ub').and_return([job])
-    expect(HlsJobs::Read).to receive(:call).with(job: job)
+    expect(Jobs::Read).to receive(:call).with(job: job)
     post :message, msg.to_json
   end
 end

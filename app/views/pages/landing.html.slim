@@ -4,7 +4,7 @@
       h1 Join Replay
       hr
       p
-        = link_to user_omniauth_authorize_path(provider: :strava), class: 'connect-strava' do
+        = link_to user_strava_omniauth_authorize_path, class: 'connect-strava' do
           = image_tag 'LogInWithStrava.png'
       p.dim
         | or

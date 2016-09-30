@@ -57,6 +57,7 @@ gem 'omniauth-strava'
 gem 's3_direct_upload'
 
 gem 'rb-gsl', require: false
+gem 'gsl', '1.16.0.6'
 
 gem 'figaro'
 
@@ -94,20 +95,17 @@ group :development, :test do
   gem 'pry-byebug'
   gem 'pry-remote'
   gem 'pry-stack_explorer'
-
-  # Access an IRB console on exception pages or by using <%= console %> in views
-  gem 'web-console', '~> 2.0'
-
   gem 'spring'
   gem 'spring-commands-rspec'
   gem 'spring-commands-cucumber'
-
   gem 'factory_girl_rails'
   gem 'better_errors'
 end
 
 group :development do
   gem 'letter_opener'
+  # Access an IRB console on exception pages or by using <%= console %> in views
+  gem 'web-console', '~> 2.0'
 end
 
 group :development, :production do

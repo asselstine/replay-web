@@ -1,6 +1,6 @@
 <h2>Log in</h2>
 
-<%= link_to 'Login with Dropbox', user_omniauth_authorize_path(:provider => :dropbox_oauth2) %>
+<%= link_to 'Login with Strava', user_strava_omniauth_authorize_path %>
 
 <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
   <div class="field">

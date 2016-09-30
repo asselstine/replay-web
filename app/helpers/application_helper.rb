@@ -44,6 +44,6 @@ module ApplicationHelper
   end
 
   def serialize_array_to_json(array)
-    ActiveModel::ArraySerializer.new(array)
+    ActiveModel::Serializer::CollectionSerializer.new(array)
   end
 end

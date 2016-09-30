@@ -7,7 +7,6 @@ gem 'virtus'
 gem 'rails', '4.2.1'
 
 gem 'rollbar', '~> 2.7.1'
-gem 'oj', '~> 2.12.14'
 gem 'messengerjs-rails', '~> 1.4.1'
 # gem 'streamio-ffmpeg'
 gem 'js-routes'

@@ -9,7 +9,7 @@ test:
 dependencies:
   pre:
     # - sudo rm /usr/local/bin/gsl-config
-    - ffmpeg -version
+    # - ffmpeg -version
     - sudo add-apt-repository ppa:spvkgn/ffmpeg-nonfree -y
     - sudo apt-get update -qq
     - sudo cat /etc/apt/sources.list

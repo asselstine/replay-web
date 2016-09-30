@@ -6,6 +6,10 @@ require 'rspec/rails'
 require 'capybara/rails'
 require 'database_cleaner'
 
+require_relative 'support/strava_null_client.rb'
+
+StravaAccount.client_class = StravaNullClient
+
 # Add additional requires below this line. Rails is not loaded until this point!
 
 # Requires supporting ruby files with custom matchers and macros, etc, in

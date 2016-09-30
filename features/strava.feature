@@ -3,8 +3,7 @@ Feature: Connect to Strava
   Background:
     Given I log in
 
-  @queue
-  Scenario: Add Strava account
+  Scenario: Connect Strava Account
     When I go to settings
     And I connect to Strava
     Then my Strava account should be connected

@@ -2,10 +2,10 @@ class SynchronizeJob < ActiveJob::Base
   queue_as :default
 
   # rubocop:disable Lint/RescueException
-  def perform(user_id)
-    ActiveRecord::Base.clear_active_connections!
+  def perform(user_id:)
     user = User.find(user_id)
     strava_account = user.strava_account
+    return unless strava_account
     strava_account.working!
     Synchronize.call(user: user)
     Rails.logger.debug('SynchronizeJob Done!')

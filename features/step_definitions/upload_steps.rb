@@ -1,11 +1,3 @@
-Given %(the video upload has timestamps) do
-  now = Time.zone.now.change(usec: 0).to_datetime
-  @upload.video.update(
-    start_at: now,
-    end_at: now.since(10)
-  )
-end
-
 Given %(the video upload belongs to the setup) do
   @upload.setups << @setup
 end
@@ -94,8 +86,13 @@ end
 
 Given %(I have a video upload) do
   step %(a user exists)
+  step %(there is a setup)
+  now = Time.zone.now.change(usec: 0).to_datetime
   @upload ||= create(:video_upload,
-                     user: @user)
+                     video: create(:video, start_at: now,
+                                           end_at: now.since(10)),
+                     user: @user,
+                     setups: [@setup])
 end
 
 When %(I scrub to the slate and set the timestamp) do

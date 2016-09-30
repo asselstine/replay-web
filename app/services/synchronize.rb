@@ -6,8 +6,7 @@ class Synchronize
 
   def call
     sync_strava if user.strava_account
-    draft_videos
-    draft_photos
+    draft
   end
 
   private

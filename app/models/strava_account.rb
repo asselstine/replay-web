@@ -1,4 +1,7 @@
 class StravaAccount < ActiveRecord::Base
+  @client_class = Strava::Api::V3::Client
+  cattr_accessor :client_class
+
   belongs_to :user
 
   enum sync_job_status: [
@@ -10,11 +13,6 @@ class StravaAccount < ActiveRecord::Base
   ]
 
   def client
-    @_client ||=
-      if Rails.env.test?
-        StravaNullClient.new
-      else
-        Strava::Api::V3::Client.new(access_token: token)
-      end
+    @_client ||= self.class.client_class.new(access_token: token)
   end
 end

@@ -9,7 +9,7 @@ Given %(I have a segment effort) do
                              activity: @activity)
 end
 
-When %(I have an activity matching the video upload) do
+Given %(I have an activity matching the video upload) do
   step %(a user exists)
   step %(I have a video upload)
   @activity ||= create(:activity,

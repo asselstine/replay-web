@@ -7,17 +7,20 @@ require_relative '../../lib/simplecov/config.rb'
 # features/**/*.rb files.
 
 require_relative '../../spec/support/relative_time'
+require_relative '../../spec/support/strava_null_client'
 
 require 'cucumber/rails'
 require 'capybara/rails'
 require 'capybara/poltergeist'
+
+StravaAccount.client_class = StravaNullClient
 
 Capybara.register_driver :chrome do |app|
   Capybara::Selenium::Driver.new(app, browser: :chrome)
 end
 
 Capybara.javascript_driver = :chrome
-# Capybara.javascript_driver = :poltergeist
+ActiveJob::Base.queue_adapter.perform_enqueued_jobs = true
 
 require 'capybara-screenshot/cucumber'
 Capybara::Screenshot.register_driver(:chrome) do |driver, path|
@@ -80,15 +83,6 @@ Cucumber::Rails::Database.javascript_strategy = :truncation
 include FactoryGirl::Syntax::Methods
 
 include ActiveJob::TestHelper
-
-Around('@queue') do |_, block|
-  before_setup
-  begin
-    block.call
-  ensure
-    after_teardown
-  end
-end
 
 OmniAuth.config.test_mode = true
 OmniAuth.config.add_mock(

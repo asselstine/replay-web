@@ -48,10 +48,11 @@ module Edit
     end
 
     def cached_activity_coords(frame)
-      setup_activities.bsearch do |activity|
+      chosen = setup_activities.bsearch do |activity|
         activity.start_at <= frame.end_at &&
           activity.end_at > frame.start_at
-      end.coords_at(frame.start_at)
+      end
+      chosen.coords_at(frame.start_at) if chosen.present?
     end
 
     def setup_activities

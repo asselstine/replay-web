@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :segment_effort do
     strava_segment_effort_id SecureRandom.uuid
-    name 'FirstName'
+    sequence(:name) { |n| "SegmentEffort #{n}" }
     kom_rank 2
     pr_rank 1
     activity

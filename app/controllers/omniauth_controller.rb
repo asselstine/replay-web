@@ -2,13 +2,9 @@ class OmniauthController < Devise::OmniauthCallbacksController
   def strava
     strava = find_or_create_strava_account(request.env['omniauth.auth'])
     if user_signed_in?
-      set_flash_message :notice, :success,
-                        kind: 'Strava' if is_navigational_format?
-      redirect_to settings_path
+      complete_strava_connect(strava)
     else
-      set_flash_message :notice, :success,
-                        kind: 'Strava' if is_navigational_format?
-      sign_in_and_redirect strava.user, event: :authentication
+      complete_strava_sign_in(strava)
     end
   end
   #
@@ -50,5 +46,20 @@ class OmniauthController < Devise::OmniauthCallbacksController
         password_confirmation: generated_password
       )
     end
+  end
+
+  private
+
+  def complete_strava_connect(strava)
+    set_flash_message :notice, :success,
+                      kind: 'Strava' if is_navigational_format?
+    SynchronizeJob.perform_later user_id: strava.user.id
+    redirect_to settings_path
+  end
+
+  def complete_strava_sign_in(strava)
+    set_flash_message :notice, :success,
+                      kind: 'Strava' if is_navigational_format?
+    sign_in_and_redirect strava.user, event: :authentication
   end
 end

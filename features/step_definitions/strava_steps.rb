@@ -8,6 +8,5 @@ Then %(my Strava account should be connected) do
 end
 
 Then %(it should synchronize my data) do
-  expect(ActiveJob::Base.queue_adapter.enqueued_jobs.last)
-    .to include(job: SynchronizeJob)
+  expect(@user.activities).to_not be_empty
 end

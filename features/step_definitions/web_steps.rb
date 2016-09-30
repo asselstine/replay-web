@@ -16,7 +16,7 @@ When %(I go to settings) do
 end
 
 Given %(a user exists) do
-  @user ||= create(:user)
+  @user ||= create(:user, strava_account: create(:strava_account))
 end
 
 Given %(I log in) do

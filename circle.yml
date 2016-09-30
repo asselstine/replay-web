@@ -13,9 +13,9 @@ dependencies:
     # - sudo add-apt-repository ppa:spvkgn/ffmpeg-nonfree -y
     # - sudo apt-get update -qq
     # - sudo cat /etc/apt/sources.list
-    # - sudo apt-get install -y libgsl0-dev; gsl-config --version
     # - sudo apt-get install ffmpeg -y
     # - ffmpeg -version
+    - sudo apt-get install -y libgsl0-dev; gsl-config --version
     - npm install
     - npm install webpack -g
     - gem install bundler --pre

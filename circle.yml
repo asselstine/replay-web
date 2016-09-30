@@ -19,6 +19,7 @@ dependencies:
     - npm install
     - npm install webpack -g
     - gem install bundler --pre
+  post:
     - sudo ldconfig
 test:
   pre:

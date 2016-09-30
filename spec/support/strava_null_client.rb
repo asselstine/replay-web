@@ -1,3 +1,5 @@
+require 'json'
+
 class StravaNullClient
   LIST_ATHLETE_ACTIVITIES = JSON.parse(
     File.read(

@@ -4,7 +4,7 @@ ruby '2.3.0'
 
 gem 'virtus'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.1'
+gem 'rails', '4.2.7.1'
 
 gem 'rollbar', '~> 2.7.1'
 gem 'messengerjs-rails', '~> 1.4.1'

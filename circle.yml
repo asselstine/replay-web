@@ -8,7 +8,7 @@ test:
     - cp log/test.log tmp/capybara/test.log
 dependencies:
   pre:
-    - sudo rm /usr/local/bin/gsl-config
+    # - sudo rm /usr/local/bin/gsl-config
     - ffmpeg -version
     - sudo add-apt-repository ppa:spvkgn/ffmpeg-nonfree -y
     - sudo apt-get update -qq

@@ -19,6 +19,7 @@ dependencies:
     - npm install
     - npm install webpack -g
     - gem install bundler --pre
+    - sudo ldconfig
 test:
   pre:
     - bundle exec rake assets:precompile

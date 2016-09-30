@@ -18,6 +18,7 @@ dependencies:
     # - ffmpeg -version
     - npm install
     - npm install webpack -g
+    - gem install bundler --pre
 test:
   pre:
     - bundle exec rake assets:precompile

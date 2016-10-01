@@ -45,6 +45,7 @@ class Video < ActiveRecord::Base
   end
 
   def duration
+    return 0 unless start_at && end_at
     end_at - start_at
   end
 end

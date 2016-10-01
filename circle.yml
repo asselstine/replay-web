@@ -4,12 +4,12 @@ general:
 dependencies:
   pre:
     # - sudo apt-get install -y libgsl0-dev; gsl-config --version
-    - npm install
-    - npm install webpack -g
+    # - npm install
+    # - npm install webpack -g
     # - gem install bundler --pre
 test:
-  pre:
-    - bundle exec rake assets:precompile
+  # pre:
+  #   - bundle exec rake assets:precompile
   post:
     - cp log/test.log tmp/capybara/test.log
 deployment:

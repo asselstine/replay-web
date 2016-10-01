@@ -56,8 +56,8 @@ gem 'strava-api-v3'
 gem 'omniauth-strava'
 gem 's3_direct_upload'
 
-gem 'rb-gsl', require: false
-gem 'gsl', '1.16.0.6'
+# gem 'rb-gsl', require: false
+# gem 'gsl', '1.16.0.6'
 
 gem 'figaro'
 

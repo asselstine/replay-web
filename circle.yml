@@ -7,11 +7,11 @@ dependencies:
     # - npm install
     # - npm install webpack -g
   post:
-    - rm -rf ~/.gradle
+    # - rm -rf ~/.gradle
     # - rm -rf ~/replay/vendor/bundle
-    - rm -rf ~/.m2
-    - rm -rf ~/.ivy2
-    - rm -rf ~/.go_workspace
+    # - rm -rf ~/.m2
+    # - rm -rf ~/.ivy2
+    # - rm -rf ~/.go_workspace
 test:
   pre:
     - bundle exec rake assets:precompile

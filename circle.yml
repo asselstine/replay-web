@@ -6,6 +6,12 @@ dependencies:
     - sudo apt-get install -y libgsl0-dev; gsl-config --version
     # - npm install
     # - npm install webpack -g
+  post:
+    - rm -r ~/.gradle
+    - rm -r ~/replay/vendor/bundle
+    - rm -r ~/.m2
+    - rm -r ~/.ivy2
+    - rm -r ~/.go_workspace
 test:
   pre:
     - bundle exec rake assets:precompile

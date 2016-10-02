@@ -8,7 +8,7 @@ dependencies:
     # - npm install webpack -g
   post:
     - rm -rf ~/.gradle
-    - rm -rf ~/replay/vendor/bundle
+    # - rm -rf ~/replay/vendor/bundle
     - rm -rf ~/.m2
     - rm -rf ~/.ivy2
     - rm -rf ~/.go_workspace

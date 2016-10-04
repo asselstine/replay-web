@@ -31,7 +31,8 @@ RSpec.describe Jobs::Create do
     allow(subject).to receive(:et_client).and_return(et_client)
     expect(job).to receive(:create_playlist!)
       .with(key: 'the_playlist_key').and_return(:playlist)
-    expect(Streams::Create).to receive(:call).with(playlist: :playlist,
+    expect(Streams::Create).to receive(:call).with(job: job,
+                                                   playlist: :playlist,
                                                    et_outputs: anything)
   end
 

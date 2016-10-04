@@ -31,7 +31,7 @@ module Jobs
     end
 
     def create_streams(playlist)
-      Streams::Create.call(playlist: playlist, et_outputs: et_outputs)
+      Streams::Create.call(job: job, playlist: playlist, et_outputs: et_outputs)
     end
 
     def create_et_job

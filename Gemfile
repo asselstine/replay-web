@@ -57,7 +57,7 @@ gem 'omniauth-strava'
 gem 's3_direct_upload'
 
 # gem 'rb-gsl', require: false
-# gem 'gsl', '1.16.0.6'
+gem 'gsl', '~> 1.16'
 
 gem 'figaro'
 
@@ -84,6 +84,7 @@ group :test do
   gem 'database_cleaner'
   gem 'capybara'
   gem 'capybara-screenshot'
+  gem 'nokogiri', '1.6.7.1'
   gem 'poltergeist'
   gem 'selenium-webdriver'
   gem 'timecop'

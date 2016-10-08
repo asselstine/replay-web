@@ -11,7 +11,7 @@ module Jobs
         "Jobs::Read: Received Response: #{response.to_json}"
       )
       update_job(response)
-      Jobs::MakePublic.call(job: @job) if @job.complete?
+      Playlists::MakePublic.call(playlist: @job.playlist) if @job.complete?
     end
 
     private

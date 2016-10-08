@@ -1,116 +1,46 @@
 module Jobs
   class Create
-    OUTPUT_1080_KEY = 'hls_8m_video'.freeze
-    OUTPUT_1080_PRESET_ID = '1472655874864-22r7qm'.freeze
-    OUTPUT_720_KEY = 'hls_2m_video'.freeze
-    OUTPUT_720_PRESET_ID = '1472918343684-lekifi'.freeze
-    OUTPUT_480_KEY = 'hls_600k_video'.freeze
-    OUTPUT_480_PRESET_ID = '1472918314526-qbdv8n'.freeze
-    OUTPUT_160K_AUDIO_KEY = 'hls_160k_audio'.freeze
-    OUTPUT_160K_AUDIO_PRESET_ID = '1472866554076-f3ueia'.freeze
-    SEGMENT_DURATION = 10
-
     include Service
     include Virtus.model
 
     attribute :job
 
     def call
-      playlist = create_playlist
-      create_streams(playlist)
+      create_job
+      Playlists::Create.call(job: job,
+                             et_outputs: outputs)
+    end
+
+    private
+
+    def outputs
+      @outputs ||= Jobs::BuildOutputs.call(
+        video: job.video,
+        rotation: job.rotate_elastic_transcoder_format
+      )
+    end
+
+    def create_job
       response = create_et_job
       job.update(external_id: response[:job][:id],
                  status: Job.statuses[:submitted],
                  started_at: Time.zone.now)
     end
 
-    private
-
-    def create_playlist
-      job.create_playlist!(key: job.playlist_key)
-    end
-
-    def create_streams(playlist)
-      Streams::Create.call(job: job, playlist: playlist, et_outputs: et_outputs)
-    end
-
     def create_et_job
       et_client.create_job(pipeline_id: Figaro.env.aws_et_pipeline_id,
                            input: { key: job.source_key },
                            output_key_prefix: job.prefix,
-                           outputs: et_outputs,
+                           outputs: outputs,
                            playlists: [playlist])
-    end
-
-    def et_outputs
-      @et_outputs ||= [
-        output_1080,
-        output_720,
-        output_480,
-        audio_160k
-      ].compact
     end
 
     def playlist
       {
         format: 'HLSv4',
         name: job.video.source_filename_no_ext,
-        output_keys: et_outputs.map { |output| output[:key] }
+        output_keys: outputs.map { |output| output[:key] }
       }
-    end
-
-    def output_1080?
-      false # job.video.vertical_resolution >= 1080
-    end
-
-    def output_1080
-      return unless output_1080?
-      {
-        key: OUTPUT_1080_KEY,
-        rotate: rotation,
-        segment_duration: segment_duration,
-        preset_id: OUTPUT_1080_PRESET_ID
-      }
-    end
-
-    def output_720?
-      job.video.vertical_resolution >= 720
-    end
-
-    def output_720
-      return unless output_720?
-      {
-        key: OUTPUT_720_KEY,
-        rotate: rotation,
-        segment_duration: segment_duration,
-        preset_id: OUTPUT_720_PRESET_ID
-      }
-    end
-
-    def output_480
-      {
-        key: OUTPUT_480_KEY,
-        rotate: rotation,
-        segment_duration: segment_duration,
-        preset_id: OUTPUT_480_PRESET_ID
-      }
-    end
-
-    def audio_160k
-      {
-        key: OUTPUT_160K_AUDIO_KEY,
-        segment_duration: segment_duration,
-        preset_id: OUTPUT_160K_AUDIO_PRESET_ID
-      }
-    end
-
-    def segment_duration
-      SEGMENT_DURATION.to_s
-    end
-
-    def rotation
-      return 'auto' if job.rotate_auto?
-      Job.rotations[job.rotation].to_s
     end
 
     def et_client

@@ -4,10 +4,11 @@ RSpec.describe Jobs::Read do
   let(:complete?) { false }
   let(:job) do
     double(Job, video: :video,
-                playlist_key: :playlist_key,
+                playlist: playlist,
                 external_id: 99,
                 complete?: complete?)
   end
+  let(:playlist) { double(Playlist) }
   let(:et_client) { double }
   subject { Jobs::Read.new(job: job) }
 
@@ -62,7 +63,7 @@ RSpec.describe Jobs::Read do
           message: 'status detail',
           finished_at: an_instance_of(ActiveSupport::TimeWithZone)
         )
-      expect(Jobs::MakePublic).to receive(:call).with(job: job)
+      expect(Playlists::MakePublic).to receive(:call).with(playlist: playlist)
       subject.call
     end
   end

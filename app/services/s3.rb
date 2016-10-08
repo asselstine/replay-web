@@ -17,7 +17,7 @@ module S3
     "https://s3.amazonaws.com/#{Figaro.env.aws_s3_bucket}/#{key}"
   end
 
-  def self.make_public(key)
+  def self.make_public(key:)
     object(key).acl.put(acl: 'public-read')
   end
 

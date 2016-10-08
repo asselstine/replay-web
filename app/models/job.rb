@@ -23,7 +23,7 @@ class Job < ActiveRecord::Base
 
   validates :video, :rotation, presence: true
 
-  after_create :create_playlist
+  after_create :enqueue_transcode_job
 
   def filename_with_prefix(key)
     "#{prefix}#{key}"
@@ -41,9 +41,14 @@ class Job < ActiveRecord::Base
     filename_with_prefix(playlist_filename)
   end
 
+  def rotate_elastic_transcoder_format
+    return 'auto' if rotate_auto?
+    self.class.rotations[rotation].to_s
+  end
+
   private
 
-  def create_playlist
+  def enqueue_transcode_job
     Jobs::Create.call(job: self)
   end
 end

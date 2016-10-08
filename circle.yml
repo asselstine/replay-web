@@ -10,7 +10,7 @@ dependencies:
     - bundle install
 test:
   pre:
-    - bundle exec rake assets:precompile
+    - bundle exec rake webpack
   post:
     - cp log/test.log tmp/capybara/test.log
 deployment:

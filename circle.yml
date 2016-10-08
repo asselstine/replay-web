@@ -3,9 +3,9 @@ general:
     - "tmp/capybara"
 dependencies:
   pre:
-    - sudo apt-get install -y libgsl0-dev; gsl-config --version
-    - npm install
-    - npm install webpack -g
+    # - sudo apt-get install -y libgsl0-dev; gsl-config --version
+    # - npm install
+    # - npm install webpack -g
   override:
     - bundle install
 test:

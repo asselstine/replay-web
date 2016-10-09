@@ -1,4 +1,10 @@
 module S3
+  def self.direct_upload_key_path(filename)
+    timestamp = Time.zone.now.to_f.to_i
+    unique_id = (rand * 132_456).to_i
+    "uploads/#{timestamp}-#{unique_id}-#{SecureRandom.hex}/#{filename}"
+  end
+
   def self.get(key, filepath)
     s3 = Aws::S3::Client.new
     File.open(filepath, 'wb') do |file|
@@ -7,9 +13,9 @@ module S3
     end
   end
 
-  def self.upload(filepath, key)
+  def self.upload(filepath, key, override_bucket = nil)
     s3 = Aws::S3::Resource.new
-    obj = s3.bucket(bucket).object(key)
+    obj = s3.bucket(override_bucket || bucket).object(key)
     obj.upload_file(filepath)
   end
 

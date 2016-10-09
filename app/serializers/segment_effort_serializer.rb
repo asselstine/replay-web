@@ -1,3 +1,3 @@
 class SegmentEffortSerializer < ApplicationSerializer
-  attributes :name
+  attributes :name, :start_index, :end_index
 end

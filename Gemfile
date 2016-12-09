@@ -101,6 +101,8 @@ group :development, :test do
   gem 'spring-commands-cucumber'
   gem 'factory_girl_rails'
   gem 'better_errors'
+  gem 'foreman'
+  gem 'rubocop'
 end
 
 group :development do

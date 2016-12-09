@@ -16,6 +16,7 @@ class UploadsController < LoggedInController
 
   def update
     if @upload.update(update_params)
+      @upload.check_video_start_at_changed if @upload.is_a? VideoUpload
       render json: @upload, status: :ok
     else
       render json: @upload, status: :unprocessible_entity

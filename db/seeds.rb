@@ -22,13 +22,13 @@ km_per_m = BigDecimal.new('1.0') / BigDecimal.new('1000.0')
 
 activity_length = 6
 spread = 8
-multiplyer = spread * km_per_m * latlng_per_km
+multiplier = spread * km_per_m * latlng_per_km
 activity = brendan.activities.where(strava_name: 'SeedRide').first_or_create! do |activity|
   activity.strava_name = 'SeedRide'
   activity.strava_start_at = now
   activity.timestamps = Array.new(activity_length) { |i| i }
-  activity.latitudes = Array.new(activity_length) { |i| lat + i * multiplyer }
-  activity.longitudes = Array.new(activity_length) { |i| long + i * multiplyer }
+  activity.latitudes = Array.new(activity_length) { |i| lat + i * multiplier }
+  activity.longitudes = Array.new(activity_length) { |i| long + i * multiplier }
 end
 
 setup_index = (activity_length/2).to_i
@@ -50,8 +50,8 @@ segment_effort = activity.segment_efforts.where(segment: segment).first_or_creat
 setup = brendan.setups.where(name: 'laptop').first_or_create! do |setup|
   setup.name = 'laptop'
   setup.range_m = 16.0
-  setup.latitude = lat + setup_index * multiplyer
-  setup.longitude = long + setup_index * multiplyer
+  setup.latitude = lat + setup_index * multiplier
+  setup.longitude = long + setup_index * multiplier
 end
 
 direct_upload_key_path = S3.direct_upload_key_path('full-clipped.mp4')
@@ -72,4 +72,4 @@ if brendan.drafts.empty?
   PhotoDrafter.call(start_at: now, end_at: now.since(activity_length))
 end
 
-puts "Seeds: VideoDrafts created: #{VideoDraft.all.count}"
+puts "Seeds: VideoDraft count: #{VideoDraft.all.count}"

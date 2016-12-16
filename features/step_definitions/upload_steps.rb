@@ -105,11 +105,6 @@ When %(I update the video upload timestamp) do
   step %(I update the video)
 end
 
-# Then %(I should see the adjusted start and end times) do
-#   expect(page).to have_content('1984-06-30T20:12:11.980Z')
-#   expect(page).to have_content('1984-06-30T20:12:12.087Z')
-# end
-
 When %(I update the video) do
   click_link 'Save'
   step %(I see the success message "Saved upload dan_session1-frame")
@@ -148,14 +143,14 @@ Then %(I should see the photo) do
   end
 end
 
-def update_video_upload_timestamp(time)
+def update_video_upload_timestamp(time, scrub = 0.02)
   step %(I view the upload)
   within '.video-upload-modal' do
     expect(page).to have_content(@upload.filename)
     fill_in_video_draft_timestamp(time)
     find('.modal-content').click
   end
-  scrub_video_upload_s(time, 0.02)
+  scrub_video_upload_s(time, scrub)
 end
 
 def scrub_video_upload_s(time, seconds)
@@ -178,6 +173,7 @@ def fill_in_video_draft_timestamp(time)
 end
 
 def scrub_video_to_s(seconds)
+  expect(page).to have_css('.video-player.canplaythrough')
   execute_script <<-JAVASCRIPT
     $('video')[0].load();
     $('video')[0].currentTime = #{seconds};

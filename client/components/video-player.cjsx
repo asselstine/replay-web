@@ -1,3 +1,4 @@
+cx = require('classnames')
 Select = require('react-select')
 raf = require('raf')
 _ = require('lodash')
@@ -30,6 +31,7 @@ module.exports = React.createClass
     currentTimeMs: 0
     currentLevel: -1
     emitRafTick: _.throttle(@emitRafTick, 80)
+    canPlayThrough: false
 
   videoRef: (ref) ->
     if ref == null
@@ -80,6 +82,8 @@ module.exports = React.createClass
     @disableRafTick()
 
   videoCanPlayThrough: (e) ->
+    @setState
+      canPlayThrough: true
     if @props.onCanPlayThrough
       @props.onCanPlayThrough(e)
 
@@ -190,7 +194,7 @@ module.exports = React.createClass
               onChange={@onChangeLevel}/>
     </div>
 
-    <div className='video-player'>
+    <div className={cx('video-player', 'canplaythrough': @state.canPlayThrough)}>
       <div className='video-container' ref={@videoContainerRef}>
         <video controls autoplay
                ref={@videoRef}

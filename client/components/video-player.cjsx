@@ -1,6 +1,7 @@
 Select = require('react-select')
 raf = require('raf')
 _ = require('lodash')
+EventEmitter = require('wolfy87-eventemitter')
 
 module.exports = React.createClass
   displayName: 'VideoPlayer'
@@ -22,16 +23,13 @@ module.exports = React.createClass
     canFlip: false
     onTimeUpdate: (->)
     onCanPlayThrough: (->)
+    videoEventEmitter: new EventEmitter()
 
   getInitialState: ->
     flip: false
     currentTimeMs: 0
     currentLevel: -1
     emitRafTick: _.throttle(@emitRafTick, 80)
-
-  emitRafTick: ->
-    return unless @vidElem
-    @props.videoEventEmitter.emit('videoRafTick', @vidElem.currentTime)
 
   videoRef: (ref) ->
     if ref == null
@@ -52,18 +50,15 @@ module.exports = React.createClass
     @setState
       flip: !@state.flip
 
-  videoTimeUpdate: (e) ->
-    @setState
-      currentTimeMs: +(e.target.currentTime * 1000)
-    if @props.onTimeUpdate
-      @props.onTimeUpdate(e)
-    @props.videoEventEmitter.emit('timeUpdate', parseInt(e.target.currentTime * 1000)) if @props.videoEventEmitter
-
   enableRafTick: ->
     return if @enableRaf
     @enableRaf = true
     @props.videoEventEmitter.emit('enableRaf')
     raf(@rafTick)
+
+  emitRafTick: ->
+    return unless @vidElem
+    @props.videoEventEmitter.emit('videoRafTick', @vidElem.currentTime)
 
   disableRafTick: ->
     @enableRaf = false
@@ -88,13 +83,17 @@ module.exports = React.createClass
     if @props.onCanPlayThrough
       @props.onCanPlayThrough(e)
 
-  onTimeUpdate: ->
-    @props.onTimeUpdate(@vidElem.currentTime)
-
   videoSeeking: (e) ->
+    @onTimeUpdate(e.target.currentTime)
+
+  videoTimeUpdate: (e) ->
+    @onTimeUpdate(e.target.currentTime)
+
+  onTimeUpdate: (seconds) ->
     @setState
-      currentTimeMs: @vidElem.currentTime * 1000,
-      @onTimeUpdate
+      currentTimeMs: +(seconds * 1000)
+    @props.onTimeUpdate(seconds)
+    @props.videoEventEmitter.emit('timeUpdate', parseInt(seconds * 1000)) if @props.videoEventEmitter
 
   sourceUrl: ->
     if @props.video.playlists.length > 0

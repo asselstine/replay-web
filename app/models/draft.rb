@@ -9,6 +9,13 @@ class Draft < ActiveRecord::Base
 
   validates_presence_of :setup, :activity
 
+  scope :during, (lambda do |start_at, end_at|
+    query = <<-SQL
+      (drafts.start_at, drafts.end_at) OVERLAPS (:start_at, :end_at)
+    SQL
+    where(query, start_at: start_at, end_at: end_at).order(start_at: :asc)
+  end)
+
   scope :photo_or_video_exists, (lambda do
     table = arel_table
     where(table[:photo_id].not_eq(nil).or(table[:video_id].not_eq(nil)))

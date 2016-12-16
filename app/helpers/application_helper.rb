@@ -34,19 +34,6 @@ module ApplicationHelper
     options[:include] ||= '**'
     serializer = ActiveModelSerializers::SerializableResource.new(resource,
                                                                   options)
-    # serializer = if resource.respond_to?(:to_ary)
-    #                serialize_array_to_json(resource, options)
-    #              else
-    #                serialize_resource_to_json(resource, options)
-    #              end
     serializer.as_json
   end
-  #
-  # def serialize_resource_to_json(resource, options)
-  #   ActiveModelSerializers::SerializableResource.new(resource, options)
-  # end
-  #
-  # def serialize_array_to_json(array, options)
-  #   ActiveModel::Serializer::CollectionSerializer.new(array, options)
-  # end
 end

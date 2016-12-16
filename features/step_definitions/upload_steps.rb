@@ -7,7 +7,7 @@ Given %(there is a setup) do
 end
 
 When %(I go to upload) do
-  click_link 'Uploads'
+  visit uploads_path
   click_link 'Upload'
   within '.new-upload' do
     expect(page).to have_content('Upload')
@@ -137,7 +137,7 @@ Given %(there is a photo upload) do
 end
 
 When %(I view the upload) do
-  click_link 'Uploads'
+  visit uploads_path
   expect(page).to have_content(@upload.filename)
   find(:xpath, "//div[@data-upload-id='#{@upload.id}']").click
 end

@@ -4,5 +4,10 @@ javascript:
     setupLocations: JSON.parse('#{raw Setup.locations.to_json}'),
     Job: {
       rotations: JSON.parse('#{raw Job.rotations.to_json}')
+    },
+    assets: {
+      images: {
+        segmentEffort: "#{asset_path('segment-effort.png')}"
+      }
     }
   };

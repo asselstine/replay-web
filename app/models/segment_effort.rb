@@ -4,6 +4,10 @@ class SegmentEffort < ActiveRecord::Base
 
   before_save :set_start_and_end
 
+  has_many :drafts, (lambda do |segment_effort|
+    merge(Draft.during(segment_effort.start_at, segment_effort.end_at))
+  end), through: :activity
+
   scope :at, (lambda do |at|
     where('segment_efforts.start_at <= ?', at)
       .where('segment_efforts.end_at >= ?', at)

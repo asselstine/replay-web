@@ -31,8 +31,6 @@
     "react-select": "^1.0.0-beta12",
     "sass-loader": "^3.2.0",
     "style-loader": "^0.13.1",
-    "video.js": "^5.10.8",
-    "videojs-contrib-hls": "^3.5.2",
     "webpack": "^1.13.0",
     "wolfy87-eventemitter": "^4.3.0"
   },

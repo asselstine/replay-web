@@ -1,24 +1,13 @@
-/*
- * This is a manifest file that'll be compiled into application.css, which will include all the files
- * listed below.
- *
- * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
- * or any plugin's vendor/assets/stylesheets directory can be referenced here using a relative path.
- *
- * You're free to add application-wide styles to this file and they'll appear at the bottom of the
- * compiled file so the styles you add here take precedence over styles defined in any styles
- * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
- * file per style scope.
- *
- *= require s3_direct_upload_progress_bars
- *= require bootstrap-datepicker3
- *= require messenger
- *= require messenger-spinner
- *= require messenger-theme-air
- *= require_tree .
- *= require_self
- */
-
 @import "bootstrap-sprockets";
+@import "bootstrap-variables";
 @import "bootstrap";
+@import "s3_direct_upload_progress_bars";
+@import "bootstrap-datepicker3";
+@import "messenger";
+@import "messenger-spinner";
+@import "messenger-theme-air";
 @import "icomoon";
+
+@import "components/**/*";
+@import "type";
+@import "atomic";

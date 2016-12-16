@@ -3,6 +3,7 @@ require('expose?React!react')
 require('expose?ReactDOM!react-dom')
 require('react-select/dist/react-select.css')
 
+require('expose?Activities!./components/activities')
 require('expose?Drafts!./components/drafts')
 require('expose?DraftsMap!./components/drafts-map')
 require('expose?ExploreVideoDraft!./components/explore-video-draft')

@@ -5,8 +5,7 @@ class ActivitiesController < LoggedInController
     @activities = current_user.activities
   end
 
-  def show
-  end
+  def show; end
 
   def recut
     redirect_to @activity

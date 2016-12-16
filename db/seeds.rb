@@ -55,16 +55,19 @@ setup = brendan.setups.where(name: 'laptop').first_or_create! do |setup|
 end
 
 direct_upload_key_path = S3.direct_upload_key_path('full-clipped.mp4')
-local_filepath = Rails.root.join('spec','fixtures','full-clipped.mp4')
-S3.upload(local_filepath, direct_upload_key_path)
+full_clipped_fixture_filepath = Rails.root.join('spec','fixtures','full-clipped.mp4')
+S3.upload(full_clipped_fixture_filepath, direct_upload_key_path)
 S3.make_public(key: direct_upload_key_path)
 upload = brendan.video_uploads.joins(:video).where(videos: { filename: 'full-clipped.mp4' }).first_or_create! do |upload|
   upload.user = brendan
   upload.setups << setup
   video = upload.create_video!(file: direct_upload_key_path,
+                               filename: 'full-clipped.mp4',
                                user: brendan,
                                start_at: now.since(setup_index.seconds),
                                end_at: now.since(setup_index.seconds + 2.seconds))
+  video.create_thumbnail!(image: File.open(Rails.root.join('spec','fixtures','downhill.png')),
+                          user: brendan)
 end
 
 if brendan.drafts.empty?

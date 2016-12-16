@@ -38,7 +38,7 @@ Then %(I can see the segment effort) do
 end
 
 Then %(I can see a video draft) do
-  expect(VideoDraft.count).to be > 0
+  expect(VideoDraft.count).to be_positive
   expect(page).to have_content(VideoDraft.last.name)
 end
 

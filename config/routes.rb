@@ -24,6 +24,10 @@ Rails.application.routes.draw do
     post '/recut' => 'activities#recut', as: :recut
   end
 
+  resources :segment_efforts, only: [], path: 'efforts' do
+    resources :drafts, only: [:index, :show]
+  end
+
   resource :slate, only: [:show] do
     get 'now', to: 'slates#now', as: :now
   end

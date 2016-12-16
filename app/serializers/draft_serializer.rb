@@ -11,8 +11,6 @@ class DraftSerializer < ModelSerializer
              :type
 
   has_one :setup
-  has_one :video
-  has_many :segment_efforts
 
   def start_at_f
     object.start_at.to_f

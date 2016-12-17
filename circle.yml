@@ -1,7 +1,7 @@
 general:
   artifacts:
     - "tmp/capybara"
-    - "logs"
+    - "log/test.log"
 dependencies:
   pre:
     - sudo apt-get install -y libgsl0-dev; gsl-config --version

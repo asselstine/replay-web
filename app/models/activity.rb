@@ -129,9 +129,8 @@ class Activity < ActiveRecord::Base
     if latitudes.length != timestamps.length
       errors.add(:latitudes, 'has different length than timestamps')
     end
-    if longitudes.length != timestamps.length
-      errors.add(:longitudes, 'has different length than timestamps')
-    end
+    return unless longitudes.length != timestamps.length
+    errors.add(:longitudes, 'has different length than timestamps')
   end
 
   def lat_spline

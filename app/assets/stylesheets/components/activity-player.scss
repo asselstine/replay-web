@@ -1,0 +1,24 @@
+.activity-player {
+  transform: skewX(-10deg);
+}
+
+.activity-player__activity-box {
+  background: red;
+  padding: 0.2em;
+}
+
+.activity-player__activity-current-time,
+.activity-player__activity-name {
+  display: inline-block;
+  padding: 0.2em 0.4em;
+}
+
+.activity-player__activity-current-time {
+  background: yellow;
+  color: black;
+}
+
+.activity-player__activity-name {
+  background: black;
+  color: white;
+}

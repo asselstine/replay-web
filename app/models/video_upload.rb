@@ -10,8 +10,6 @@ class VideoUpload < Upload
     joins(:video).merge(Video.during(start_at, end_at))
   end)
 
-  after_save :check_video_start_at_changed
-
   scope :oldest_by_video_start_at, (lambda do
     joins(:video).order('videos.start_at ASC')
   end)
@@ -19,8 +17,6 @@ class VideoUpload < Upload
   scope :newest_by_video_end_at, (lambda do
     joins(:video).order('videos.end_at DESC')
   end)
-
-  private
 
   def check_video_start_at_changed
     return unless video_timestamps_changed?

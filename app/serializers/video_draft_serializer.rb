@@ -1,5 +1,7 @@
 class VideoDraftSerializer < DraftSerializer
-  attributes :start_at, :end_at
   has_one :video
-  has_one :source_video
+
+  def video
+    object.source_video
+  end
 end

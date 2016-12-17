@@ -12,7 +12,7 @@ Rails.application.routes.draw do
     root to: redirect('/map') #to: 'drafts#map', :as => :authenticated_root
   end
 
-  root to: 'pages#landing', as: :unauthenticated_root
+  root to: 'explore#index', as: :unauthenticated_root
   get 'video', to: 'pages#video'
 
   resources :jobs, only: [:index, :create]
@@ -22,6 +22,10 @@ Rails.application.routes.draw do
   resources :drafts
   resources :activities, :only => [:index, :show] do
     post '/recut' => 'activities#recut', as: :recut
+  end
+
+  resources :segment_efforts, only: [], path: 'efforts' do
+    resources :drafts, only: [:index, :show]
   end
 
   resource :slate, only: [:show] do

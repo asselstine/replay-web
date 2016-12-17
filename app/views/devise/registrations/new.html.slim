@@ -1,0 +1,20 @@
+.container
+  .row
+    .col-xs-12.col-sm-4.col-sm-offset-4.text-center
+      h1 Join Replay
+      hr
+      p
+        = link_to user_strava_omniauth_authorize_path, class: 'connect-strava' do
+          = image_tag 'LogInWithStrava.png'
+      p.dim
+        | or
+      h4 Sign up
+      br
+      = simple_form_for User.new, url: registration_path('user'), html: { class: 'text-left' } do |f|
+        = f.input :email
+        = f.input :password
+        = f.input :password_confirmation
+        .form-group
+          = f.button :submit, 'Sign up'
+          =<> link_to 'Log In', new_user_session_path
+          =< link_to 'Forgot password?', new_user_password_path

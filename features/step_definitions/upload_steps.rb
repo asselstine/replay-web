@@ -6,8 +6,12 @@ Given %(there is a setup) do
   @setup = create(:setup, user: @user)
 end
 
+Given %(there is a setup attached to strava) do
+  @setup = create(:setup, user: @user, location: :strava)
+end
+
 When %(I go to upload) do
-  click_link 'Uploads'
+  visit uploads_path
   click_link 'Upload'
   within '.new-upload' do
     expect(page).to have_content('Upload')
@@ -95,6 +99,16 @@ Given %(I have a video upload) do
                      setups: [@setup])
 end
 
+Given %(I have an unslated video upload matching the activity) do
+  step %(a user exists)
+  step %(there is a setup attached to strava)
+  @upload ||= create(:video_upload,
+                     video: create(:video, start_at: nil,
+                                           end_at: nil),
+                     user: @user,
+                     setups: [@setup])
+end
+
 When %(I scrub to the slate and set the timestamp) do
   update_video_upload_timestamp(DateTime.parse('1984-06-30T20:12:12'))
 end
@@ -104,11 +118,6 @@ When %(I update the video upload timestamp) do
   # step %(I should see the adjusted start and end times)
   step %(I update the video)
 end
-
-# Then %(I should see the adjusted start and end times) do
-#   expect(page).to have_content('1984-06-30T20:12:11.980Z')
-#   expect(page).to have_content('1984-06-30T20:12:12.087Z')
-# end
 
 When %(I update the video) do
   click_link 'Save'
@@ -137,7 +146,7 @@ Given %(there is a photo upload) do
 end
 
 When %(I view the upload) do
-  click_link 'Uploads'
+  visit uploads_path
   expect(page).to have_content(@upload.filename)
   find(:xpath, "//div[@data-upload-id='#{@upload.id}']").click
 end
@@ -148,14 +157,14 @@ Then %(I should see the photo) do
   end
 end
 
-def update_video_upload_timestamp(time)
+def update_video_upload_timestamp(time, scrub = 0.02)
   step %(I view the upload)
   within '.video-upload-modal' do
     expect(page).to have_content(@upload.filename)
     fill_in_video_draft_timestamp(time)
     find('.modal-content').click
   end
-  scrub_video_upload_s(time, 0.02)
+  scrub_video_upload_s(time, scrub)
 end
 
 def scrub_video_upload_s(time, seconds)
@@ -166,9 +175,9 @@ end
 
 def expect_scrub_offset(time, seconds)
   expect(page).to have_content(stringtime(offset_time(time, -seconds)))
-  expect(page).to have_content(stringtime(offset_time(time, 0.107 - seconds)))
-  # expect(page).to have_content('1984-06-30T20:12:11.980Z')
-  # expect(page).to have_content('1984-06-30T20:12:12.087Z')
+  expect(page).to have_content(
+    stringtime(offset_time(time, BigDecimal.new('0.107') - seconds))
+  )
 end
 
 def fill_in_video_draft_timestamp(time)

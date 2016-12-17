@@ -12,7 +12,7 @@ When %(pry) do
 end
 
 When %(I go to settings) do
-  click_link 'Settings'
+  visit settings_path
 end
 
 Given %(a user exists) do

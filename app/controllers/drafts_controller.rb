@@ -9,8 +9,7 @@ class DraftsController < LoggedInController
     @drafts = Draft.all
   end
 
-  def show
-  end
+  def show; end
 
   protected
 

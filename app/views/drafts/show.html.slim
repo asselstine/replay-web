@@ -1,2 +1,5 @@
 - if @draft.is_a? VideoDraft
   = react_component 'VideoDraft', videoDraft: serialize_to_json(@draft)
+- else
+  div
+    | Photo drafts are not supported yet.

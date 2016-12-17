@@ -1,6 +1,9 @@
 _ = require('lodash')
-MapBrowser = require('./map-browser')
-DraftRoute = require('./draft-route')
+moment = require('moment')
+ActivityPlayer = require('./activity-player')
+VideoPlayer = require('./video-player')
+EventEmitter = require('wolfy87-eventemitter')
+SegmentEffortOverlay = require('./segment-effort-overlay')
 
 module.exports = React.createClass
   displayName: 'VideoDraft'
@@ -9,40 +12,36 @@ module.exports = React.createClass
     videoDraft: React.PropTypes.object.isRequired
 
   getInitialState: ->
-    throttledHandleProgressTime: _.throttle(@handleProgressTime, 250)
+    eventEmitter: new EventEmitter()
+    currentTime: 0
 
-  handleProgressTime: (time, draft) ->
-    seconds = (time - draft.start_at_f)
-    @videoPlayer.seek(seconds) if @videoPlayer
+  componentDidMount: ->
+    efforts = @props.videoDraft.segment_efforts
+    if efforts.length
+      effort = efforts[0]
+      @setState
+        currentTime: @videoTime(effort.start_index)
+        currentSegmentEffort: effort
 
-  videoPlayerRef: (ref) ->
-    @videoPlayer = ref
-
-  mapBrowserRef: (ref) ->
-    @mapBrowser = ref
-
-  videoTimeupdate: (e) ->
-    # @mapBrowser.seek(seconds)
+  videoTime: (start_index) ->
+    segmentStartSecond = @props.videoDraft.activity.timestamps_f[start_index]
+    segmentStartAt = moment(@props.videoDraft.activity.start_at).add(segmentStartSecond, 'seconds')
+    videoStartAt = moment(@props.videoDraft.video.start_at)
+    segmentStartAt.diff(videoStartAt, 'seconds', true)
 
   render: ->
+    if @state.currentSegmentEffort
+      segmentEffortOverlay =
+        <SegmentEffortOverlay activity={@props.videoDraft.activity}
+                              segmentEffort={@state.currentSegmentEffort}
+                              eventEmitter={@state.eventEmitter}/>
+
     <div className='video-draft'>
       <h3>{@props.videoDraft.name}</h3>
-      <div className='row'>
-        <div className='col-sm-8'>
-          {@props.videoDraft.video.file_url &&
-              <VideoPlayer video={@props.videoDraft.video}
-                           canFlip={false}
-                           ref={@videoPlayerRef}
-                           onTimeUpdate={@videoTimeupdate}/>
-          }
-        </div>
-        <div className='col-sm-4'>
-          <MapBrowser drafts={[@props.videoDraft]}
-                      ref={@mapBrowserRef}>
-              <DraftRoute key={@props.videoDraft.id}
-                          onProgressTime={@state.throttledHandleProgressTime}
-                          draft={@props.videoDraft}/>
-          </MapBrowser>
-        </div>
+      <div className='data-video-player'>
+        <VideoPlayer video={@props.videoDraft.video}
+                     currentTime={@state.currentTime}
+                     videoEventEmitter={@state.eventEmitter}/>
+        {segmentEffortOverlay}
       </div>
     </div>

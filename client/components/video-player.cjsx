@@ -1,5 +1,8 @@
+cx = require('classnames')
 Select = require('react-select')
 raf = require('raf')
+_ = require('lodash')
+EventEmitter = require('wolfy87-eventemitter')
 
 module.exports = React.createClass
   displayName: 'VideoPlayer'
@@ -9,14 +12,27 @@ module.exports = React.createClass
     onTimeUpdate: React.PropTypes.func
     onCanPlayThrough: React.PropTypes.func
     canFlip: React.PropTypes.bool
+    currentTime: React.PropTypes.number
+    start: React.PropTypes.number
+    duration: React.PropTypes.number
+    loop: React.PropTypes.bool
+    videoEventEmitter: React.PropTypes.object
 
   getDefaultProps: ->
+    start: null
+    duration: null
+    loop: false
     canFlip: false
+    onTimeUpdate: (->)
+    onCanPlayThrough: (->)
+    videoEventEmitter: new EventEmitter()
 
   getInitialState: ->
     flip: false
     currentTimeMs: 0
     currentLevel: -1
+    emitRafTick: _.throttle(@emitRafTick, 80)
+    canPlayThrough: false
 
   videoRef: (ref) ->
     if ref == null
@@ -31,34 +47,60 @@ module.exports = React.createClass
       @videoContainer = ReactDOM.findDOMNode(ref)
 
   seek: (time) ->
+    console.debug('seek')
     @vidElem.currentTime = time
 
   flip: ->
     @setState
       flip: !@state.flip
 
-  videoTimeUpdate: (e) ->
-    @setState
-      currentTimeMs: +(e.target.currentTime * 1000)
-    if @props.onTimeUpdate
-      @props.onTimeUpdate(e)
+  enableRafTick: ->
+    return if @enableRaf
+    @enableRaf = true
+    @props.videoEventEmitter.emit('enableRaf')
+    raf(@rafTick)
+
+  emitRafTick: ->
+    return unless @vidElem
+    @props.videoEventEmitter.emit('videoRafTick', @vidElem.currentTime)
+
+  disableRafTick: ->
+    @enableRaf = false
+    @props.videoEventEmitter.emit('disableRaf')
 
   rafTick: (timestamp) ->
     return unless @vidElem
-    # do something
-    raf(@rafTick)
+    if @props.loop &&
+       @props.start && @props.duration &&
+       @vidElem.currentTime > @props.duration
+      console.debug('raf')
+      @vidElem.currentTime = @props.start
+    @state.emitRafTick()
+    raf(@rafTick) if @enableRaf
+
+  videoPlaying: ->
+    @enableRafTick()
+
+  videoPause: ->
+    @disableRafTick()
 
   videoCanPlayThrough: (e) ->
+    @setState
+      canPlayThrough: true
     if @props.onCanPlayThrough
       @props.onCanPlayThrough(e)
 
-  onTimeUpdate: ->
-    @props.onTimeUpdate(@vidElem.currentTime)
-
   videoSeeking: (e) ->
+    @onTimeUpdate(e.target.currentTime)
+
+  videoTimeUpdate: (e) ->
+    @onTimeUpdate(e.target.currentTime)
+
+  onTimeUpdate: (seconds) ->
     @setState
-      currentTimeMs: @vidElem.currentTime * 1000,
-      @onTimeUpdate
+      currentTimeMs: +(seconds * 1000)
+    @props.onTimeUpdate(seconds)
+    @props.videoEventEmitter.emit('videoRafTick', seconds) if @props.videoEventEmitter
 
   sourceUrl: ->
     if @props.video.playlists.length > 0
@@ -72,29 +114,32 @@ module.exports = React.createClass
       @hls = new Hls({
         debug: false
       })
-      @hls.loadSource(@props.video.playlists[0].file_url)
       @hls.attachMedia(@vidElem)
       @hls.on Hls.Events.MANIFEST_PARSED, () =>
         @vidElem.play()
-      # console.debug('nextLevel: ', @hls.nextLevel)
-      # console.debug('loadLevel: ', @hls.loadLevel)
-      # console.debug('capLevel: ', @hls.capLevel)
+
+  componentWillReceiveProps: (nextProps) ->
+    @vidElem.currentTime = nextProps.currentTime if nextProps.currentTime
 
   componentDidMount: ->
-    # @vidElem.addEventListener 'timeupdate', @videoTimeUpdate
+    @vidElem.addEventListener 'timeupdate', @videoTimeUpdate
     @vidElem.addEventListener 'canplaythrough', @videoCanPlayThrough
     @vidElem.addEventListener 'seeking', @videoSeeking
     @vidElem.addEventListener 'seeked', @videoSeeking
-    # raf(@rafTick)
+    @vidElem.addEventListener 'playing', @videoPlaying
+    @vidElem.addEventListener 'pause', @videoPause
+    @vidElem.currentTime = @props.currentTime if @props.currentTime
     @initVideoPlayer()
 
   componentWillUnmount: ->
     return unless @vidElem
     @hls.destroy() if @hls
-    # @vidElem.removeEventListener 'timeupdate', @videoTimeUpdate
+    @vidElem.removeEventListener 'timeupdate', @videoTimeUpdate
     @vidElem.removeEventListener 'canplaythrough', @videoCanPlayThrough
     @vidElem.removeEventListener 'seeking', @videoSeeking
     @vidElem.removeEventListener 'seeked', @videoSeeking
+    @vidElem.removeEventListener 'playing', @videoPlaying
+    @vidElem.removeEventListener 'pause', @videoPause
 
   getScrubImageSrc: (timeMs) ->
     # one per second
@@ -134,8 +179,10 @@ module.exports = React.createClass
     flipClass = if @state.flip then 'flip' else ''
     flip = <a className='btn btn-primary' href='javascript:;' onClick={@flip}>Flip</a> if @props.canFlip
 
-    if @props.video.playlists.length == 0
-      source = <source src={@props.video.file_url}/>
+    source_url = if @props.video.playlists.length == 0
+      @props.video.file_url
+    else
+      @props.video.playlists[0].file_url
 
     levelOptions = [
       { label: 'auto', value: -1 },
@@ -143,21 +190,22 @@ module.exports = React.createClass
       { label: 'hd', value: 1 }
     ]
 
-    <div>
+    levelOptionsDom = <div>
+      <Select options={levelOptions}
+              value={@state.currentLevel}
+              clearable={false}
+              multi={false}
+              onChange={@onChangeLevel}/>
+    </div>
+
+    <div className={cx('video-player', 'canplaythrough': @state.canPlayThrough)}>
       <div className='video-container' ref={@videoContainerRef}>
         <video controls autoplay
                ref={@videoRef}
                preload={false}
                className='video-player'>
-          {source}
+          <source src={source_url}/>
         </video>
-        <div>
-          <Select options={levelOptions}
-                  value={@state.currentLevel}
-                  clearable={false}
-                  multi={false}
-                  onChange={@onChangeLevel}/>
-        </div>
       </div>
       {flip}
       <div className='scrubber' style={@getScrubStyle(@state.currentTimeMs)}>

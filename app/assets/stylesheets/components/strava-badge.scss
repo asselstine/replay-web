@@ -1,0 +1,11 @@
+.strava-badge {
+  vertical-align: top;
+  border-radius: 4px;
+  display: inline-block;
+  background-image: asset-url('strava_badge-64x64.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 1em;
+  height: 1em;
+}

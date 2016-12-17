@@ -28,7 +28,7 @@ class Video < ActiveRecord::Base
   end
 
   def file_url
-    return source_key if Rails.env.test?
+    return "/#{source_key}" if Rails.env.test?
     fog_file_from_key(source_key).public_url
   end
 

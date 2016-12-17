@@ -5,7 +5,6 @@ module.exports = React.createClass
 
   propTypes:
     activity: React.PropTypes.object.isRequired
-    segmentEfforts: React.PropTypes.array.isRequired
     videoEventEmitter: React.PropTypes.object.isRequired
 
   getInitialState: ->

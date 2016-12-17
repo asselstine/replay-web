@@ -97,7 +97,7 @@ module.exports = React.createClass
     @setState
       currentTimeMs: +(seconds * 1000)
     @props.onTimeUpdate(seconds)
-    @props.videoEventEmitter.emit('timeUpdate', parseInt(seconds * 1000)) if @props.videoEventEmitter
+    @props.videoEventEmitter.emit('videoRafTick', seconds) if @props.videoEventEmitter
 
   sourceUrl: ->
     if @props.video.playlists.length > 0
@@ -199,7 +199,6 @@ module.exports = React.createClass
         <video controls autoplay
                ref={@videoRef}
                preload={false}
-               loop={true}
                className='video-player'>
           <source src={source_url}/>
         </video>

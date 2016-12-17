@@ -12,6 +12,7 @@ module SegmentEfforts
                :type
 
     has_one :setup
+    has_one :video
 
     def start_at_f
       object.start_at.to_f
@@ -23,6 +24,10 @@ module SegmentEfforts
 
     def timestamps_f
       object.timestamps.map(&:to_f)
+    end
+
+    def video
+      object.source_video
     end
   end
 end

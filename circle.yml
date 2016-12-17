@@ -11,8 +11,6 @@ dependencies:
 test:
   pre:
     - bundle exec rake webpack
-  override:
-    - bin/cucumber -t @racey
 deployment:
   production:
     branch: master

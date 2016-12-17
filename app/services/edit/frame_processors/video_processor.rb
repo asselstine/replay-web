@@ -12,7 +12,6 @@ module Edit
       attribute :video_drafts, Array[VideoDraft], default: []
 
       def process(frame)
-        #Rails.logger.debug("Edit::FrameProcessors::VideoProcess: process #{selector.comparators.length} comparators in frame #{frame}")
         comparator = selector.select(frame)
         return unless comparator
         return @video_drafts.last.end_at if continue_draft?(frame, comparator)

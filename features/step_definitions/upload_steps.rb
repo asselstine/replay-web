@@ -99,13 +99,12 @@ Given %(I have a video upload) do
                      setups: [@setup])
 end
 
-Given %(I have a video upload matching the activity) do
+Given %(I have an unslated video upload matching the activity) do
   step %(a user exists)
   step %(there is a setup attached to strava)
-  now = Time.zone.now.change(usec: 0).to_datetime
   @upload ||= create(:video_upload,
-                     video: create(:video, start_at: now,
-                                           end_at: now.since(10)),
+                     video: create(:video, start_at: nil,
+                                           end_at: nil),
                      user: @user,
                      setups: [@setup])
 end

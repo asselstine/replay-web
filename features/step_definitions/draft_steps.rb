@@ -24,12 +24,12 @@ Then %(I should be able to play the video draft) do
   end
 end
 
-Given %(the video upload is updated with the effort timestamp) do
+Given %(the video upload is updated with the activity timestamp) do
   scrub = BigDecimal.new('0.05')
-  update_video_upload_timestamp(@segment_effort.start_at, scrub)
+  update_video_upload_timestamp(@activity.start_at + 1.second, scrub)
   step %(I update the video)
   expect(@upload.video.reload.start_at)
-    .to(eq(@segment_effort.reload.start_at - scrub.seconds))
+    .to(eq(@segment_effort.reload.start_at + 1.second - scrub.seconds))
 end
 
 Then %(I can see the video draft) do

@@ -9,12 +9,11 @@ Feature: Drafts
     When I click on the video draft
     Then I should be able to play the video draft
 
-  @racey
   Scenario: Video upload triggers video drafting
     Given I have a segment effort
-    And I have a video upload matching the activity
+    And I have an unslated video upload matching the activity
     When I log in
-    And the video upload is updated with the effort timestamp
+    And the video upload is updated with the activity timestamp
     And I browse drafts
     Then I can see a video draft
     And I can see the segment effort

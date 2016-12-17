@@ -117,12 +117,8 @@ module.exports = React.createClass
       @hls.attachMedia(@vidElem)
       @hls.on Hls.Events.MANIFEST_PARSED, () =>
         @vidElem.play()
-      # console.debug('nextLevel: ', @hls.nextLevel)
-      # console.debug('loadLevel: ', @hls.loadLevel)
-      # console.debug('capLevel: ', @hls.capLevel)
 
   componentWillReceiveProps: (nextProps) ->
-    console.debug('receved props: ', nextProps)
     @vidElem.currentTime = nextProps.currentTime if nextProps.currentTime
 
   componentDidMount: ->
@@ -143,7 +139,7 @@ module.exports = React.createClass
     @vidElem.removeEventListener 'seeking', @videoSeeking
     @vidElem.removeEventListener 'seeked', @videoSeeking
     @vidElem.removeEventListener 'playing', @videoPlaying
-    @vidElem.addEventListener 'pause', @videoPause
+    @vidElem.removeEventListener 'pause', @videoPause
 
   getScrubImageSrc: (timeMs) ->
     # one per second

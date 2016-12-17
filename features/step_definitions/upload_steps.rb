@@ -173,9 +173,11 @@ def fill_in_video_draft_timestamp(time)
 end
 
 def scrub_video_to_s(seconds)
-  expect(page).to have_css('.video-player.canplaythrough')
   execute_script <<-JAVASCRIPT
     $('video')[0].load();
+  JAVASCRIPT
+  expect(page).to have_css('.video-player.canplaythrough')
+  execute_script <<-JAVASCRIPT
     $('video')[0].currentTime = #{seconds};
   JAVASCRIPT
 end

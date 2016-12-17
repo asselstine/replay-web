@@ -161,9 +161,9 @@ end
 
 def expect_scrub_offset(time, seconds)
   expect(page).to have_content(stringtime(offset_time(time, -seconds)))
-  expect(page).to have_content(stringtime(offset_time(time, 0.107 - seconds)))
-  # expect(page).to have_content('1984-06-30T20:12:11.980Z')
-  # expect(page).to have_content('1984-06-30T20:12:12.087Z')
+  expect(page).to have_content(
+    stringtime(offset_time(time, BigDecimal.new('0.107') - seconds))
+  )
 end
 
 def fill_in_video_draft_timestamp(time)
@@ -175,9 +175,6 @@ end
 def scrub_video_to_s(seconds)
   execute_script <<-JAVASCRIPT
     $('video')[0].load();
-  JAVASCRIPT
-  expect(page).to have_css('.video-player.canplaythrough')
-  execute_script <<-JAVASCRIPT
     $('video')[0].currentTime = #{seconds};
   JAVASCRIPT
 end

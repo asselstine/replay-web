@@ -20,7 +20,6 @@ class VideoUpload < Upload
 
   def check_video_start_at_changed
     return unless video_timestamps_changed?
-    binding.pry
     VideoUploadDrafterJob.perform_later(id)
   end
 

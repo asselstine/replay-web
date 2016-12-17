@@ -25,7 +25,7 @@ Then %(I should be able to play the video draft) do
 end
 
 Given %(the video upload is updated with the effort timestamp) do
-  scrub = 0.02
+  scrub = 0.05
   update_video_upload_timestamp(@segment_effort.start_at, scrub)
   step %(I update the video)
   expect(@upload.video.reload.start_at)

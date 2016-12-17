@@ -5,9 +5,10 @@ class PhotoUploader < CarrierWave::Uploader::Base
 
   include CarrierWave::MiniMagick
 
+  # rubocop:disable Metrics/AbcSize
   def set_exif_data
     actual_file = file.to_file
-    exif = exif
+    exif = new_exif
     photo = model
     photo.filename = File.basename(current_path)
     photo.timestamp ||= exif&.date_time || actual_file.ctime
@@ -16,9 +17,9 @@ class PhotoUploader < CarrierWave::Uploader::Base
     photo.exif_longitude = exif.gps.longitude
   end
 
-  def exif
+  def new_exif
     actual_file = file.to_file
-    return nil unless /\.(jpg)|(jpeg)/ =~ actual_file
+    return nil unless /\.(jpg)|(jpeg)/ =~ File.extname(actual_file)
     EXIFR::JPEG.new(actual_file)
   end
 

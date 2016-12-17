@@ -13,7 +13,7 @@ test:
   pre:
     - bundle exec rake webpack
   override:
-    - cucumber -t @racey
+    - bin/cucumber -t @racey
 deployment:
   production:
     branch: master

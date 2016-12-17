@@ -11,8 +11,8 @@ dependencies:
 test:
   pre:
     - bundle exec rake webpack
-  post:
-    - cp log/test.log tmp/capybara/test.log
+  # post:
+  #   - cp log/test.log tmp/capybara/test.log
   override:
     - cucumber -t @racey
 deployment:

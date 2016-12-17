@@ -25,6 +25,8 @@ class SegmentEffort < ActiveRecord::Base
   def set_start_and_end
     self.start_at ||= start_index_time
     self.end_at ||= end_index_time
+    self.elapsed_time ||= end_at - start_at
+    self.moving_time ||= elapsed_time
   end
 
   def start_index_time

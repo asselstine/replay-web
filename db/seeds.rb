@@ -31,7 +31,7 @@ activity = brendan.activities.where(strava_name: 'SeedRide').first_or_create! do
   activity.longitudes = Array.new(activity_length) { |i| long + i * multiplier }
 end
 
-setup_index = (activity_length/2).to_i
+setup_index = 2
 
 segment = Segment.where(name: 'SeedSegment').first_or_create!(
   strava_segment_id: 'strava_seed_segment'
@@ -39,12 +39,8 @@ segment = Segment.where(name: 'SeedSegment').first_or_create!(
 segment_effort = activity.segment_efforts.where(segment: segment).first_or_create!(
   strava_segment_effort_id: 'strava_seed_segment_effort',
   name: 'Seed segment effort',
-  start_at: now.since(setup_index.seconds),
-  end_at: now.since(setup_index.seconds + 1.seconds),
-  elapsed_time: 1,
-  moving_time: 1,
   start_index: setup_index,
-  end_index: setup_index + 1
+  end_index: setup_index + activity_length/2 - 1
 )
 
 setup = brendan.setups.where(name: 'laptop').first_or_create! do |setup|
@@ -64,8 +60,8 @@ upload = brendan.video_uploads.joins(:video).where(videos: { filename: 'full-cli
   video = upload.create_video!(file: direct_upload_key_path,
                                filename: 'full-clipped.mp4',
                                user: brendan,
-                               start_at: now.since(setup_index.seconds),
-                               end_at: now.since(setup_index.seconds + 2.seconds))
+                               start_at: now.since(1.seconds),
+                               end_at: now.since(3.seconds))
   video.create_thumbnail!(image: File.open(Rails.root.join('spec','fixtures','downhill.png')),
                           user: brendan)
 end

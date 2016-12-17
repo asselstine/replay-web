@@ -12,6 +12,7 @@ module.exports = React.createClass
     onTimeUpdate: React.PropTypes.func
     onCanPlayThrough: React.PropTypes.func
     canFlip: React.PropTypes.bool
+    currentTime: React.PropTypes.number
     start: React.PropTypes.number
     duration: React.PropTypes.number
     loop: React.PropTypes.bool
@@ -46,6 +47,7 @@ module.exports = React.createClass
       @videoContainer = ReactDOM.findDOMNode(ref)
 
   seek: (time) ->
+    console.debug('seek')
     @vidElem.currentTime = time
 
   flip: ->
@@ -71,6 +73,7 @@ module.exports = React.createClass
     if @props.loop &&
        @props.start && @props.duration &&
        @vidElem.currentTime > @props.duration
+      console.debug('raf')
       @vidElem.currentTime = @props.start
     @state.emitRafTick()
     raf(@rafTick) if @enableRaf
@@ -118,6 +121,10 @@ module.exports = React.createClass
       # console.debug('loadLevel: ', @hls.loadLevel)
       # console.debug('capLevel: ', @hls.capLevel)
 
+  componentWillReceiveProps: (nextProps) ->
+    console.debug('receved props: ', nextProps)
+    @vidElem.currentTime = nextProps.currentTime if nextProps.currentTime
+
   componentDidMount: ->
     @vidElem.addEventListener 'timeupdate', @videoTimeUpdate
     @vidElem.addEventListener 'canplaythrough', @videoCanPlayThrough
@@ -125,6 +132,7 @@ module.exports = React.createClass
     @vidElem.addEventListener 'seeked', @videoSeeking
     @vidElem.addEventListener 'playing', @videoPlaying
     @vidElem.addEventListener 'pause', @videoPause
+    @vidElem.currentTime = @props.currentTime if @props.currentTime
     @initVideoPlayer()
 
   componentWillUnmount: ->

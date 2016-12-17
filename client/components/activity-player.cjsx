@@ -13,6 +13,9 @@ module.exports = React.createClass
   componentDidMount: ->
     @props.videoEventEmitter.on('videoRafTick', @videoRafTick)
 
+  componentWillUnmount: ->
+    @props.videoEventEmitter.off('videoRafTick', @videoRafTick)
+
   videoRafTick: (timestamp) ->
     @setState
       currentTime: timestamp

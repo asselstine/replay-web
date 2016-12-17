@@ -6,7 +6,7 @@ module.exports = React.createClass
 
   render: ->
     <div className='video-draft-thumb'>
-      <a href={Routes.draft_path(@props.videoDraft)}>
+      <a href={Routes.draft_path(@props.videoDraft.id)}>
         <img src={@props.videoDraft.video.thumbnail.small_url}/>
       </a>
       <h4>

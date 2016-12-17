@@ -1,18 +1,17 @@
 general:
   artifacts:
     - "tmp/capybara"
+    - "logs"
 dependencies:
   pre:
     - sudo apt-get install -y libgsl0-dev; gsl-config --version
     - npm install
     - npm install webpack -g
-  override:
-    - bundle install
+  # override:
+  #   - bundle install
 test:
   pre:
     - bundle exec rake webpack
-  # post:
-  #   - cp log/test.log tmp/capybara/test.log
   override:
     - cucumber -t @racey
 deployment:

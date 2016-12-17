@@ -26,9 +26,11 @@ module Edit
       setup_coords = setup_coords(frame)
       activity_coords = activity.coords_at(frame.start_at)
       return 0 unless setup_coords && activity_coords
-      Geo.distance_strength(setup_coords,
-                            activity_coords,
-                            setup.range_m)
+      distance = Geo.distance_strength(setup_coords,
+                                       activity_coords,
+                                       setup.range_m)
+      Rails.logger.debug("Comparator: distance strength #{distance}, frame: #{frame}")
+      distance
     end
 
     def setup_coords(frame)

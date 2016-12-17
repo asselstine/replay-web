@@ -20,6 +20,7 @@ module Edit
                  else
                    first_video(frame)
                  end
+        Rails.logger.debug("Comparators::VideoComparator: video_during_frame?: #{@video}, frame: #{frame}")
         @video.present?
       end
 

@@ -6,6 +6,10 @@ Given %(there is a setup) do
   @setup = create(:setup, user: @user)
 end
 
+Given %(there is a setup attached to strava) do
+  @setup = create(:setup, user: @user, location: :strava)
+end
+
 When %(I go to upload) do
   visit uploads_path
   click_link 'Upload'
@@ -87,6 +91,17 @@ end
 Given %(I have a video upload) do
   step %(a user exists)
   step %(there is a setup)
+  now = Time.zone.now.change(usec: 0).to_datetime
+  @upload ||= create(:video_upload,
+                     video: create(:video, start_at: now,
+                                           end_at: now.since(10)),
+                     user: @user,
+                     setups: [@setup])
+end
+
+Given %(I have a video upload matching the activity) do
+  step %(a user exists)
+  step %(there is a setup attached to strava)
   now = Time.zone.now.change(usec: 0).to_datetime
   @upload ||= create(:video_upload,
                      video: create(:video, start_at: now,

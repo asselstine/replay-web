@@ -13,6 +13,8 @@ test:
     - bundle exec rake webpack
   post:
     - cp log/test.log tmp/capybara/test.log
+  override:
+    - cucumber -t @racey
 deployment:
   production:
     branch: master

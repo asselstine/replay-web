@@ -9,6 +9,7 @@ Feature: Drafts
     When I click on the video draft
     Then I should be able to play the video draft
 
+  @racey
   Scenario: Video upload triggers video drafting
     Given I have a segment effort
     And I have a video upload

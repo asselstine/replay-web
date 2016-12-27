@@ -69,7 +69,7 @@ module.exports = React.createClass
       }
       {@props.upload.video.file_url &&
         <div>
-          <VideoPlayer video={@props.upload.video}
+          <VideoJsPlayer video={@props.upload.video}
                        onTimeUpdate={@handleTimeUpdate}
                        onCanPlayThrough={@handleCanPlayThrough}
                        canFlip={true}/>

@@ -1,6 +1,7 @@
 class StravaAccount < ActiveRecord::Base
-  @client_class = Strava::Api::V3::Client
-  cattr_accessor :client_class
+  mattr_accessor :client_class do
+    Strava::Api::V3::Client
+  end
 
   belongs_to :user
 

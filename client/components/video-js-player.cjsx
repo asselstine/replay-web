@@ -109,8 +109,10 @@ module.exports = React.createClass
       @props.video.file_url
 
   initVideoPlayer: ->
+    that = @
     @player = videojs(@vidElem, {}, ->
-      console.debug('ready!')
+      console.debug('setting source to: ', that.sources()[0])
+      this.src(that.sources()[0])
     )
 
   componentWillReceiveProps: (nextProps) ->
@@ -170,14 +172,19 @@ module.exports = React.createClass
     @setState
       currentLevel: option.value
 
+  sources: ->
+    sources = []
+    sources.unshift
+      src: @props.video.file_url
+    # if @props.video.playlists.length
+    #   sources.unshift
+    #     src: @props.video.playlists[0].file_url
+    #     type: "application/x-mpegURL"
+    sources
+
   render: ->
     flipClass = if @state.flip then 'flip' else ''
     flip = <a className='btn btn-primary' href='javascript:;' onClick={@flip}>Flip</a> if @props.canFlip
-
-    sources = []
-    sources.unshift @props.video.file_url
-    if @props.video.playlists.length
-      sources.unshift @props.video.playlists[0].file_url
 
     levelOptions = [
       { label: 'auto', value: -1 },
@@ -199,9 +206,6 @@ module.exports = React.createClass
                ref={@videoRef}
                preload={false}
                className='video-js vjs-default-skin vjs-16-9'>
-          {sources.map (src) ->
-            <source src={src} key={src}/>
-          }
         </video>
       </div>
       {flip}

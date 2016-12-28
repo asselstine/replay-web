@@ -14,5 +14,6 @@ class JobsController < LoggedInController
     params.require(:job)
           .permit(:video_id,
                   :rotation)
+          .merge(output_type: :web)
   end
 end

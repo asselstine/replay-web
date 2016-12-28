@@ -16,7 +16,7 @@ RSpec.describe Playlists::Create do
   it 'should create the playlist and stream' do
     expect(job).to receive(:create_playlist!)
       .with(key: 'pkey').and_return(playlist)
-    expect(job).to receive(:filename_with_prefix)
+    expect(job).to receive(:full_key)
       .with('asdf').and_return('1080p')
     expect(streams).to receive(:create!)
       .with(ts_key: '1080p.ts',
@@ -31,7 +31,7 @@ RSpec.describe Playlists::Create do
     it 'should create the playlist and audio stream' do
       expect(job).to receive(:create_playlist!)
         .with(key: 'pkey').and_return(playlist)
-      expect(job).to receive(:filename_with_prefix)
+      expect(job).to receive(:full_key)
         .with('asdf').and_return('audio')
       expect(streams).to receive(:create!)
         .with(ts_key: 'audio.ts',

@@ -16,7 +16,7 @@ module Playlists
 
     def create_streams(playlist)
       @outputs.each do |output|
-        base = @job.filename_with_prefix(output.key)
+        base = @job.full_key(output.key)
         attrs = { ts_key: base + '.ts',
                   playlist_key: base + '_v4.m3u8' }
         attrs[:iframe_key] = base + '_iframe.m3u8' if output.video?

@@ -96,6 +96,7 @@ ActiveRecord::Schema.define(version: 20161228183246) do
     t.integer "segment_duration"
     t.string  "key",                          null: false
     t.string  "preset_id",                    null: false
+    t.string  "container_format",             null: false
   end
 
   add_index "outputs", ["job_id"], name: "index_outputs_on_job_id", using: :btree

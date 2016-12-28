@@ -8,7 +8,8 @@ module Outputs
     def call
       job.outputs.build(
         key: 'generic_720p',
-        preset_id: '1351620000001-000010'
+        preset_id: '1351620000001-000010',
+        container_format: 'mp4'
       )
     end
   end

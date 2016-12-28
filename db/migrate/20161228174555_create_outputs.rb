@@ -6,6 +6,7 @@ class CreateOutputs < ActiveRecord::Migration
       t.integer :segment_duration
       t.string :key, null: false
       t.string :preset_id, null: false
+      t.string :container_format, null: false
     end
   end
 end

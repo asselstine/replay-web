@@ -47,7 +47,6 @@ module.exports = React.createClass
       @videoContainer = ReactDOM.findDOMNode(ref)
 
   seek: (time) ->
-    console.debug('seek')
     @vidElem.currentTime = time
 
   flip: ->
@@ -111,8 +110,7 @@ module.exports = React.createClass
   initVideoPlayer: ->
     that = @
     @player = videojs(@vidElem, {}, ->
-      console.debug('setting source to: ', that.sources()[0])
-      this.src(that.sources()[0])
+      this.src(that.props.video.sources)
     )
 
   componentWillReceiveProps: (nextProps) ->
@@ -167,39 +165,7 @@ module.exports = React.createClass
         height: '0px'
       }
 
-  onChangeLevel: (option) ->
-    @hls.currentLevel = option.value
-    @setState
-      currentLevel: option.value
-
-  sources: ->
-    sources = []
-    sources.unshift
-      src: @props.video.file_url
-    # if @props.video.playlists.length
-    #   sources.unshift
-    #     src: @props.video.playlists[0].file_url
-    #     type: "application/x-mpegURL"
-    sources
-
   render: ->
-    flipClass = if @state.flip then 'flip' else ''
-    flip = <a className='btn btn-primary' href='javascript:;' onClick={@flip}>Flip</a> if @props.canFlip
-
-    levelOptions = [
-      { label: 'auto', value: -1 },
-      { label: 'sd', value: 0 },
-      { label: 'hd', value: 1 }
-    ]
-
-    levelOptionsDom = <div>
-      <Select options={levelOptions}
-              value={@state.currentLevel}
-              clearable={false}
-              multi={false}
-              onChange={@onChangeLevel}/>
-    </div>
-
     <div className={cx('video-player', 'canplaythrough': @state.canPlayThrough)}>
       <div ref={@videoContainerRef}>
         <video controls
@@ -208,7 +174,6 @@ module.exports = React.createClass
                className='video-js vjs-default-skin vjs-16-9'>
         </video>
       </div>
-      {flip}
       <div className='scrubber' style={@getScrubStyle(@state.currentTimeMs)}>
       </div>
 

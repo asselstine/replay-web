@@ -6,7 +6,7 @@ class JobsController < LoggedInController
   def create
     @job = Job.new(job_params)
     status = @job.save ? :ok : :unprocessable_entity
-    Jobs::Create.call(job: @job) if @job.persisted?
+    Jobs::Start.call(job: @job) if @job.persisted?
     render json: @job, status: status
   end
 

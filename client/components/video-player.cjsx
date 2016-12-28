@@ -200,7 +200,7 @@ module.exports = React.createClass
 
     <div className={cx('video-player', 'canplaythrough': @state.canPlayThrough)}>
       <div className='video-container' ref={@videoContainerRef}>
-        <video controls autoplay
+        <video controls autoPlay
                ref={@videoRef}
                preload={false}
                className='video-player'>

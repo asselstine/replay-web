@@ -11,6 +11,7 @@ class VideoSerializer < ModelSerializer
 
   has_one :thumbnail
   has_many :playlists
+  has_many :web_outputs
 
   def scrub_images
     []

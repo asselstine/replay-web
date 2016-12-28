@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160902223649) do
+ActiveRecord::Schema.define(version: 20161228183246) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -87,7 +87,18 @@ ActiveRecord::Schema.define(version: 20160902223649) do
     t.string   "key"
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
+    t.integer  "output_type"
   end
+
+  create_table "outputs", force: :cascade do |t|
+    t.integer "job_id",                       null: false
+    t.integer "media_type",       default: 0, null: false
+    t.integer "segment_duration"
+    t.string  "key",                          null: false
+    t.string  "preset_id",                    null: false
+  end
+
+  add_index "outputs", ["job_id"], name: "index_outputs_on_job_id", using: :btree
 
   create_table "photos", force: :cascade do |t|
     t.float    "exif_latitude"
@@ -255,6 +266,7 @@ ActiveRecord::Schema.define(version: 20160902223649) do
 
   add_foreign_key "dropbox_events", "users"
   add_foreign_key "dropbox_photos", "dropbox_events"
+  add_foreign_key "outputs", "jobs"
   add_foreign_key "uploads", "photos"
   add_foreign_key "videos", "users"
 end

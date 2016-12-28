@@ -8,10 +8,16 @@ class Video < ActiveRecord::Base
   has_many :videos, inverse_of: :source_video
   has_many :video_drafts
   has_many :scrub_images
+
   has_many :playlists,
            -> { merge(Job.complete).order(created_at: :desc) },
            through: :jobs
   has_many :jobs
+
+  has_many :web_jobs, -> { merge(Job.web) }, class_name: 'Job'
+  has_many :web_outputs,
+           -> { merge(Job.complete) },
+           through: :web_jobs, source: :outputs, class_name: 'Output'
 
   validates_presence_of :file
   validates_presence_of :user

@@ -1,6 +1,12 @@
 class Job < ActiveRecord::Base
   belongs_to :video
   belongs_to :playlist
+  has_many :outputs
+
+  enum output_type: {
+    hls: 0,
+    web: 1
+  }
 
   enum status: {
     created: 0,

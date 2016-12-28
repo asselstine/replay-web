@@ -1,7 +1,7 @@
 _ = require('lodash')
 moment = require('moment')
 ActivityPlayer = require('./activity-player')
-VideoPlayer = require('./video-player')
+VideoJsPlayer = require('./video-js-player')
 EventEmitter = require('wolfy87-eventemitter')
 SegmentEffortOverlay = require('./segment-effort-overlay')
 
@@ -39,9 +39,9 @@ module.exports = React.createClass
     <div className='video-draft'>
       <h3>{@props.videoDraft.name}</h3>
       <div className='data-video-player'>
-        <VideoPlayer video={@props.videoDraft.video}
-                     currentTime={@state.currentTime}
-                     videoEventEmitter={@state.eventEmitter}/>
+        <VideoJsPlayer video={@props.videoDraft.video}
+                       currentTime={@state.currentTime}
+                       videoEventEmitter={@state.eventEmitter}/>
         {segmentEffortOverlay}
       </div>
     </div>

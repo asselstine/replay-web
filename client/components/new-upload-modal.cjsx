@@ -5,7 +5,7 @@ DirectUploadForm = require('./direct-upload-form')
 Select = require('react-select')
 
 module.exports = React.createClass
-  displayName: 'NewUpload'
+  displayName: 'NewUploadModal'
 
   propTypes:
     setups: React.PropTypes.array.isRequired

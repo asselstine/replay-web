@@ -5,7 +5,7 @@ _ = require('lodash')
 EventEmitter = require('wolfy87-eventemitter')
 
 module.exports = React.createClass
-  displayName: 'VideoPlayer'
+  displayName: 'VideoJsPlayer'
 
   propTypes:
     video: React.PropTypes.object.isRequired
@@ -109,14 +109,11 @@ module.exports = React.createClass
       @props.video.file_url
 
   initVideoPlayer: ->
-    # console.debug('init')
-    if Hls.isSupported() && @props.video.playlists.length > 0
-      @hls = new Hls({
-        debug: false
-      })
-      @hls.attachMedia(@vidElem)
-      @hls.on Hls.Events.MANIFEST_PARSED, () =>
-        @vidElem.play()
+    that = @
+    @player = videojs(@vidElem, {}, ->
+      console.debug('setting source to: ', that.sources()[0])
+      this.src(that.sources()[0])
+    )
 
   componentWillReceiveProps: (nextProps) ->
     @vidElem.currentTime = nextProps.currentTime if nextProps.currentTime
@@ -175,14 +172,19 @@ module.exports = React.createClass
     @setState
       currentLevel: option.value
 
+  sources: ->
+    sources = []
+    sources.unshift
+      src: @props.video.file_url
+    # if @props.video.playlists.length
+    #   sources.unshift
+    #     src: @props.video.playlists[0].file_url
+    #     type: "application/x-mpegURL"
+    sources
+
   render: ->
     flipClass = if @state.flip then 'flip' else ''
     flip = <a className='btn btn-primary' href='javascript:;' onClick={@flip}>Flip</a> if @props.canFlip
-
-    source_url = if @props.video.playlists.length == 0
-      @props.video.file_url
-    else
-      @props.video.playlists[0].file_url
 
     levelOptions = [
       { label: 'auto', value: -1 },
@@ -199,12 +201,11 @@ module.exports = React.createClass
     </div>
 
     <div className={cx('video-player', 'canplaythrough': @state.canPlayThrough)}>
-      <div className='video-container' ref={@videoContainerRef}>
+      <div ref={@videoContainerRef}>
         <video controls
                ref={@videoRef}
                preload={false}
-               className='video-player'>
-          <source src={source_url}/>
+               className='video-js vjs-default-skin vjs-16-9'>
         </video>
       </div>
       {flip}

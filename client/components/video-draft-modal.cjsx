@@ -2,6 +2,7 @@ Modal = require('react-modal')
 ModalStyle = require('../util/modal-default-style')
 MapBrowser = require('./map-browser')
 DraftRoute = require('./draft-route')
+VideoJsPlayer = require('./video-js-player')
 
 module.exports = React.createClass
   displayName: 'VideoDraftModal'
@@ -31,9 +32,9 @@ module.exports = React.createClass
           <div className='row'>
             <div className='col-sm-8'>
               {@props.videoDraft.video.file_url &&
-                  <VideoPlayer video={@props.videoDraft.video}
-                               canFlip={false}
-                               ref={@videoPlayerRef}/>
+                  <VideoJsPlayer video={@props.videoDraft.video}
+                                 canFlip={false}
+                                 ref={@videoPlayerRef}/>
               }
             </div>
             <div className='col-sm-4'>

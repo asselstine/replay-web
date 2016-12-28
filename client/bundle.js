@@ -13,7 +13,6 @@ require('expose?Slate!./components/slate')
 require('expose?UploadEditor!./components/upload-editor')
 require('expose?Uploads!./components/uploads')
 require('expose?VideoDraft!./components/video-draft')
-require('expose?VideoPlayer!./components/video-player')
 require('expose?ViewSetup!./components/view-setup')
 
 require('expose?VideoJS!./components/videojs')

@@ -3,6 +3,7 @@ Modal = require('react-modal')
 ModalStyle = require('../util/modal-default-style')
 moment = require('moment')
 Select = require('react-select')
+VideoJsPlayer = require('./video-js-player')
 
 module.exports = React.createClass
   displayName: 'VideoUploadModal'
@@ -111,10 +112,10 @@ module.exports = React.createClass
         <div className='modal-body'>
           {@props.upload.video.file_url &&
             <div>
-              <VideoPlayer video={@props.upload.video}
-                           onTimeUpdate={@handleTimeUpdate}
-                           onCanPlayThrough={@handleCanPlayThrough}
-                           canFlip={true}/>
+              <VideoJsPlayer video={@props.upload.video}
+                             onTimeUpdate={@handleTimeUpdate}
+                             onCanPlayThrough={@handleCanPlayThrough}
+                             canFlip={true}/>
               <div className='controls'>
                 <span>
                   Current Time: {currentTimeMs}ms

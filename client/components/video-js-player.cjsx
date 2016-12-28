@@ -202,7 +202,7 @@ module.exports = React.createClass
 
     <div className={cx('video-player', 'canplaythrough': @state.canPlayThrough)}>
       <div ref={@videoContainerRef}>
-        <video controls autoPlay
+        <video controls
                ref={@videoRef}
                preload={false}
                className='video-js vjs-default-skin vjs-16-9'>

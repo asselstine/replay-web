@@ -11,7 +11,7 @@ module.exports = React.createClass
 
   render: ->
     <div className='segment-effort-overlay'>
-      <h4 class='segment-effort-overlay__title'>
+      <h4 className='segment-effort-overlay__title'>
         <StravaBadge/>
         {@props.segmentEffort.name}
         <SegmentEffortMap/>

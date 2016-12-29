@@ -9,7 +9,7 @@ RSpec.describe Jobs::Read do
                 complete?: complete?)
   end
   let(:playlist) { double(Playlist) }
-  let(:et_client) { double }
+  let(:client) { double }
   subject { Jobs::Read.new(job: job) }
 
   let(:et_job) do
@@ -24,8 +24,8 @@ RSpec.describe Jobs::Read do
   end
 
   before(:each) do
-    allow(subject).to receive(:et_client).and_return(et_client)
-    allow(et_client).to receive(:read_job).with(id: 99).and_return(et_job)
+    allow(ElasticTranscoder).to receive(:client).and_return(client)
+    allow(client).to receive(:read_job).with(id: 99).and_return(et_job)
   end
 
   context 'when progressing' do

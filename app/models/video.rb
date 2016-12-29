@@ -55,4 +55,8 @@ class Video < ActiveRecord::Base
     return 0 unless start_at && end_at
     end_at - start_at
   end
+
+  def current_job
+    jobs.web.complete.last
+  end
 end

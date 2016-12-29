@@ -37,7 +37,7 @@ class Job < ActiveRecord::Base
   end
 
   def prefix
-    "jobs/job-#{id}/"
+    "jobs/job-#{id}-#{created_at.to_i}/"
   end
 
   def playlist_filename

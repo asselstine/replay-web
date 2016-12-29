@@ -14,7 +14,6 @@ brendan = User.where(email: 'brendan@codeandconduct.is').first_or_create! do |us
   user.password_confirmation = 'password'
 end
 
-now = DateTime.now.utc.to_time.change(usec: 0)
 lat = BigDecimal.new('49.265586') # (rand - 0.5) * 180
 long = BigDecimal.new('-123.155719') # (rand - 0.5) * 360
 latlng_per_km =  BigDecimal.new('1.0')/BigDecimal.new('111.0')
@@ -25,11 +24,12 @@ spread = 8
 multiplier = spread * km_per_m * latlng_per_km
 activity = brendan.activities.where(strava_name: 'SeedRide').first_or_create! do |activity|
   activity.strava_name = 'SeedRide'
-  activity.strava_start_at = now
+  activity.strava_start_at = DateTime.now.utc.to_time.change(usec: 0)
   activity.timestamps = Array.new(activity_length) { |i| i }
   activity.latitudes = Array.new(activity_length) { |i| lat + i * multiplier }
   activity.longitudes = Array.new(activity_length) { |i| long + i * multiplier }
 end
+now = activity.strava_start_at
 
 setup_index = 2
 
@@ -50,26 +50,25 @@ setup = brendan.setups.where(name: 'laptop').first_or_create! do |setup|
   setup.longitude = long + setup_index * multiplier
 end
 
+direct_upload_key_path = S3.direct_upload_key_path('full-clipped.mp4')
+full_clipped_fixture_filepath = Rails.root.join('spec','fixtures','full-clipped.mp4')
+S3.upload(full_clipped_fixture_filepath, direct_upload_key_path)
+# S3.make_public(key: direct_upload_key_path)
 
-upload = brendan.video_uploads.joins(:video).where(videos: { filename: 'full-clipped.mp4' }).first_or_create! do |upload|
-  upload.user = brendan
-  upload.setups << setup
-  video = upload.create_video!(file: 'path/to/full-clipped.mp4',
-                               filename: 'full-clipped.mp4',
-                               user: brendan,
-                               start_at: now.since(1.seconds),
-                               end_at: now.since(3.seconds))
-  video.create_thumbnail!(image: File.open(Rails.root.join('spec','fixtures','downhill.png')),
-                          user: brendan)
-
-  job = video.jobs.create!(output_type: :web, status: :complete)
-  output = job.outputs.create!(key: 'full-clipped.mp4', preset_id: 'FAKE', container_format: 'mp4')
-  direct_upload_key_path = job.full_key(output.key)
-  full_clipped_fixture_filepath = Rails.root.join('spec','fixtures','full-clipped.mp4')
-  S3.upload(full_clipped_fixture_filepath, direct_upload_key_path)
-  S3.make_public(key: direct_upload_key_path)
+upload = brendan.video_uploads.joins(:video).where(videos: { filename: 'full-clipped.mp4' }).first
+unless upload
+  upload = VideoUpload.create!(
+    user: brendan,
+    url: direct_upload_key_path,
+    filename: 'full-clipped.mp4',
+    setups: [setup]
+  )
+  VideoUploads::Process.call(video_upload: upload)
+  upload.reload.video.update!(
+    start_at: now.since(1.seconds),
+    end_at: now.since(3.seconds)
+  )
 end
-
 if brendan.drafts.empty?
   VideoDrafter.call(start_at: now, end_at: now.since(activity_length))
   PhotoDrafter.call(start_at: now, end_at: now.since(activity_length))

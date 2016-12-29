@@ -1,4 +1,5 @@
 VideoDraftModal = require('./video-draft-modal')
+VideoThumb = require('./video-thumb')
 
 module.exports = React.createClass
   displayName: 'VideoDraftTile'
@@ -12,7 +13,7 @@ module.exports = React.createClass
 
     <div className='video-draft-tile'>
       <a href={Routes.draft_path(@props.videoDraft.id)}>
-        {@props.videoDraft.name}
+        <VideoThumb video={@props.videoDraft.video}/>
       </a>
       {segmentEfforts}
     </div>

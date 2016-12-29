@@ -5,13 +5,26 @@ class Output < ActiveRecord::Base
   }
   belongs_to :job
 
-  def public_url
+  def signed_url
     return key if Rails.env.test?
     S3.object(job.full_key(key))
       .presigned_url(:get, expires_in: 1.hour)
   end
 
-  def type
-    "video/#{container_format}"
+  def thumbnail_url_pattern
+    S3.object(job.full_key(key))
+      .presigned_url(:get, expires_in: 1.hour)
+  end
+
+  def thumbnail_count
+    return 0 unless duration_millis && thumbnail_interval_s
+    (duration_millis / (thumbnail_interval_s * 1000)) + 1
+  end
+
+  def thumbnail_keys
+    (1..thumbnail_count).map do |i|
+      key = thumbnail_pattern.gsub('{count}', i.to_s.rjust(5, '0'))
+      "#{key}.#{thumbnail_format}"
+    end
   end
 end

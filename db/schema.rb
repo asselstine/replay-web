@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161228183246) do
+ActiveRecord::Schema.define(version: 20161229195646) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -91,12 +91,19 @@ ActiveRecord::Schema.define(version: 20161228183246) do
   end
 
   create_table "outputs", force: :cascade do |t|
-    t.integer "job_id",                       null: false
-    t.integer "media_type",       default: 0, null: false
+    t.integer "job_id",                           null: false
+    t.integer "media_type",           default: 0, null: false
     t.integer "segment_duration"
-    t.string  "key",                          null: false
-    t.string  "preset_id",                    null: false
-    t.string  "container_format",             null: false
+    t.string  "key",                              null: false
+    t.string  "preset_id",                        null: false
+    t.string  "container_format",                 null: false
+    t.integer "thumbnail_interval_s"
+    t.string  "thumbnail_pattern"
+    t.string  "thumbnail_format"
+    t.integer "duration_millis"
+    t.integer "width"
+    t.integer "height"
+    t.integer "file_size"
   end
 
   add_index "outputs", ["job_id"], name: "index_outputs_on_job_id", using: :btree

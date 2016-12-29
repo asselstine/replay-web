@@ -2,7 +2,6 @@ class ProcessUploadJob < ActiveJob::Base
   queue_as :default
 
   def perform(upload:)
-    ActiveRecord::Base.clear_active_connections!
     upload.reload
     if /video/ =~ upload.file_type
       process_video(upload)

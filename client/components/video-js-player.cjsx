@@ -110,7 +110,10 @@ module.exports = React.createClass
   initVideoPlayer: ->
     that = @
     @player = videojs(@vidElem, {}, ->
-      this.src(that.props.video.sources)
+      this.src(that.props.video.outputs.map (output) ->
+        src: output.signed_url
+        type: "video/#{output.container_format}"
+      )
     )
 
   componentWillReceiveProps: (nextProps) ->

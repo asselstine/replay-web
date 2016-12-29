@@ -23,7 +23,7 @@ module.exports = React.createClass
       <h1>Videos</h1>
       <div className='row'>
         <div className='col-xs-12'>
-          <a href={Routes.uploads_path()}>Uploads</a>
+          <a href={Routes.uploads_path()}>Manage</a>
         </div>
       </div>
       <div className='row'>

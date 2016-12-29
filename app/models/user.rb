@@ -4,11 +4,11 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable
 
-  has_many :setups
+  has_many :setups, dependent: :destroy
   has_many :photos, dependent: :destroy
   has_many :draft_photos, through: :activities, dependent: :destroy
   has_many :draft_photo_photos, through: :draft_photos, source: :photo
-  has_many :uploads
+  has_many :uploads, dependent: :destroy
   has_many :video_uploads
   has_many :jobs, through: :video_uploads
   has_many :photo_uploads

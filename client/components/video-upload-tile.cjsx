@@ -1,6 +1,7 @@
 moment = require('moment')
 VideoUploadModal = require('./video-upload-modal')
 JobRow = require('./job-row')
+VideoThumb = require('./video-thumb')
 
 module.exports = React.createClass
   displayName: 'VideoUploadTile'
@@ -18,18 +19,8 @@ module.exports = React.createClass
     @setState(editModalIsOpen: false)
 
   render: ->
-    if @props.upload.jobs.length > 0
-       jobs = @props.upload.jobs.map (job) ->
-         <JobRow job={job} key={job.id}/>
-
     <div data-upload-id={@props.upload.id} className='video-upload-tile tile' onClick={@openEditModal}>
-      {jobs}
-      <p>
-        <small>{@props.upload.video.start_at}</small>
-      </p>
-      <p>
-        {@props.upload.filename}
-      </p>
+      <VideoThumb video={@props.upload.video}/>
       <VideoUploadModal upload={@props.upload}
                        isOpen={@state.editModalIsOpen}
                        onRequestClose={@closeEditModal}

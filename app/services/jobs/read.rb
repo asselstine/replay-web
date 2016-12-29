@@ -6,7 +6,7 @@ module Jobs
     attribute :job
 
     def call
-      response = et_client.read_job(id: @job.external_id)
+      response = ElasticTranscoder.client.read_job(id: @job.external_id)
       Rails.logger.debug(
         "Jobs::Read: Received Response: #{response.to_json}"
       )
@@ -27,10 +27,6 @@ module Jobs
 
     def complete?(status)
       status[/complete|canceled|error/]
-    end
-
-    def et_client
-      @_et_client ||= ElasticTranscoder.client
     end
   end
 end

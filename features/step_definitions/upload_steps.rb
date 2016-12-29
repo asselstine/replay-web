@@ -66,6 +66,10 @@ When %(I finish the photo upload) do
   @upload = Upload.last
 end
 
+When %(the video upload job completes) do
+  Jobs::Read.call(job: @upload.jobs.first)
+end
+
 Then %(the video upload should be listed) do
   visit uploads_path
   expect(page).to have_content('dan_session1-frame')
@@ -103,8 +107,9 @@ Given %(I have an unslated video upload matching the activity) do
   step %(a user exists)
   step %(there is a setup attached to strava)
   @upload ||= create(:video_upload,
-                     video: create(:video, start_at: nil,
-                                           end_at: nil),
+                     video: create(:video,
+                                   start_at: nil,
+                                   end_at: nil),
                      user: @user,
                      setups: [@setup])
 end

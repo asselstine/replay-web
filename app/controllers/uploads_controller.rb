@@ -2,7 +2,8 @@ class UploadsController < LoggedInController
   before_action :find_upload, except: [:new, :create, :index]
 
   def index
-    @uploads = current_user.uploads
+    @uploads = current_user.video_uploads.complete
+    @jobs = current_user.jobs.incomplete
   end
 
   def create

@@ -4,15 +4,16 @@ class Video < ActiveRecord::Base
   belongs_to :thumbnail, class_name: Photo
   belongs_to :user
   belongs_to :source_video, class_name: 'Video'
+  has_one :upload
 
   has_many :videos, inverse_of: :source_video
-  has_many :video_drafts
-  has_many :scrub_images
+  has_many :video_drafts, dependent: :destroy
+  has_many :scrub_images, dependent: :destroy
 
   has_many :playlists,
            -> { merge(Job.complete).order(created_at: :desc) },
            through: :jobs
-  has_many :jobs
+  has_many :jobs, dependent: :destroy
 
   has_many :web_jobs, -> { merge(Job.web) }, class_name: 'Job'
   has_many :web_outputs,

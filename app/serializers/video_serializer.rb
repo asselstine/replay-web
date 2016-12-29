@@ -20,11 +20,9 @@ class VideoSerializer < ModelSerializer
   def sources
     object.web_jobs.map do |job|
       job.outputs.map do |output|
-        src = S3.object(job.full_key(output.key))
-                .presigned_url(:get, expires_in: 1.hour)
         {
-          src: src,
-          type: "video/#{output.container_format}"
+          src: output.public_url,
+          type: output.type
         }
       end
     end.flatten

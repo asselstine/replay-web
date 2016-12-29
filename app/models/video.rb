@@ -23,6 +23,8 @@ class Video < ActiveRecord::Base
   validates_presence_of :file
   validates_presence_of :user
 
+  after_destroy :remove_s3_objects
+
   scope :during, (lambda do |start_at, end_at|
     query = <<-SQL
       (videos.start_at, videos.end_at) OVERLAPS (:start_at, :end_at)
@@ -58,5 +60,11 @@ class Video < ActiveRecord::Base
 
   def current_job
     jobs.web.complete.last
+  end
+
+  private
+
+  def remove_s3_objects
+    S3.object(file).delete
   end
 end

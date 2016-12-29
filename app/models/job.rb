@@ -32,6 +32,8 @@ class Job < ActiveRecord::Base
 
   validates :video, :rotation, presence: true
 
+  after_destroy :remove_s3_objects
+
   def output_for_key(key)
     outputs.where(key: key).first
   end
@@ -55,5 +57,11 @@ class Job < ActiveRecord::Base
   def rotate_elastic_transcoder_format
     return 'auto' if rotate_auto?
     self.class.rotations[rotation].to_s
+  end
+
+  private
+
+  def remove_s3_objects
+    S3.object(prefix).delete
   end
 end

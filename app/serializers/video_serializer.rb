@@ -18,7 +18,7 @@ class VideoSerializer < ModelSerializer
   end
 
   def sources
-    object.web_jobs.map do |job|
+    object.jobs.map do |job|
       job.outputs.map do |output|
         {
           src: output.public_url,

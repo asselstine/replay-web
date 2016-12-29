@@ -1,7 +1,8 @@
 class Job < ActiveRecord::Base
   belongs_to :video
-  belongs_to :playlist
-  has_many :outputs
+  belongs_to :playlist, dependent: :destroy
+  has_many :outputs, dependent: :destroy
+  has_one :upload, through: :video
 
   enum output_type: {
     hls: 0,
@@ -24,6 +25,8 @@ class Job < ActiveRecord::Base
     rotate_180: 180,
     rotate_270: 270
   }
+
+  scope :incomplete, -> { where.not(status: Job.statuses[:complete]) }
 
   delegate :source_key, to: :video
 

@@ -1,7 +1,7 @@
 # A setup contains the details of a camera setup.  This can include how the
 # camera is mounted, whether the camera was attached to a Strava account.
 class Setup < ActiveRecord::Base
-  has_many :setup_uploads
+  has_many :setup_uploads, dependent: :destroy
   has_many :video_uploads,
            through: :setup_uploads, source: :upload, class_name: 'VideoUpload'
   has_many :photo_uploads,

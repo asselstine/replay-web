@@ -20,7 +20,12 @@ module.exports = React.createClass
     )
 
     <div className='drafts container'>
-      <h1>Drafts</h1>
+      <h1>Videos</h1>
+      <div className='row'>
+        <div className='col-xs-12'>
+          <a href={Routes.uploads_path()}>Uploads</a>
+        </div>
+      </div>
       <div className='row'>
         {tiles}
       </div>

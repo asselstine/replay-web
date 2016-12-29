@@ -9,6 +9,7 @@
     .collapse.navbar-collapse id='c1'
       ul.nav.navbar-nav
         - if user_signed_in?
+          li = link_to 'Videos', drafts_path
           li = link_to 'Activities', activities_path
           li = link_to 'Slate', slate_path
           li = link_to 'Sign Out', destroy_user_session_path, method: :delete

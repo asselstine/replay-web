@@ -4,6 +4,9 @@ class Upload < ActiveRecord::Base
   has_many :setup_uploads, inverse_of: :upload
   has_many :setups, through: :setup_uploads
   has_many :drafts, inverse_of: :upload
+  belongs_to :video
+  has_many :jobs, through: :video
+
   accepts_nested_attributes_for :setups
 
   belongs_to :user
@@ -11,6 +14,7 @@ class Upload < ActiveRecord::Base
 
   scope :video, -> { where(type: 'VideoUpload') }
   scope :photo, -> { where(type: 'PhotoUpload') }
+  scope :complete, -> { joins(video: :jobs).merge(Job.complete) }
 
   after_create :process_upload, unless: 'processed?'
 

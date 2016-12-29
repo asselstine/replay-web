@@ -3,13 +3,15 @@ UploadTile = require('./upload-tile')
 VideoUploadTile = require('./video-upload-tile')
 PhotoUploadTile = require('./photo-upload-tile')
 NewUploadModal = require('./new-upload-modal')
+JobsList = require('./jobs-list')
 
 module.exports = React.createClass
   displayName: 'Uploads'
 
   propTypes:
-    uploads: React.PropTypes.array
-    setups: React.PropTypes.array
+    jobs: React.PropTypes.array.isRequired
+    uploads: React.PropTypes.array.isRequired
+    setups: React.PropTypes.array.isRequired
 
   getInitialState: ->
     uploads: @props.uploads
@@ -22,9 +24,7 @@ module.exports = React.createClass
     @setState(newModalIsOpen: false)
 
   onUploadSuccess: (upload) ->
-    @setState
-      uploads: @state.uploads.concat([upload]), =>
-      @closeCreateModal()
+    @closeCreateModal()
 
   render: ->
     tiles = _.map(@state.uploads, (upload) ->
@@ -46,6 +46,11 @@ module.exports = React.createClass
                           onRequestClose={@closeCreateModal}
                           onSuccess={@onUploadSuccess}
                           setups={@props.setups}/>
+        </div>
+      </div>
+      <div className='row'>
+        <div className='col-xs-12'>
+          <JobsList jobs={@props.jobs}/>
         </div>
       </div>
       <div className='row'>

@@ -25,8 +25,11 @@ class ProcessUploadJob < ActiveJob::Base
 
   def process_video(upload)
     upload = upload.becomes! VideoUpload
-    upload.create_video!(user: upload.user,
-                         file: self.class.url_to_s3_key(upload.url))
+    video = upload.create_video!(user: upload.user,
+                                 filename: upload.filename,
+                                 file: self.class.url_to_s3_key(upload.url))
+    job = video.jobs.create!
+    Jobs::Start.call(job: job) if job.persisted?
   end
 
   def process_photo(upload)

@@ -4,7 +4,7 @@ class Upload < ActiveRecord::Base
   has_many :setup_uploads, inverse_of: :upload
   has_many :setups, through: :setup_uploads
   has_many :drafts, inverse_of: :upload
-  belongs_to :video
+  belongs_to :video, dependent: :destroy
   has_many :jobs, through: :video
 
   accepts_nested_attributes_for :setups

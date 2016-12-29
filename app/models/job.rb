@@ -1,6 +1,12 @@
 class Job < ActiveRecord::Base
   belongs_to :video
   belongs_to :playlist
+  has_many :outputs
+
+  enum output_type: {
+    hls: 0,
+    web: 1
+  }
 
   enum status: {
     created: 0,
@@ -23,12 +29,12 @@ class Job < ActiveRecord::Base
 
   validates :video, :rotation, presence: true
 
-  def filename_with_prefix(key)
+  def full_key(key)
     "#{prefix}#{key}"
   end
 
   def prefix
-    "hls/job-#{id}/"
+    "jobs/job-#{id}/"
   end
 
   def playlist_filename
@@ -36,7 +42,7 @@ class Job < ActiveRecord::Base
   end
 
   def playlist_key
-    filename_with_prefix(playlist_filename)
+    full_key(playlist_filename)
   end
 
   def rotate_elastic_transcoder_format

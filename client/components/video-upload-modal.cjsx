@@ -103,7 +103,8 @@ module.exports = React.createClass
     <Modal className='video-upload-modal modal-dialog modal-lg'
            style={ModalStyle}
            isOpen={@props.isOpen}
-           onRequestClose={@props.onRequestClose}>
+           onRequestClose={@props.onRequestClose}
+           contentLabel='Upload Video'>
 
       <div className='modal-content'>
         <div className='modal-header'>

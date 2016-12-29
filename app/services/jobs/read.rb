@@ -11,7 +11,7 @@ module Jobs
         "Jobs::Read: Received Response: #{response.to_json}"
       )
       update_job(response)
-      Playlists::MakePublic.call(playlist: @job.playlist) if @job.complete?
+      Jobs::Complete.call(job: @job) if @job.complete?
     end
 
     private
@@ -30,8 +30,7 @@ module Jobs
     end
 
     def et_client
-      @_et_client ||=
-        Aws::ElasticTranscoder::Client.new(region: Figaro.env.aws_region)
+      @_et_client ||= ElasticTranscoder.client
     end
   end
 end

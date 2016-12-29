@@ -73,7 +73,8 @@ module.exports = React.createClass
     <Modal className='new-upload modal-dialog'
            isOpen={@props.isOpen}
            style={ModalStyle}
-           onRequestClose={@props.onRequestClose}>
+           onRequestClose={@props.onRequestClose}
+           contentLabel='Upload'>
       <div className='modal-content'>
         <div className='modal-header'>
           <h3>Upload</h3>

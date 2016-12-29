@@ -1,25 +1,22 @@
 RSpec.describe Playlists::Create do
   subject do
-    Playlists::Create.new(job: job, et_outputs: et_outputs)
+    Playlists::Create.new(job: job, outputs: outputs)
   end
 
   let(:job) { double(Job, playlist_key: 'pkey') }
-  let(:et_outputs) do
+  let(:outputs) do
     [
-      {
-        key: 'asdf',
-        rotate: rotate
-      }
+      Output.new(key: 'asdf', media_type: media_type)
     ]
   end
-  let(:rotate) { '1234' }
+  let(:media_type) { :video }
   let(:playlist) { double(Playlist, streams: streams) }
   let(:streams) { double(ActiveRecord::Relation) }
 
   it 'should create the playlist and stream' do
     expect(job).to receive(:create_playlist!)
       .with(key: 'pkey').and_return(playlist)
-    expect(job).to receive(:filename_with_prefix)
+    expect(job).to receive(:full_key)
       .with('asdf').and_return('1080p')
     expect(streams).to receive(:create!)
       .with(ts_key: '1080p.ts',
@@ -28,13 +25,13 @@ RSpec.describe Playlists::Create do
     expect(subject.call).to eq(playlist)
   end
 
-  context 'when no rotate, it must be audio' do
-    let(:rotate) { nil }
+  context 'for audio type' do
+    let(:media_type) { :audio }
 
     it 'should create the playlist and audio stream' do
       expect(job).to receive(:create_playlist!)
         .with(key: 'pkey').and_return(playlist)
-      expect(job).to receive(:filename_with_prefix)
+      expect(job).to receive(:full_key)
         .with('asdf').and_return('audio')
       expect(streams).to receive(:create!)
         .with(ts_key: 'audio.ts',

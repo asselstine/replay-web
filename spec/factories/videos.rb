@@ -7,6 +7,7 @@ FactoryGirl.define do
       start_at.since(1)
     end
     file '/dan_session1-frame.mp4'
+    filename 'dan_session1-frame.mp4'
     after(:create) do |video, _|
       job = video.jobs.create!(output_type: :web, status: :complete)
       job.outputs.create!(key: '/dan_session1-frame.mp4',

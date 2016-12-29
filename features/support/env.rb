@@ -10,6 +10,7 @@ require_relative '../../spec/support/relative_time'
 require_relative '../../spec/support/strava_null_client'
 
 require 'cucumber/rails'
+require 'cucumber/rspec/doubles'
 require 'capybara/rails'
 require 'capybara/poltergeist'
 

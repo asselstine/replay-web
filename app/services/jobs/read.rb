@@ -28,7 +28,7 @@ module Jobs
 
     def update_outputs(data)
       data[:job][:outputs].each do |output_data|
-        output = job.outputs.where(key: output_data[:key]).first
+        output = job.output_for_key(output_data[:key])
         next unless output
         output.update(
           duration_millis: output_data[:duration_millis],

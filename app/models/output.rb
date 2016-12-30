@@ -27,4 +27,14 @@ class Output < ActiveRecord::Base
       "#{key}.#{thumbnail_format}"
     end
   end
+
+  def thumbnail_urls
+    thumbnail_keys.map do |key|
+      if Rails.env.test?
+        key
+      else
+        S3.object(job.full_key(key)).public_url
+      end
+    end
+  end
 end

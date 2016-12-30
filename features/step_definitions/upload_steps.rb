@@ -67,12 +67,14 @@ When %(I finish the photo upload) do
 end
 
 When %(the video upload job completes) do
-  Jobs::Read.call(job: @upload.jobs.first)
+  job = @upload.jobs.first
+  expect(Jobs::Complete).to receive(:call).with(job: job)
+  Jobs::Read.call(job: job)
 end
 
 Then %(the video upload should be listed) do
   visit uploads_path
-  expect(page).to have_content('dan_session1-frame')
+  expect(page).to have_css(".video-upload-tile[data-upload-id='#{@upload.id}']")
 end
 
 Then %(the photo upload should be listed) do
@@ -152,7 +154,6 @@ end
 
 When %(I view the upload) do
   visit uploads_path
-  expect(page).to have_content(@upload.filename)
   find(:xpath, "//div[@data-upload-id='#{@upload.id}']").click
 end
 

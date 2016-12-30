@@ -25,7 +25,7 @@ module ReplayServer
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
     # config.time_zone = 'Central Time (US & Canada)'
 
-    config.active_job.queue_adapter = :resque unless Rails.env.test?
+    config.active_job.queue_adapter = :resque
 
     config.autoload_paths << Rails.root.join('app','util')
 

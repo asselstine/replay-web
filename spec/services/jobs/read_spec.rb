@@ -6,8 +6,11 @@ RSpec.describe Jobs::Read do
     double(Job, video: :video,
                 playlist: playlist,
                 external_id: 99,
-                complete?: complete?)
+                complete?: complete?,
+                outputs: outputs)
   end
+  let(:outputs) { [output] }
+  let(:output) { double(Output) }
   let(:playlist) { double(Playlist) }
   let(:client) { double }
   subject { Jobs::Read.new(job: job) }
@@ -18,7 +21,16 @@ RSpec.describe Jobs::Read do
         output: {
           status: et_job_status,
           status_detail: 'status detail'
-        }
+        },
+        outputs: [
+          {
+            key: 'asdf',
+            duration_millis: 1001,
+            width: 320,
+            height: 480,
+            file_size: 1234
+          }
+        ]
       }
     }
   end
@@ -26,6 +38,13 @@ RSpec.describe Jobs::Read do
   before(:each) do
     allow(ElasticTranscoder).to receive(:client).and_return(client)
     allow(client).to receive(:read_job).with(id: 99).and_return(et_job)
+    expect(job).to receive(:output_for_key).with('asdf').and_return(output)
+    expect(output).to receive(:update).with(
+      duration_millis: 1001,
+      width: 320,
+      height: 480,
+      file_size: 1234
+    )
   end
 
   context 'when progressing' do
@@ -63,7 +82,7 @@ RSpec.describe Jobs::Read do
           message: 'status detail',
           finished_at: an_instance_of(ActiveSupport::TimeWithZone)
         )
-      expect(Playlists::MakePublic).to receive(:call).with(playlist: playlist)
+      expect(Jobs::Complete).to receive(:call).with(job: job)
       subject.call
     end
   end

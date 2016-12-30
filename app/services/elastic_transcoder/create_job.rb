@@ -38,6 +38,9 @@ module ElasticTranscoder
         if output.segment_duration
           attrs[:segment_duration] = output.segment_duration
         end
+        if output.thumbnail_pattern
+          attrs[:thumbnail_pattern] = output.thumbnail_pattern
+        end
         attrs
       end
     end

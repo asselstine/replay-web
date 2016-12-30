@@ -8,13 +8,11 @@ When %(I browse drafts) do
 end
 
 Then %(my video draft is listed) do
-  expect(page).to have_content(@video_draft.name)
+  expect(page).to have_css(".video-draft-tile[data-video-draft-id='#{@video_draft.id}']")
 end
 
 When %(I click on the video draft) do
-  within '.video-draft-tile' do
-    click_link(@video_draft.name)
-  end
+  find(".video-draft-tile[data-video-draft-id='#{@video_draft.id}']").click
 end
 
 Then %(I should be able to play the video draft) do
@@ -42,7 +40,7 @@ end
 
 Then %(I can see a video draft) do
   expect(VideoDraft.count).to be_positive
-  expect(page).to have_content(VideoDraft.last.name)
+  expect(page).to have_css(".video-draft-tile[data-video-draft-id='#{VideoDraft.last.id}']")
 end
 
 def stringtime(time)

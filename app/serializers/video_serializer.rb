@@ -7,24 +7,15 @@ class VideoSerializer < ModelSerializer
              :status,
              :message,
              :job_id,
-             :scrub_images,
-             :sources
+             :scrub_images
 
-  has_one :thumbnail
-  has_many :playlists
+  has_many :outputs
 
   def scrub_images
     []
   end
 
-  def sources
-    object.jobs.map do |job|
-      job.outputs.map do |output|
-        {
-          src: output.public_url,
-          type: output.type
-        }
-      end
-    end.flatten
+  def outputs
+    object.current_job&.outputs || []
   end
 end

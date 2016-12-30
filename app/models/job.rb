@@ -32,12 +32,16 @@ class Job < ActiveRecord::Base
 
   validates :video, :rotation, presence: true
 
+  def output_for_key(key)
+    outputs.where(key: key).first
+  end
+
   def full_key(key)
     "#{prefix}#{key}"
   end
 
   def prefix
-    "jobs/job-#{id}/"
+    "jobs/job-#{id}-#{created_at.to_i}/"
   end
 
   def playlist_filename

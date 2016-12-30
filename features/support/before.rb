@@ -19,7 +19,16 @@ Before '@stub_et_success' do
       output: {
         status: 'complete',
         status_detail: ''
-      }
+      },
+      outputs: [
+        {
+          key: 'generic_720p.mp4',
+          duration_millis: 1001,
+          width: 320,
+          height: 480,
+          file_size: 1234
+        }
+      ]
     }
   )
 end

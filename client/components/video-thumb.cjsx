@@ -5,6 +5,9 @@ module.exports = React.createClass
     video: React.PropTypes.object.isRequired
 
   render: ->
-    <div className='video-thumb'>
-      {@props.video.filename}
+    output = @props.video.outputs[0]
+    thumbnail_url = output.thumbnail_urls[0]
+    style =
+      backgroundImage: 'url(' + thumbnail_url + ')'
+    <div className='video-thumb' style={style}>
     </div>

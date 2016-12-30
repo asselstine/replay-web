@@ -11,11 +11,10 @@ module VideoUploads
         filename: @video_upload.filename,
         file: self.class.url_to_s3_key(@video_upload.url)
       )
-      job = video.jobs.create!
+      @video_upload.save
+      job = video.jobs.create!(output_type: :web)
       Jobs::Start.call(job: job) if job.persisted?
     end
-
-    private
 
     def self.url_to_s3_key(url)
       uri = URI(url)

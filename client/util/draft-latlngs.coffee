@@ -1,6 +1,4 @@
-_ = require('lodash')
+ziplatlng = require('./zip-latlng')
 
 module.exports = (draft) ->
-  _.map(_.zip(draft.latitudes, draft.longitudes), (timeLatLng) ->
-    new google.maps.LatLng(timeLatLng[0], timeLatLng[1])
-  )
+  ziplatlng(draft.latitudes, draft.longitudes)

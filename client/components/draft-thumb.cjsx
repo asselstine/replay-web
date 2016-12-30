@@ -1,4 +1,4 @@
-VideoDraftThumb = require('./video-draft-thumb')
+VideoThumb = require('./video-thumb')
 PhotoDraftThumb = require('./photo-draft-thumb')
 
 module.exports = React.createClass
@@ -9,6 +9,6 @@ module.exports = React.createClass
 
   render: ->
     if @props.draft.type == 'VideoDraft'
-      <VideoDraftThumb videoDraft={@props.draft}/>
+      <VideoThumb video={@props.draft.video}/>
     else
       <PhotoDraftThumb photoDraft={@props.draft}/>

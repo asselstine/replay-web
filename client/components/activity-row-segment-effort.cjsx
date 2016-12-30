@@ -15,7 +15,9 @@ module.exports = React.createClass
       <div className='row'>
         {@props.segmentEffort.drafts.map (draft) =>
           <div className='col-xs-4' key={draft.id}>
-            <DraftThumb draft={draft}/>
+            <a href={Routes.draft_path(draft.id)}>
+              <DraftThumb draft={draft}/>
+            </a>
           </div>
         }
       </div>

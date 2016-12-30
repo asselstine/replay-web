@@ -5,6 +5,8 @@ class Output < ActiveRecord::Base
   }
   belongs_to :job
 
+  after_destroy :remove_s3_objects
+
   def signed_url
     return key if Rails.env.test?
     S3.object(job.full_key(key))
@@ -36,5 +38,14 @@ class Output < ActiveRecord::Base
         S3.object(job.full_key(key)).public_url
       end
     end
+  end
+
+  private
+
+  def remove_s3_objects
+    thumbnail_keys.each do |thumbnail_key|
+      S3.object(job.full_key(thumbnail_key)).delete
+    end
+    S3.object(job.full_key(key)).delete
   end
 end

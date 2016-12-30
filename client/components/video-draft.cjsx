@@ -4,6 +4,10 @@ ActivityPlayer = require('./activity-player')
 VideoJsPlayer = require('./video-js-player')
 EventEmitter = require('wolfy87-eventemitter')
 SegmentEffortOverlay = require('./segment-effort-overlay')
+draftLatLngs = require('../util/draft-latlngs')
+latLngsBounds = require('../util/latlngs-bounds')
+Map = require('./map')
+Path = require('./path')
 
 module.exports = React.createClass
   displayName: 'VideoDraft'
@@ -23,6 +27,10 @@ module.exports = React.createClass
         currentTime: @videoTime(effort.start_index)
         currentSegmentEffort: effort
 
+  onMapClick: (time) ->
+    @setState
+      currentTime: time
+
   videoTime: (start_index) ->
     segmentStartSecond = @props.videoDraft.activity.timestamps_f[start_index]
     segmentStartAt = moment(@props.videoDraft.activity.start_at).add(segmentStartSecond, 'seconds')
@@ -30,6 +38,9 @@ module.exports = React.createClass
     segmentStartAt.diff(videoStartAt, 'seconds', true)
 
   render: ->
+    latLngs = draftLatLngs(@props.videoDraft)
+    bounds = latLngsBounds(latLngs)
+
     if @state.currentSegmentEffort
       segmentEffortOverlay =
         <SegmentEffortOverlay activity={@props.videoDraft.activity}
@@ -38,10 +49,21 @@ module.exports = React.createClass
 
     <div className='video-draft'>
       <h3>{@props.videoDraft.name}</h3>
-      <div className='data-video-player'>
-        <VideoJsPlayer video={@props.videoDraft.video}
-                       currentTime={@state.currentTime}
-                       videoEventEmitter={@state.eventEmitter}/>
-        {segmentEffortOverlay}
+      <div className='row'>
+        <div className='col-sm-4 col-lg-3'>
+          <Map bounds={bounds}>
+            <Path latLngs={latLngs}
+                  timestamps={@props.videoDraft.timestamps_f}
+                  onClick={@onMapClick}/>
+          </Map>
+        </div>
+        <div className='col-sm-8 col-lg-9'>
+          <div className='data-video-player'>
+            <VideoJsPlayer video={@props.videoDraft.video}
+                           currentTime={@state.currentTime}
+                           videoEventEmitter={@state.eventEmitter}/>
+            {segmentEffortOverlay}
+          </div>
+        </div>
       </div>
     </div>

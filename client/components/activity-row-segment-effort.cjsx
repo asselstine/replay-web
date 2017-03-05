@@ -5,6 +5,19 @@ module.exports = React.createClass
 
   propTypes:
     segmentEffort: React.PropTypes.object.isRequired
+  #
+  # getInitialState: ->
+  #   drafts: []
+  #
+  # componentDidMount: ->
+  #   $.ajax(
+  #     url: Routes.segment_effort_drafts_path(@props.segmentEffort.id),
+  #     dataType: 'json'
+  #   ).done((data, xhr, status) =>
+  #     @setState(drafts: data)
+  #   ).fail((xhr, status, msg) ->
+  #     console.error(xhr, status, msg)
+  #   )
 
   render: ->
     <div className='activity-row-segment-effort'>

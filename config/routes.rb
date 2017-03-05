@@ -25,7 +25,9 @@ Rails.application.routes.draw do
   end
 
   resources :segment_efforts, only: [], path: 'efforts' do
-    resources :drafts, only: [:index, :show]
+    scope module: :segment_efforts do
+      resources :drafts, only: [:index, :show]
+    end
   end
 
   resource :slate, only: [:show] do

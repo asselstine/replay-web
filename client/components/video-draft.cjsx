@@ -20,6 +20,7 @@ module.exports = React.createClass
     currentTime: 0
 
   componentDidMount: ->
+    this.state.eventEmitter.on('videoRafTick', @onVideoRafTick)
     efforts = @props.videoDraft.segment_efforts
     if efforts.length
       effort = efforts[0]
@@ -30,6 +31,9 @@ module.exports = React.createClass
   onMapClick: (time) ->
     @setState
       currentTime: time
+
+  onVideoRafTick: (videoTime) ->
+    time = moment(@props.videoDraft.activity.start_at).add(videoTime, 'seconds')
 
   videoTime: (start_index) ->
     segmentStartSecond = @props.videoDraft.activity.timestamps_f[start_index]
@@ -54,6 +58,7 @@ module.exports = React.createClass
           <Map bounds={bounds}>
             <Path latLngs={latLngs}
                   timestamps={@props.videoDraft.timestamps_f}
+                  currentTime={}
                   onClick={@onMapClick}/>
           </Map>
         </div>

@@ -33,7 +33,7 @@ module.exports = React.createClass
     hover: false
     defaultLatLng: new google.maps.LatLng()
     splinePath: []
-    onMousemove: _.throttle(@onMousemove, 50)
+    onMousemove: _.throttle(@onMousemove, 200)
     hoverWeight: 20
     hoverColor: '#000'
     hoverOpacity: 0

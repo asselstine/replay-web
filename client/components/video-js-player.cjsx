@@ -72,7 +72,6 @@ module.exports = React.createClass
     if @props.loop &&
        @props.start && @props.duration &&
        @vidElem.currentTime > @props.duration
-      console.debug('raf')
       @vidElem.currentTime = @props.start
     @state.emitRafTick()
     raf(@rafTick) if @enableRaf
